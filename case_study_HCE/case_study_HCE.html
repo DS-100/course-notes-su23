@@ -45,8 +45,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Case Study in Human Contexts and Ethics</h2>
    
   <ul>
-  <li><a href="#the-problem" id="toc-the-problem" class="nav-link active" data-scroll-target="#the-problem">The Problem</a></li>
-  <li><a href="#the-response" id="toc-the-response" class="nav-link" data-scroll-target="#the-response">The Response</a></li>
+  <li><a href="#the-problem" id="toc-the-problem" class="nav-link active" data-scroll-target="#the-problem">The Problem</a>
+  <ul class="collapse">
+  <li><a href="#spotlight-appeals" id="toc-spotlight-appeals" class="nav-link" data-scroll-target="#spotlight-appeals">Spotlight: Appeals</a></li>
+  <li><a href="#human-impacts" id="toc-human-impacts" class="nav-link" data-scroll-target="#human-impacts">Human Impacts</a></li>
+  <li><a href="#spotlight-intersection-of-real-estate-and-race" id="toc-spotlight-intersection-of-real-estate-and-race" class="nav-link" data-scroll-target="#spotlight-intersection-of-real-estate-and-race">Spotlight: Intersection of Real Estate and Race</a></li>
+  </ul></li>
+  <li><a href="#the-response" id="toc-the-response" class="nav-link" data-scroll-target="#the-response">The Response</a>
+  <ul class="collapse">
+  <li><a href="#example-cook-county-open-data-initiative" id="toc-example-cook-county-open-data-initiative" class="nav-link" data-scroll-target="#example-cook-county-open-data-initiative">Example: Cook County Open Data Initiative</a></li>
+  <li><a href="#incorporating-knowledge-into-the-data-science-life-cycle" id="toc-incorporating-knowledge-into-the-data-science-life-cycle" class="nav-link" data-scroll-target="#incorporating-knowledge-into-the-data-science-life-cycle">Incorporating Knowledge into the Data Science Life Cycle</a></li>
+  </ul></li>
   <li><a href="#key-takeaways" id="toc-key-takeaways" class="nav-link" data-scroll-target="#key-takeaways">Key Takeaways</a></li>
   <li><a href="#lessons-for-data-science-practice" id="toc-lessons-for-data-science-practice" class="nav-link" data-scroll-target="#lessons-for-data-science-practice">Lessons for Data Science Practice</a></li>
   </ul>
@@ -92,20 +101,216 @@ Learning Outcomes
 </div>
 <section id="the-problem" class="level2">
 <h2 class="anchored" data-anchor-id="the-problem">The Problem</h2>
-<p><img src="images/vis_1.png"></p>
-<p><img src="images/vis_2.png"></p>
-<p><a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/assessments.html">source</a></p>
-<p><img src="images/vis_3.jpg"></p>
-<p><a href="https://www.clccrul.org/bpnc-v-berrios-facts?rq=berrios">source</a></p>
+<p><a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/assessments.html"> <img src="images/vis_1.png"></a></p>
+<p><a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/assessments.html"> <img src="images/vis_2.png"></a></p>
+<p><a href="https://www.clccrul.org/bpnc-v-berrios-facts?rq=berrios"> <img src="images/vis_3.jpg"> </a></p>
+<section id="spotlight-appeals" class="level3">
+<h3 class="anchored" data-anchor-id="spotlight-appeals">Spotlight: Appeals</h3>
+<p>“Appeals are a good thing,” Thomas Jaconetty, deputy assessor for valuation and appeals, said in an interview. “The goal here is fairness. We made the numbers. We can change them.”</p>
+<p>Fairness as equal access: “anyone can appeal” - but that’s not really the case:</p>
+<p>Part of a deeper, institutional pattern, potential corruption</p>
+<p><a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/appeals.html"> <img src="images/vis_4.png"> </a></p>
+<p><a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/appeals.html"> <img src="images/vis_5.png"> </a></p>
+</section>
+<section id="human-impacts" class="level3">
+<h3 class="anchored" data-anchor-id="human-impacts">Human Impacts</h3>
+<p><a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/assessments.html"> <img src="images/vis_6.png"> </a></p>
+</section>
+<section id="spotlight-intersection-of-real-estate-and-race" class="level3">
+<h3 class="anchored" data-anchor-id="spotlight-intersection-of-real-estate-and-race">Spotlight: Intersection of Real Estate and Race</h3>
+<ul>
+<li>Housing has been a key motor of racial inequality in modern US History</li>
+<li>Segregation and credit-market racism</li>
+<li>Redlining: making it difficult or impossible to get a federally-backed mortgage to buy a house in specific neighborhoods coded as “risky” (red).</li>
+<li>What made them “risky” according to the makers of these maps? Their racial composition.</li>
+</ul>
+<p><a href="https://dsl.richmond.edu/panorama/redlining/#loc=11/41.84/-87.674"><img src="images/vis_7.png"></a></p>
+<ul>
+<li><p>Segregation was not only a result of federal policy, but developed by real estate professionals</p></li>
+<li><p>Real estate industry “professionalized” in the 1920’s and 1930’s by aspiring to become a science guided by strict methods and principles.</p></li>
+<li><p>These methods centered on creating objective rating systems (information technologies) for the appraisal of property values which encoded <strong>race</strong> as a factor of valuation (See figure below)</p>
+<ul>
+<li>This, in turn, influenced federal policy and practice</li>
+</ul></li>
+</ul>
+<p><img src="images/vis_8.png"> Source: Colin Koopman, How We Became Our Data (2019) p.&nbsp;137</p>
+</section>
 </section>
 <section id="the-response" class="level2">
 <h2 class="anchored" data-anchor-id="the-response">The Response</h2>
+<section id="example-cook-county-open-data-initiative" class="level3">
+<h3 class="anchored" data-anchor-id="example-cook-county-open-data-initiative">Example: Cook County Open Data Initiative</h3>
+<p>CCAO’s mandate under new Assessor, Fritz Kaegi</p>
+<ul>
+<li>Distributional equity in property taxation = properties of same value treated alike during assessments</li>
+<li>Creates new Office of Data Science</li>
+</ul>
+<p><img src="images/vis_9.png"></p>
+</section>
+<section id="incorporating-knowledge-into-the-data-science-life-cycle" class="level3">
+<h3 class="anchored" data-anchor-id="incorporating-knowledge-into-the-data-science-life-cycle">Incorporating Knowledge into the Data Science Life Cycle</h3>
+<section id="questionproblem-formulation" class="level4">
+<h4 class="anchored" data-anchor-id="questionproblem-formulation">Question/Problem Formulation</h4>
+<ul>
+<li>What do we want to know?</li>
+<li>What problems are we trying to solve?</li>
+<li>What are the hypotheses we want to test?</li>
+<li>What are our metrics for success?</li>
+</ul>
+<p>There are many different goals that we as data scientists have in mind when working with data. The goal that we have been focusing on primarily throughout this course until now has been accuracy. In the context of the Housing dataset:</p>
+<ol type="1">
+<li><p>Accurately, uniformly, and impartially assess the value of a home.</p>
+<ul>
+<li>Following international standards (coefficient of dispersion)</li>
+<li>Predicting value of all homes with as little total error as possible.</li>
+</ul></li>
+</ol>
+<p>However, we will pivot to a slightly different goal.</p>
+<ol start="2" type="1">
+<li><p>Create a system that assesses house values that is fair to all people, across perceived racial and income differences.</p>
+<ul>
+<li>disrupts the circuit of corruption (Board of Review appeals process)</li>
+<li>Eliminates regressivity</li>
+<li>Engenders trust in the system among all stakeholders</li>
+</ul></li>
+</ol>
+<div class="callout-definitions callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Definitions
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p><strong>Definitions</strong>: Fairness and Transparency</p>
+<p>Fairness: The ability of our pipeline to accurately assess property values, accounting for disparities in geography, information, etc.</p>
+<p>Transparency: The ability of the data science department to share and explain pipeline results and decisions to both internal and external stakeholders</p>
+</div>
+</div>
+</div>
+</section>
+<section id="data-acquisition-and-cleaning" class="level4">
+<h4 class="anchored" data-anchor-id="data-acquisition-and-cleaning">Data Acquisition and Cleaning</h4>
+<ul>
+<li>What data do we have and what data do we need?</li>
+<li>How will we sample more data?</li>
+<li>Is our data representative of the population we want to study?</li>
+</ul>
+<p>Example: Sales data</p>
+<p><img src="images/vis_10.png"></p>
+<p>Rather than taking the data at face value, we can investigate the data further. How was this data collected? When? By whom? For what purposes? How and why were particular categories created?</p>
+<p>We can incorporate our domain expertise during this stage by asking questions specific to the values of the features themselves. For the above dataset, a data scientist who is knowledgeable about racial inequities in housing appraisals can ask:</p>
+<ul>
+<li>Are these attributes differentially reported? If so, how can this arise?</li>
+<li>How are “improvements” (i.e.&nbsp;renovations) tracked and updated?</li>
+<li>Which data is missing, and for which neighborhoods or populations is it missing?</li>
+<li>What other data sources might be valuable for addressing the above questions?</li>
+</ul>
+</section>
+<section id="exploratory-data-analysis" class="level4">
+<h4 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h4>
+<ul>
+<li>How is our data organized and what does it contain?</li>
+<li>Do we already have relevant data?</li>
+<li>What are the biases, anomalies, or other issues with the data?</li>
+<li>How do we transform the data to enable effective analysis?</li>
+</ul>
+<p>In order for our claims to hold weight, we must show evidence. Some example questions and directions for investigation are:</p>
+<ol type="1">
+<li>Which attributes are most predictive of sales price?
+<ul>
+<li>Measure correlations</li>
+</ul></li>
+<li>Is the data uniformly distributed?
+<ul>
+<li>Plot proportions of data coming from each neighborhood.</li>
+</ul></li>
+<li>Do all neighborhoods have up to date data? Do all neighborhoods have the same granularity?
+<ul>
+<li>Plot histogram of date values for each neighborhood against each other.</li>
+</ul></li>
+<li>Do some neighborhoods have missing or outdated data?
+<ul>
+<li>Count proportions of missing values in each neighborhood.</li>
+</ul></li>
+</ol>
+<p>CCAO noticed that low income neighborhoods had disproportionately spottier data. This informed them that they needed to develop new data collection practices–including finding new sources of data.</p>
+</section>
+<section id="prediction-and-inference" class="level4">
+<h4 class="anchored" data-anchor-id="prediction-and-inference">Prediction and Inference</h4>
+<ul>
+<li>What does the data say about the world?</li>
+<li>Does it answer our questions or accurately solve the problem?</li>
+<li>How robust are our conclusions and can we trust the predictions?</li>
+</ul>
+<p>Rather than using a singular model to predict sale prices (“fair market value”) of unsold properties, the CCAO fit machine learning models that discover patterns using known sale prices and characteristics of <strong>similar and nearby properties</strong>. It uses a different model for each township.</p>
+<p>Compared to traditional mass appraisal, the CCAO’s approach is more granular and more sensitive to neighborhood variations.</p>
+</section>
+<section id="reports-decisions-and-conclusions" class="level4">
+<h4 class="anchored" data-anchor-id="reports-decisions-and-conclusions">Reports Decisions, and Conclusions</h4>
+<ul>
+<li>How successful is the system for each goal?
+<ul>
+<li>accuracy/uniformity of the model.</li>
+<li>fairness and transparency that eliminates regressivity and engenders trust.</li>
+</ul></li>
+<li>How do you know?</li>
+</ul>
+</section>
+</section>
 </section>
 <section id="key-takeaways" class="level2">
 <h2 class="anchored" data-anchor-id="key-takeaways">Key Takeaways</h2>
+<ol type="1">
+<li><p>Accuracy is a necessary, but not sufficient, condition of a fair system.</p></li>
+<li><p>Fairness and transparency are context-dependent and sociotechnical concepts</p></li>
+<li><p>Learn to work with contexts, and consider how your data analysis will reshape them</p></li>
+<li><p>Keep in mind the power, and limits, of data analysis</p></li>
+</ol>
 </section>
 <section id="lessons-for-data-science-practice" class="level2">
 <h2 class="anchored" data-anchor-id="lessons-for-data-science-practice">Lessons for Data Science Practice</h2>
+<ol type="1">
+<li><p>Question/Problem formulation</p>
+<ul>
+<li>Who is responsible for framing the problem?</li>
+<li>Who are the stakeholders? How are they involved in the problem framing?</li>
+<li>What do you bring to the table? How does your positionality affect your understanding of the problem?</li>
+<li>What are the narratives that you’re tapping into?</li>
+</ul></li>
+<li><p>Data Acquisition and Cleaning</p>
+<ul>
+<li>Where does the data come from?</li>
+<li>Who collected it? For what purpose?</li>
+<li>What kinds of collecting and recording systems and techniques were used?</li>
+<li>How has this data been used in the past?</li>
+<li>What restrictions are there on access to the data, and what enables you to have access?</li>
+</ul></li>
+<li><p>Exploratory Data Analysis &amp; Visualization</p>
+<ul>
+<li>What kind of personal or group identities have become salient in this data?</li>
+<li>Which variables became salient, and what kinds of relationship obtain between them?</li>
+<li>Do any of the relationships made visible lend themselves to arguments that might be potentially harmful to a particular community?</li>
+</ul></li>
+<li><p>Prediction and Inference</p>
+<ul>
+<li>What does the prediction or inference do in the world?</li>
+<li>Are the results useful for the intended purposes?</li>
+<li>Are there benchmarks to compare the results?</li>
+<li>How are your predictions and inferences dependent upon the larger system in which your model works?</li>
+</ul></li>
+<li><p>Reports, Decisions, and Solutions</p>
+<ul>
+<li>How do we know if we have accomplished our goals?</li>
+<li>How does your work fit in the broader literature?</li>
+<li>Where does your work agree or disagree with the status quo?</li>
+<li>Do your conclusions make sense?</li>
+</ul></li>
+</ol>
 </section>
 
 </main>
