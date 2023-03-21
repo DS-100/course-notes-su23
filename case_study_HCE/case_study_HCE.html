@@ -99,18 +99,41 @@ Learning Outcomes
 </div>
 </div>
 </div>
+<p>Let us imagine ourselves in the position of data scientists working for an organization called the Cook County Assessor’s Office (CCAO). Their job is to <strong>estimate the values of houses</strong> in order to <strong>assign property taxes</strong>. This is because tax burden in this area is determined by the estimated <strong>value</strong> of a house, which is different from its price. Since values change over time and there is no obvious indicators of value, they created a <strong>model</strong> to estimate the values of houses. In this chapter, we will dig deep into what problems that biased the models, the consequences to human lives, and how we can learn from this example to do better.</p>
 <section id="the-problem" class="level2">
 <h2 class="anchored" data-anchor-id="the-problem">The Problem</h2>
+<p>In a <a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/assessments.html">report</a> by the Chicago Tribune uncovered a major scandal. The team showed that the model perpetuated a highly regressive tax system which disproportionately burdened African American and Latinx homeowners in Cook County. How did they know?</p>
 <p><a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/assessments.html"> <img src="images/vis_1.png"></a></p>
+<p>In the field of housing assessment, there are standard metrics that assessors use across the world to estimate the fairness of assessments: <a href="https://www.realestateagent.com/real-estate-glossary/real-estate/coefficient-of-dispersion.html">coefficient of dispersion</a> and <a href="https://leg.wa.gov/House/Committees/FIN/Documents/2009/RatioText.pdf">price-related differential</a>. These metrics have been rigorously tested by experts in the field, and are out of scope for our class. Calculating these metrics for the Cook County prices and found that the pricing created by the CCAO did not fall in acceptable ranges (See figure above). This by itself is <strong>not the end</strong> of the story, but a good indicator that <strong>something fishy was going on</strong>.</p>
 <p><a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/assessments.html"> <img src="images/vis_2.png" width="300"></a></p>
+<p>This then prompted them to investigate if the model itself was producing fair tax rates. Evidently, when accounting for the home owner’s income they found that the model actually produced a <strong>regressive</strong> tax rate (See figure above).</p>
+<div class="callout-Definition callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Definition
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<p>Regressive (tax): A tax rate is regressive if the percentage tax rate is higher for individuals with lower net income.</p>
+<p>Progressive (tax): A tax rate is progressive if the percentage tax rate is higher for individuals with higher net income.</p>
+</div>
+</div>
+</div>
 <p><a href="https://www.clccrul.org/bpnc-v-berrios-facts?rq=berrios"> <img src="images/vis_3.jpg" width="600"> </a></p>
+<p>Digging further shows that not only was the system unfair to people across the axis of income, it was also unfair across the axis of race(See figure above). The likelihood that your home was under or over assessed was highly dependent on your race did not sit will with many home owners.</p>
 <section id="spotlight-appeals" class="level3">
 <h3 class="anchored" data-anchor-id="spotlight-appeals">Spotlight: Appeals</h3>
+<p>What actually caused this to come about? The whole answer is a lot bigger than just models. At the end of the day, these are real systems that have a lot of moving parts. One of those moving parts was the <strong>appeals system</strong>. Homeowners are mailed the value their home is assess for by CCAO, and the homeowner can choose to appeal to a board of elected officials to try and change the listed value of their home, and thus how much they are taxed. In theory, this sounds like a very fair system: there is a human that oversees the final pricing of houses rather than just an algorithm. However, it ended up exacerbating the problems.</p>
 <p>“Appeals are a good thing,” Thomas Jaconetty, deputy assessor for valuation and appeals, said in an interview. “The goal here is fairness. We made the numbers. We can change them.”</p>
-<p>Fairness as equal access: “anyone can appeal” - but that’s not really the case:</p>
-<p>Part of a deeper, institutional pattern, potential corruption</p>
 <p><a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/appeals.html"> <img src="images/vis_4.png"> </a></p>
+<p>Here we can borrow lessons from <a href="https://www.britannica.com/topic/critical-race-theory">Critical Race Theory</a>. On the surface, everyone having the legal right to try and appeal is undeniable. However, not everyone has an equal ability to. Those who have the money to hire tax lawyers to appeal for them have a drastically higher chance trying and succeeding (See above figure). This model is part of a deeper institutional pattern rife with potential corruption.</p>
 <p><a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/appeals.html"> <img src="images/vis_5.png"> </a></p>
+<p>This system resulted in homes in areas with homeowners who appealed were generally underassessed relative to other homeowners (See above figure). Those with higher incomes were happy with the system since they paid less in property tax, tax lawyers were happy because they were able to grow their business due to the number of people who wanted to appeal in higher income areas, and politicians close to the tax lawyers and wealthy homeowners happily continued helping their friends. Now, does the system that seems fair on the surface still seem fair after taking a closer look?</p>
 </section>
 <section id="human-impacts" class="level3">
 <h3 class="anchored" data-anchor-id="human-impacts">Human Impacts</h3>
@@ -176,7 +199,7 @@ Learning Outcomes
 </ul></li>
 </ol>
 <div class="callout-definitions callout callout-style-default no-icon callout-captioned">
-<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-3-contents" aria-controls="callout-3" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
@@ -185,7 +208,7 @@ Definitions
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
-<div id="callout-2" class="callout-2-contents callout-collapse collapse">
+<div id="callout-3" class="callout-3-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <p><strong>Definitions</strong>: Fairness and Transparency</p>
 <p>Fairness: The ability of our pipeline to accurately assess property values, accounting for disparities in geography, information, etc.</p>
@@ -194,8 +217,8 @@ Definitions
 </div>
 </div>
 <p>These two goals are not mutually exclusive. Models can be fair and transparent in addition to being accurate. However, it is critical to acknowledge the existence of such goals in order to meet them.</p>
-<p>Thus, when critiquing other data scientists’ analyses, we must keep in mind <strong>who</strong> is responsible for <strong>framing the problem</strong>. 4- Who are the stakeholders? How are they involved in the problem framing?</p>
-<p>Additionally, some questions to ask when you are conducting analysis: - What do you bring to the table? How does your positionality affect your understanding of the problem? - What are the narratives that you’re tapping into?</p>
+<p>Thus, when critiquing other data scientists’ analyses, we must keep in mind <strong>who is responsible for framing the problem</strong>. For example, a data scientist who is a homeowner with a very expensive house may want to under-predict large values. <strong>Who are the stakeholders</strong> is another key detail to know when critiquing a study. Are the entities sponsoring the analyses interested in a certain outcome?</p>
+<p>Additionally, when you are conducting analysis, <strong>your own experience can aid in understanding the problem</strong>. For example, a data scientist who lived in Cook County can provide personal experience about the consequences of inequitable pricing.</p>
 </section>
 <section id="data-acquisition-and-cleaning" class="level4">
 <h4 class="anchored" data-anchor-id="data-acquisition-and-cleaning">Data Acquisition and Cleaning</h4>
@@ -206,14 +229,10 @@ Definitions
 </ul>
 <p>Example: Sales data</p>
 <p><img src="images/vis_10.png"></p>
-<p>Rather than taking the data at face value, we can investigate the data further. How was this data collected? When? By whom? For what purposes? How and why were particular categories created?</p>
-<p>We can incorporate our domain expertise during this stage by asking questions specific to the values of the features themselves. For the above dataset, a data scientist who is knowledgeable about racial inequities in housing appraisals can ask:</p>
-<ul>
-<li>Are these attributes differentially reported? If so, how can this arise?</li>
-<li>How are “improvements” (i.e.&nbsp;renovations) tracked and updated?</li>
-<li>Which data is missing, and for which neighborhoods or populations is it missing?</li>
-<li>What other data sources might be valuable for addressing the above questions?</li>
-</ul>
+<p>Rather than taking the data at face value, we can investigate the data further. How was this data collected? When? By whom? For what purposes? How and why were particular categories created? There are several important questions to ask when receiving data.</p>
+<p>In some cases, attributes differentially reported. This may or many not be directly apparent just from looking at the data. For example, a column that is normally collected correctly in one geographic region may be less accurate for other regions.</p>
+<p>Additionally, data that is missing can be almost as important as data that is present. Sometimes, data can be missing from certain populations more often than others. By not equally representing groups, false conclusions can be made about the underrepresented groups. For example, if we are interested in students’ favorite sport and only ask basketball players, then we will come to a false conclusion about all students who do not favor basketball.</p>
+<p>We may also ask about other data sources. If we are working with potentially biased data, looking for data collected by other reputable sources might be valuable for addressing questions of bias.</p>
 </section>
 <section id="exploratory-data-analysis" class="level4">
 <h4 class="anchored" data-anchor-id="exploratory-data-analysis">Exploratory Data Analysis</h4>
@@ -227,7 +246,7 @@ Definitions
 <ol type="1">
 <li>Which attributes are most predictive of sales price?
 <ul>
-<li>Measure correlations</li>
+<li>Measure correlations between important variables.</li>
 </ul></li>
 <li>Is the data uniformly distributed?
 <ul>
