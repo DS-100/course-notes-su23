@@ -1,5 +1,5 @@
 ---
-title: Probability II
+title: Estimators, Bias, and Variance
 execute:
   echo: true
 format:
@@ -7,7 +7,7 @@ format:
     code-fold: true
     code-tools: true
     toc: true
-    toc-title: Probability II
+    toc-title: Estimators, Bias, and Variance
     page-layout: full
     theme:
       - cosmo

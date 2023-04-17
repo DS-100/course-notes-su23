@@ -135,7 +135,11 @@ $$p = e^{z} - pe^{z}$$
 $$p + pe^{z} = e^{z}$$
 $$(1 + e^{z})p = e^{z}$$
 $$p = \frac{e^{z}}{1 + e^{z}}$$
+<<<<<<< HEAD
 $$p = \frac{1}{1 + e^{z}}$$
+=======
+$$p = \frac{1}{1 + e^{-z}}$$
+>>>>>>> main
 
 
 #### Logistic Regression Model Summary
