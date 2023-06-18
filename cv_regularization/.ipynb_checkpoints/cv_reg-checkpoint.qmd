@@ -349,7 +349,7 @@ A summary of our regression models is shwon below:
 
 Understanding the distinction between Ridge Regression and Lasso Regression is important. We've provided a helpful visual that summarizes the key differences.
 
-![](https://people.eecs.berkeley.edu/~jrs/189/ridgelassoItayEvron.gif)
+Note to self: figure out why Latex won't render JRS gif
 
 This diagram displays the L1 and L2 constrained solution for various orientations of the OLS loss surface. Notice how the L1 (Lasso) solution almost always lies on some axis, or edge of the diamond. Graphically, this makes sense; the edges of the diamond are the farthest from the origin, and usually closest to the global optimum. When this happens, only one feature has a non-zero coefficient; this "feature selection" argument extends quite nicely to multiple features in higher dimensional space.
 

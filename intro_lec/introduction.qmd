@@ -15,11 +15,11 @@ jupyter: python3
 
 ::: {.callout-note collapse="true"}
 ## Learning Outcomes
-
-- Understand the stages of the data science lifecycle.
+- Acquaint yourself with the overarching goals of Data 100
+- Understand the stages of the data science lifecycle
 :::
 
-Data science is an interdisciplinary field with a variety of applications. The field is rapidly evolving; many of the key technical underpinnings in modern-day data science have been popularized during the early 21^st^ century.
+Data science is an interdisciplinary field with a variety of applications. The field is rapidly evolving; many of the key technical underpinnings in modern-day data science were only popularized during the 21^st^ century.
 
 A true mastery of data science requires a deep theoretical understanding and strong grasp of domain expertise. This course will help you build on the former -- specifically, the foundation of your technical knowledge. To do so, we've organized concepts in Data 100 around the **data science lifecycle**: an iterative process that encompasses the various statistical and computational building blocks of data science. 
 
@@ -50,7 +50,7 @@ Posing questions is one of the primary ways the data science lifecycle begins. I
 
 ### Obtain Data 
 
-The second entry point to the lifecycle is by obtaining data. A careful analysis of any problem requires the use of data. Data may be readily available to us, or we may have to embark on a process to collect it. When doing so, its crucial to ask the following:  
+The second entry point to the lifecycle is by obtaining data. A careful analysis of any problem requires the use of data. Sometimes, data may be readily available to us; other times, we may have to embark on a process to collect it. When doing so, it is crucial to ask the following:  
 
 - What data do we have and what data do we need?
     - Define the units of the data (people, cities, points in time, etc.) and what features to measure.
@@ -84,14 +84,14 @@ Key procedures: *exploratory data analysis*, *data visualization*.
 
 ### Understand the World
 
-After observing the patterns in our data, we can begin answering our question. This may require that we predict a quantity (machine learning), or measure the effect of some treatment (inference). 
+After observing the patterns in our data, we can begin answering our question. This may require that we predict a quantity (machine learning) or measure the effect of some treatment (inference). 
 
-From here, we may choose to report our results, or possibly conduct more analysis. We may not be satisfied by our findings, or our initial exploration may have brought up new questions that require a new data.
+From here, we may choose to report our results, or possibly conduct more analysis. We may not be satisfied by our findings, or, our initial exploration may have brought up new questions that require a new data.
 
 - What does the data say about the world?
     - Given our models, the data will lead us to certain conclusions about the real world.   
 - Does it answer our questions or accurately solve the problem?
-    - If our model and data can not accomplish our goals, then we must reform our question, model, or both.  
+    - If our model and data cannot accomplish our goals, then we must reform our question, model, or both.  
 - How robust are our conclusions and can we trust the predictions?
     - Inaccurate models can lead to untrue conclusions.
 
@@ -102,8 +102,7 @@ Key procedures: *model creation*, *prediction*, *inference*.
 
 ## Conclusion
 
-The data science lifecycle is meant to be a set of general guidelines rather than a hard list of requirements. In our journey exploring the lifecycle, we'll cover both the underlying theory and technologies used in data science, and we hope you'll build an appreciation for the field.
+The data science lifecycle is meant to be a set of general guidelines rather than a hard list of requirements. In our journey exploring the lifecycle in Data 100, we'll cover the underlying theory and technologies used in data science. It is our hope that, by the end of the course, you start to see yourself as a data scientist. 
 
 With that, let's begin by introducing one of the most important tools in exploratory data analysis: `pandas`.
-
 
