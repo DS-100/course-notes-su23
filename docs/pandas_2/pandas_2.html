@@ -1046,12 +1046,12 @@ Name: Sex, dtype: object</code></pre>
   </thead>
   <tbody>
     <tr>
-      <th>254014</th>
+      <th>90117</th>
       <td>CA</td>
-      <td>M</td>
-      <td>1945</td>
-      <td>Nelson</td>
-      <td>19</td>
+      <td>F</td>
+      <td>1982</td>
+      <td>Abbie</td>
+      <td>9</td>
     </tr>
   </tbody>
 </table>
@@ -1075,34 +1075,34 @@ Name: Sex, dtype: object</code></pre>
   </thead>
   <tbody>
     <tr>
-      <th>378778</th>
+      <th>205889</th>
       <td>2014</td>
-      <td>Hans</td>
-      <td>19</td>
+      <td>Aleena</td>
+      <td>141</td>
     </tr>
     <tr>
-      <th>19261</th>
-      <td>1942</td>
-      <td>Ronda</td>
+      <th>141865</th>
+      <td>1997</td>
+      <td>Sugey</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <th>264940</th>
+      <td>1957</td>
+      <td>Darren</td>
       <td>11</td>
     </tr>
     <tr>
-      <th>89652</th>
-      <td>1982</td>
-      <td>Amberly</td>
-      <td>15</td>
+      <th>12259</th>
+      <td>1932</td>
+      <td>Sophia</td>
+      <td>7</td>
     </tr>
     <tr>
-      <th>223203</th>
-      <td>2018</td>
-      <td>Khari</td>
-      <td>11</td>
-    </tr>
-    <tr>
-      <th>206622</th>
-      <td>2014</td>
-      <td>Hillary</td>
-      <td>32</td>
+      <th>125914</th>
+      <td>1993</td>
+      <td>Lindy</td>
+      <td>10</td>
     </tr>
   </tbody>
 </table>
@@ -1126,28 +1126,28 @@ Name: Sex, dtype: object</code></pre>
   </thead>
   <tbody>
     <tr>
-      <th>150101</th>
+      <th>339648</th>
       <td>2000</td>
-      <td>Amari</td>
-      <td>27</td>
+      <td>Ubaldo</td>
+      <td>18</td>
     </tr>
     <tr>
-      <th>152770</th>
+      <th>151607</th>
       <td>2000</td>
-      <td>Tommi</td>
-      <td>5</td>
+      <td>Sharai</td>
+      <td>8</td>
     </tr>
     <tr>
-      <th>150987</th>
+      <th>339664</th>
       <td>2000</td>
-      <td>Jaymie</td>
+      <td>Harvey</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <th>150976</th>
+      <td>2000</td>
+      <td>Halee</td>
       <td>11</td>
-    </tr>
-    <tr>
-      <th>151261</th>
-      <td>2000</td>
-      <td>Ciena</td>
-      <td>9</td>
     </tr>
   </tbody>
 </table>
@@ -1772,7 +1772,7 @@ Name: Name, dtype: object</code></pre>
 <div class="cell" data-execution_count="33">
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>babynames.groupby(<span class="st">"Year"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="33">
-<pre><code>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x7ffeafe8df40&gt;</code></pre>
+<pre><code>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x7fe9d768bdf0&gt;</code></pre>
 </div>
 </div>
 <p>What does this strange output mean? Calling <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.groupby.html"><code>.groupby</code></a> has generated a <code>GroupBy</code> object. You can imagine this as a set of “mini” sub-DataFrames, where each subframe contains all of the rows from <code>babynames</code> that correspond to a particular year.</p>
