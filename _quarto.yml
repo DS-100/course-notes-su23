@@ -9,7 +9,7 @@ book:
     subtitle: "Data 100"
     image: data100_logo.png
     author: ["Kanu Grover", "Bella Crouch"]
-    repo-url: https://github.com/DS-100/course-notes
+    repo-url: https://github.com/DS-100/course-notes-su23
     downloads: [pdf]
     chapters:
         - index.md
