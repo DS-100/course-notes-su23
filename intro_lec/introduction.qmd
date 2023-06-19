@@ -13,7 +13,7 @@ format:
 jupyter: python3
 ---
 
-::: {.callout-note collapse="true"}
+::: {.callout-note}
 ## Learning Outcomes
 - Acquaint yourself with the overarching goals of Data 100
 - Understand the stages of the data science lifecycle
