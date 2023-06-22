@@ -13,7 +13,7 @@ format:
 jupyter: python3
 ---
 
-::: {.callout-note collapse="true"}
+::: {.callout-note}
 ## Learning Outcomes
 - Acquaint yourself with the overarching goals of Data 100
 - Understand the stages of the data science lifecycle
@@ -27,7 +27,7 @@ A true mastery of data science requires a deep theoretical understanding and str
 
 The data science lifecycle is a high-level overview of the data science workflow. It's a cycle of stages that a data scientist should explore as they conduct a thorough analysis of a data-driven problem. 
 
-There are many variations of the key ideas present in the data science lifecycle. In Data 100, we visualize the stages of the lifecycle using a flow diagram. Notice how there are two entry points. 
+There are many variations of the key ideas present in the data science lifecycle. In Data 100, we visualize the stages of the lifecycle using a flow diagram. Notice how there are two entry points: the lifecycle starts either when we want to ask a question, or when we get a dataset. 
 
 <img src="images/data_life_cycle.PNG" alt='data_life_cycle' width='500'>
 
@@ -50,7 +50,7 @@ Posing questions is one of the primary ways the data science lifecycle begins. I
 
 ### Obtain Data 
 
-The second entry point to the lifecycle is by obtaining data. A careful analysis of any problem requires the use of data. Sometimes, data may be readily available to us; other times, we may have to embark on a process to collect it. When doing so, it is crucial to ask the following:  
+The second entry point to the lifecycle is obtaining data. A careful analysis of any problem requires the use of data. Sometimes, data may be readily available to us; other times, we may have to embark on a process to collect it. When doing so, it is crucial to ask the following:  
 
 - What data do we have and what data do we need?
     - Define the units of the data (people, cities, points in time, etc.) and what features to measure.
