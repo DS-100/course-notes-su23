@@ -45,7 +45,6 @@ We'll work with the `elections` DataFrame again.
 
 ```{python}
 #| code-fold: true
-#| vscode: {languageId: python}
 
 import pandas as pd
 import numpy as np
@@ -61,7 +60,6 @@ Let's first consider a puzzle to jog our memory. We will attempt to find the `Ca
 A naive approach may be to group by the `Party` column and aggregate by the maximum.
 
 ```{python}
-#| vscode: {languageId: python}
 elections.groupby("Party").agg(max).head(10)
 ```
 
@@ -81,13 +79,11 @@ Instead, let's try a different approach. We will:
 While it may seem unintuitive, sorting `elections` by descending order of `%` is extremely helpful. If we then group by `Party`, the first row of each groupby object will contain information about the `Candidate` with the highest voter `%`.
 
 ```{python}
-#| vscode: {languageId: python}
 elections_sorted_by_percent = elections.sort_values("%", ascending=False)
 elections_sorted_by_percent.head(5)
 ```
 
 ```{python}
-#| vscode: {languageId: python}
 elections_sorted_by_percent.groupby("Party").agg(lambda x : x.iloc[0]).head(10)
 
 # Equivalent to the below code
@@ -108,14 +104,12 @@ In fact, there's a few different ways to approach this problem. Each approach ha
 **Note**: Understanding these alternative solutions is not required. They are given to demonstrate the vast number of problem-solving approaches in `pandas`.
 
 ```{python}
-#| vscode: {languageId: python}
 # Using the idxmax function
 best_per_party = elections.loc[elections.groupby('Party')['%'].idxmax()]
 best_per_party.head(5)
 ```
 
 ```{python}
-#| vscode: {languageId: python}
 # Using the .drop_duplicates function
 best_per_party2 = elections.sort_values('%').drop_duplicates(['Party'], keep='last')
 best_per_party2.head(5)
@@ -129,13 +123,12 @@ There are many aggregation methods we can use with `.agg`. Some useful options a
 * [`.sum`](https://pandas.pydata.org/docs/reference/api/pandas.core.groupby.DataFrameGroupBy.sum.html#pandas.core.groupby.DataFrameGroupBy.sum): creates a new DataFrame with the sum of each group
 * [`.max`](https://pandas.pydata.org/docs/reference/api/pandas.core.groupby.DataFrameGroupBy.max.html#pandas.core.groupby.DataFrameGroupBy.max) and [`.min`](https://pandas.pydata.org/docs/reference/api/pandas.core.groupby.DataFrameGroupBy.min.html#pandas.core.groupby.DataFrameGroupBy.min): creates a new DataFrame with the maximum/minimum value of each group
 * [`.first`](https://pandas.pydata.org/docs/reference/api/pandas.core.groupby.DataFrameGroupBy.first.html#pandas.core.groupby.DataFrameGroupBy.first) and [`.last`](https://pandas.pydata.org/docs/reference/api/pandas.core.groupby.DataFrameGroupBy.last.html#pandas.core.groupby.DataFrameGroupBy.last): creates a new DataFrame with the first/last row in each group
-* [`.size`](https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.core.groupby.GroupBy.size.html): creates a new **Series** with the number of entries in each group
+* [`.size`](https://pandas.pydata.org/docs/reference/api/pandas.core.groupby.DataFrameGroupBy.size.html#pandas.core.groupby.DataFrameGroupBy.size): creates a new **Series** with the number of entries in each group
 * [`.count`](https://pandas.pydata.org/docs/reference/api/pandas.core.groupby.DataFrameGroupBy.count.html#pandas.core.groupby.DataFrameGroupBy.count): creates a new **DataFrame** with the number of entries, excluding missing values. 
 
 Note the slight difference between `.size()` and `.count()`: while `.size()` returns a Series and counts the number of entries including the missing values, `.count()` returns a DataFrame and counts the number of entries in each column excluding missing values. Here's an example:
 
 ```{python}
-#| vscode: {languageId: python}
 df = pd.DataFrame({'letter':['A','A','B','C','C','C'], 
                    'num':[1,2,3,4,np.NaN,4], 
                    'state':[np.NaN, 'tx', 'fl', 'hi', np.NaN, 'ak']})
@@ -143,19 +136,16 @@ df
 ```
 
 ```{python}
-#| vscode: {languageId: python}
 df.groupby("letter").size()
 ```
 
 ```{python}
-#| vscode: {languageId: python}
 df.groupby("letter").count()
 ```
 
 You might recall that the `value_counts()` function in the previous note does something similar. It turns out `value_counts()` and `groupby.size()` are the same, except `value_counts()` sorts the resulting Series in descending order automatically. 
 
 ```{python}
-#| vscode: {languageId: python}
 df["letter"].value_counts()
 ```
 
@@ -191,7 +181,6 @@ In other words, we want to:
 For each year, we need to find the maximum `%` among *all* rows for that year. If this maximum `%` is lower than 45%, we will tell `pandas` to keep all rows corresponding to that year. 
 
 ```{python}
-#| vscode: {languageId: python}
 elections.groupby("Year").filter(lambda sf: sf["%"].max() < 45).head(9)
 ```
 
@@ -210,7 +199,6 @@ Let's consider the `babynames` dataset. In this problem, we will find the total 
 
 ```{python}
 #| code-fold: true
-#| vscode: {languageId: python}
 import urllib.request
 import os.path
 
@@ -239,13 +227,11 @@ babynames = pd.concat(babynames)
 ```
 
 ```{python}
-#| vscode: {languageId: python}
 babynames.head()
 ```
 
 ```{python}
 #| code-fold: false
-#| vscode: {languageId: python}
 # Find the total number of baby names associated with each sex for each year in the data
 babynames.groupby(["Year", "Sex"])[["Count"]].agg(sum).head(6)
 ```
@@ -260,7 +246,6 @@ The best way to understand pivot tables is to see one in action. Let's return to
 
 ```{python}
 #| code-fold: false
-#| vscode: {languageId: python}
 # The `pivot_table` method is used to generate a Pandas pivot table
 import numpy as np
 babynames.pivot_table(
@@ -282,7 +267,6 @@ Let's take a closer look at the code implemented above.
 We can even include multiple values in the index or columns of our pivot tables.
 
 ```{python}
-#| vscode: {languageId: python}
 babynames_pivot = babynames.pivot_table(
     index="Year",     # the rows (turned into index)
     columns="Sex",    # the column values
@@ -299,7 +283,6 @@ When working on data science projects, we're unlikely to have absolutely all the
 To put this into practice, we'll revisit the `elections` dataset.
 
 ```{python}
-#| vscode: {languageId: python}
 elections.head(5)
 ```
 
@@ -309,7 +292,6 @@ We'll start by creating a new column containing the first name of each president
 
 ```{python}
 #| code-fold: false
-#| vscode: {languageId: python}
 # This `str` operation splits each candidate's full name at each 
 # blank space, then takes just the candidiate's first name
 elections["First Name"] = elections["Candidate"].str.split().str[0]
@@ -317,7 +299,6 @@ elections.head(5)
 ```
 
 ```{python}
-#| vscode: {languageId: python}
 # Here, we'll only consider `babynames` data from 2020
 babynames_2020 = babynames[babynames["Year"]==2020]
 babynames_2020.head()
@@ -327,7 +308,6 @@ Now, we're ready to join the two tables. [`pd.merge`](https://pandas.pydata.org/
 
 ```{python}
 #| tags: []
-#| vscode: {languageId: python}
 merged = pd.merge(left = elections, right = babynames_2020, \
                   left_on = "First Name", right_on = "Name")
 merged.head()
