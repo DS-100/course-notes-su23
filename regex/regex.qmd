@@ -1,5 +1,5 @@
 ---
-title: Regular Expressions
+title: Text Wrangling & Regular Expressions
 format:
   html:
     toc: true
@@ -15,29 +15,37 @@ jupyter: python3
 
 ::: {.callout-note collapse="true"}
 ## Learning Outcomes
-- Understand Python string manipulation, Pandas Series methods
+- Understand Python string manipulation and `pandas` `str` methods for working with text data
 - Parse and create regex, with a reference table
 - Use vocabulary (closure, metacharater, groups, etc.) to describe regex metacharacters
 :::
 
 ## Why Work with Text?
 
-Last lecture, we learned of the difference between quantitative and qualitative variable types. The latter includes string data - the primary focus of today's lecture. In this note, we'll discuss the necessary tools to manipulate text: Python string manipulation and regular expressions. 
+Last lecture, we learned of the difference between quantitative and qualitative variable types. The latter of these variable types includes string data, which is the primary focus of today's lecture. In this note, we'll discuss the necessary tools to manipulate text: `pandas` string operations and regular expressions. 
 
-There are two main reasons for working with text.
+We typically have one of two goals when working with text. 
 
-1. Canonicalization: Convert data that has multiple formats into a standard form.
-    - By manipulating text, we can join tables with mismatched string labels
+1. Canonicalization: convert data that has multiple formats into a standard form.
+    - For example, to address datasets in which text values have inconsistent capitalization, whitespace, or use of symbols
 
 2. Extract information into a new feature.
-    - For example, we can extract date and time features from text
+    - For example, to extract information about dates and times from a written text description
 
-## Python String Methods
+## `.str` Methods in `pandas`
 
-First, we'll introduce a few methods useful for string manipulation. The following table includes a number of string operations supported by Python and `pandas`. The Python functions operate on a single string, while their equivalent in `pandas` are  **vectorized** - they operate on a Series of string data.
+In "base" Python, we have many built-in functions for manipulating string data. You likely encountered these in your introductory programming classes. A summary of common Python methods for operating on strings is given below. 
+
+The limitation of Python's native functions for manipulating strings is that they are not designed to work at scale – Python assumes that we are operating on one string at a time, when, as data scientists, we may be working with large datasets of string data. Iterating over all string values in a `DataFrame` or `Series` is computationally expensive and may take too long to be of practical use.
+
+Fortunately, `pandas` offers a method of *vectorizing* string operations using the `.str` operator. Syntax of the form `Series.str` instructs `pandas` to act on a full *`Series`* of text data at once, without the need to iterate over individual values. A statement like `Series.str.string_function()` will then apply the string operation `string_function()` to *every* value contained in the Series.
+
+The table below provides an overview of common string functions. The "Python" column gives the usage of each function on an individual string `s`, while the "`pandas`" column shows the use of the `.str` operator to manipulate `Series` of strings.
+
 
 +-----------------------+-----------------+---------------------------+
-| Operation             | Python          | Pandas (Series)           |
+| Operation             | Python          |`pandas`                   |
+|                       |(single string)  |(`Series` of strings)      |
 +=======================+=================+===========================+
 | Transformation        | - `s.lower(_)`  | - `ser.str.lower(_)`      |
 |                       | - `s.upper(_)`  | - `ser.str.upper(_)`      |
@@ -58,63 +66,33 @@ First, we'll introduce a few methods useful for string manipulation. The followi
 |                       |                 |                           |
 +-----------------------+-----------------+---------------------------+
 
-We'll discuss the differences between Python string functions and `pandas` Series methods in the following section on canonicalization.
 
 ### Canonicalization
-Assume we want to merge the given tables.
+With our new `.str` operator in hand, let's see how string methods allow us to achieve our two goals of working with text: canonicalization and extraction.
+
+Consider the following datasets containing information about counties. Although both `DataFrame`s include a "County" column, the county names are formatted differently. Attempting to merge the two `DataFrame`s fails because the two tables do not share commonly-formatted county names.
 
 ```{python}
 #| code-fold: true
 import pandas as pd
 
-with open('data/county_and_state.csv') as f:
-    county_and_state = pd.read_csv(f)
-    
-with open('data/county_and_population.csv') as f:
-    county_and_pop = pd.read_csv(f)
+county_and_state = pd.read_csv('data/county_and_state.csv')
+county_and_pop = pd.read_csv('data/county_and_population.csv')
+
+display(county_and_state)
+display(county_and_pop)
 ```
 
 ```{python}
-display(county_and_state), display(county_and_pop);
+# When we attempt to merge on the "County" column, common values cannot be found
+county_and_state.merge(county_and_pop, left_on="County", right_on="County")
 ```
 
-Last time, we used a **primary key** and **foreign key** to join two tables. While neither of these keys exist in our DataFrames, the `County` columns look similar enough. Can we convert these columns into one standard, canonical form to merge the two tables? 
+Let's define a function to assist with canonicalization of the `"County"` columns. `canonicalize_county_series` applies a sequence of `str` operations on an inputted `Series` to:
 
-#### Canonicalization with Python String Manipulation
-
-The following function uses Python string manipulation to convert a single county name into canonical form. It does so by eliminating whitespace, punctuation, and unnecessary text. 
-
-```{python}
-def canonicalize_county(county_name):
-    return (
-        county_name
-            .lower()
-            .replace(' ', '')
-            .replace('&', 'and')
-            .replace('.', '')
-            .replace('county', '')
-            .replace('parish', '')
-    )
-
-canonicalize_county("St. John the Baptist")
-```
-
-We will use the `pandas` `map` function to apply the `canonicalize_county` function to every row in both DataFrames. In doing so, we'll create a new column in each called `clean_county_python` with the canonical form.
-
-```{python}
-county_and_pop['clean_county_python'] = county_and_pop['County'].map(canonicalize_county)
-county_and_state['clean_county_python'] = county_and_state['County'].map(canonicalize_county)
-```
-
-```{python}
-display(county_and_state), display(county_and_pop);
-```
-
-#### Canonicalization with Pandas Series Methods
-
-Alternatively, we can use `pandas` Series methods to create this standardized column. To do so, we must call the `.str` attribute of our Series object prior to calling any methods, like `.lower` and `.replace`. Notice how these method names match their equivalent built-in Python string functions.
-
-Chaining multiple Series methods in this manner eliminates the need to use the `map` function (as this code is vectorized).
+* Convert the text to lowercase
+* Replace inconsistent uses of whitespace and symbols
+* Standardize the naming convention for each county
 
 ```{python}
 def canonicalize_county_series(county_series):
@@ -128,32 +106,31 @@ def canonicalize_county_series(county_series):
             .str.replace('parish', '')
     )
 
-county_and_pop['clean_county_pandas'] = canonicalize_county_series(county_and_pop['County'])
-county_and_state['clean_county_pandas'] = canonicalize_county_series(county_and_state['County'])
+county_and_pop['County'] = canonicalize_county_series(county_and_pop['County'])
+county_and_state['County'] = canonicalize_county_series(county_and_state['County'])
 ```
 
+Our canonicalized county names can be successfully merged across the tables.
+
 ```{python}
-display(county_and_pop), display(county_and_state);
+county_and_state.merge(county_and_pop, left_on="County", right_on="County")
 ```
 
 ### Extraction
 
-Extraction explores the idea of obtaining useful information from text data. This will be particularily important in model building, which we'll study in a few weeks.
-
-Say we want to read some data from a `.txt` file.
+Now, let's experiment with an extraction task. Consider the following three pieces of text data, which are a log files from a computer operating system. 
 
 ```{python}
 with open('data/log.txt', 'r') as f:
     log_lines = f.readlines()
-```
-
-```{python}
 log_lines
 ```
 
-Suppose we want to extract the day, month, year, hour, minutes, seconds, and timezone. Unfortunately, these items are not in a fixed position from the beginning of the string, so slicing by some fixed offset won't work.
+Suppose we want to extract the day, month, year, hour, minutes, seconds, and timezone. Unfortunately, these items are not in a consistent position relative the beginning of the string, so slicing by some fixed offset won't work. For example, the date begins 21 characters from the start of the first string and 20 characters from the start of the second string.
 
 Instead, we can use some clever thinking. Notice how the relevant information is contained within a set of brackets, further seperated by `/` and `:`. We can hone in on this region of text, and split the data on these characters. Python's built-in `.split` function makes this easy.
+
+For simplicity, we'll only consider a single string, rather than an entire `Series` of data.
 
 ```{python}
 first = log_lines[0] # Only considering the first row of data
@@ -165,359 +142,287 @@ seconds, time_zone = rest.split(' ')
 day, month, year, hour, minute, seconds, time_zone
 ```
 
-There are two problems with this code:
+Phew, that was a lot of work! The logic above required a lot of manipulation to "hack" together the information we needed. The resulting code is verbose; that is, it required many lines of code to achieve a fairly simple task. This is a major limitation of both Python in-built functions and `pandas` `str` operations – they often don't generalize well to more complex patterns of storing text data.
 
-1. Python's built-in functions limit us to extract data one record at a time
-    - This can be resolved using a map function or Pandas Series methods.
-2. The code is quite verbose
-    - This is a larger issue that is trickier to solve
+Fortunately, there is another way of working with patterns in text: regular expressions.
 
-In the next section, we'll introduce regular expressions - a tool that solves problem 2.
+## Regular Expressions
 
-## Regex Basics
+A **regular expression ("regex")** is a sequence of characters that specifies a search pattern. They are written to extract specific information from text. Regular expressions are part of a smaller programming language embedded in Python, made available through the `re` module. As such, they have a stand-alone syntax and methods for various capabilities.
 
-A **regular expression ("regex")** is a sequence of characters that specifies a search pattern. They are written to extract specific information from text. Regular expressions are essentially part of a smaller programming language embedded in Python, made available through the `re` module. As such, they have a stand-alone syntax and methods for various capabilities.
-
-Regular expressions are useful in many applications beyond data science. For example, Social Security Numbers (SSNs) are often validated with regular expresions.
+What do regex patterns look like? An example is given in the code cell below. This pattern is designed to seek out US Social Security Numbers, which have the format "###-##-####". We'll discuss how this pattern was formed, as well as how to design patterns of your own, in the next section.
 
 ```{python}
-r"[0-9]{3}-[0-9]{2}-[0-9]{4}" # Regular Expression Syntax
+r"[0-9]{3}-[0-9]{2}-[0-9]{4}"
 
 # 3 of any digit, then a dash,
 # then 2 of any digit, then a dash,
 # then 4 of any digit
 ```
 
-<!-- The goal of today is NOT to memorize regex. At a high level, we want you to:
-
-1. Understand what regex is capable of
-2. Parse and create regex, given a reference table -->
-
-There are a ton of resources to learn and experiment with regular expressions. A few are provided below:
+There are many resources to learn and experiment with regular expressions. A few are provided below:
 
 - [Official Regex Guide](https://docs.python.org/3/howto/regex.html)
 - [Data 100 Reference Sheet](https://ds100.org/sp22/resources/assets/hw/regex_reference.pdf) 
 - [Regex101.com](https://regex101.com/)
-    - Be sure to check `Python` under the category on the left.
+    - Be sure to check Python as the "flavor" on the left.
 
-### Basics Regex Syntax
+### Basic Regex Syntax
 
 There are four basic operations with regular expressions.
 
-+-----------------------+-----------------+----------------+-------------+-------------------+
-| Operation             | Order           | Syntax Example | Matches     | Doesn't Match     | 
-+=======================+=================+================+=============+===================+
-| `Or`: `|`             | 4               | AA|BAAB        | AA<br />    | every other string|
-|                       |                 |                | BAAB        |                   |
-+-----------------------+-----------------+----------------+-------------+-------------------+
-| `Concatenation`       | 3               | AABAAB         | AABAAB      | every other string|
-|                       |                 |                |             |                   |
-+-----------------------+-----------------+----------------+-------------+-------------------+
-| `Closure`: `*` <br /> | 2               | AB*A           | AA          | AB <br />         |
-| (zero or more)        |                 |                | ABBBBBBA    | ABABA             |
-+-----------------------+-----------------+----------------+-------------+-------------------+
-| `Group`: `()` <br />  | 1               | A(A|B)AAB      | AAAAB       | every other string|
-| (parenthesis)         |                 | <br />         | ABAAB <br />| <br />            |
-|                       |                 | <br />         | <br />      | <br />            |
-|                       |                 | <br />         | <br />      | <br />            |
-|                       |                 | (AB)*A         | A <br />    | AA <br />         |
-|                       |                 |                | ABABABABA   | ABBA              |
-+-----------------------+-----------------+----------------+-------------+-------------------+
+#### Concatenation
+When a sequence of characters are listed in a regex pattern, regex will look for that literal sequence of characters in the text. 
 
-Notice how these metacharacter operations are ordered. Rather than being literal characters, these **metacharacters** manipulate adjacent characters. `()` takes precedence, followed by `*`, and finally `|`. This allows us to differentiate between very different regex commands like `AB*` and `(AB)*`. The former reads "`A` then zero or more copies of `B`", while the latter specifies "zero or more copies of `AB`".
+For example, the regex pattern `AABAAB` will match the string "AABAAB".
 
-#### Examples
+#### The OR operator: `|`
+A vertical bar `|` means "or" in regex. When `|` is included in a pattern, regex will look for the sequence of characters on its left, or the sequence of characters on its right.
 
-**Question 1**: Give a regular expression that matches `moon`, `moooon`, etc. Your expression should match any even number of `o`s except zero (i.e. don’t match `mn`).
+For example, the regex pattern `AA|BAAB` will match either the string "AA" or the string "BAAB". 
 
-**Answer 1**: `moo(oo)*n`
+#### Zero or more: `*`
+An asterisk `*` means "look for the preceding character, zero or more times." 
 
-- Hardcoding `oo` before the capture group ensures that `mn` is not matched.
-- A capture group of `(oo)*` ensures the number of `o`'s is even.
+For example, the pattern `AB*A` will match "AA" (zero "B"s), "ABA" (one "B"), "ABBA" (two "B"s), and so on.
 
-**Question 2**: Using only basic operations, formulate a regex that matches `muun`, `muuuun`, `moon`, `moooon`, etc. Your expression should match any even number of `u`s or `o`s except zero (i.e. don’t match `mn`).
+#### Grouping: `( )`
+Parentheses are used to apply a regex operation to a group of characters. 
 
-**Answer 2**: `m(uu(uu)*|oo(oo)*)n`
+For example, the pattern `(AB)*A` applies the logic: "look for 'AB' zero or more times, then look for an 'A'." It would match the strings "A" (zero "AB"s), "ABA" (1 "AB"), "ABABA" (2 "AB"s), and so on.
 
-- The leading `m` and trailing `n` ensures that only strings beginning with `m` and ending with `n` are matched.
-- Notice how the outer capture group surrounds the `|`. 
-    - Consider the regex `m(uu(uu)*)|(oo(oo)*)n`. This incorrectly matches `muu` and `oooon`. 
-        - Each OR clause is everything to the left and right of `|`. The incorrect solution matches only half of the string, and ignores either the beginning `m` or trailing `n`.
-        - A set of paranthesis must surround `|`. That way, each OR clause is everything to the left and right of `|` **within** the group. This ensures both the beginning `m` *and* trailing `n` are matched.
+The pattern `A(A|B)AAB` applies the logic: "look for an 'A'. Then, look for an 'A' *or* a 'B'. Finally, look for 'AAB'." It matches the strings "AAAAB" or "ABAAB". 
 
-## Regex Expanded
+Symbols like `*`, `( )`, and `|` are called **metacharacters** –– they represent a regex operation, rather than a literal tect character.
 
-Provided below are more complex regular expression functions. 
+### Regex Expanded
+The four basic regex operations can be combined with more advanced metacharacters to produce patterns of greater complexity. 
 
-+------------------------------------------------+-----------------+----------------+------------------+
-| Operation                                      | Syntax Example  | Matches        |Doesn't Match     |
-+================================================+=================+================+==================+
-| `Any Character`: `.` <br />                    | .U.U.U.         | CUMULUS <br /> | SUCCUBUS         |
-| (except newline)                               |                 | JUGULUM        | TUMULTUOUS       |            
-+------------------------------------------------+-----------------+----------------+------------------+
-| `Character Class`: `[]` <br />                 | [A-Za-z][a-z]*  | word <br />    | camelCase        |
-| (match one character in `[]`)                  |                 | Capitalized    | 4illegal         |                   
-+------------------------------------------------+-----------------+----------------+------------------+
-| `Repeated "a" Times`: `{a}`<br />              | j[aeiou]{3}hn   | jaoehn <br />  | jhn <br />       |
-|                                                |                 | jooohn         | jaeiouhn         |
-+------------------------------------------------+-----------------+----------------+------------------+
-| `Repeated "from a to b" Times`: `{a, b}`<br /> | j[0u]{1,2}hn    | john <br />    | jhn <br />       | 
-|                                                |                 | juohn          | jooohn           |
-|                                                |                 |                |                  | 
-+------------------------------------------------+-----------------+----------------+------------------+
-| `At Least One`: `+`                            | jo+hn           | john  <br />   | jhn <br />       | 
-|                                                |                 | joooooohn      | jjohn            |
-|                                                |                 |                |                  | 
-+------------------------------------------------+-----------------+----------------+------------------+
-| `Zero or One`: `?`                             | joh?n           | jon <br />     | any other string | 
-|                                                |                 | john           |                  |
-|                                                |                 |                |                  | 
-+------------------------------------------------+-----------------+----------------+------------------+
+#### Wildcard: `.`
+A period is the "wildcard" character in regex – it represents *any* character. This is often used when we do not know in advance what specific characters we might encounter in our text data.
 
-A character class matches a single character in it's class. These characters can be hardcoded -- in the case of `[aeiou]` -- or shorthand can be specified to mean a range of characters. Examples include:
+For example, the pattern `.U.U.U.` matches any sequence that alternates between some character and the letter "U". The strings "CUMULUS" and "JUGULUM" would both be matched. 
 
-1. `[A-Z]`: Any capitalized letter
-2. `[a-z]`: Any lowercase letter
-3. `[0-9]`: Any single digit
-4. `[A-Za-z]`: Any capitalized of lowercase letter
-5. `[A-Za-z0-9]`: Any capitalized or lowercase letter or single digit
+#### One or more: `+`
+A plus sign is used to indicate that the preceding character should appear at least once in the string (contrast this to `*`, where the preceding character does not necessarily need to appear).
 
-#### Examples
+For example, the pattern `AB+` matches any sequence of an "A" followed by one or more "B"s – the strings "AB", "ABB", and "ABBB" would all match.
 
-Let's analyze a few examples of complex regular expressions.
+#### Repetition: `{ }`
+Curly braces are used to specify how many times the preceding character should appear. When a single number `a` is placed in curly brackets (`{a}`), the preceding character should appear exactly *a* times in the string. When two numbers `a` and `b` are placed in curly brackets (`{a, b}`), the preceding character should appear *between* `a` and `b` times in the string. 
 
-+---------------------------------+---------------------------------+
-| Matches                         | Does Not Match                  |
-+=================================+=================================+
-| 1. `.*SPB.*`                    |                                 | 
-|                                 |                                 | 
-+---------------------------------+---------------------------------+
-| RASPBERRY <br />                | SUBSPACE <br />                 |
-| SPBOO                           | SUBSPECIES                      |
-+---------------------------------+---------------------------------+
-| 2. `[0-9]{3}-[0-9]{2}-[0-9]{4}` |                                 |
-|                                 |                                 |
-+---------------------------------+---------------------------------+
-| 231-41-5121 <br />              | 231415121 <br />                |
-| 573-57-1821                     | 57-3571821                      |
-+---------------------------------+---------------------------------+
-| 3. `[a-z]+@([a-z]+\.)+(edu|com)`|                                 |
-|                                 |                                 |
-+---------------------------------+---------------------------------+
-| horse@pizza.com <br />          | frank_99@yahoo.com <br />       |
-| horse@pizza.food.com            | hug@cs                          |
-+---------------------------------+---------------------------------+
+For example, `AB{2}` matches "ABB". `AB{0, 2}` matches "A", "AB", or "ABB".
 
-**Explanations**
+#### Character class: `[ ]`
+A **character class** defines a set of characters belonging to the class. When placed in a regex pattern, the pattern will match *and* of the characters contained in the class. This makes character classes a powerful tool for cases where you know what the data *might* look like, but don't know the exact characters for certain. For example, we know that Social Security Numbers will always consist of numeric digits, but we don't know what specific numbers will appear in any one SSN. 
 
-1. `.*SPB.*` only matches strings that contain the substring `SPB`.
-    - The `.*` metacharacter matches any amount of non-negative characters. Newlines do not count.  
-2. This regular expression matches 3 of any digit, then a dash, then 2 of any digit, then a dash, then 4 of any digit
-    - You'll recognize this as the familiar Social Security Number regular expression
-3. Matches any email with a `com` or `edu` domain, where all characters of the email are letters.
-    - At least one `.` must preceed the domain name. Including a backslash `\` before any metacharacter (in this case, the `.`) tells regex to match that character exactly.
+To define a character class, simply enclose the desired characters in square brackets, `[ ]`. For example, the pattern `"[aeiou]"` defines a character class that will match the letters "a", "e", "i", "o", or "u".
 
-## Convenient Regex
+Regex includes several pre-defined character classes. 
 
-Here are a few more convenient regular expressions. 
+* `[A-Z]` includes any uppercase letter between "A" and "Z"
+* `[a-z]` includes any lowercase letter between "a" and "z"
+* `[0-9]` includes any numeric digit between 0 and 9
+* `[A-Za-z0-9]` includes all letters and all digits
+    
+Additionally, there are three metacharacters that provide shortcuts to common character classes.
+ 
+* `\w` is equivalent to `[A-Za-z0-9]`
+* `\d` is equifalent to `[0-9]`
+* `\s` matches whitespace, such as spaces, tabs, and newlines
+    
+In some situations, we may want to match any character *other* than those included in a class. For example, we might want to match any character *other* than a numeric digit. We use a carat, `^`, to negate a character class. The pattern `[^0-9]` matches any character that is not a digit between 0 and 9. Similarly, we can use the capitalized forms of the character class metacharacters to indicate their negations.
 
-+------------------------------------------------+-----------------+----------------+------------------+
-| Operation                                      | Syntax Example  | Matches        |Doesn't Match     |
-+================================================+=================+================+==================+
-| `built in character class`                     | `\w+` <br />    | Fawef_03 <br />|this person<br /> |
-|                                                | `\d+`<br />     | 231123 <br />  |423 people<br />  |
-|                                                | `\s+` <br />    | `whitespace`   | `non-whitespace` |
-+------------------------------------------------+-----------------+----------------+------------------+
-| `character class negation`: `[^]`              | [^a-z]+.        | PEPPERS3982    | porch <br />     |
-| (everything except the given characters)       |                 | 17211!↑å       | CLAmS            |                   
-+------------------------------------------------+-----------------+----------------+------------------+
-| `escape character`: `\` <br />                 | cow\\.com       | cow.com        | cowscom          |
-|  (match the literal next character)            |                 |                |                  |
-+------------------------------------------------+-----------------+----------------+------------------+
-| `beginning of line`: `^`                       | ^ark            | ark two        | dark             | 
-|                                                |                 | ark o ark      |                  |
-|                                                |                 |                |                  | 
-+------------------------------------------------+-----------------+----------------+------------------+
-| `end of line`: `$`                             | ark$            | dark <br />    | ark two          | 
-|                                                |                 | ark o ark      |                  |
-|                                                |                 |                |                  | 
-+------------------------------------------------+-----------------+----------------+------------------+
-| `lazy version of zero or more` : `*?`          | 5.*?5           | 5005 <br />    | 5005005          | 
-|                                                |                 | 55             |                  |
-|                                                |                 |                |                  | 
-+------------------------------------------------+-----------------+----------------+------------------+
+* `\W` matches anything other than `[A-Za-z0-9]`
+* `\D` matches anything other than `[0-9]`
+* `\S` matches anything other than whitespace
 
-#### Examples
+### Interpreting a Regex Pattern
 
-Let's revist our earlier problem of extracting date/time data from the given `.txt` files. Here is how the data looked.
+At this point, we have the tools needed to write some fairly sophisticated patterns. The social security sumber pattern introduced at the start of this section no longer looks so foreign. Recall that our pattern took the following form:
 
 ```{python}
-log_lines[0]
+r"[0-9]{3}-[0-9]{2}-[0-9]{4}"
 ```
 
-**Question**: Give a regular expression that matches everything contained within and including the brackets - the day, month, year, hour, minutes, seconds, and timezone.
+We can break this pattern down to interpret what it represents:
 
-**Answer**: `\[.*\]`
+* `[0-9]{3}`: look for a numeric digit, exactly 3 times
+* `-`: look for the literal character "-". We know this because "-" does not represent a regex metacharacter when not used inside of a character class.
+* `[0-9]{2}`: look for a numeric digit, exactly 2 times
+* `-`: look for the literal character "-"
+* `[0-9]{4}`: look for a numeric digit, exactly 4 times
 
-- Notice how matching the literal `[` and `]` is necessary. Therefore, an escape character `\` is required before both `[` and `]` - otherwise these metacharacters will match character classes. 
-- We need to match a particular format between `[` and `]`. For this example, `.*` will suffice.
+Put together, the pattern will match SSNs like "555-12-8967" and "123-45-6789". 
 
-**Alternative Solution**: `\[\w+/\w+/\w+:\w+:\w+:\w+\s-\w+\]`
+### Greediness
 
-- This solution is much safer. 
-    - Imagine the data between `[` and `]` was garbage - `.*` will still match that. 
-    - The alternate solution will only match data that follows the correct format.
+There is one more important regex concept that we must consider before diving into patterns of our own: the concept of **greediness**. We say that regex uses "greedy" logic because it will *always* seek out the longest possible match in a string. 
 
-## Regex in Python and Pandas (Regex Groups)
+Regex greediness is best illustrated through example. Let's consider the following problem: we want to match any lowercase alphabetic string that has a repeated vowel. For example, we want our pattern to match strings like "noon", "peel", "festoon", or "oodles". Take a moment to consider how you might approach this task.
 
-### Canonicalization
+As a first attempt, you may have written a pattern that looked something like this (and, if you didn't, think about what reasoning is encoded in this pattern): `.*[aeiou]+.*`.
+Interpreted literally:
 
-#### Canonicalization with Regex
+ * `.*`: look for any character, zero or more times
+ * `[aeiou]+`: look for an "a", "e", "i", "o", or "u", one or more times
+ * `.*`: look for any character, zero or more times
+ 
+At first blush, this pattern may seem like a fairly reasonable solution to the problem. However, something strange happens when we actually apply this pattern to a test string. In the code below, `r".*[aeiou]+.*"` represents our regex pattern, while `"Only one word in this sentence seems like it should match.”` represents the string of data that the pattern will attempt to match. We'll discuss the functions used to apply regex patterns later.
 
-Earlier in this note, we examined the process of canonicalization using Python string manipulation and `pandas` Series methods. However, we mentioned this approach had a major flaw: our code was unnecessarily verbose. Equipped with our knowledge of regular expressions, let's fix this.
-
-To do so, we need to understand a few functions in the `re` module. The first of these is the substitute function: `re.sub(pattern, rep1, text)`. It behaves similarily to Python's built-in `.replace` function, and returns text with all instances of `pattern` replaced by `rep1`. 
-
-The regular expression here removes text surrounded by `<>` (also known as HTML tags).
-
-In order, the pattern matches ... 
-1. a single `<`
-2. any character that is not a `>` : div, td valign..., /td, /div
-3. a single `>`
-
-Any substring in `text` that fulfills all three conditions will be replaced by `''`.
+In the context of our goal from above, we only want to match the word "seems".
 
 ```{python}
 import re
-
-text = "<div><td valign='top'>Moo</td></div>"
-pattern = r"<[^>]+>"
-re.sub(pattern, '', text) 
+re.search(r".*[aeiou]+.*", "Only one word in this sentence seems like it should match.")[0]
 ```
 
-Notice the `r` preceeding the regular expression pattern; this specifies the regular expression is a raw string. Raw strings do not recognize escape sequences (ie the Python newline metacharacter `\n`). This makes them useful for regular expressions, which often contain literal `\` characters.
+That's strange – the regex pattern matches the entire sentence, rather than just the word "seems". The reason for this is regex's greediness. 
 
-In other words, don't forget to tag your regex with a `r`.
+The figure below breaks down how regex will greedily interpret the pattern we dissected above. Specifically, the first `.*` will extend across *all* characters before the "ee" in the string, not just the "s" immediately before our repeated vowels. Likewise, the second `.*` will extend across *all* characters after the "ee" in the string, rather than just the "ms" after the vowels. 
 
-#### Canonicalization with Pandas
+![](images/greed.png)
 
-We can also use regular expressions with Pandas Series methods. This gives us the benefit of operating on an entire column of data as opposed to a single value. The code is simple: <br /> `ser.str.replace(pattern, repl, regex=True`).
+This means that we need to be mindful of regex's greed when we are only interested in a specific portion of a string. If we are not careful, we may end up with a substantially longer match than intended. 
 
-Consider the following DataFrame `html_data` with a single column.
+The following pattern avoids the issue we ran into above by being more specific about what characters can and cannot be included in our text string.
 
 ```{python}
-#| code-fold: true
-data = {"HTML": ["<div><td valign='top'>Moo</td></div>", \
-                 "<a href='http://ds100.org'>Link</a>", \
-                 "<b>Bold text</b>"]}
-html_data = pd.DataFrame(data)
+re.search(r"[a-z]*(aa|ee|ii|oo|uu)[a-z]*", "Only one word in this sentence seems like it should match.")[0]
 ```
 
-```{python}
-html_data
-```
+![](images/vowels.png)
 
-```{python}
-pattern = r"<[^>]+>"
-html_data['HTML'].str.replace(pattern, '', regex=True)
-```
+### Regex Expanded (Expanded)
+
+One final batch of regex syntax.
+
+#### Escape character: `\`
+Sometimes, we may wish to match the *literal* character associated with a regex metacharacter. For example, you may wish to extract a literal plus sign "+", rather than signify its metameaning "one or more". A backslash `\` is used to "escape out" of a metacharacter. Regex will interpret the character following the backslash literally.
+
+The pattern `a\+b` matches the string "a+b".
+
+#### End: `$`
+What if we only want to match characters if they appear at the end of a string? A dollar sign `$` is used to orient the regex pattern at the *end* of a test string. The pattern will only match if the characters in question appear at the end of the string.
+
+For example, the pattern `abc$` only matches text if the sequence "abc" appears at the end of the string data. The string "123 abc" satisfies this condition; the string "abc 123" does not.
+
+#### Start: `^`
+Similarly, we can specify that regex should only match patterns at the *start* of a string using a carat `^`. Notice that when we use `^` *outside* of a character class definition, it takes on a different meaning – it no longer represents the negation of a class.
+
+For example, the pattern `^abc` only matches text if the sequence "abc" appears at the start of the string data. The string "abc 123" satisfies this condition; the string "123 abc" does not.
+
+### Summary
+
+| Operation                       | Example        | Matches           | Doesn't match       |
+|---------------------------------|----------------|-------------------|---------------------|
+| concatenation                   | `AABAAB`         | AABAAB            | every other string  |
+| or: `|`                         | `AA|BAAB`       | AA, BAAB           | every other string  |
+| zero or more: `*`               | `AB*A`           | AA, ABBA, ABBBBBA   | AB, ABABA            |
+| group: `( )`                    | `A(A|B)AAB`     | AAAAB, ABAAB       | every other string  |
+| any character: `.`              | `.U.U.U.`        | CUMULUS, JUGULUM   | SUCCUBUS, TUMULTUOUS |
+| character class: `[ ]`          | `[A-Za-z][a-z]*` | word, Capitalized  | camelCase, 4illegal  |
+| repeated exactly a times: `{a}` | `j[aeiou]{3}hn`  | jaoehn, jooohn     | jhn, jaeiouhn        |
+| repeated a to b times: `{a, b}` | `j[ou]{1,2}hn`   | john, juohn        | jhn, jooooohn        |
+| at least one: `+`               | `jo+hn`          | john, jooohn       | jhn, jjohn           |
+| beginning of string: `^`        | `^ark`           | ark two, ark o ark | dark                |
+| end of string: `$`              | `ark$`           | dark, ark o ark    | ark two             |
+| escape character: `\`           | `cow\.com`       | cow.com           | cowscom             |
+
+## Regex Functions
+
+With the foundations of regex in hand, let's start using our learning to create patterns of our own. To do so, we'll need to learn the Python functions for actually applying regex to text.
+
+Before we begin, we will introduce something called a **raw string**. We will usually use raw strings of the form `r"a raw string"` to construct a regex pattern, as opposed to "standard" strings of the form `"a non-raw string"`. The reason why is fairly tedious, and not in scope for Data 100. Put simply, a standard Python string interprets the character `\` in a different way to how it is used in regex. Using raw strings avoids this issue.
 
 ### Extraction
+The `re` module of Python allows us to use regex on individual strings. When working in `pandas`, `str` operations allow us to apply vectorized regex functions to `Series` of strings. 
 
-#### Extraction with Regex
-
-Just like with canonicalization, the `re` module provides capability to extract relevant text from a string: <br /> `re.findall(pattern, text)`. This function returns a list of all matches to `pattern`. 
-
-Using the familiar regular expression for Social Security Numbers:
+To extract a regex match from a single string, we use the `re.findall` function. `re.findall` will return a list containing all matches of the regex pattern in a provided string.
 
 ```{python}
-text = "My social security number is 123-45-6789 bro, or maybe it’s 321-45-6789."
+import re
+text = "My social security number is 123-45-6789 bro, or actually maybe it’s 321-45-6789.";
 pattern = r"[0-9]{3}-[0-9]{2}-[0-9]{4}"
+
 re.findall(pattern, text)  
 ```
 
-#### Extraction with Pandas
-
-Pandas similarily provides extraction functionality on a Series of data: `ser.str.findall(pattern)`
-
-Consider the following DataFrame `ssn_data`.
+The `pandas` equivalent is `str.findall()`. The output of `Series.str.findall()` is a new `Series` containing lists of all matches contained in each string of the original `Series`.
 
 ```{python}
 #| code-fold: true
-data = {"SSN": ["987-65-4321", "forty", \
-                "123-45-6789 bro or 321-45-6789",
-               "999-99-9999"]}
-ssn_data = pd.DataFrame(data)
+# Create a DataFrame of social security numbers to use as an example
+df_ssn = pd.DataFrame(
+    ['987-65-4321',
+     'forty',
+     '123-45-6789 bro or 321-45-6789',
+     '999-99-9999'],
+    columns=['SSN'])
 ```
 
 ```{python}
-ssn_data
+# An example Series of social security numbers
+df_ssn["SSN"]
 ```
 
 ```{python}
-ssn_data["SSN"].str.findall(pattern)
+# Using str.findall to extract SSNs
+df_ssn["SSN"].str.findall(pattern)
 ```
 
-This function returns a list for every row containing the pattern matches in a given string.
+#### Capturing groups
 
-### Regular Expression Capture Groups
+You might wonder: what if we only want to extract part of our full regex pattern? For example, what if we only wanted to return the middle two digits of each social security number?
 
-Earlier we used parentheses `(` `)` to specify the highest order of operation in regular expressions. However, they have another meaning; paranthesis are often used to represent **capture groups**. Capture groups are essentially, a set of smaller regular expressions that match multiple substrings in text data. 
+Regex uses a piece of syntax called a **capturing group** to specify what subset of a pattern should be "captured". Capturing groups are denoted by parentheses `( )`. Earlier, we used parentheses to outline the order of operations; depending on what regex function we use, parentheses can sometimes also be interpreted as capturing groups. `re.findall` and `str.findall` will both interpret parentheses as capturing groups.
 
-Let's take a look at an example.
-
-#### Example 1
+Consider the example text below. What if we wanted to extract the hour, minute, and second mentioned in the message?
 
 ```{python}
-text = "Observations: 03:04:53 - Horse awakens. \
-        03:05:14 - Horse goes back to sleep."
+text = "I will meet you at 08:30:00 pm tomorrow"      
 ```
 
-Say we want to capture all occurences of time data (hour, minute, and second) as *seperate entities*.
+Capturing groups help us extract *only* the information about the time from this string. Notice that only the values enclosed in parentheses in the regex pattern are returned.
 
 ```{python}
-pattern_1 = r"(\d\d):(\d\d):(\d\d)"
-re.findall(pattern_1, text)
+pattern = ".*(\d\d):(\d\d):(\d\d).*"
+matches = re.findall(pattern, text)
+matches
 ```
 
-Notice how the given pattern has 3 capture groups, each specified by the regular expression `(\d\d)`. We then use `re.findall` to return these capture groups, each as tuples containing 3 matches.
+### Substitution
 
-These regular expression capture groups can be different. We can use the `(\d{2})` shorthand to extract the same data.
+Another task we may encounter when working with text data is the need to substitute portions of a string with a different character. For example, we may want to replace messy HTML tags with an empty string to clean a dataset.
 
 ```{python}
-pattern_2 = r"(\d\d):(\d\d):(\d{2})"
-re.findall(pattern_2, text)
+# A messy string with extraneous HTML data
+text = "<div><td valign='top'>Moo</td></div>"
 ```
 
-#### Example 2
-
-With the notion of capture groups, convince yourself how the following regular expression works.
+When working with individual strings, we use `re.sub`. The code below seeks out HTML tags denoted with angle brackets `< >` in the text and replaces them with empty strings. The first argument to the function is the regex pattern, the second is the string that should replace any matched text, and the third is the test string on which to run the pattern.
 
 ```{python}
-first = log_lines[0]
-first
+pattern = r"<[^>]+>"
+re.sub(pattern, "", text)
+```
+
+The vectorized `pandas` equivalent is `str.replace`. The first argument to the function is the regex pattern we wish to use; the second argument is the string that should replace the matched text. The `regex` parameter tells `str.replace` to expect a regex pattern.
+
+```{python}
+#| code-fold: true
+# Create a DataFrame of HTML tags to use as an example
+df_html = pd.DataFrame(['<div><td valign="top">Moo</td></div>',
+                   '<a href="http://ds100.org">Link</a>',
+                   '<b>Bold text</b>'], columns=['Html'])
 ```
 
 ```{python}
-pattern = r'\[(\d+)\/(\w+)\/(\d+):(\d+):(\d+):(\d+) (.+)\]'
-day, month, year, hour, minute, second, time_zone = re.findall(pattern, first)[0]
-print(day, month, year, hour, minute, second, time_zone)
+# An example Series of HTML data
+df_html["Html"]
 ```
 
-## Limitations of Regular Expressions
-
-Today, we explored the capabilities of regular expressions in data wrangling with text data. However, there are a few things to be wary of.
-
-Writing regular expressions is like writing a program.
-
-- Need to know the syntax well.
-- Can be easier to write than to read.
-- Can be difficult to debug.
-
-Regular expressions are terrible at certain types of problems:
-
-- For parsing a hierarchical structure, such as JSON, use the `json.load()` parser, not regex!
-- Complex features (e.g. valid email address).
-- Counting (same number of instances of a and b). (impossible)
-- Complex properties (palindromes, balanced parentheses). (impossible)
+```{python}
+df_html["Html"].str.replace(pattern, "", regex=True)
+```
 

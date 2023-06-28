@@ -10,7 +10,7 @@ book:
     image: data100_logo.png
     author: ["Kanu Grover", "Bella Crouch", "Dominic Liu", "Minh Phan", "Matthew Shen", "Milad Shafaie"]
     repo-url: https://github.com/DS-100/course-notes-su23
-    downloads: [pdf]
+    #downloads: [pdf]
     chapters:
         - index.md
         - intro_lec/introduction.qmd
@@ -18,7 +18,7 @@ book:
         - pandas_2/pandas_2.qmd
         - pandas_3/pandas_3.qmd
         - eda/eda.qmd
-#         - regex/regex.qmd
+        - regex/regex.qmd
 #         - visualization_1/visualization_1.qmd
 #         - visualization_2/visualization_2.qmd
 #         - sampling/sampling.qmd
