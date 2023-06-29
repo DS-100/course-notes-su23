@@ -214,7 +214,7 @@ Phan \and Matthew Shen \and Milad Shafaie}
 
 \begin{document}
 \maketitle
-\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[interior hidden, frame hidden, borderline west={3pt}{0pt}{shadecolor}, sharp corners, boxrule=0pt, breakable, enhanced]}{\end{tcolorbox}}\fi
+\ifdefined\Shaded\renewenvironment{Shaded}{\begin{tcolorbox}[frame hidden, boxrule=0pt, borderline west={3pt}{0pt}{shadecolor}, enhanced, interior hidden, sharp corners, breakable]}{\end{tcolorbox}}\fi
 
 \renewcommand*\contentsname{Table of contents}
 {
@@ -247,7 +247,7 @@ If you spot any typos or would like to suggest changes, let us know!
 \hypertarget{introduction}{%
 \chapter{Introduction}\label{introduction}}
 
-\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, colback=white, colframe=quarto-callout-note-color-frame, coltitle=black, rightrule=.15mm, arc=.35mm, bottomtitle=1mm, bottomrule=.15mm, titlerule=0mm, toptitle=1mm, leftrule=.75mm, breakable, opacityback=0, left=2mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacitybacktitle=0.6, rightrule=.15mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white, breakable, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, toprule=.15mm, arc=.35mm, bottomrule=.15mm, left=2mm, coltitle=black, colback=white, leftrule=.75mm]
 
 \begin{itemize}
 \tightlist
@@ -486,7 +486,7 @@ exploratory data analysis: \texttt{pandas}.
 \hypertarget{pandas-i}{%
 \chapter{Pandas I}\label{pandas-i}}
 
-\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, colback=white, colframe=quarto-callout-note-color-frame, coltitle=black, rightrule=.15mm, arc=.35mm, bottomtitle=1mm, bottomrule=.15mm, titlerule=0mm, toptitle=1mm, leftrule=.75mm, breakable, opacityback=0, left=2mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacitybacktitle=0.6, rightrule=.15mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white, breakable, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, toprule=.15mm, arc=.35mm, bottomrule=.15mm, left=2mm, coltitle=black, colback=white, leftrule=.75mm]
 
 \begin{itemize}
 \tightlist
@@ -2117,7 +2117,7 @@ With that, let's move on to Pandas II.
 \hypertarget{pandas-ii}{%
 \chapter{Pandas II}\label{pandas-ii}}
 
-\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, colback=white, colframe=quarto-callout-note-color-frame, coltitle=black, rightrule=.15mm, arc=.35mm, bottomtitle=1mm, bottomrule=.15mm, titlerule=0mm, toptitle=1mm, leftrule=.75mm, breakable, opacityback=0, left=2mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacitybacktitle=0.6, rightrule=.15mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white, breakable, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, toprule=.15mm, arc=.35mm, bottomrule=.15mm, left=2mm, coltitle=black, colback=white, leftrule=.75mm]
 
 \begin{itemize}
 \tightlist
@@ -2786,7 +2786,7 @@ replacement.
 \toprule
 {} & State & Sex &  Year &   Name &  Count \\
 \midrule
-255180 &    CA &   M &  1947 &  Larry &   2225 \\
+90035 &    CA &   F &  1982 &  Dawna &     10 \\
 \bottomrule
 \end{tabular}
 
@@ -2799,13 +2799,13 @@ replacement.
 
 \begin{tabular}{lllrlr}
 \toprule
-{} & State & Sex &  Year &      Name &  Count \\
+{} & State & Sex &  Year &     Name &  Count \\
 \midrule
-300527 &    CA &   M &  1983 &    Brandt &      6 \\
-248176 &    CA &   M &  1936 &     Brian &     44 \\
-160061 &    CA &   F &  2002 &    Elexia &      5 \\
-110150 &    CA &   F &  1989 &    Moriah &     25 \\
-93064  &    CA &   F &  1983 &  Serenity &      8 \\
+129595 &    CA &   F &  1994 &    Ciana &     10 \\
+75301  &    CA &   F &  1976 &     Kera &      7 \\
+148418 &    CA &   F &  1999 &     Kloe &      6 \\
+112835 &    CA &   F &  1990 &  Mariana &    233 \\
+25784  &    CA &   F &  1948 &   Helena &     10 \\
 \bottomrule
 \end{tabular}
 
@@ -2820,10 +2820,10 @@ replacement.
 \toprule
 {} & State & Sex &  Year &      Name &  Count \\
 \midrule
-341122 &    CA &   M &  2000 &      Nery &      5 \\
-150019 &    CA &   F &  2000 &  Klarissa &     31 \\
-149489 &    CA &   F &  2000 &   Yasmine &     90 \\
-152326 &    CA &   F &  2000 &   Arantxa &      5 \\
+150487 &    CA &   F &  2000 &     Doris &     17 \\
+150534 &    CA &   F &  2000 &  Abrianna &     16 \\
+338890 &    CA &   M &  2000 &    Josiah &    244 \\
+149928 &    CA &   F &  2000 &     Robyn &     36 \\
 \bottomrule
 \end{tabular}
 
@@ -2954,7 +2954,7 @@ given year.
 \end{Shaded}
 
 \begin{verbatim}
-<pandas.core.groupby.generic.DataFrameGroupBy object at 0x7f8eb79f90d0>
+<pandas.core.groupby.generic.DataFrameGroupBy object at 0x7f909ae0a220>
 \end{verbatim}
 
 What does this strange output mean? Calling
@@ -43789,7 +43789,7 @@ data.
 \hypertarget{pandas-iii}{%
 \chapter{Pandas III}\label{pandas-iii}}
 
-\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, colback=white, colframe=quarto-callout-note-color-frame, coltitle=black, rightrule=.15mm, arc=.35mm, bottomtitle=1mm, bottomrule=.15mm, titlerule=0mm, toptitle=1mm, leftrule=.75mm, breakable, opacityback=0, left=2mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacitybacktitle=0.6, rightrule=.15mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white, breakable, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, toprule=.15mm, arc=.35mm, bottomrule=.15mm, left=2mm, coltitle=black, colback=white, leftrule=.75mm]
 
 \begin{itemize}
 \tightlist
@@ -44591,7 +44591,7 @@ our \texttt{pandas} knowledge to conduct some exploratory data analysis.
 \hypertarget{data-cleaning-and-eda}{%
 \chapter{Data Cleaning and EDA}\label{data-cleaning-and-eda}}
 
-\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, colback=white, colframe=quarto-callout-note-color-frame, coltitle=black, rightrule=.15mm, arc=.35mm, bottomtitle=1mm, bottomrule=.15mm, titlerule=0mm, toptitle=1mm, leftrule=.75mm, breakable, opacityback=0, left=2mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacitybacktitle=0.6, rightrule=.15mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white, breakable, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, toprule=.15mm, arc=.35mm, bottomrule=.15mm, left=2mm, coltitle=black, colback=white, leftrule=.75mm]
 
 \begin{itemize}
 \tightlist
@@ -45799,11 +45799,11 @@ Recall that percent change from \(A\) to \(B\) is computed as
 
 \bookmarksetup{startatroot}
 
-\hypertarget{text-wrangling-regular-expressions}{%
-\chapter{Text Wrangling \& Regular
-Expressions}\label{text-wrangling-regular-expressions}}
+\hypertarget{text-wrangling-and-regular-expressions}{%
+\chapter{Text Wrangling and Regular
+Expressions}\label{text-wrangling-and-regular-expressions}}
 
-\begin{tcolorbox}[enhanced jigsaw, toprule=.15mm, colbacktitle=quarto-callout-note-color!10!white, opacitybacktitle=0.6, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, colback=white, colframe=quarto-callout-note-color-frame, coltitle=black, rightrule=.15mm, arc=.35mm, bottomtitle=1mm, bottomrule=.15mm, titlerule=0mm, toptitle=1mm, leftrule=.75mm, breakable, opacityback=0, left=2mm]
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacitybacktitle=0.6, rightrule=.15mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white, breakable, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, toprule=.15mm, arc=.35mm, bottomrule=.15mm, left=2mm, coltitle=black, colback=white, leftrule=.75mm]
 
 \begin{itemize}
 \tightlist
@@ -46065,23 +46065,17 @@ a sequence of \texttt{str} operations on an inputted \texttt{Series} to:
     \ControlFlowTok{return}\NormalTok{ (}
 \NormalTok{        county\_series}
 \NormalTok{            .}\BuiltInTok{str}\NormalTok{.lower()}
-\NormalTok{            .}\BuiltInTok{str}\NormalTok{.replace(}\StringTok{\textquotesingle{} \textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
-\NormalTok{            .}\BuiltInTok{str}\NormalTok{.replace(}\StringTok{\textquotesingle{}\&\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}and\textquotesingle{}}\NormalTok{)}
-\NormalTok{            .}\BuiltInTok{str}\NormalTok{.replace(}\StringTok{\textquotesingle{}.\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
-\NormalTok{            .}\BuiltInTok{str}\NormalTok{.replace(}\StringTok{\textquotesingle{}county\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
-\NormalTok{            .}\BuiltInTok{str}\NormalTok{.replace(}\StringTok{\textquotesingle{}parish\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{)}
+\NormalTok{            .}\BuiltInTok{str}\NormalTok{.replace(}\StringTok{\textquotesingle{} \textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{, regex}\OperatorTok{=}\VariableTok{True}\NormalTok{) }\CommentTok{\#Specifying regex=True helps avoid a FutureWarning}
+\NormalTok{            .}\BuiltInTok{str}\NormalTok{.replace(}\StringTok{\textquotesingle{}\&\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}and\textquotesingle{}}\NormalTok{, regex}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{            .}\BuiltInTok{str}\NormalTok{.replace(}\StringTok{\textquotesingle{}.\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{, regex}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{            .}\BuiltInTok{str}\NormalTok{.replace(}\StringTok{\textquotesingle{}county\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{, regex}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+\NormalTok{            .}\BuiltInTok{str}\NormalTok{.replace(}\StringTok{\textquotesingle{}parish\textquotesingle{}}\NormalTok{, }\StringTok{\textquotesingle{}\textquotesingle{}}\NormalTok{, regex}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
 \NormalTok{    )}
 
 \NormalTok{county\_and\_pop[}\StringTok{\textquotesingle{}County\textquotesingle{}}\NormalTok{] }\OperatorTok{=}\NormalTok{ canonicalize\_county\_series(county\_and\_pop[}\StringTok{\textquotesingle{}County\textquotesingle{}}\NormalTok{])}
 \NormalTok{county\_and\_state[}\StringTok{\textquotesingle{}County\textquotesingle{}}\NormalTok{] }\OperatorTok{=}\NormalTok{ canonicalize\_county\_series(county\_and\_state[}\StringTok{\textquotesingle{}County\textquotesingle{}}\NormalTok{])}
 \end{Highlighting}
 \end{Shaded}
-
-\begin{verbatim}
-FutureWarning:
-
-The default value of regex will change from True to False in a future version. In addition, single character regular expressions will *not* be treated as literal strings when regex=True.
-\end{verbatim}
 
 Our canonicalized county names can be successfully merged across the
 tables.
@@ -46731,6 +46725,76 @@ parentheses in the regex pattern are returned.
 [('08', '30', '00')]
 \end{verbatim}
 
+To extract capturing groups from a \texttt{Series}, we use the functions
+\texttt{str.extract} or \texttt{str.extractall}.
+
+\texttt{str.extract} will scan each string in a \texttt{Series}, then
+return a \texttt{DataFrame} containing the \emph{first} match for the
+provided regex pattern. Each capturing group within that pattern will be
+placed in a column of the \texttt{DataFrame}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Recall our SSN DataFrame from above}
+\NormalTok{df\_ssn}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{ll}
+\toprule
+{} &                             SSN \\
+\midrule
+0 &                     987-65-4321 \\
+1 &                           forty \\
+2 &  123-45-6789 bro or 321-45-6789 \\
+3 &                     999-99-9999 \\
+\bottomrule
+\end{tabular}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Will extract only the *first* match of all groups}
+\NormalTok{pattern\_group\_mult }\OperatorTok{=} \VerbatimStringTok{r"([0{-}9]}\SpecialCharTok{\{3\}}\VerbatimStringTok{){-}([0{-}9]}\SpecialCharTok{\{2\}}\VerbatimStringTok{){-}([0{-}9]}\SpecialCharTok{\{4\}}\VerbatimStringTok{)"} \CommentTok{\# 3 groups}
+\NormalTok{df\_ssn[}\StringTok{\textquotesingle{}SSN\textquotesingle{}}\NormalTok{].}\BuiltInTok{str}\NormalTok{.extract(pattern\_group\_mult)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{llll}
+\toprule
+{} &    0 &    1 &     2 \\
+\midrule
+0 &  987 &   65 &  4321 \\
+1 &  NaN &  NaN &   NaN \\
+2 &  123 &   45 &  6789 \\
+3 &  999 &   99 &  9999 \\
+\bottomrule
+\end{tabular}
+
+Sometimes, a regex pattern may encounter multiple matches in a single
+entry string of a \texttt{Series}. The function \texttt{str.extractall}
+will extract \emph{all} matched instances of the regex pattern, not just
+the first. It produces a \texttt{MultiIndexed\ DataFrame} where text
+strings with multiple regex matches will have a row for each match.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Will extract all matches of all groups}
+\NormalTok{df\_ssn[}\StringTok{\textquotesingle{}SSN\textquotesingle{}}\NormalTok{].}\BuiltInTok{str}\NormalTok{.extractall(pattern\_group\_mult)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{lllll}
+\toprule
+  &   &    0 &   1 &     2 \\
+{} & match &      &     &       \\
+\midrule
+0 & 0 &  987 &  65 &  4321 \\
+2 & 0 &  123 &  45 &  6789 \\
+  & 1 &  321 &  45 &  6789 \\
+3 & 0 &  999 &  99 &  9999 \\
+\bottomrule
+\end{tabular}
+
 \hypertarget{substitution}{%
 \subsection{Substitution}\label{substitution}}
 
@@ -46811,6 +46875,1747 @@ pattern.
 2 &  Bold text \\
 \bottomrule
 \end{tabular}
+
+\bookmarksetup{startatroot}
+
+\hypertarget{visualization}{%
+\chapter{Visualization}\label{visualization}}
+
+\begin{tcolorbox}[enhanced jigsaw, colframe=quarto-callout-note-color-frame, titlerule=0mm, opacitybacktitle=0.6, rightrule=.15mm, opacityback=0, colbacktitle=quarto-callout-note-color!10!white, breakable, bottomtitle=1mm, toptitle=1mm, title=\textcolor{quarto-callout-note-color}{\faInfo}\hspace{0.5em}{Note}, toprule=.15mm, arc=.35mm, bottomrule=.15mm, left=2mm, coltitle=black, colback=white, leftrule=.75mm]
+
+\begin{itemize}
+\tightlist
+\item
+  Visualize distributions and relationships using the Matplotlib and
+  Seaborn plotting libraries
+\item
+  Apply kernel density estimation to smooth data
+\item
+  Transform data in preparation for visualization and modeling
+\end{itemize}
+
+\end{tcolorbox}
+
+In our journey of the data science lifecycle, we have begun to explore
+the vast world of exploratory data analysis. More recently, we learned
+how to pre-process data using various manipulation and cleaning
+techniques. As we work towards understanding our data, there is one key
+component missing in our arsenal - the ability to visualize and discern
+relationships in existing data.
+
+This lecture will introduce you to various examples of data
+visualizations and their underlying theory. In doing so, we'll motivate
+their importance in real-world examples with the use of plotting
+libraries.
+
+\hypertarget{visualizations-in-data-8-and-data-100-so-far}{%
+\section{Visualizations in Data 8 (and Data 100, so
+far)}\label{visualizations-in-data-8-and-data-100-so-far}}
+
+You've likely encountered several forms of data visualizations in your
+studies. You may remember two such examples from Data 8: line charts and
+histograms. Each of these served a unique purpose. For example, line
+charts displayed how numerical quantities changed over time, while
+histograms were useful in understanding a variable's distribution.
+
+\textbf{Line Chart}
+
+\textbf{Histogram}
+
+\hypertarget{goals-of-visualization}{%
+\section{Goals of Visualization}\label{goals-of-visualization}}
+
+Visualizations are useful for a number of reasons. In Data 100, we
+consider two areas in particular:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  To help your own understanding of the data
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Key part of exploratory data analysis.
+  \item
+    Summarize trends visually before in-depth analysis.
+  \end{itemize}
+\item
+  To communicate results/conclusions to others
+
+  \begin{itemize}
+  \tightlist
+  \item
+    Fine-tuned to achieve a communications goal.
+  \item
+    Considerations: clarity, accessibility, providing necessary context.
+  \end{itemize}
+\end{enumerate}
+
+Put together, these goals add more nuance to our visualization task.
+Visualization is not simply a matter of making ``pretty'' pictures;
+rather, we will need to do a lot of thinking about what stylistic
+choices communicate ideas in the most effective way.
+
+One of the most common applications of visualizations is in
+understanding a distribution of data.
+
+\hypertarget{visualizing-distributions}{%
+\section{Visualizing Distributions}\label{visualizing-distributions}}
+
+\hypertarget{distributions}{%
+\subsection{Distributions}\label{distributions}}
+
+A distribution describes the frequency of unique values in a variable.
+Distributions must satisfy two properties:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Each data point must belong to only one category.
+\item
+  The total frequency of all categories must sum to 100\%. In other
+  words, their total count should equal the number of values in
+  consideration.
+\end{enumerate}
+
+\textbf{Not a Valid Distribution}
+
+\textbf{Valid Distribution}
+
+Left Diagram: This is not a valid distribution since individuals can be
+associated to more than one category. The bar values indicate a
+\emph{change} in time, rather than the count or proportion of
+individuals belonging to each categoy.
+
+Right Diagram: This example satisfies the two properties of
+distributions, so it is a valid distribution. Each bar represents the
+percentage of individuals who belonging to the corresponding category.
+All percentages sum to 100\%, as required.
+
+\hypertarget{variable-types-1}{%
+\subsection{Variable Types}\label{variable-types-1}}
+
+In our previous work on EDA, we learned how to categorize variables by
+their type. We saw that some variables are quantitative while others are
+qualitative; we also discussed the sub-divisions of variables into
+continuous, discrete, ordinal, and nominal.
+
+Different plot types are more or less suited for displaying particular
+types of variables. Before creating a visualization, you should always
+ask yourself: what types of variables am I presenting? What plots are
+suitable to present this variable type?
+
+A summary of the plots generally used to display different variable
+types is given below. In the following sections, we will introduce each
+type of plot and learn how to generate them in code.
+
+\textbf{Distribution of a qualitative variable:}
+
+\begin{itemize}
+\tightlist
+\item
+  Bar plot
+\end{itemize}
+
+\textbf{Distribution of a continuous variable across qualitative
+categories:}
+
+\begin{itemize}
+\tightlist
+\item
+  Overlaid histograms
+\item
+  Side-by-side box plots
+\item
+  Side-by-side violin plots
+\item
+  Overlaid KDE plots
+\end{itemize}
+
+\textbf{Distribution of a quantitative continuous variable:}
+
+\begin{itemize}
+\tightlist
+\item
+  Histogram
+\item
+  Box plot
+\item
+  Violin plot
+\item
+  KDE plot
+\end{itemize}
+
+\textbf{Relationship between quantitative continuous variables:}
+
+\begin{itemize}
+\tightlist
+\item
+  Scatter plot
+\item
+  Hex plot
+\item
+  Contour map
+\end{itemize}
+
+\hypertarget{bar-plots}{%
+\subsection{Bar Plots}\label{bar-plots}}
+
+As we saw above, a \textbf{bar plot} is one of the most common ways of
+displaying the distribution of a \textbf{qualitative} (categorical)
+variable. The length of a bar plot encodes the frequency of a category;
+the width encodes no useful information.
+
+Let's contextualize this in an example. We will use the World Bank
+dataset \texttt{wb}, which contains information about countries and
+social statistics.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ pandas }\ImportTok{as}\NormalTok{ pd}
+
+\NormalTok{wb }\OperatorTok{=}\NormalTok{ pd.read\_csv(}\StringTok{"data/world\_bank.csv"}\NormalTok{, index\_col}\OperatorTok{=}\DecValTok{0}\NormalTok{)}
+\NormalTok{wb.head()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{tabular}{lllrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr}
+\toprule
+{} & Continent &   Country &  Primary completion rate: Male: \% of relevant age group: 2015 &  Primary completion rate: Female: \% of relevant age group: 2015 &  Lower secondary completion rate: Male: \% of relevant age group: 2015 &  Lower secondary completion rate: Female: \% of relevant age group: 2015 &  Youth literacy rate: Male: \% of ages 15-24: 2005-14 &  Youth literacy rate: Female: \% of ages 15-24: 2005-14 &  Adult literacy rate: Male: \% ages 15 and older: 2005-14 &  Adult literacy rate: Female: \% ages 15 and older: 2005-14 &  Students at lowest proficiency on PISA: Mathematics: \% of 15 year-olds: 2015 &  Students at lowest proficiency on PISA: Reading: \% of 15 year-olds: 2015 &  Students at lowest proficiency on PISA: Science: \% of 15 year-olds: 2015 &  Population: millions: 2016 &  Surface area: sq. km thousands: 2016 &  Population density: people per sq. km: 2016 &  Gross national income, Atlas method: \$ billions: 2016 &  Gross national income per capita, Atlas method: \$: 2016 &  Purchasing power parity gross national income: \$ billions: 2016 &  per capita: \$: 2016 &  Gross domestic product: \% growth : 2016 &  per capita: \% growth: 2016 &  Prevalence of smoking: Male: \% of adults: 2015 &  Prevalence of smoking: Female: \% of adults: 2015 &  Incidence of tuberculosis: per 100,000 people: 2015 &  Prevalence of diabetes: \% of population ages 20 to 79: 2015 &  Incidence of HIV: Total: \% of uninfected population ages 15-49: 2015 &  Prevalence of HIV: Total: \% of population ages 15-49: 2015 &  Prevalence of HIV: Women's share of population ages 15+ living with HIV: \%: 2015 &  Prevalence of HIV: Youth, Male: \% of population ages 15-24: 2015 &  Prevalence of HIV: Youth, Female: \% of population ages 15-24: 2015 &  Antiretroviral therapy coverage: \% of people living with HIV: 2015 &  Cause of death: Communicable diseases and maternal, prenatal, and nutrition conditions: \% of population: 2015 &  Cause of death: Non-communicable diseases: \% of population: 2015 &  Cause of death: Injuries: \% of population: 2015 &  Access to an improved water source: \% of population: 1990 &  Access to an improved water source: \% of population: 2015 &  Access to improved sanitation facilities: \% of population: 1990 &  Access to improved sanitation facilities: \% of population: 2015 &  Child immunization rate: Measles: \% of children ages 12-23 months: 2015 &  Child immunization rate: DTP3: \% of children ages 12-23 months: 2015 &  Children with acute respiratory infection taken to health provider: \% of children under age 5 with ARI: 2009-2016 &  Children with diarrhea who received oral rehydration and continuous feeding: \% of children under age 5 with diarrhea: 2009-2016 &  Children sleeping under treated bed nets: \% of children under age 5: 2009-2016 &  Children with fever receiving antimalarial drugs: \% of children under age 5 with fever: 2009-2016 &  Tuberculosis: Treatment success rate: \% of new cases: 2014 &  Tuberculosis: Cases detection rate: \% of new estimated cases: 2015 \\
+\midrule
+0 &    Africa &   Algeria &                                              106.0 &                                              105.0 &                                               68.0 &                                               85.0 &                                               96.0 &                                               92.0 &                                               83.0 &                                               68.0 &                                               51.0 &                                               11.0 &                                                4.0 &                        40.6 &                                2381.7 &                                         17.0 &                                              173.5 &                                             4270.0 &                                              597.9 &              14720.0 &                                      3.7 &                         1.8 &                                             NaN &                                               NaN &                                               75.0 &                                                7.5 &                                               0.01 &                                                0.1 &                                               46.0 &                                                0.1 &                                                0.1 &                                               90.0 &                                               16.0 &                                               74.0 &                                             10.0 &                                               92.0 &                                               84.0 &                                               80.0 &                                               88.0 &                                               95.0 &                                               95.0 &                                               66.0 &                                               42.0 &                                                NaN &                                                NaN &                                               88.0 &                                               80.0 \\
+1 &    Africa &    Angola &                                                NaN &                                                NaN &                                                NaN &                                                NaN &                                               79.0 &                                               67.0 &                                               82.0 &                                               60.0 &                                                NaN &                                                NaN &                                                NaN &                        28.8 &                                1246.7 &                                         23.0 &                                               99.0 &                                             3440.0 &                                              179.3 &               6220.0 &                                      0.0 &                        -3.3 &                                             NaN &                                               NaN &                                              370.0 &                                                4.1 &                                               0.19 &                                                2.2 &                                               60.0 &                                                0.5 &                                                0.9 &                                               29.0 &                                               62.0 &                                               27.0 &                                             11.0 &                                               46.0 &                                               49.0 &                                               22.0 &                                               52.0 &                                               55.0 &                                               64.0 &                                                NaN &                                                NaN &                                               25.9 &                                               28.3 &                                               34.0 &                                               64.0 \\
+2 &    Africa &     Benin &                                               83.0 &                                               73.0 &                                               50.0 &                                               37.0 &                                               55.0 &                                               31.0 &                                               41.0 &                                               18.0 &                                                NaN &                                                NaN &                                                NaN &                        10.9 &                                 114.8 &                                         96.0 &                                                8.9 &                                              820.0 &                                               23.6 &               2170.0 &                                      4.0 &                         1.1 &                                            18.0 &                                               1.0 &                                               60.0 &                                                0.8 &                                               0.07 &                                                1.1 &                                               58.0 &                                                0.2 &                                                0.4 &                                               49.0 &                                               52.0 &                                               37.0 &                                             10.0 &                                               57.0 &                                               78.0 &                                                7.0 &                                               20.0 &                                               75.0 &                                               79.0 &                                               23.0 &                                               33.0 &                                               72.7 &                                               25.9 &                                               89.0 &                                               61.0 \\
+3 &    Africa &  Botswana &                                               98.0 &                                              101.0 &                                               86.0 &                                               87.0 &                                               96.0 &                                               99.0 &                                               87.0 &                                               89.0 &                                                NaN &                                                NaN &                                                NaN &                         2.3 &                                 581.7 &                                          4.0 &                                               14.9 &                                             6610.0 &                                               36.9 &              16380.0 &                                      2.9 &                         1.0 &                                             NaN &                                               NaN &                                              356.0 &                                                5.6 &                                               0.94 &                                               22.2 &                                               57.0 &                                                3.9 &                                                9.8 &                                               78.0 &                                               49.0 &                                               42.0 &                                              9.0 &                                               92.0 &                                               96.0 &                                               39.0 &                                               63.0 &                                               97.0 &                                               95.0 &                                                NaN &                                                NaN &                                                NaN &                                                NaN &                                               77.0 &                                               62.0 \\
+5 &    Africa &   Burundi &                                               58.0 &                                               66.0 &                                               35.0 &                                               30.0 &                                               90.0 &                                               88.0 &                                               89.0 &                                               85.0 &                                                NaN &                                                NaN &                                                NaN &                        10.5 &                                  27.8 &                                        410.0 &                                                2.9 &                                              280.0 &                                                8.1 &                770.0 &                                     -0.6 &                        -3.7 &                                             NaN &                                               NaN &                                              122.0 &                                                2.7 &                                               0.02 &                                                1.0 &                                               60.0 &                                                0.3 &                                                0.3 &                                               54.0 &                                               57.0 &                                               31.0 &                                             12.0 &                                               69.0 &                                               76.0 &                                               42.0 &                                               48.0 &                                               93.0 &                                               94.0 &                                               55.0 &                                               43.0 &                                               53.8 &                                               25.4 &                                               91.0 &                                               51.0 \\
+\bottomrule
+\end{tabular}
+
+We can visualize the distribution of the \texttt{"Continent"} column
+using a bar plot. There are a few ways to do this.
+
+\hypertarget{plotting-in-matplotlib}{%
+\subsubsection{Plotting in Matplotlib}\label{plotting-in-matplotlib}}
+
+\href{https://matplotlib.org/stable/api/index}{Matplotlib} is a common
+library used for generating visualizations in Python. Most Matplotlib
+plotting functions follow the same structure: we pass in a sequence
+(list, array, or Series) of values to be plotted on the x-axis, and a
+second sequence of values to be plotted on the y-axis. In pseudocode,
+Matplotlib plotting calls typically have the form:
+
+\begin{verbatim}
+# plt is the typical alias for Matplotlib
+import matplotlib.pyplot as plt 
+plt.plotting_function(x_values, y_values)
+\end{verbatim}
+
+To add labels and a title to a plot, we call the functions
+\texttt{plt.xlabel}, \texttt{plt.ylabel}, and \texttt{plt.title}.
+
+\begin{verbatim}
+plt.xlabel(“x axis label”)
+plt.ylabel(“y axis label”)
+plt.title(“Title of the plot”);
+\end{verbatim}
+
+The plotting function to create a bar plot in Matplotlib is
+\texttt{plt.bar}. To generate a bar plot, we will need to create a set
+of x values and y values to pass in as arguments to \texttt{plt.bar}. In
+the cell below, we call \texttt{.value\_counts()} to obtain the
+distribution of the \texttt{"Continent"} column. The index of the
+resulting \texttt{Series} contains our desired x values (the names of
+each unique continent), while the values contain our y data (the counts
+of countries in each continent).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ matplotlib.pyplot }\ImportTok{as}\NormalTok{ plt}
+\NormalTok{continents }\OperatorTok{=}\NormalTok{ wb[}\StringTok{"Continent"}\NormalTok{].value\_counts()}
+\NormalTok{plt.bar(continents.index, continents)}
+
+\NormalTok{plt.xlabel(}\StringTok{"Continent"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Count of countries"}\NormalTok{)}
+\NormalTok{plt.title(}\StringTok{"Distribution of countries across continents"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-3-output-1.pdf}
+
+}
+
+\end{figure}
+
+You may have noticed the semicolon \texttt{;} at the end of cell above.
+This suppresses any unnecessary output other than the plot. If we do not
+include a semicolon, the plot will still generate, however, we will see
+extraneous text as well:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plt.bar(continents.index, continents)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+<BarContainer object of 6 artists>
+\end{verbatim}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-4-output-2.pdf}
+
+}
+
+\end{figure}
+
+\hypertarget{plotting-in-seaborn}{%
+\subsubsection{Plotting in Seaborn}\label{plotting-in-seaborn}}
+
+\href{https://seaborn.pydata.org/}{Seaborn} is another popular Python
+library for creating plots. In Data 100, we will explore the use of both
+Matplotlib and Seaborn. You may find that you prefer one over the other
+-- if so, you are welcome to use your favorite method! We present
+plotting code for both libraries to help familiarize you with their use.
+
+Seaborn plotting functions use a different structure to what we saw in
+Matplotlib. In Seaborn, we pass in an entire \texttt{DataFrame} as an
+argument, then specify what column(s) from the \texttt{DataFrame} to
+plot. In pseudocode:
+
+\begin{verbatim}
+# sns is the typical alias for Seaborn
+import seaborn as sns
+sns.plotting_function(data = df, x = "x_col", y = "y_col")
+\end{verbatim}
+
+As before, we can add axis labels and a title:
+
+\begin{verbatim}
+plt.xlabel(“x axis label”)
+plt.ylabel(“y axis label”)
+plt.title(“Title of the plot”)
+\end{verbatim}
+
+The Seaborn plotting function for creating a bar plot is
+\texttt{sns.countplot}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ seaborn }\ImportTok{as}\NormalTok{ sns}
+\NormalTok{sns.countplot(data }\OperatorTok{=}\NormalTok{ wb, x }\OperatorTok{=} \StringTok{\textquotesingle{}Continent\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-5-output-1.pdf}
+
+}
+
+\end{figure}
+
+\texttt{sns.countplot} both counts and visualizes the number of unique
+values in a given column, without the need for us to pre-process data
+using \texttt{.value\_counts()}. The \texttt{DataFrame} containing our
+desired information is specified by the \texttt{data} argument, while
+the column to be plotted is specified by the \texttt{x} argument.
+
+\begin{center}\rule{0.5\linewidth}{0.5pt}\end{center}
+
+To visualize the distribution of a \textbf{quantiative} variable, bar
+plots are no longer an appropriate choice of visualization. To see why,
+consider what happens when we use \texttt{sns.countplot} to visualize
+the distribution of gross national income, a quantitative continuous
+variable.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sns.countplot(data }\OperatorTok{=}\NormalTok{ wb, x }\OperatorTok{=} \StringTok{\textquotesingle{}Gross national income per capita, Atlas method: $: 2016\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-6-output-1.pdf}
+
+}
+
+\end{figure}
+
+What happened? A bar plot (either \texttt{plt.bar} or
+\texttt{sns.countplot}) will create a separate bar for \emph{each}
+unique value of a variable. With a continuous variable, we may not have
+a finite number of possible values, which can lead to situations where
+we would need many, many bars to display each unique value.
+
+To visualize the distribution of a continuous variable, we use a
+different type of plot:
+
+\begin{itemize}
+\tightlist
+\item
+  Box plot
+\item
+  Violin plot
+\item
+  Histogram
+\end{itemize}
+
+\hypertarget{box-plots}{%
+\subsection{Box Plots}\label{box-plots}}
+
+\textbf{Box plots} display distributions using information about
+quartiles.
+
+A quartile represents a 25\% portion of the data. We say that: * The
+first quartile (Q1) repesents the 25th percentile -- 25\% of the data
+lies below the first quartile * The second quartile (Q2) represents the
+50th percentile, also known as the median -- 50\% of the data lies below
+the second quartile * The third quartile (Q3) represents the 75th
+percentile -- 75\% of the data lies below the third quartile.
+
+In a box plot, the lower extent of the box lies at Q1, while the upper
+extent of the box lies at Q3. The horizontal line in the middle of the
+box corresponds to Q2 (equivalently, the median).
+
+The \textbf{interquartile range} measures the spread of the middle
+\(50\)\% of the distribution, calculated as the (\(3^{rd}\) Quartile
+\(-\) \(1^{st}\) Quartile).
+
+The \textbf{whiskers} of a box-plot are the two points that lie at the
+{[}\(1^{st}\) Quartile \(-\) (\(1.5\times\) IQR){]}, and the
+{[}\(3^{rd}\) Quartile \(+\) (\(1.5\times\) IQR){]}. They are the lower
+and upper ranges of ``normal'' data (the points excluding outliers).
+Subsequently, the \textbf{outliers} are the data points that fall beyond
+the whiskers, or further than (\(1.5 \times\) IQR) from the extreme
+quartiles.
+
+In Matplotlib, box plots are created using the function
+\texttt{plt.boxplot}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# For simplicity, remove NaN values}
+\NormalTok{wb }\OperatorTok{=}\NormalTok{ wb[}\OperatorTok{\textasciitilde{}}\NormalTok{wb[}\StringTok{"Gross domestic product: }\SpecialCharTok{\% g}\StringTok{rowth : 2016"}\NormalTok{].isna()]}
+
+\NormalTok{plt.boxplot(wb[}\StringTok{\textquotesingle{}Gross domestic product: }\SpecialCharTok{\% g}\StringTok{rowth : 2016\textquotesingle{}}\NormalTok{])}
+
+\NormalTok{plt.ylabel(}\StringTok{"}\SpecialCharTok{\% G}\StringTok{DP growth"}\NormalTok{)}
+\NormalTok{plt.title(}\StringTok{"Distribution of GDP growth across countries"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-7-output-1.pdf}
+
+}
+
+\end{figure}
+
+And in Seaborn, box plots are generated by \texttt{sns.boxplot}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sns.boxplot(data }\OperatorTok{=}\NormalTok{ wb, y }\OperatorTok{=} \StringTok{"Gross domestic product: }\SpecialCharTok{\% g}\StringTok{rowth : 2016"}\NormalTok{)}
+
+\NormalTok{plt.title(}\StringTok{"Distribution of GDP growth across countries"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-8-output-1.pdf}
+
+}
+
+\end{figure}
+
+Sometimes, we may wish to also incorporate a \emph{qualiatative}
+variable. For example, we may wish to compare the distribution of a
+quantitative variable \emph{across} a set of categories.
+
+To do so, we can plot \textbf{side-by-side box plots}. In the example
+below, the continent of each county, a qualitative nominal variable, is
+plotted on the x-axis, while GDP growth, a quantiative continuous
+variable, is plotted on the y-axis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sns.boxplot(data}\OperatorTok{=}\NormalTok{wb, x}\OperatorTok{=} \StringTok{"Continent"}\NormalTok{, y}\OperatorTok{=} \StringTok{"Gross domestic product: }\SpecialCharTok{\% g}\StringTok{rowth : 2016"}\NormalTok{)}
+
+\NormalTok{plt.title(}\StringTok{"Distribution of GDP growth by continent"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-9-output-1.pdf}
+
+}
+
+\end{figure}
+
+\hypertarget{violin-plots}{%
+\subsection{Violin Plots}\label{violin-plots}}
+
+\textbf{Violin plots}, much like box plots, encode information about
+quantiles. A violin plot \emph{also} incorporates smoothed density
+curves to add an additional level of information -- now, the width of
+the plot at each point also carries meaning.
+
+The three quartiles and whiskers that we saw in box plots are still
+present in violin plots (look closely at the center)!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# In Seaborn: sns.violinplot}
+\NormalTok{sns.violinplot(data }\OperatorTok{=}\NormalTok{ wb, y }\OperatorTok{=} \StringTok{\textquotesingle{}Gross domestic product: }\SpecialCharTok{\% g}\StringTok{rowth : 2016\textquotesingle{}}\NormalTok{)}
+
+\NormalTok{plt.title(}\StringTok{"Distribution of GDP growth across countries"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-10-output-1.pdf}
+
+}
+
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# In Matplotlib: plt.violinplot}
+\NormalTok{plt.violinplot(wb[}\StringTok{\textquotesingle{}Gross domestic product: }\SpecialCharTok{\% g}\StringTok{rowth : 2016\textquotesingle{}}\NormalTok{])}
+
+\NormalTok{plt.ylabel(}\StringTok{"}\SpecialCharTok{\% G}\StringTok{DP growth"}\NormalTok{)}
+\NormalTok{plt.title(}\StringTok{"Distribution of GDP growth across countries"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-11-output-1.pdf}
+
+}
+
+\end{figure}
+
+\hypertarget{histograms}{%
+\subsection{Histograms}\label{histograms}}
+
+\textbf{Histograms} are an alternative method of visualizing
+quantitative continuous distributions. You first encountered them in
+\href{https://inferentialthinking.com/chapters/07/2/Visualizing_Numerical_Distributions.html\#histogram}{Data
+8}. In a histogram, datapoints with similar values are collected into a
+shared ``bin''. These bins are scaled such that the area of each bin is
+equal to the percentage of datapoints it contains.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# In Matplotlib: plt.hist}
+\CommentTok{\# The \textasciigrave{}edgecolor\textasciigrave{} argument controls the color of the bin edges}
+\NormalTok{gni }\OperatorTok{=}\NormalTok{ wb[}\StringTok{"Gross national income per capita, Atlas method: $: 2016"}\NormalTok{]}
+\NormalTok{plt.hist(gni, density}\OperatorTok{=}\VariableTok{True}\NormalTok{, edgecolor}\OperatorTok{=}\StringTok{"white"}\NormalTok{)}
+
+\CommentTok{\# Add labels}
+\NormalTok{plt.xlabel(}\StringTok{"Gross national income per capita"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Density"}\NormalTok{)}
+\NormalTok{plt.title(}\StringTok{"Distribution of gross national income per capita"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-12-output-1.pdf}
+
+}
+
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# In Seaborn: sns.histplot}
+\NormalTok{sns.histplot(data }\OperatorTok{=}\NormalTok{ wb, x }\OperatorTok{=} \StringTok{"Gross national income per capita, Atlas method: $: 2016"}\NormalTok{, stat}\OperatorTok{=}\StringTok{"density"}\NormalTok{)}
+
+\NormalTok{plt.title(}\StringTok{"Distribution of gross national income per capita"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-13-output-1.pdf}
+
+}
+
+\end{figure}
+
+We can overlay histograms (or density curves) to compare distributions
+across qualitative categories.
+
+The \texttt{hue} parameter of \texttt{sns.histplot} specifies the column
+that should be used to determine the color of each category.
+\texttt{hue} can be used in many Seaborn plotting functions.
+
+Notice that the resulting plot includes a legend describing which color
+corresponds to each hemisphere -- a legend should \textbf{always} be
+included if color is used to encode information in a visualization! This
+assists with our visualization goal of communicating our results to a
+broader audience.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Create a new variable to store the hemisphere in which each country is located}
+\NormalTok{north }\OperatorTok{=}\NormalTok{ [}\StringTok{"Asia"}\NormalTok{, }\StringTok{"Europe"}\NormalTok{, }\StringTok{"N. America"}\NormalTok{]}
+\NormalTok{south }\OperatorTok{=}\NormalTok{ [}\StringTok{"Africa"}\NormalTok{, }\StringTok{"Oceania"}\NormalTok{, }\StringTok{"S. America"}\NormalTok{]}
+\NormalTok{wb.loc[wb[}\StringTok{"Continent"}\NormalTok{].isin(north), }\StringTok{"Hemisphere"}\NormalTok{] }\OperatorTok{=} \StringTok{"Northern"}
+\NormalTok{wb.loc[wb[}\StringTok{"Continent"}\NormalTok{].isin(south), }\StringTok{"Hemisphere"}\NormalTok{] }\OperatorTok{=} \StringTok{"Southern"}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sns.histplot(data }\OperatorTok{=}\NormalTok{ wb, x }\OperatorTok{=} \StringTok{"Gross national income per capita, Atlas method: $: 2016"}\NormalTok{, }\OperatorTok{\textbackslash{}}
+\NormalTok{                        hue}\OperatorTok{=}\StringTok{"Hemisphere"}\NormalTok{, stat}\OperatorTok{=}\StringTok{"density"}\NormalTok{)}
+
+\NormalTok{plt.title(}\StringTok{"Distribution of gross national income per capita"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-15-output-1.pdf}
+
+}
+
+\end{figure}
+
+You may have seen histograms drawn differently -- perhaps with an
+overlaid \textbf{density curve} and normalized y-axis. We can display
+both with a few tweaks to our code.
+
+To visualize a density curve, we can set the the \texttt{kde\ =\ True}
+argument of the \texttt{sns.histplot}. Setting the argument
+\texttt{stat\ =\ \textquotesingle{}density\textquotesingle{}} normalizes
+our histogram and displays densities, instead of counts, on the y-axis.
+You'll notice that the area under the density curve is 1.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sns.histplot(data }\OperatorTok{=}\NormalTok{ wb, x }\OperatorTok{=} \StringTok{"Gross national income per capita, Atlas method: $: 2016"}\NormalTok{, }\OperatorTok{\textbackslash{}}
+\NormalTok{             kde }\OperatorTok{=} \VariableTok{True}\NormalTok{, }\OperatorTok{\textbackslash{}}
+\NormalTok{             stat }\OperatorTok{=} \StringTok{\textquotesingle{}density\textquotesingle{}}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-16-output-1.pdf}
+
+}
+
+\end{figure}
+
+\hypertarget{interpreting-histograms}{%
+\subsubsection{Interpreting Histograms}\label{interpreting-histograms}}
+
+Histograms allow us to assess a distribution by its shape. In doing so,
+there are a few features that we typically consider.
+
+The \textbf{skew} of a histogram describes the direction in which its
+``tail'' extends. If a distribution has a long right tail (such as gross
+national income per capita), it is \textbf{skewed right}. In a
+right-skewed distribution, the few large outliers ``pull'' the mean to
+the right of the median.
+
+If a distribution has a long left tail (such as water source access), it
+is \textbf{skewed left}. In a left-skewed distribution, the few small
+outliers ``pull'' the mean to the left of the median.
+
+In the case where a distribution has equal-sized right and left tails,
+it is \textbf{symmetric}. The mean is approximately equal to the median.
+Think of mean as the balancing point of the distribution
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\ImportTok{import}\NormalTok{ numpy }\ImportTok{as}\NormalTok{ np}
+
+\NormalTok{sns.histplot(data }\OperatorTok{=}\NormalTok{ wb, x }\OperatorTok{=} \StringTok{"Gross national income per capita, Atlas method: $: 2016"}\NormalTok{, stat }\OperatorTok{=} \StringTok{"density"}\NormalTok{)}\OperatorTok{;}
+
+\NormalTok{df\_mean }\OperatorTok{=}\NormalTok{ np.mean(wb[}\StringTok{"Gross national income per capita, Atlas method: $: 2016"}\NormalTok{])}
+\NormalTok{df\_median }\OperatorTok{=}\NormalTok{ np.nanmedian(wb[}\StringTok{"Gross national income per capita, Atlas method: $: 2016"}\NormalTok{])}
+
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"The mean, }\SpecialCharTok{\{}\NormalTok{df\_mean}\SpecialCharTok{\}}\SpecialStringTok{, is right of the median, }\SpecialCharTok{\{}\NormalTok{df\_median}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+The mean, 12963.312101910828, is right of the median, 5280.0
+\end{verbatim}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-17-output-2.pdf}
+
+}
+
+\end{figure}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sns.histplot(data }\OperatorTok{=}\NormalTok{ wb, x }\OperatorTok{=} \StringTok{\textquotesingle{}Access to an improved water source: }\SpecialCharTok{\% o}\StringTok{f population: 2015\textquotesingle{}}\NormalTok{, stat }\OperatorTok{=} \StringTok{"density"}\NormalTok{)}\OperatorTok{;}
+
+\NormalTok{df\_mean }\OperatorTok{=}\NormalTok{ np.mean(wb[}\StringTok{\textquotesingle{}Access to an improved water source: }\SpecialCharTok{\% o}\StringTok{f population: 2015\textquotesingle{}}\NormalTok{])}
+\NormalTok{df\_median }\OperatorTok{=}\NormalTok{ np.nanmedian(wb[}\StringTok{\textquotesingle{}Access to an improved water source: }\SpecialCharTok{\% o}\StringTok{f population: 2015\textquotesingle{}}\NormalTok{])}
+
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"The mean, }\SpecialCharTok{\{}\NormalTok{df\_mean}\SpecialCharTok{\}}\SpecialStringTok{, is left of the median, }\SpecialCharTok{\{}\NormalTok{df\_median}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+The mean, 88.8896103896104, is left of the median, 96.0
+\end{verbatim}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-18-output-2.pdf}
+
+}
+
+\end{figure}
+
+A \textbf{mode} of a distribution is a local or global maximum. A
+distribution with a single clear maximum is \textbf{unimodal},
+distributions with two modes are \textbf{bimodal}, and those with 3 or
+more are \textbf{multimodal}.
+
+You may need to distinguish between modes and \emph{random noise}.
+Often, it is difficult to discern noise from true modes when working
+with histograms -- a histogram may contain too much detail to be able to
+identify general trends across the distribution. One solution to this
+issue, which we will introduce next, is to construct a kernel density
+estimate.
+
+\hypertarget{kernel-density-estimation}{%
+\subsection{Kernel Density Estimation}\label{kernel-density-estimation}}
+
+\hypertarget{kde-theory}{%
+\subsubsection{KDE Theory}\label{kde-theory}}
+
+A \textbf{kernel density estimate (KDE)} is a smooth, continuous
+function that approximates a curve. They allow us to represent general
+trends in a distribution without focusing on the details, which is
+useful to analyzing the broad structure of a dataset.
+
+More formally, a KDE attempts to approximate the underlying
+\textbf{probability distribution} from which our dataset was drawn. You
+may have encountered the idea of a probability distribution in your
+other classes; if not, we'll discuss it at length in Data 100 next
+lecture. For now, you can think of a probability distribution as a
+description of how likely it is for us to sample a particular value in
+our dataset.
+
+A KDE curve estimates the probability density function of a random
+variable. Consider the example below, where we have used
+\texttt{sns.displot} to plot both a histogram (containing the datapoints
+we actually collected) and a KDE curve (representing the
+\emph{approximated} probability distribution from which this data was
+drawn).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sns.displot(data }\OperatorTok{=}\NormalTok{ wb, x }\OperatorTok{=} \StringTok{\textquotesingle{}Antiretroviral therapy coverage: }\SpecialCharTok{\% o}\StringTok{f people living with HIV: 2015\textquotesingle{}}\NormalTok{, }\OperatorTok{\textbackslash{}}
+\NormalTok{                       kde }\OperatorTok{=} \VariableTok{True}\NormalTok{, stat }\OperatorTok{=} \StringTok{"density"}\NormalTok{)}
+
+\NormalTok{plt.title(}\StringTok{"Distribution of HIV rates"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-19-output-1.pdf}
+
+}
+
+\end{figure}
+
+Notice that the smooth KDE curve is higher when the histogram bins are
+taller. You can think of the height of the KDE curve as representing how
+``probable'' it is that we randomly sample a datapoint with the
+corresponding value. This intuitively makes sense -- if we have already
+collected more datapoints with a particular value (resulting in a tall
+histogram bin), it is more likely that, if we randomly sample another
+datapoint, we will sample one with a similar value (resulting in a high
+KDE curve).
+
+The area under a probability density function should always integrate to
+1, representing the fact that the total probability of a distribution
+should always sum to 100\%. Because of this, a KDE curve will always
+have an area of 1 under the curve.
+
+\hypertarget{constructing-a-kde}{%
+\subsubsection{Constructing a KDE}\label{constructing-a-kde}}
+
+We perform kernel density estimation using three steps.
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Place a kernel at each data point
+\item
+  Normalize kernels to have total area of 1 (across all kernels)
+\item
+  Sum kernels together
+\end{enumerate}
+
+We'll explain what a ``kernel'' is momentarily.
+
+To make things simpler, let's construct a KDE for a small,
+artificially-generated dataset of 5 datapoints:
+\([2.2, 2.8, 3.7, 5.3, 5.7]\). In the plot below, each vertical bar
+represents one datapoint.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data }\OperatorTok{=}\NormalTok{ [}\FloatTok{2.2}\NormalTok{, }\FloatTok{2.8}\NormalTok{, }\FloatTok{3.7}\NormalTok{, }\FloatTok{5.3}\NormalTok{, }\FloatTok{5.7}\NormalTok{]}
+
+\NormalTok{sns.rugplot(data, height}\OperatorTok{=}\FloatTok{0.3}\NormalTok{)}
+
+\NormalTok{plt.xlabel(}\StringTok{"Data"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Density"}\NormalTok{)}
+\NormalTok{plt.xlim(}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\NormalTok{plt.ylim(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-20-output-1.pdf}
+
+}
+
+\end{figure}
+
+Our goal is to create the following KDE curve, which was generated
+automatically by \texttt{sns.kdeplot}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sns.kdeplot(data)}
+
+\NormalTok{plt.xlabel(}\StringTok{"Data"}\NormalTok{)}
+\NormalTok{plt.xlim(}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\NormalTok{plt.ylim(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-21-output-1.pdf}
+
+}
+
+\end{figure}
+
+\hypertarget{step-1-place-a-kernel-at-each-datapoint}{%
+\paragraph{Step 1: Place a Kernel at Each
+Datapoint}\label{step-1-place-a-kernel-at-each-datapoint}}
+
+To begin generating a density curve, we need to choose a \textbf{kernel}
+and \textbf{bandwidth value (\(\alpha\))}. What are these exactly?
+
+A \textbf{kernel} is a density curve. It is the mathematical function
+that attempts to capture the randomness of each datapoint in our sampled
+data. To explain what this means, consider just \emph{one} of the
+datapoints in our dataset: \(2.2\). We obtained this datapoint by
+randomly sampling some information out in the real world (you can
+imagine \(2.2\) as representing a single measurement taken in an
+experiment, for example). If we were to sample a new datapoint, we may
+obtain a slightly different value. It could be higher than \(2.2\); it
+could also be lower than \(2.2\). We make the assumption that any future
+sampled datapoints will likely be similar in value to the data we've
+already drawn. This means that our \emph{kernel} -- our description of
+the probability of randomly sampling any new value -- will be greatest
+at the datapoint we've already drawn, but still have non-zero
+probability above and below it. The area under any kernel should
+integrate to 1, representing the total probability of drawing a new
+datapoint.
+
+A \textbf{bandwidth value}, usually denoted by \(\alpha\), represents
+the width of the kernel. A large value of \(\alpha\) will result in a
+wide, short kernel function, while a small value with result in a
+narrow, tall kernel.
+
+Below, we place a \textbf{Gaussian kernel}, plotted in orange, over the
+datapoint \(2.2\). A Gaussian kernel is simply the normal distribution,
+which you may have called a bell curve in Data 8.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ gaussian\_kernel(x, z, a):}
+    \CommentTok{\# We\textquotesingle{}ll discuss where this mathematical formulation came from later}
+    \ControlFlowTok{return}\NormalTok{ (}\DecValTok{1}\OperatorTok{/}\NormalTok{np.sqrt(}\DecValTok{2}\OperatorTok{*}\NormalTok{np.pi}\OperatorTok{*}\NormalTok{a}\OperatorTok{**}\DecValTok{2}\NormalTok{)) }\OperatorTok{*}\NormalTok{ np.exp((}\OperatorTok{{-}}\NormalTok{(x }\OperatorTok{{-}}\NormalTok{ z)}\OperatorTok{**}\DecValTok{2} \OperatorTok{/}\NormalTok{ (}\DecValTok{2} \OperatorTok{*}\NormalTok{ a}\OperatorTok{**}\DecValTok{2}\NormalTok{)))}
+
+\CommentTok{\# Plot our datapoint}
+\NormalTok{sns.rugplot([}\FloatTok{2.2}\NormalTok{], height}\OperatorTok{=}\FloatTok{0.3}\NormalTok{)}
+
+\CommentTok{\# Plot the kernel}
+\NormalTok{x }\OperatorTok{=}\NormalTok{ np.linspace(}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{1000}\NormalTok{)}
+\NormalTok{plt.plot(x, gaussian\_kernel(x, }\FloatTok{2.2}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+
+\NormalTok{plt.xlabel(}\StringTok{"Data"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Density"}\NormalTok{)}
+\NormalTok{plt.xlim(}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\NormalTok{plt.ylim(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-22-output-1.pdf}
+
+}
+
+\end{figure}
+
+To begin creating our KDE, we place a kernel on \emph{each} datapoint in
+our dataset. For our dataset of 5 points, we will have 5 kernels.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# You will work with the functions below in Lab 4}
+\KeywordTok{def}\NormalTok{ create\_kde(kernel, pts, a):}
+    \CommentTok{\# Takes in a kernel, set of points, and alpha}
+    \CommentTok{\# Returns the KDE as a function}
+    \KeywordTok{def}\NormalTok{ f(x):}
+\NormalTok{        output }\OperatorTok{=} \DecValTok{0}
+        \ControlFlowTok{for}\NormalTok{ pt }\KeywordTok{in}\NormalTok{ pts:}
+\NormalTok{            output }\OperatorTok{+=}\NormalTok{ kernel(x, pt, a)}
+        \ControlFlowTok{return}\NormalTok{ output }\OperatorTok{/} \BuiltInTok{len}\NormalTok{(pts) }\CommentTok{\# Normalization factor}
+    \ControlFlowTok{return}\NormalTok{ f}
+
+\KeywordTok{def}\NormalTok{ plot\_kde(kernel, pts, a):}
+    \CommentTok{\# Calls create\_kde and plots the corresponding KDE}
+\NormalTok{    f }\OperatorTok{=}\NormalTok{ create\_kde(kernel, pts, a)}
+\NormalTok{    x }\OperatorTok{=}\NormalTok{ np.linspace(}\BuiltInTok{min}\NormalTok{(pts) }\OperatorTok{{-}} \DecValTok{5}\NormalTok{, }\BuiltInTok{max}\NormalTok{(pts) }\OperatorTok{+} \DecValTok{5}\NormalTok{, }\DecValTok{1000}\NormalTok{)}
+\NormalTok{    y }\OperatorTok{=}\NormalTok{ [f(xi) }\ControlFlowTok{for}\NormalTok{ xi }\KeywordTok{in}\NormalTok{ x]}
+\NormalTok{    plt.plot(x, y)}\OperatorTok{;}
+    
+\KeywordTok{def}\NormalTok{ plot\_separate\_kernels(kernel, pts, a, norm}\OperatorTok{=}\VariableTok{False}\NormalTok{):}
+    \CommentTok{\# Plots individual kernels, which are then summed to create the KDE}
+\NormalTok{    x }\OperatorTok{=}\NormalTok{ np.linspace(}\BuiltInTok{min}\NormalTok{(pts) }\OperatorTok{{-}} \DecValTok{5}\NormalTok{, }\BuiltInTok{max}\NormalTok{(pts) }\OperatorTok{+} \DecValTok{5}\NormalTok{, }\DecValTok{1000}\NormalTok{)}
+    \ControlFlowTok{for}\NormalTok{ pt }\KeywordTok{in}\NormalTok{ pts:}
+\NormalTok{        y }\OperatorTok{=}\NormalTok{ kernel(x, pt, a)}
+        \ControlFlowTok{if}\NormalTok{ norm:}
+\NormalTok{            y }\OperatorTok{/=} \BuiltInTok{len}\NormalTok{(pts)}
+\NormalTok{        plt.plot(x, y)}
+    
+\NormalTok{    plt.show()}\OperatorTok{;}
+    
+\NormalTok{plt.xlim(}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\NormalTok{plt.ylim(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{)}
+\NormalTok{plt.xlabel(}\StringTok{"Data"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Density"}\NormalTok{)}
+
+\NormalTok{plot\_separate\_kernels(gaussian\_kernel, data, a }\OperatorTok{=} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-23-output-1.pdf}
+
+}
+
+\end{figure}
+
+\hypertarget{step-2-normalize-kernels-to-have-total-area-of-1}{%
+\paragraph{Step 2: Normalize Kernels to Have Total Area of
+1}\label{step-2-normalize-kernels-to-have-total-area-of-1}}
+
+Above, we said that \emph{each} kernel has an area of 1. Earlier, we
+also said that our goal is to construct a KDE curve using these kernels
+with a \emph{total} area of 1. If we were to directly sum the kernels as
+they are, we would produce a KDE curve with an integrated area of (5
+kernels) \(\times\) (area of 1 each) = 5. To avoid this, we will
+\textbf{normalize} each of our kernels. This involves multiplying each
+kernel by \(1/(\#\:\text{datapoints})\).
+
+In the cell below, we multiply each of our 5 kernels by \(\frac{1}{5}\)
+to apply normalization.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plt.xlim(}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\NormalTok{plt.ylim(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{)}
+\NormalTok{plt.xlabel(}\StringTok{"Data"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Density"}\NormalTok{)}
+
+\CommentTok{\# The \textasciigrave{}norm\textasciigrave{} argument specifies whether or not to normalize the kernels}
+\NormalTok{plot\_separate\_kernels(gaussian\_kernel, data, a }\OperatorTok{=} \DecValTok{1}\NormalTok{, norm }\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-24-output-1.pdf}
+
+}
+
+\end{figure}
+
+\hypertarget{step-3-sum-kernels-together}{%
+\paragraph{Step 3: Sum Kernels
+Together}\label{step-3-sum-kernels-together}}
+
+Our KDE curve is the sum of the normalized kernels. Notice that the
+final curve is identical to the plot generated by \texttt{sns.kdeplot}
+we saw earlier!
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plt.xlim(}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\NormalTok{plt.ylim(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{)}
+\NormalTok{plt.xlabel(}\StringTok{"Data"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Density"}\NormalTok{)}
+
+\NormalTok{plot\_kde(gaussian\_kernel, data, a }\OperatorTok{=} \DecValTok{1}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-25-output-1.pdf}
+
+}
+
+\end{figure}
+
+\hypertarget{kernel-functions-and-bandwidths}{%
+\subsubsection{Kernel Functions and
+Bandwidths}\label{kernel-functions-and-bandwidths}}
+
+A kernel, for our purposes, is any valid probability density function.
+This means that a kernel function must:
+
+\begin{itemize}
+\tightlist
+\item
+  Be non-negative for all values (we can't have negative probability)
+\item
+  Integrate to 1
+\end{itemize}
+
+\hypertarget{gaussian-kernel}{%
+\paragraph{Gaussian Kernel}\label{gaussian-kernel}}
+
+As we saw above, a Gaussian kernel (also called the normal distribution
+or bell curve) is one of the most common choices of kernel functions. It
+is defined mathematically as:
+
+\[K_a(x, x_i) = \frac{1}{\sqrt{2\pi\alpha^{2}}}e^{-\frac{(x-x_i)^{2}}{2\alpha^{2}}}\]
+
+In this formula:
+
+\begin{itemize}
+\tightlist
+\item
+  \(x\) (no subscript) represents values along the x-axis of our plot
+\item
+  \(x_i\) represents the \(i\)th datapoint in our dataset. It is one of
+  the values that we have actually collected in our data sampling
+  process. In our example earlier, \(x_i=2.2\). Those of you who have
+  taken a probability class may recognize \(x_i\) as the \textbf{mean}
+  of the normal distribution.
+\item
+  \(\alpha\) is the bandwidth parameter, representing the width of our
+  kernel. More formally, \(\alpha\) is the \textbf{standard deviation}
+  of the Gaussian curve.
+\end{itemize}
+
+The details of this (admittedly intimidating) formula are less important
+than understanding its role in kernel density estimation -- this
+equation gives us the shape of each kernel.
+
+A large value of \(\alpha\) will produce a kernel that is wider and
+shorter -- this leads to a smoother KDE when the kernels are summed
+together. Conversely, a small value of \(\alpha\) will produce a
+narrower, taller kernel, and, with it, a noisier KDE.
+
+\textbf{Gaussian Kernel, \(\alpha\) = 0.1}
+
+\textbf{Gaussian Kernel, \(\alpha\) = 1}
+
+\textbf{Gaussian Kernel, \(\alpha\) = 2}
+
+\textbf{Gaussian Kernel, \(\alpha\) = 10}
+
+\hypertarget{boxcar-kernel}{%
+\subsubsection{Boxcar Kernel}\label{boxcar-kernel}}
+
+Another example of a kernel is the \textbf{Boxcar kernel}. The boxcar
+kernel assigns a uniform density to points within a ``window'' of the
+observation, and a density of 0 elsewhere. The equation below is a
+Boxcar kernel with the center at \(x_i\) and the bandwidth of
+\(\alpha\).
+
+\[K_a(x, x_i) = \begin{cases}
+        \frac{1}{\alpha}, & |x - x_i| \le \frac{\alpha}{2}\\
+        0, & \text{else }
+    \end{cases}\]
+
+The boxcar kernel is seldom used in practice -- we include it here to
+demonstrate that a kernel function can take whatever form you would
+like, provided it integrates to 1 and does not output negative values.
+In the cell below, we plot the boxcar kernel at our datapoint from
+before, \(2.2\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{def}\NormalTok{ boxcar\_kernel(x, z, alpha):}
+    \ControlFlowTok{return}\NormalTok{ (((x}\OperatorTok{{-}}\NormalTok{z)}\OperatorTok{\textgreater{}={-}}\NormalTok{alpha}\OperatorTok{/}\DecValTok{2}\NormalTok{)}\OperatorTok{\&}\NormalTok{((x}\OperatorTok{{-}}\NormalTok{z)}\OperatorTok{\textless{}=}\NormalTok{alpha}\OperatorTok{/}\DecValTok{2}\NormalTok{))}\OperatorTok{/}\NormalTok{alpha}
+
+\CommentTok{\# Plot our datapoint}
+\NormalTok{sns.rugplot([}\FloatTok{2.2}\NormalTok{], height}\OperatorTok{=}\FloatTok{0.3}\NormalTok{)}
+
+\NormalTok{plt.xlabel(}\StringTok{"Data"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Density"}\NormalTok{)}
+\NormalTok{plt.xlim(}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\NormalTok{plt.ylim(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{)}
+
+\CommentTok{\# Plot the kernel}
+\NormalTok{x }\OperatorTok{=}\NormalTok{ np.linspace(}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{1000}\NormalTok{)}
+\NormalTok{plot\_separate\_kernels(boxcar\_kernel, [}\FloatTok{2.2}\NormalTok{], a }\OperatorTok{=} \FloatTok{2.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-26-output-1.pdf}
+
+}
+
+\end{figure}
+
+Using the boxcar kernel with \(\alpha=2.5\) to generate a KDE for our
+full dataset yields the following result:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plt.xlabel(}\StringTok{"Data"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Density"}\NormalTok{)}
+\NormalTok{plt.xlim(}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{10}\NormalTok{)}
+\NormalTok{plt.ylim(}\DecValTok{0}\NormalTok{, }\FloatTok{0.5}\NormalTok{)}
+
+\CommentTok{\# Plot the kernel}
+\NormalTok{x }\OperatorTok{=}\NormalTok{ np.linspace(}\OperatorTok{{-}}\DecValTok{3}\NormalTok{, }\DecValTok{10}\NormalTok{, }\DecValTok{1000}\NormalTok{)}
+\NormalTok{plot\_kde(boxcar\_kernel, data, a }\OperatorTok{=} \FloatTok{2.5}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-27-output-1.pdf}
+
+}
+
+\end{figure}
+
+\hypertarget{visualizing-relationships}{%
+\section{Visualizing Relationships}\label{visualizing-relationships}}
+
+Up until now, we've discussed how to visualize single-variable
+distributions. Now, let's understand how to visualize the relationship
+between pairs of numerical variables.
+
+\hypertarget{scatter-plots}{%
+\subsubsection{Scatter Plots}\label{scatter-plots}}
+
+\textbf{Scatter plots} are one of the most useful tools in representing
+the relationship between two quantitative variables. They are
+particularly important in gauging the strength, or correlation, of the
+relationship between variables. Knowledge of these relationships can
+then motivate decisions in our modeling process.
+
+In Matplotlib, we use the function \texttt{plt.scatter} to generate a
+scatter plot. Notice that unlike our examples of plotting
+single-variable distributions, now we specify sequences of values to be
+plotted along the x axis \emph{and} the y axis.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{plt.scatter(wb[}\StringTok{"per capita: }\SpecialCharTok{\% g}\StringTok{rowth: 2016"}\NormalTok{], }\OperatorTok{\textbackslash{}}
+\NormalTok{            wb[}\StringTok{\textquotesingle{}Adult literacy rate: Female: \% ages 15 and older: 2005{-}14\textquotesingle{}}\NormalTok{])}
+
+\NormalTok{plt.xlabel(}\StringTok{"}\SpecialCharTok{\% g}\StringTok{rowth per capita"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Female adult literacy rate"}\NormalTok{)}
+\NormalTok{plt.title(}\StringTok{"Female adult literacy against }\SpecialCharTok{\% g}\StringTok{rowth"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-28-output-1.pdf}
+
+}
+
+\end{figure}
+
+In Seaborn, we call the function \texttt{sns.scatterplot}. We use the
+\texttt{x} and \texttt{y} parameters to indicate the values to be
+plotted along the x and y axes, respectively. By using the \texttt{hue}
+parameter, we can specify a third variable to be used for coloring each
+scatter point.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sns.scatterplot(data }\OperatorTok{=}\NormalTok{ wb, x }\OperatorTok{=} \StringTok{"per capita: }\SpecialCharTok{\% g}\StringTok{rowth: 2016"}\NormalTok{, }\OperatorTok{\textbackslash{}}
+\NormalTok{               y }\OperatorTok{=} \StringTok{"Adult literacy rate: Female: \% ages 15 and older: 2005{-}14"}\NormalTok{, }
+\NormalTok{               hue }\OperatorTok{=} \StringTok{"Continent"}\NormalTok{)}
+
+\NormalTok{plt.title(}\StringTok{"Female adult literacy against }\SpecialCharTok{\% g}\StringTok{rowth"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-29-output-1.pdf}
+
+}
+
+\end{figure}
+
+Although the plots above communicate the general relationship between
+the two plotted variables, they both suffer a major limitation --
+\textbf{overplotting}. Overplotting occurs when scatter points with
+similar values are stacked on top of one another, making it difficult to
+see the number of scatter points actually plotted in the visualization.
+Notice how in the upper righthand region of the plots, we cannot easily
+tell just how many points have been plotted. This make our
+visualizations difficult to interpret.
+
+We have a few methods to help reduce overplotting:
+
+\begin{itemize}
+\tightlist
+\item
+  Decreasing the size of the scatter point markers can improve
+  readability. We do this by setting a new value to the size parameter,
+  \texttt{s}, of \texttt{plt.scatter} or \texttt{sns.scatterplot}
+\item
+  \textbf{Jittering} is the process of adding a small amount of random
+  noise to all x and y values to slightly shift the position of each
+  datapoint. By randomly shifting all the data by some small distance,
+  we can discern individual points more clearly without modifying the
+  major trends of the original dataset.
+\end{itemize}
+
+In the cell below, we first jitter the data using
+\texttt{np.random.uniform}, then re-plot it with smaller markers. The
+resulting plot is much easier to interpret.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Setting a seed ensures that we produce the same plot each time}
+\CommentTok{\# This means that the course notes will not change each time you access them}
+\NormalTok{np.random.seed(}\DecValTok{150}\NormalTok{)}
+
+\CommentTok{\# This call to np.random.uniform generates random numbers between {-}1 and 1}
+\CommentTok{\# We add these random numbers to the original x data to jitter it slightly}
+\NormalTok{x\_noise }\OperatorTok{=}\NormalTok{ np.random.uniform(}\OperatorTok{{-}}\DecValTok{1}\NormalTok{, }\DecValTok{1}\NormalTok{, }\BuiltInTok{len}\NormalTok{(wb))}
+\NormalTok{jittered\_x }\OperatorTok{=}\NormalTok{ wb[}\StringTok{"per capita: }\SpecialCharTok{\% g}\StringTok{rowth: 2016"}\NormalTok{] }\OperatorTok{+}\NormalTok{ x\_noise}
+
+\CommentTok{\# Repeat for y data}
+\NormalTok{y\_noise }\OperatorTok{=}\NormalTok{ np.random.uniform(}\OperatorTok{{-}}\DecValTok{5}\NormalTok{, }\DecValTok{5}\NormalTok{, }\BuiltInTok{len}\NormalTok{(wb))}
+\NormalTok{jittered\_y }\OperatorTok{=}\NormalTok{ wb[}\StringTok{"Adult literacy rate: Female: \% ages 15 and older: 2005{-}14"}\NormalTok{] }\OperatorTok{+}\NormalTok{ y\_noise}
+
+\CommentTok{\# Setting the size parameter \textasciigrave{}s\textasciigrave{} changes the size of each point}
+\NormalTok{plt.scatter(jittered\_x, jittered\_y, s}\OperatorTok{=}\DecValTok{15}\NormalTok{)}
+
+\NormalTok{plt.xlabel(}\StringTok{"}\SpecialCharTok{\% g}\StringTok{rowth per capita (jittered)"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Female adult literacy rate (jittered)"}\NormalTok{)}
+\NormalTok{plt.title(}\StringTok{"Female adult literacy against }\SpecialCharTok{\% g}\StringTok{rowth"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-30-output-1.pdf}
+
+}
+
+\end{figure}
+
+\hypertarget{lmplot-and-jointplot}{%
+\subsubsection{\texorpdfstring{\texttt{lmplot} and
+\texttt{jointplot}}{lmplot and jointplot}}\label{lmplot-and-jointplot}}
+
+Seaborn also includes several built-in functions for creating more
+sophisticated scatter plots. Two of the most commonly-used examples are
+\texttt{sns.lmplot} and \texttt{sns.jointplot}.
+
+\texttt{sns.lmplot} plots both a scatter plot \emph{and} a linear
+regression line, all in one function call. We'll discuss linear
+regression in a few lectures.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sns.lmplot(data }\OperatorTok{=}\NormalTok{ wb, x }\OperatorTok{=} \StringTok{"per capita: }\SpecialCharTok{\% g}\StringTok{rowth: 2016"}\NormalTok{, }\OperatorTok{\textbackslash{}}
+\NormalTok{           y }\OperatorTok{=} \StringTok{"Adult literacy rate: Female: \% ages 15 and older: 2005{-}14"}\NormalTok{)}
+
+\NormalTok{plt.title(}\StringTok{"Female adult literacy against }\SpecialCharTok{\% g}\StringTok{rowth"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-31-output-1.pdf}
+
+}
+
+\end{figure}
+
+\texttt{sns.jointplot} creates a visualization with three components: a
+scatter plot, a histogram of the distribution of x values, and a
+histogram of the distribution of y values.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sns.jointplot(data }\OperatorTok{=}\NormalTok{ wb, x }\OperatorTok{=} \StringTok{"per capita: }\SpecialCharTok{\% g}\StringTok{rowth: 2016"}\NormalTok{, }\OperatorTok{\textbackslash{}}
+\NormalTok{           y }\OperatorTok{=} \StringTok{"Adult literacy rate: Female: \% ages 15 and older: 2005{-}14"}\NormalTok{)}
+
+\CommentTok{\# plt.suptitle allows us to shift the title up so it does not overlap with the histogram}
+\NormalTok{plt.suptitle(}\StringTok{"Female adult literacy against }\SpecialCharTok{\% g}\StringTok{rowth"}\NormalTok{)}
+\NormalTok{plt.subplots\_adjust(top}\OperatorTok{=}\FloatTok{0.9}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-32-output-1.pdf}
+
+}
+
+\end{figure}
+
+\hypertarget{hex-plots}{%
+\subsubsection{Hex plots}\label{hex-plots}}
+
+For datasets with a very large number of datapoints, jittering is
+unlikely to fully resolve the issue of overplotting. In these cases, we
+can attempt to visualize our data by its \emph{density}, rather than
+displaying each individual datapoint.
+
+\textbf{Hex plots} can be thought of as a two dimensional histograms
+that shows the joint distribution between two variables. This is
+particularly useful working with very dense data. In a hex plot, the x-y
+plane is binned into hexagons. Hexagons that are darker in color
+indicate a greater density of data -- that is, there are more datapoints
+that lie in the region enclosed by the hexagon.
+
+We can generate a hex plot using \texttt{sns.jointplot} modified with
+the \texttt{kind} parameter.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sns.jointplot(data }\OperatorTok{=}\NormalTok{ wb, x }\OperatorTok{=} \StringTok{"per capita: }\SpecialCharTok{\% g}\StringTok{rowth: 2016"}\NormalTok{, }\OperatorTok{\textbackslash{}}
+\NormalTok{              y }\OperatorTok{=} \StringTok{"Adult literacy rate: Female: \% ages 15 and older: 2005{-}14"}\NormalTok{, }\OperatorTok{\textbackslash{}}
+\NormalTok{              kind }\OperatorTok{=} \StringTok{"hex"}\NormalTok{)}
+
+\CommentTok{\# plt.suptitle allows us to shift the title up so it does not overlap with the histogram}
+\NormalTok{plt.suptitle(}\StringTok{"Female adult literacy against }\SpecialCharTok{\% g}\StringTok{rowth"}\NormalTok{)}
+\NormalTok{plt.subplots\_adjust(top}\OperatorTok{=}\FloatTok{0.9}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-33-output-1.pdf}
+
+}
+
+\end{figure}
+
+\hypertarget{contour-plots}{%
+\subsubsection{Contour Plots}\label{contour-plots}}
+
+\textbf{Contour plots} are an alternative way of plotting the joint
+distribution of two variables. You can think of them as the
+2-dimensional versions of KDE plots. A contour plot can be interpreted
+in a similar way to a
+\href{https://gisgeography.com/contour-lines-topographic-map/}{topographic
+map}. Each countour line represents an area that has the same
+\emph{density} of datapoints throughout the region. Contours marked with
+darker colors contain more datapoints (a higher density) in that region.
+
+\texttt{sns.kdeplot} will generate a contour plot if we specify both x
+and y data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sns.kdeplot(data }\OperatorTok{=}\NormalTok{ wb, x }\OperatorTok{=} \StringTok{"per capita: }\SpecialCharTok{\% g}\StringTok{rowth: 2016"}\NormalTok{, }\OperatorTok{\textbackslash{}}
+\NormalTok{            y }\OperatorTok{=} \StringTok{"Adult literacy rate: Female: \% ages 15 and older: 2005{-}14"}\NormalTok{, }\OperatorTok{\textbackslash{}}
+\NormalTok{            fill }\OperatorTok{=} \VariableTok{True}\NormalTok{)}
+
+\NormalTok{plt.title(}\StringTok{"Female adult literacy against }\SpecialCharTok{\% g}\StringTok{rowth"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-34-output-1.pdf}
+
+}
+
+\end{figure}
+
+\hypertarget{transformations}{%
+\section{Transformations}\label{transformations}}
+
+This lecture has covered visualizations in great depth. We looked at
+various forms of visualizations, plotting libraries, and high-level
+theory.
+
+Much of this was done to uncover insights in data, which will prove
+necessary when we begin building models of data later in the course. A
+strong graphical correlation between two variables hints at an
+underlying relationship that we may want to study in greater detail.
+However, relying on visual relationships alone is limiting - not all
+plots show association. The presence of outliers and other statistical
+anomalies make it hard to interpret data.
+
+\textbf{Transformations} are the process of manipulating data to find
+significant relationships between variables. These are often found by
+applying mathematical functions to variables that ``transform'' their
+range of possible values and highlight some previously hidden
+associations between data.
+
+To see why we may want to transform data, consider the following plot of
+adult literacy rates against gross national income.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Some data cleaning to help with the next example}
+\NormalTok{df }\OperatorTok{=}\NormalTok{ pd.DataFrame(index}\OperatorTok{=}\NormalTok{wb.index)}
+\NormalTok{df[}\StringTok{\textquotesingle{}lit\textquotesingle{}}\NormalTok{] }\OperatorTok{=}\NormalTok{ wb[}\StringTok{\textquotesingle{}Adult literacy rate: Female: \% ages 15 and older: 2005{-}14\textquotesingle{}}\NormalTok{] }\OperatorTok{\textbackslash{}}
+            \OperatorTok{+}\NormalTok{ wb[}\StringTok{"Adult literacy rate: Male: \% ages 15 and older: 2005{-}14"}\NormalTok{]}
+\NormalTok{df[}\StringTok{\textquotesingle{}inc\textquotesingle{}}\NormalTok{] }\OperatorTok{=}\NormalTok{ wb[}\StringTok{\textquotesingle{}Gross national income per capita, Atlas method: $: 2016\textquotesingle{}}\NormalTok{]}
+\NormalTok{df.dropna(inplace}\OperatorTok{=}\VariableTok{True}\NormalTok{)}
+
+\NormalTok{plt.scatter(df[}\StringTok{"inc"}\NormalTok{], df[}\StringTok{"lit"}\NormalTok{])}
+\NormalTok{plt.xlabel(}\StringTok{"Gross national income per capita"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Adult literacy rate"}\NormalTok{)}
+\NormalTok{plt.title(}\StringTok{"Adult literacy rate against GNI per capita"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-35-output-1.pdf}
+
+}
+
+\end{figure}
+
+This plot is difficult to interpret for two reasons:
+
+\begin{itemize}
+\tightlist
+\item
+  The data shown in the visualization appears almost ``smushed'' -- it
+  is heavily concentrated in the upper lefthand region of the plot. Even
+  if we jittered the dataset, we likely would not be able to fully
+  assess all datapoints in that area.
+\item
+  It is hard to generalize a clear relationship between the two plotted
+  variables. While adult literacy rate appears to share some positive
+  relationship with gross national income, we are not able to describe
+  the specifics in this trend in much detail.
+\end{itemize}
+
+A transformation would allow us to visualize this data more clearly,
+which, in turn, would enable us to describe the underlying relationship
+between our variables of interest.
+
+We will most commonly apply a transformation to \textbf{linearize a
+relationship} between variables. If we find a transformation to make a
+scatter plot of two variables linear, we can ``backtrack'' to find the
+exact relationship between the variables. This helps us in two major
+ways. Firstly, linear relationships are particularly simple to interpret
+-- we have an intutive sense of what the slope and intercept of a linear
+trend represent, and how they can help us understand the relationship
+between two variables. Secondly, linear relationships are the backbone
+of linear models. We will begine exploring linear modeling in great
+detail next week. As we'll soon see, linear models become much more
+effective when we are working with linearized data.
+
+In the remainder of this note, we will discuss how to linearize a
+dataset to produce the result below. Notice that the resulting plot
+displays a rough linear relationship between the values plotted on the x
+and y axes.
+
+\hypertarget{applying-transformations}{%
+\subsection{Applying Transformations}\label{applying-transformations}}
+
+To linearize a relationship, begin by asking yourself: what makes the
+data non-linear? It is helpful to repeat this question for each variable
+in your visualization.
+
+Let's start by considering the gross national income variable in our
+plot above. Looking at \emph{just} the x values in the scatter plot, we
+notice that most datapoints are clustered at low values to the left of
+the plot. The scale of the x axis is being distorted by the few outlying
+datapoints at extremely large values on the right.
+
+If we decreased the size of these outliers relative to the bulk of the
+data, we could reduce the distortion of the horizontal axis. How can we
+do this? We need a transformation that will:
+
+\begin{itemize}
+\tightlist
+\item
+  Decrease the magnitude of large x values by a signficant amount
+\item
+  Not drastically change the magnitude of small x values
+\end{itemize}
+
+One function that produces this result is the \textbf{log
+transformation}. When we take the logarithm of a large number, the
+original number will decrease in magnitude dramatically. Conversely,
+when we take the logarithm of a small number, the original number does
+not change its value by as significant of an amount (to illustrate this,
+consider the difference between \(\log{(100)} = 4.61\) and
+\(\log{(10)} = 2.3\)).
+
+In Data 100 (and most upper division STEM classes), \(\log\) is used to
+refer to the natural logarithm with base \(e\).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# np.log takes the logarithm of an array or Series}
+\NormalTok{plt.scatter(np.log(df[}\StringTok{"inc"}\NormalTok{]), df[}\StringTok{"lit"}\NormalTok{])}
+
+\NormalTok{plt.xlabel(}\StringTok{"Log(gross national income per capita)"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Adult literacy rate"}\NormalTok{)}
+\NormalTok{plt.title(}\StringTok{"Adult literacy rate against Log(GNI per capita)"}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-36-output-1.pdf}
+
+}
+
+\end{figure}
+
+After taking the logarithm of our x values, our plot appears much more
+balanced in its horizontal scale. We no longer have many datapoints
+clumped on one end and a few outliers out at extreme values.
+
+Let's repeat this reasoning for the y values. Considering only the
+vertical axis of the plot, notice how there are many datapoints
+concentrated at large y values. Only a few datapoints lie at smaller
+values of y.
+
+If we were to ``spread out'' these large values of y more, we would no
+longer see the dense concentration in one region of the y axis. We need
+a transformation that will:
+
+\begin{itemize}
+\tightlist
+\item
+  Increase the magnitude of large values of y so these datapoints are
+  distributed more broadly on the vertical scale
+\item
+  Not substantially alter the scaling of small values of y (we do not
+  want to drastically modify the lower end of the y axis, which is
+  already distributed evenly on the vertical scale)
+\end{itemize}
+
+In this case, it is helpful to apply a \textbf{power transformation} --
+that is, raise our y values to a power. Let's try raising our adult
+literacy rate values to the power of 4. Large values raised to the power
+of 4 will increase in magnitude proportionally much more than small
+values raised to the power of 4 (consider the difference between
+\(2^4 = 16\) and \(200^4 = 1600000000\)).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Apply a log transformation to the x values and a power transformation to the y values}
+\NormalTok{plt.scatter(np.log(df[}\StringTok{"inc"}\NormalTok{]), df[}\StringTok{"lit"}\NormalTok{]}\OperatorTok{**}\DecValTok{4}\NormalTok{)}
+
+\NormalTok{plt.xlabel(}\StringTok{"Log(gross national income per capita)"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Adult literacy rate (4th power)"}\NormalTok{)}
+\NormalTok{plt.suptitle(}\StringTok{"Adult literacy rate (4th power) against Log(GNI per capita)"}\NormalTok{)}
+\NormalTok{plt.subplots\_adjust(top}\OperatorTok{=}\FloatTok{0.9}\NormalTok{)}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-37-output-1.pdf}
+
+}
+
+\end{figure}
+
+Our scatter plot is looking a lot better! Now, we are plotting the log
+of our original x values on the horizontal axis, and the 4th power of
+our original y values on the vertical axis. We start to see an
+approximate \emph{linear} relationship between our transformed
+variables.
+
+What can we take away from this? We now know that the log of gross
+national income and adult literacy to the power of 4 are roughly
+linearly related. If we denote the original, untransformed gross
+national income values as \(x\) and the original adult literacy rate
+values as \(y\), we can use the standard form of a linear fit to express
+this relationship:
+
+\[y^4 = m(\log{x}) + b\]
+
+Where \(m\) represents the slope of the linear fit, while \(b\)
+represents the intercept.
+
+The cell below computes \(m\) and \(b\) for our transformed data. We'll
+discuss how this code was generated in a future lecture.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# The code below fits a linear regression model. We\textquotesingle{}ll discuss it at length in a future lecture}
+\ImportTok{from}\NormalTok{ sklearn.linear\_model }\ImportTok{import}\NormalTok{ LinearRegression}
+
+\NormalTok{model }\OperatorTok{=}\NormalTok{ LinearRegression()}
+\NormalTok{model.fit(np.log(df[[}\StringTok{"inc"}\NormalTok{]]), df[}\StringTok{"lit"}\NormalTok{]}\OperatorTok{**}\DecValTok{4}\NormalTok{)}
+\NormalTok{m, b }\OperatorTok{=}\NormalTok{ model.coef\_[}\DecValTok{0}\NormalTok{], model.intercept\_}
+
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"The slope, m, of the transformed data is: }\SpecialCharTok{\{}\NormalTok{m}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+\BuiltInTok{print}\NormalTok{(}\SpecialStringTok{f"The intercept, b, of the transformed data is: }\SpecialCharTok{\{}\NormalTok{b}\SpecialCharTok{\}}\SpecialStringTok{"}\NormalTok{)}
+
+\NormalTok{df }\OperatorTok{=}\NormalTok{ df.sort\_values(}\StringTok{"inc"}\NormalTok{)}
+\NormalTok{plt.scatter(np.log(df[}\StringTok{"inc"}\NormalTok{]), df[}\StringTok{"lit"}\NormalTok{]}\OperatorTok{**}\DecValTok{4}\NormalTok{, label}\OperatorTok{=}\StringTok{"Transformed data"}\NormalTok{)}
+\NormalTok{plt.plot(np.log(df[}\StringTok{"inc"}\NormalTok{]), m}\OperatorTok{*}\NormalTok{np.log(df[}\StringTok{"inc"}\NormalTok{])}\OperatorTok{+}\NormalTok{b, c}\OperatorTok{=}\StringTok{"red"}\NormalTok{, label}\OperatorTok{=}\StringTok{"Linear regression"}\NormalTok{)}
+\NormalTok{plt.xlabel(}\StringTok{"Log(gross national income per capita)"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Adult literacy rate (4th power)"}\NormalTok{)}
+\NormalTok{plt.legend()}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+The slope, m, of the transformed data is: 336400693.43172705
+The intercept, b, of the transformed data is: -1802204836.0479987
+\end{verbatim}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-38-output-2.pdf}
+
+}
+
+\end{figure}
+
+What if we want to understand the \emph{underlying} relationship between
+our original variables, before they were transformed? We can simply
+rearrange our linear expression above!
+
+Recall our linear relationship between the transformed variables
+\(\log{x}\) and \(y^4\).
+
+\[y^4 = m(\log{x}) + b\]
+
+By rearranging the equation, we find a relationship between the
+untransformed variables \(x\) and \(y\).
+
+\[y = [m(\log{x}) + b]^{(1/4)}\]
+
+When we plug in the values for \(m\) and \(b\) computed above, something
+interesting happens.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Now, plug the values for m and b into the relationship between the untransformed x and y}
+\NormalTok{plt.scatter(df[}\StringTok{"inc"}\NormalTok{], df[}\StringTok{"lit"}\NormalTok{], label}\OperatorTok{=}\StringTok{"Untransformed data"}\NormalTok{)}
+\NormalTok{plt.plot(df[}\StringTok{"inc"}\NormalTok{], (m}\OperatorTok{*}\NormalTok{np.log(df[}\StringTok{"inc"}\NormalTok{])}\OperatorTok{+}\NormalTok{b)}\OperatorTok{**}\NormalTok{(}\DecValTok{1}\OperatorTok{/}\DecValTok{4}\NormalTok{), c}\OperatorTok{=}\StringTok{"red"}\NormalTok{, label}\OperatorTok{=}\StringTok{"Modeled relationship"}\NormalTok{)}
+\NormalTok{plt.xlabel(}\StringTok{"Gross national income per capita"}\NormalTok{)}
+\NormalTok{plt.ylabel(}\StringTok{"Adult literacy rate"}\NormalTok{)}
+\NormalTok{plt.legend()}\OperatorTok{;}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{figure}[H]
+
+{\centering \includegraphics{visualization_1/visualization_1_files/figure-pdf/cell-39-output-1.pdf}
+
+}
+
+\end{figure}
+
+We have found a relationship between our original variables -- gross
+national income and adult literacy rate!
+
+Transformations are powerful tools for understanding our data in greater
+detail. To summarize what we just achieved:
+
+\begin{itemize}
+\tightlist
+\item
+  We identified appropriate transformations to \textbf{linearize} the
+  original data
+\item
+  We used our knowledge of linear curves to compute the slope and
+  intercept of the transformed data
+\item
+  We used this slope and intercept information to derive a relationship
+  in the untransformed data
+\end{itemize}
+
+Linearization will be an important tool as we begin our work on linear
+modeling next week.
+
+\hypertarget{tukey-mosteller-bulge-diagram}{%
+\subsection{Tukey-Mosteller Bulge
+Diagram}\label{tukey-mosteller-bulge-diagram}}
+
+The \textbf{Tukey-Mosteller Bulge Diagram} is a guide to possible
+transformations for achieving linearity. It is a visual summary of the
+reasoning we just worked through above.
+
+How does it work? Each curved ``bulge'' represents a possible shape of
+non-linear data. To use the diagram, find which of the four bulges
+resembles your dataset the most closely. Then, look at the axes of the
+quadrant for this bulge. The horizontal axis will list possible
+transformations that could be applied to your x data for linearization.
+Similarly, the verical axis will list possible transformations that
+could be applied to your y data. Note that each axis lists two possible
+transformations -- \emph{either} of these transformations has the
+potential to linearize your dataset. It's a good idea to try both out to
+see which one produces better results on your specific data.
+
+Generally:
+
+\begin{itemize}
+\tightlist
+\item
+  \(\sqrt{}\) and \(\log{}\) will reduce the magnitude of large values
+\item
+  Powers (\(^2\) and \(^3\)) will increase the spread in magnitude of
+  large values
+\end{itemize}
+
+\textbf{Important:} you should still understand the \emph{logic} we
+worked through to determine how best to transform the data. The bulge
+diagram is just a summary of this same reasoning. You will be expected
+to be able to explain why a given transformation is or is not
+appropriate for linearization.
 
 
 

@@ -1,5 +1,5 @@
 ---
-title: Text Wrangling & Regular Expressions
+title: Text Wrangling and Regular Expressions
 format:
   html:
     toc: true
@@ -99,11 +99,11 @@ def canonicalize_county_series(county_series):
     return (
         county_series
             .str.lower()
-            .str.replace(' ', '')
-            .str.replace('&', 'and')
-            .str.replace('.', '')
-            .str.replace('county', '')
-            .str.replace('parish', '')
+            .str.replace(' ', '', regex=True) #Specifying regex=True helps avoid a FutureWarning
+            .str.replace('&', 'and', regex=True)
+            .str.replace('.', '', regex=True)
+            .str.replace('county', '', regex=True)
+            .str.replace('parish', '', regex=True)
     )
 
 county_and_pop['County'] = canonicalize_county_series(county_and_pop['County'])
@@ -389,6 +389,28 @@ Capturing groups help us extract *only* the information about the time from this
 pattern = ".*(\d\d):(\d\d):(\d\d).*"
 matches = re.findall(pattern, text)
 matches
+```
+
+To extract capturing groups from a `Series`, we use the functions `str.extract` or `str.extractall`.
+
+`str.extract` will scan each string in a `Series`, then return a `DataFrame` containing the *first* match for the provided regex pattern. Each capturing group within that pattern will be placed in a column of the `DataFrame`. 
+
+```{python}
+# Recall our SSN DataFrame from above
+df_ssn
+```
+
+```{python}
+# Will extract only the *first* match of all groups
+pattern_group_mult = r"([0-9]{3})-([0-9]{2})-([0-9]{4})" # 3 groups
+df_ssn['SSN'].str.extract(pattern_group_mult)
+```
+
+Sometimes, a regex pattern may encounter multiple matches in a single entry string of a `Series`. The function `str.extractall` will extract *all* matched instances of the regex pattern, not just the first. It produces a `MultiIndexed DataFrame` where text strings with multiple regex matches will have a row for each match.
+
+```{python}
+# Will extract all matches of all groups
+df_ssn['SSN'].str.extractall(pattern_group_mult)
 ```
 
 ### Substitution

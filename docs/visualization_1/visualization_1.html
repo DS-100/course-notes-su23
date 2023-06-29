@@ -1,0 +1,1498 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.280">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Principles and Techniques of Data Science - 7&nbsp; Visualization</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../regex/regex.html" rel="prev">
+<link href="../data100_logo.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+</head>
+
+<body class="nav-sidebar floating">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+    <div class="container-fluid d-flex justify-content-between">
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Visualization</span></h1>
+      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
+        <i class="bi bi-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+    <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
+      <a href="../index.html" class="sidebar-logo-link">
+      <img src="../data100_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
+      </a>
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../">Principles and Techniques of Data Science</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/DS-100/course-notes-su23" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+</div>
+    </div>
+      </div>
+      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+      </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../intro_lec/introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pandas_1/pandas_1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Pandas I</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pandas_2/pandas_2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pandas II</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pandas_3/pandas_3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Pandas III</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../eda/eda.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Cleaning and EDA</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../regex/regex.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text Wrangling and Regular Expressions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../visualization_1/visualization_1.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Visualization</span></a>
+  </div>
+</li>
+    </ul>
+    </div>
+</nav>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Table of contents</h2>
+   
+  <ul>
+  <li><a href="#visualizations-in-data-8-and-data-100-so-far" id="toc-visualizations-in-data-8-and-data-100-so-far" class="nav-link active" data-scroll-target="#visualizations-in-data-8-and-data-100-so-far"><span class="toc-section-number">7.1</span>  Visualizations in Data 8 (and Data 100, so far)</a></li>
+  <li><a href="#goals-of-visualization" id="toc-goals-of-visualization" class="nav-link" data-scroll-target="#goals-of-visualization"><span class="toc-section-number">7.2</span>  Goals of Visualization</a></li>
+  <li><a href="#visualizing-distributions" id="toc-visualizing-distributions" class="nav-link" data-scroll-target="#visualizing-distributions"><span class="toc-section-number">7.3</span>  Visualizing Distributions</a>
+  <ul>
+  <li><a href="#distributions" id="toc-distributions" class="nav-link" data-scroll-target="#distributions"><span class="toc-section-number">7.3.1</span>  Distributions</a></li>
+  <li><a href="#variable-types" id="toc-variable-types" class="nav-link" data-scroll-target="#variable-types"><span class="toc-section-number">7.3.2</span>  Variable Types</a></li>
+  <li><a href="#bar-plots" id="toc-bar-plots" class="nav-link" data-scroll-target="#bar-plots"><span class="toc-section-number">7.3.3</span>  Bar Plots</a>
+  <ul>
+  <li><a href="#plotting-in-matplotlib" id="toc-plotting-in-matplotlib" class="nav-link" data-scroll-target="#plotting-in-matplotlib"><span class="toc-section-number">7.3.3.1</span>  Plotting in Matplotlib</a></li>
+  <li><a href="#plotting-in-seaborn" id="toc-plotting-in-seaborn" class="nav-link" data-scroll-target="#plotting-in-seaborn"><span class="toc-section-number">7.3.3.2</span>  Plotting in Seaborn</a></li>
+  </ul></li>
+  <li><a href="#box-plots" id="toc-box-plots" class="nav-link" data-scroll-target="#box-plots"><span class="toc-section-number">7.3.4</span>  Box Plots</a></li>
+  <li><a href="#violin-plots" id="toc-violin-plots" class="nav-link" data-scroll-target="#violin-plots"><span class="toc-section-number">7.3.5</span>  Violin Plots</a></li>
+  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms"><span class="toc-section-number">7.3.6</span>  Histograms</a>
+  <ul>
+  <li><a href="#interpreting-histograms" id="toc-interpreting-histograms" class="nav-link" data-scroll-target="#interpreting-histograms"><span class="toc-section-number">7.3.6.1</span>  Interpreting Histograms</a></li>
+  </ul></li>
+  <li><a href="#kernel-density-estimation" id="toc-kernel-density-estimation" class="nav-link" data-scroll-target="#kernel-density-estimation"><span class="toc-section-number">7.3.7</span>  Kernel Density Estimation</a>
+  <ul>
+  <li><a href="#kde-theory" id="toc-kde-theory" class="nav-link" data-scroll-target="#kde-theory"><span class="toc-section-number">7.3.7.1</span>  KDE Theory</a></li>
+  <li><a href="#constructing-a-kde" id="toc-constructing-a-kde" class="nav-link" data-scroll-target="#constructing-a-kde"><span class="toc-section-number">7.3.7.2</span>  Constructing a KDE</a>
+  <ul class="collapse">
+  <li><a href="#step-1-place-a-kernel-at-each-datapoint" id="toc-step-1-place-a-kernel-at-each-datapoint" class="nav-link" data-scroll-target="#step-1-place-a-kernel-at-each-datapoint"><span class="toc-section-number">7.3.7.2.1</span>  Step 1: Place a Kernel at Each Datapoint</a></li>
+  <li><a href="#step-2-normalize-kernels-to-have-total-area-of-1" id="toc-step-2-normalize-kernels-to-have-total-area-of-1" class="nav-link" data-scroll-target="#step-2-normalize-kernels-to-have-total-area-of-1"><span class="toc-section-number">7.3.7.2.2</span>  Step 2: Normalize Kernels to Have Total Area of 1</a></li>
+  <li><a href="#step-3-sum-kernels-together" id="toc-step-3-sum-kernels-together" class="nav-link" data-scroll-target="#step-3-sum-kernels-together"><span class="toc-section-number">7.3.7.2.3</span>  Step 3: Sum Kernels Together</a></li>
+  </ul></li>
+  <li><a href="#kernel-functions-and-bandwidths" id="toc-kernel-functions-and-bandwidths" class="nav-link" data-scroll-target="#kernel-functions-and-bandwidths"><span class="toc-section-number">7.3.7.3</span>  Kernel Functions and Bandwidths</a>
+  <ul class="collapse">
+  <li><a href="#gaussian-kernel" id="toc-gaussian-kernel" class="nav-link" data-scroll-target="#gaussian-kernel"><span class="toc-section-number">7.3.7.3.1</span>  Gaussian Kernel</a></li>
+  </ul></li>
+  <li><a href="#boxcar-kernel" id="toc-boxcar-kernel" class="nav-link" data-scroll-target="#boxcar-kernel"><span class="toc-section-number">7.3.7.4</span>  Boxcar Kernel</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#visualizing-relationships" id="toc-visualizing-relationships" class="nav-link" data-scroll-target="#visualizing-relationships"><span class="toc-section-number">7.4</span>  Visualizing Relationships</a>
+  <ul>
+  <li><a href="#scatter-plots" id="toc-scatter-plots" class="nav-link" data-scroll-target="#scatter-plots"><span class="toc-section-number">7.4.0.1</span>  Scatter Plots</a></li>
+  <li><a href="#lmplot-and-jointplot" id="toc-lmplot-and-jointplot" class="nav-link" data-scroll-target="#lmplot-and-jointplot"><span class="toc-section-number">7.4.0.2</span>  <code>lmplot</code> and <code>jointplot</code></a></li>
+  <li><a href="#hex-plots" id="toc-hex-plots" class="nav-link" data-scroll-target="#hex-plots"><span class="toc-section-number">7.4.0.3</span>  Hex plots</a></li>
+  <li><a href="#contour-plots" id="toc-contour-plots" class="nav-link" data-scroll-target="#contour-plots"><span class="toc-section-number">7.4.0.4</span>  Contour Plots</a></li>
+  </ul></li>
+  <li><a href="#transformations" id="toc-transformations" class="nav-link" data-scroll-target="#transformations"><span class="toc-section-number">7.5</span>  Transformations</a>
+  <ul>
+  <li><a href="#applying-transformations" id="toc-applying-transformations" class="nav-link" data-scroll-target="#applying-transformations"><span class="toc-section-number">7.5.1</span>  Applying Transformations</a></li>
+  <li><a href="#tukey-mosteller-bulge-diagram" id="toc-tukey-mosteller-bulge-diagram" class="nav-link" data-scroll-target="#tukey-mosteller-bulge-diagram"><span class="toc-section-number">7.5.2</span>  Tukey-Mosteller Bulge Diagram</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title d-none d-lg-block"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Visualization</span></h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+</header>
+
+<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Learning Outcomes
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
+<div class="callout-body-container callout-body">
+<ul>
+<li>Visualize distributions and relationships using the Matplotlib and Seaborn plotting libraries</li>
+<li>Apply kernel density estimation to smooth data</li>
+<li>Transform data in preparation for visualization and modeling</li>
+</ul>
+</div>
+</div>
+</div>
+<p>In our journey of the data science lifecycle, we have begun to explore the vast world of exploratory data analysis. More recently, we learned how to pre-process data using various manipulation and cleaning techniques. As we work towards understanding our data, there is one key component missing in our arsenal - the ability to visualize and discern relationships in existing data.</p>
+<p>This lecture will introduce you to various examples of data visualizations and their underlying theory. In doing so, we’ll motivate their importance in real-world examples with the use of plotting libraries.</p>
+<section id="visualizations-in-data-8-and-data-100-so-far" class="level2" data-number="7.1">
+<h2 data-number="7.1" class="anchored" data-anchor-id="visualizations-in-data-8-and-data-100-so-far"><span class="header-section-number">7.1</span> Visualizations in Data 8 (and Data 100, so far)</h2>
+<p>You’ve likely encountered several forms of data visualizations in your studies. You may remember two such examples from Data 8: line charts and histograms. Each of these served a unique purpose. For example, line charts displayed how numerical quantities changed over time, while histograms were useful in understanding a variable’s distribution.</p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p><strong>Line Chart</strong></p>
+<p><img src="images/line_chart_viz.png" alt="line_chart_viz" width="300"></p>
+</div><div class="column" style="width:30%;">
+<!-- empty column to create gap -->
+</div><div class="column" style="width:30%;">
+<p><strong>Histogram</strong></p>
+<p><img src="images/histogram_viz.png" alt="histogram_viz" width="300"></p>
+</div>
+</div>
+</section>
+<section id="goals-of-visualization" class="level2" data-number="7.2">
+<h2 data-number="7.2" class="anchored" data-anchor-id="goals-of-visualization"><span class="header-section-number">7.2</span> Goals of Visualization</h2>
+<p>Visualizations are useful for a number of reasons. In Data 100, we consider two areas in particular:</p>
+<ol type="1">
+<li>To help your own understanding of the data
+<ul>
+<li>Key part of exploratory data analysis.</li>
+<li>Summarize trends visually before in-depth analysis.</li>
+</ul></li>
+<li>To communicate results/conclusions to others
+<ul>
+<li>Fine-tuned to achieve a communications goal.</li>
+<li>Considerations: clarity, accessibility, providing necessary context.</li>
+</ul></li>
+</ol>
+<p>Put together, these goals add more nuance to our visualization task. Visualization is not simply a matter of making “pretty” pictures; rather, we will need to do a lot of thinking about what stylistic choices communicate ideas in the most effective way.</p>
+<p>One of the most common applications of visualizations is in understanding a distribution of data.</p>
+</section>
+<section id="visualizing-distributions" class="level2" data-number="7.3">
+<h2 data-number="7.3" class="anchored" data-anchor-id="visualizing-distributions"><span class="header-section-number">7.3</span> Visualizing Distributions</h2>
+<section id="distributions" class="level3" data-number="7.3.1">
+<h3 data-number="7.3.1" class="anchored" data-anchor-id="distributions"><span class="header-section-number">7.3.1</span> Distributions</h3>
+<p>A distribution describes the frequency of unique values in a variable. Distributions must satisfy two properties:</p>
+<ol type="1">
+<li>Each data point must belong to only one category.</li>
+<li>The total frequency of all categories must sum to 100%. In other words, their total count should equal the number of values in consideration.</li>
+</ol>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p><strong>Not a Valid Distribution</strong></p>
+<p><img src="images/bad_distro.png" alt="bad_distro" width="300"></p>
+</div><div class="column" style="width:30%;">
+<!-- empty column to create gap -->
+</div><div class="column" style="width:30%;">
+<p><strong>Valid Distribution</strong></p>
+<p><img src="images/good_distro.png" alt="good_distro" width="300"></p>
+</div>
+</div>
+<p>Left Diagram: This is not a valid distribution since individuals can be associated to more than one category. The bar values indicate a <em>change</em> in time, rather than the count or proportion of individuals belonging to each categoy.</p>
+<p>Right Diagram: This example satisfies the two properties of distributions, so it is a valid distribution. Each bar represents the percentage of individuals who belonging to the corresponding category. All percentages sum to 100%, as required.</p>
+</section>
+<section id="variable-types" class="level3" data-number="7.3.2">
+<h3 data-number="7.3.2" class="anchored" data-anchor-id="variable-types"><span class="header-section-number">7.3.2</span> Variable Types</h3>
+<p>In our previous work on EDA, we learned how to categorize variables by their type. We saw that some variables are quantitative while others are qualitative; we also discussed the sub-divisions of variables into continuous, discrete, ordinal, and nominal.</p>
+<p><img src="images/variable.png" alt="variable" width="500"></p>
+<p>Different plot types are more or less suited for displaying particular types of variables. Before creating a visualization, you should always ask yourself: what types of variables am I presenting? What plots are suitable to present this variable type?</p>
+<p>A summary of the plots generally used to display different variable types is given below. In the following sections, we will introduce each type of plot and learn how to generate them in code.</p>
+<div class="columns">
+<div class="column" style="width:40%;">
+<p><strong>Distribution of a qualitative variable:</strong></p>
+<ul>
+<li>Bar plot <br> <br> <br> <br> <br></li>
+</ul>
+<p><strong>Distribution of a continuous variable across qualitative categories:</strong></p>
+<ul>
+<li>Overlaid histograms</li>
+<li>Side-by-side box plots</li>
+<li>Side-by-side violin plots</li>
+<li>Overlaid KDE plots</li>
+</ul>
+</div><div class="column" style="width:10%;">
+<!-- empty column to create gap -->
+</div><div class="column" style="width:40%;">
+<p><strong>Distribution of a quantitative continuous variable:</strong></p>
+<ul>
+<li>Histogram</li>
+<li>Box plot</li>
+<li>Violin plot</li>
+<li>KDE plot</li>
+</ul>
+<p><strong>Relationship between quantitative continuous variables:</strong></p>
+<ul>
+<li>Scatter plot</li>
+<li>Hex plot</li>
+<li>Contour map</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="bar-plots" class="level3" data-number="7.3.3">
+<h3 data-number="7.3.3" class="anchored" data-anchor-id="bar-plots"><span class="header-section-number">7.3.3</span> Bar Plots</h3>
+<p>As we saw above, a <strong>bar plot</strong> is one of the most common ways of displaying the distribution of a <strong>qualitative</strong> (categorical) variable. The length of a bar plot encodes the frequency of a category; the width encodes no useful information.</p>
+<p>Let’s contextualize this in an example. We will use the World Bank dataset <code>wb</code>, which contains information about countries and social statistics.</p>
+<div class="cell" data-tags="[]" data-execution_count="1">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>wb <span class="op">=</span> pd.read_csv(<span class="st">"data/world_bank.csv"</span>, index_col<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>wb.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display" data-execution_count="1">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Continent</th>
+      <th>Country</th>
+      <th>Primary completion rate: Male: % of relevant age group: 2015</th>
+      <th>Primary completion rate: Female: % of relevant age group: 2015</th>
+      <th>Lower secondary completion rate: Male: % of relevant age group: 2015</th>
+      <th>Lower secondary completion rate: Female: % of relevant age group: 2015</th>
+      <th>Youth literacy rate: Male: % of ages 15-24: 2005-14</th>
+      <th>Youth literacy rate: Female: % of ages 15-24: 2005-14</th>
+      <th>Adult literacy rate: Male: % ages 15 and older: 2005-14</th>
+      <th>Adult literacy rate: Female: % ages 15 and older: 2005-14</th>
+      <th>...</th>
+      <th>Access to improved sanitation facilities: % of population: 1990</th>
+      <th>Access to improved sanitation facilities: % of population: 2015</th>
+      <th>Child immunization rate: Measles: % of children ages 12-23 months: 2015</th>
+      <th>Child immunization rate: DTP3: % of children ages 12-23 months: 2015</th>
+      <th>Children with acute respiratory infection taken to health provider: % of children under age 5 with ARI: 2009-2016</th>
+      <th>Children with diarrhea who received oral rehydration and continuous feeding: % of children under age 5 with diarrhea: 2009-2016</th>
+      <th>Children sleeping under treated bed nets: % of children under age 5: 2009-2016</th>
+      <th>Children with fever receiving antimalarial drugs: % of children under age 5 with fever: 2009-2016</th>
+      <th>Tuberculosis: Treatment success rate: % of new cases: 2014</th>
+      <th>Tuberculosis: Cases detection rate: % of new estimated cases: 2015</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>Africa</td>
+      <td>Algeria</td>
+      <td>106.0</td>
+      <td>105.0</td>
+      <td>68.0</td>
+      <td>85.0</td>
+      <td>96.0</td>
+      <td>92.0</td>
+      <td>83.0</td>
+      <td>68.0</td>
+      <td>...</td>
+      <td>80.0</td>
+      <td>88.0</td>
+      <td>95.0</td>
+      <td>95.0</td>
+      <td>66.0</td>
+      <td>42.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>88.0</td>
+      <td>80.0</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>Africa</td>
+      <td>Angola</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>79.0</td>
+      <td>67.0</td>
+      <td>82.0</td>
+      <td>60.0</td>
+      <td>...</td>
+      <td>22.0</td>
+      <td>52.0</td>
+      <td>55.0</td>
+      <td>64.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>25.9</td>
+      <td>28.3</td>
+      <td>34.0</td>
+      <td>64.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>Africa</td>
+      <td>Benin</td>
+      <td>83.0</td>
+      <td>73.0</td>
+      <td>50.0</td>
+      <td>37.0</td>
+      <td>55.0</td>
+      <td>31.0</td>
+      <td>41.0</td>
+      <td>18.0</td>
+      <td>...</td>
+      <td>7.0</td>
+      <td>20.0</td>
+      <td>75.0</td>
+      <td>79.0</td>
+      <td>23.0</td>
+      <td>33.0</td>
+      <td>72.7</td>
+      <td>25.9</td>
+      <td>89.0</td>
+      <td>61.0</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>Africa</td>
+      <td>Botswana</td>
+      <td>98.0</td>
+      <td>101.0</td>
+      <td>86.0</td>
+      <td>87.0</td>
+      <td>96.0</td>
+      <td>99.0</td>
+      <td>87.0</td>
+      <td>89.0</td>
+      <td>...</td>
+      <td>39.0</td>
+      <td>63.0</td>
+      <td>97.0</td>
+      <td>95.0</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>77.0</td>
+      <td>62.0</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>Africa</td>
+      <td>Burundi</td>
+      <td>58.0</td>
+      <td>66.0</td>
+      <td>35.0</td>
+      <td>30.0</td>
+      <td>90.0</td>
+      <td>88.0</td>
+      <td>89.0</td>
+      <td>85.0</td>
+      <td>...</td>
+      <td>42.0</td>
+      <td>48.0</td>
+      <td>93.0</td>
+      <td>94.0</td>
+      <td>55.0</td>
+      <td>43.0</td>
+      <td>53.8</td>
+      <td>25.4</td>
+      <td>91.0</td>
+      <td>51.0</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 47 columns</p>
+</div>
+</div>
+</div>
+<p>We can visualize the distribution of the <code>"Continent"</code> column using a bar plot. There are a few ways to do this.</p>
+<section id="plotting-in-matplotlib" class="level4" data-number="7.3.3.1">
+<h4 data-number="7.3.3.1" class="anchored" data-anchor-id="plotting-in-matplotlib"><span class="header-section-number">7.3.3.1</span> Plotting in Matplotlib</h4>
+<p><a href="https://matplotlib.org/stable/api/index">Matplotlib</a> is a common library used for generating visualizations in Python. Most Matplotlib plotting functions follow the same structure: we pass in a sequence (list, array, or Series) of values to be plotted on the x-axis, and a second sequence of values to be plotted on the y-axis. In pseudocode, Matplotlib plotting calls typically have the form:</p>
+<pre><code># plt is the typical alias for Matplotlib
+import matplotlib.pyplot as plt 
+plt.plotting_function(x_values, y_values)</code></pre>
+<p>To add labels and a title to a plot, we call the functions <code>plt.xlabel</code>, <code>plt.ylabel</code>, and <code>plt.title</code>.</p>
+<pre><code>plt.xlabel(“x axis label”)
+plt.ylabel(“y axis label”)
+plt.title(“Title of the plot”);</code></pre>
+<p>The plotting function to create a bar plot in Matplotlib is <code>plt.bar</code>. To generate a bar plot, we will need to create a set of x values and y values to pass in as arguments to <code>plt.bar</code>. In the cell below, we call <code>.value_counts()</code> to obtain the distribution of the <code>"Continent"</code> column. The index of the resulting <code>Series</code> contains our desired x values (the names of each unique continent), while the values contain our y data (the counts of countries in each continent).</p>
+<div class="cell" data-tags="[]" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>continents <span class="op">=</span> wb[<span class="st">"Continent"</span>].value_counts()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>plt.bar(continents.index, continents)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Continent"</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Count of countries"</span>)</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Distribution of countries across continents"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-3-output-1.png" width="585" height="449"></p>
+</div>
+</div>
+<p>You may have noticed the semicolon <code>;</code> at the end of cell above. This suppresses any unnecessary output other than the plot. If we do not include a semicolon, the plot will still generate, however, we will see extraneous text as well:</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>plt.bar(continents.index, continents)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="3">
+<pre><code>&lt;BarContainer object of 6 artists&gt;</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-4-output-2.png" width="566" height="411"></p>
+</div>
+</div>
+</section>
+<section id="plotting-in-seaborn" class="level4" data-number="7.3.3.2">
+<h4 data-number="7.3.3.2" class="anchored" data-anchor-id="plotting-in-seaborn"><span class="header-section-number">7.3.3.2</span> Plotting in Seaborn</h4>
+<p><a href="https://seaborn.pydata.org/">Seaborn</a> is another popular Python library for creating plots. In Data 100, we will explore the use of both Matplotlib and Seaborn. You may find that you prefer one over the other – if so, you are welcome to use your favorite method! We present plotting code for both libraries to help familiarize you with their use.</p>
+<p>Seaborn plotting functions use a different structure to what we saw in Matplotlib. In Seaborn, we pass in an entire <code>DataFrame</code> as an argument, then specify what column(s) from the <code>DataFrame</code> to plot. In pseudocode:</p>
+<pre><code># sns is the typical alias for Seaborn
+import seaborn as sns
+sns.plotting_function(data = df, x = "x_col", y = "y_col")</code></pre>
+<p>As before, we can add axis labels and a title:</p>
+<pre><code>plt.xlabel(“x axis label”)
+plt.ylabel(“y axis label”)
+plt.title(“Title of the plot”)</code></pre>
+<p>The Seaborn plotting function for creating a bar plot is <code>sns.countplot</code>.</p>
+<div class="cell" data-tags="[]" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>sns.countplot(data <span class="op">=</span> wb, x <span class="op">=</span> <span class="st">'Continent'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-5-output-1.png" width="585" height="429"></p>
+</div>
+</div>
+<p><code>sns.countplot</code> both counts and visualizes the number of unique values in a given column, without the need for us to pre-process data using <code>.value_counts()</code>. The <code>DataFrame</code> containing our desired information is specified by the <code>data</code> argument, while the column to be plotted is specified by the <code>x</code> argument.</p>
+<hr>
+<p>To visualize the distribution of a <strong>quantiative</strong> variable, bar plots are no longer an appropriate choice of visualization. To see why, consider what happens when we use <code>sns.countplot</code> to visualize the distribution of gross national income, a quantitative continuous variable.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>sns.countplot(data <span class="op">=</span> wb, x <span class="op">=</span> <span class="st">'Gross national income per capita, Atlas method: $: 2016'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-6-output-1.png" width="615" height="429"></p>
+</div>
+</div>
+<p>What happened? A bar plot (either <code>plt.bar</code> or <code>sns.countplot</code>) will create a separate bar for <em>each</em> unique value of a variable. With a continuous variable, we may not have a finite number of possible values, which can lead to situations where we would need many, many bars to display each unique value.</p>
+<p>To visualize the distribution of a continuous variable, we use a different type of plot:</p>
+<ul>
+<li>Box plot</li>
+<li>Violin plot</li>
+<li>Histogram</li>
+</ul>
+</section>
+</section>
+<section id="box-plots" class="level3" data-number="7.3.4">
+<h3 data-number="7.3.4" class="anchored" data-anchor-id="box-plots"><span class="header-section-number">7.3.4</span> Box Plots</h3>
+<p><strong>Box plots</strong> display distributions using information about quartiles.</p>
+<p>A quartile represents a 25% portion of the data. We say that: * The first quartile (Q1) repesents the 25th percentile – 25% of the data lies below the first quartile * The second quartile (Q2) represents the 50th percentile, also known as the median – 50% of the data lies below the second quartile * The third quartile (Q3) represents the 75th percentile – 75% of the data lies below the third quartile.</p>
+<p>In a box plot, the lower extent of the box lies at Q1, while the upper extent of the box lies at Q3. The horizontal line in the middle of the box corresponds to Q2 (equivalently, the median).</p>
+<p>The <strong>interquartile range</strong> measures the spread of the middle <span class="math inline">\(50\)</span>% of the distribution, calculated as the (<span class="math inline">\(3^{rd}\)</span> Quartile <span class="math inline">\(-\)</span> <span class="math inline">\(1^{st}\)</span> Quartile).</p>
+<p>The <strong>whiskers</strong> of a box-plot are the two points that lie at the [<span class="math inline">\(1^{st}\)</span> Quartile <span class="math inline">\(-\)</span> (<span class="math inline">\(1.5\times\)</span> IQR)], and the [<span class="math inline">\(3^{rd}\)</span> Quartile <span class="math inline">\(+\)</span> (<span class="math inline">\(1.5\times\)</span> IQR)]. They are the lower and upper ranges of “normal” data (the points excluding outliers). Subsequently, the <strong>outliers</strong> are the data points that fall beyond the whiskers, or further than (<span class="math inline">\(1.5 \times\)</span> IQR) from the extreme quartiles.</p>
+<p><img src="images/boxplot.png" alt="boxplot" width="500"></p>
+<p>In Matplotlib, box plots are created using the function <code>plt.boxplot</code>.</p>
+<div class="cell" data-execution_count="6">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># For simplicity, remove NaN values</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>wb <span class="op">=</span> wb[<span class="op">~</span>wb[<span class="st">"Gross domestic product: </span><span class="sc">% g</span><span class="st">rowth : 2016"</span>].isna()]</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>plt.boxplot(wb[<span class="st">'Gross domestic product: </span><span class="sc">% g</span><span class="st">rowth : 2016'</span>])</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"</span><span class="sc">% G</span><span class="st">DP growth"</span>)</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Distribution of GDP growth across countries"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-7-output-1.png" width="596" height="431"></p>
+</div>
+</div>
+<p>And in Seaborn, box plots are generated by <code>sns.boxplot</code>.</p>
+<div class="cell" data-execution_count="7">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>sns.boxplot(data <span class="op">=</span> wb, y <span class="op">=</span> <span class="st">"Gross domestic product: </span><span class="sc">% g</span><span class="st">rowth : 2016"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Distribution of GDP growth across countries"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-8-output-1.png" width="596" height="413"></p>
+</div>
+</div>
+<p>Sometimes, we may wish to also incorporate a <em>qualiatative</em> variable. For example, we may wish to compare the distribution of a quantitative variable <em>across</em> a set of categories.</p>
+<p>To do so, we can plot <strong>side-by-side box plots</strong>. In the example below, the continent of each county, a qualitative nominal variable, is plotted on the x-axis, while GDP growth, a quantiative continuous variable, is plotted on the y-axis.</p>
+<div class="cell" data-execution_count="8">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>sns.boxplot(data<span class="op">=</span>wb, x<span class="op">=</span> <span class="st">"Continent"</span>, y<span class="op">=</span> <span class="st">"Gross domestic product: </span><span class="sc">% g</span><span class="st">rowth : 2016"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Distribution of GDP growth by continent"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-9-output-1.png" width="596" height="449"></p>
+</div>
+</div>
+</section>
+<section id="violin-plots" class="level3" data-number="7.3.5">
+<h3 data-number="7.3.5" class="anchored" data-anchor-id="violin-plots"><span class="header-section-number">7.3.5</span> Violin Plots</h3>
+<p><strong>Violin plots</strong>, much like box plots, encode information about quantiles. A violin plot <em>also</em> incorporates smoothed density curves to add an additional level of information – now, the width of the plot at each point also carries meaning.</p>
+<p>The three quartiles and whiskers that we saw in box plots are still present in violin plots (look closely at the center)!</p>
+<div class="cell" data-execution_count="9">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In Seaborn: sns.violinplot</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sns.violinplot(data <span class="op">=</span> wb, y <span class="op">=</span> <span class="st">'Gross domestic product: </span><span class="sc">% g</span><span class="st">rowth : 2016'</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Distribution of GDP growth across countries"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-10-output-1.png" width="596" height="413"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="10">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In Matplotlib: plt.violinplot</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>plt.violinplot(wb[<span class="st">'Gross domestic product: </span><span class="sc">% g</span><span class="st">rowth : 2016'</span>])</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"</span><span class="sc">% G</span><span class="st">DP growth"</span>)</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Distribution of GDP growth across countries"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-11-output-1.png" width="596" height="431"></p>
+</div>
+</div>
+</section>
+<section id="histograms" class="level3" data-number="7.3.6">
+<h3 data-number="7.3.6" class="anchored" data-anchor-id="histograms"><span class="header-section-number">7.3.6</span> Histograms</h3>
+<p><strong>Histograms</strong> are an alternative method of visualizing quantitative continuous distributions. You first encountered them in <a href="https://inferentialthinking.com/chapters/07/2/Visualizing_Numerical_Distributions.html#histogram">Data 8</a>. In a histogram, datapoints with similar values are collected into a shared “bin”. These bins are scaled such that the area of each bin is equal to the percentage of datapoints it contains.</p>
+<div class="cell" data-execution_count="11">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In Matplotlib: plt.hist</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The `edgecolor` argument controls the color of the bin edges</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>gni <span class="op">=</span> wb[<span class="st">"Gross national income per capita, Atlas method: $: 2016"</span>]</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>plt.hist(gni, density<span class="op">=</span><span class="va">True</span>, edgecolor<span class="op">=</span><span class="st">"white"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Add labels</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Gross national income per capita"</span>)</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Density"</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Distribution of gross national income per capita"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-12-output-1.png" width="576" height="449"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="12">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># In Seaborn: sns.histplot</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>sns.histplot(data <span class="op">=</span> wb, x <span class="op">=</span> <span class="st">"Gross national income per capita, Atlas method: $: 2016"</span>, stat<span class="op">=</span><span class="st">"density"</span>)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Distribution of gross national income per capita"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-13-output-1.png" width="623" height="449"></p>
+</div>
+</div>
+<p>We can overlay histograms (or density curves) to compare distributions across qualitative categories.</p>
+<p>The <code>hue</code> parameter of <code>sns.histplot</code> specifies the column that should be used to determine the color of each category. <code>hue</code> can be used in many Seaborn plotting functions.</p>
+<p>Notice that the resulting plot includes a legend describing which color corresponds to each hemisphere – a legend should <strong>always</strong> be included if color is used to encode information in a visualization! This assists with our visualization goal of communicating our results to a broader audience.</p>
+<div class="cell" data-execution_count="13">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a new variable to store the hemisphere in which each country is located</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>north <span class="op">=</span> [<span class="st">"Asia"</span>, <span class="st">"Europe"</span>, <span class="st">"N. America"</span>]</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>south <span class="op">=</span> [<span class="st">"Africa"</span>, <span class="st">"Oceania"</span>, <span class="st">"S. America"</span>]</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>wb.loc[wb[<span class="st">"Continent"</span>].isin(north), <span class="st">"Hemisphere"</span>] <span class="op">=</span> <span class="st">"Northern"</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>wb.loc[wb[<span class="st">"Continent"</span>].isin(south), <span class="st">"Hemisphere"</span>] <span class="op">=</span> <span class="st">"Southern"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="14">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>sns.histplot(data <span class="op">=</span> wb, x <span class="op">=</span> <span class="st">"Gross national income per capita, Atlas method: $: 2016"</span>, <span class="op">\</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>                        hue<span class="op">=</span><span class="st">"Hemisphere"</span>, stat<span class="op">=</span><span class="st">"density"</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Distribution of gross national income per capita"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-15-output-1.png" width="576" height="449"></p>
+</div>
+</div>
+<p>You may have seen histograms drawn differently – perhaps with an overlaid <strong>density curve</strong> and normalized y-axis. We can display both with a few tweaks to our code.</p>
+<p>To visualize a density curve, we can set the the <code>kde = True</code> argument of the <code>sns.histplot</code>. Setting the argument <code>stat = 'density'</code> normalizes our histogram and displays densities, instead of counts, on the y-axis. You’ll notice that the area under the density curve is 1.</p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>sns.histplot(data <span class="op">=</span> wb, x <span class="op">=</span> <span class="st">"Gross national income per capita, Atlas method: $: 2016"</span>, <span class="op">\</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>             kde <span class="op">=</span> <span class="va">True</span>, <span class="op">\</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>             stat <span class="op">=</span> <span class="st">'density'</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-16-output-1.png" width="623" height="429"></p>
+</div>
+</div>
+<section id="interpreting-histograms" class="level4" data-number="7.3.6.1">
+<h4 data-number="7.3.6.1" class="anchored" data-anchor-id="interpreting-histograms"><span class="header-section-number">7.3.6.1</span> Interpreting Histograms</h4>
+<p>Histograms allow us to assess a distribution by its shape. In doing so, there are a few features that we typically consider.</p>
+<p>The <strong>skew</strong> of a histogram describes the direction in which its “tail” extends. If a distribution has a long right tail (such as gross national income per capita), it is <strong>skewed right</strong>. In a right-skewed distribution, the few large outliers “pull” the mean to the right of the median.</p>
+<p>If a distribution has a long left tail (such as water source access), it is <strong>skewed left</strong>. In a left-skewed distribution, the few small outliers “pull” the mean to the left of the median.</p>
+<p>In the case where a distribution has equal-sized right and left tails, it is <strong>symmetric</strong>. The mean is approximately equal to the median. Think of mean as the balancing point of the distribution</p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>sns.histplot(data <span class="op">=</span> wb, x <span class="op">=</span> <span class="st">"Gross national income per capita, Atlas method: $: 2016"</span>, stat <span class="op">=</span> <span class="st">"density"</span>)<span class="op">;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>df_mean <span class="op">=</span> np.mean(wb[<span class="st">"Gross national income per capita, Atlas method: $: 2016"</span>])</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>df_median <span class="op">=</span> np.nanmedian(wb[<span class="st">"Gross national income per capita, Atlas method: $: 2016"</span>])</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"The mean, </span><span class="sc">{</span>df_mean<span class="sc">}</span><span class="ss">, is right of the median, </span><span class="sc">{</span>df_median<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The mean, 12963.312101910828, is right of the median, 5280.0</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-17-output-2.png" width="623" height="429"></p>
+</div>
+</div>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>sns.histplot(data <span class="op">=</span> wb, x <span class="op">=</span> <span class="st">'Access to an improved water source: </span><span class="sc">% o</span><span class="st">f population: 2015'</span>, stat <span class="op">=</span> <span class="st">"density"</span>)<span class="op">;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>df_mean <span class="op">=</span> np.mean(wb[<span class="st">'Access to an improved water source: </span><span class="sc">% o</span><span class="st">f population: 2015'</span>])</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>df_median <span class="op">=</span> np.nanmedian(wb[<span class="st">'Access to an improved water source: </span><span class="sc">% o</span><span class="st">f population: 2015'</span>])</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"The mean, </span><span class="sc">{</span>df_mean<span class="sc">}</span><span class="ss">, is left of the median, </span><span class="sc">{</span>df_median<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>The mean, 88.8896103896104, is left of the median, 96.0</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-18-output-2.png" width="597" height="429"></p>
+</div>
+</div>
+<p>A <strong>mode</strong> of a distribution is a local or global maximum. A distribution with a single clear maximum is <strong>unimodal</strong>, distributions with two modes are <strong>bimodal</strong>, and those with 3 or more are <strong>multimodal</strong>.</p>
+<p>You may need to distinguish between modes and <em>random noise</em>. Often, it is difficult to discern noise from true modes when working with histograms – a histogram may contain too much detail to be able to identify general trends across the distribution. One solution to this issue, which we will introduce next, is to construct a kernel density estimate.</p>
+<p><img src="images/modes.png" alt="modes" width="600"></p>
+</section>
+</section>
+<section id="kernel-density-estimation" class="level3" data-number="7.3.7">
+<h3 data-number="7.3.7" class="anchored" data-anchor-id="kernel-density-estimation"><span class="header-section-number">7.3.7</span> Kernel Density Estimation</h3>
+<section id="kde-theory" class="level4" data-number="7.3.7.1">
+<h4 data-number="7.3.7.1" class="anchored" data-anchor-id="kde-theory"><span class="header-section-number">7.3.7.1</span> KDE Theory</h4>
+<p>A <strong>kernel density estimate (KDE)</strong> is a smooth, continuous function that approximates a curve. They allow us to represent general trends in a distribution without focusing on the details, which is useful to analyzing the broad structure of a dataset.</p>
+<p>More formally, a KDE attempts to approximate the underlying <strong>probability distribution</strong> from which our dataset was drawn. You may have encountered the idea of a probability distribution in your other classes; if not, we’ll discuss it at length in Data 100 next lecture. For now, you can think of a probability distribution as a description of how likely it is for us to sample a particular value in our dataset.</p>
+<p>A KDE curve estimates the probability density function of a random variable. Consider the example below, where we have used <code>sns.displot</code> to plot both a histogram (containing the datapoints we actually collected) and a KDE curve (representing the <em>approximated</em> probability distribution from which this data was drawn).</p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>sns.displot(data <span class="op">=</span> wb, x <span class="op">=</span> <span class="st">'Antiretroviral therapy coverage: </span><span class="sc">% o</span><span class="st">f people living with HIV: 2015'</span>, <span class="op">\</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                       kde <span class="op">=</span> <span class="va">True</span>, stat <span class="op">=</span> <span class="st">"density"</span>)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Distribution of HIV rates"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-19-output-1.png" width="497" height="488"></p>
+</div>
+</div>
+<p>Notice that the smooth KDE curve is higher when the histogram bins are taller. You can think of the height of the KDE curve as representing how “probable” it is that we randomly sample a datapoint with the corresponding value. This intuitively makes sense – if we have already collected more datapoints with a particular value (resulting in a tall histogram bin), it is more likely that, if we randomly sample another datapoint, we will sample one with a similar value (resulting in a high KDE curve).</p>
+<p>The area under a probability density function should always integrate to 1, representing the fact that the total probability of a distribution should always sum to 100%. Because of this, a KDE curve will always have an area of 1 under the curve.</p>
+</section>
+<section id="constructing-a-kde" class="level4" data-number="7.3.7.2">
+<h4 data-number="7.3.7.2" class="anchored" data-anchor-id="constructing-a-kde"><span class="header-section-number">7.3.7.2</span> Constructing a KDE</h4>
+<p>We perform kernel density estimation using three steps.</p>
+<ol type="1">
+<li>Place a kernel at each data point</li>
+<li>Normalize kernels to have total area of 1 (across all kernels)</li>
+<li>Sum kernels together</li>
+</ol>
+<p>We’ll explain what a “kernel” is momentarily.</p>
+<p>To make things simpler, let’s construct a KDE for a small, artificially-generated dataset of 5 datapoints: <span class="math inline">\([2.2, 2.8, 3.7, 5.3, 5.7]\)</span>. In the plot below, each vertical bar represents one datapoint.</p>
+<div class="cell" data-execution_count="19">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span> [<span class="fl">2.2</span>, <span class="fl">2.8</span>, <span class="fl">3.7</span>, <span class="fl">5.3</span>, <span class="fl">5.7</span>]</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>sns.rugplot(data, height<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Data"</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Density"</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="dv">3</span>, <span class="dv">10</span>)</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="fl">0.5</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-20-output-1.png" width="597" height="434"></p>
+</div>
+</div>
+<p>Our goal is to create the following KDE curve, which was generated automatically by <code>sns.kdeplot</code>.</p>
+<div class="cell" data-execution_count="20">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(data)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Data"</span>)</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="dv">3</span>, <span class="dv">10</span>)</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="fl">0.5</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-21-output-1.png" width="597" height="434"></p>
+</div>
+</div>
+<section id="step-1-place-a-kernel-at-each-datapoint" class="level5" data-number="7.3.7.2.1">
+<h5 data-number="7.3.7.2.1" class="anchored" data-anchor-id="step-1-place-a-kernel-at-each-datapoint"><span class="header-section-number">7.3.7.2.1</span> Step 1: Place a Kernel at Each Datapoint</h5>
+<p>To begin generating a density curve, we need to choose a <strong>kernel</strong> and <strong>bandwidth value (<span class="math inline">\(\alpha\)</span>)</strong>. What are these exactly?</p>
+<p>A <strong>kernel</strong> is a density curve. It is the mathematical function that attempts to capture the randomness of each datapoint in our sampled data. To explain what this means, consider just <em>one</em> of the datapoints in our dataset: <span class="math inline">\(2.2\)</span>. We obtained this datapoint by randomly sampling some information out in the real world (you can imagine <span class="math inline">\(2.2\)</span> as representing a single measurement taken in an experiment, for example). If we were to sample a new datapoint, we may obtain a slightly different value. It could be higher than <span class="math inline">\(2.2\)</span>; it could also be lower than <span class="math inline">\(2.2\)</span>. We make the assumption that any future sampled datapoints will likely be similar in value to the data we’ve already drawn. This means that our <em>kernel</em> – our description of the probability of randomly sampling any new value – will be greatest at the datapoint we’ve already drawn, but still have non-zero probability above and below it. The area under any kernel should integrate to 1, representing the total probability of drawing a new datapoint.</p>
+<p>A <strong>bandwidth value</strong>, usually denoted by <span class="math inline">\(\alpha\)</span>, represents the width of the kernel. A large value of <span class="math inline">\(\alpha\)</span> will result in a wide, short kernel function, while a small value with result in a narrow, tall kernel.</p>
+<p>Below, we place a <strong>Gaussian kernel</strong>, plotted in orange, over the datapoint <span class="math inline">\(2.2\)</span>. A Gaussian kernel is simply the normal distribution, which you may have called a bell curve in Data 8.</p>
+<div class="cell" data-execution_count="21">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> gaussian_kernel(x, z, a):</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># We'll discuss where this mathematical formulation came from later</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (<span class="dv">1</span><span class="op">/</span>np.sqrt(<span class="dv">2</span><span class="op">*</span>np.pi<span class="op">*</span>a<span class="op">**</span><span class="dv">2</span>)) <span class="op">*</span> np.exp((<span class="op">-</span>(x <span class="op">-</span> z)<span class="op">**</span><span class="dv">2</span> <span class="op">/</span> (<span class="dv">2</span> <span class="op">*</span> a<span class="op">**</span><span class="dv">2</span>)))</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot our datapoint</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>sns.rugplot([<span class="fl">2.2</span>], height<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the kernel</span></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">1000</span>)</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>plt.plot(x, gaussian_kernel(x, <span class="fl">2.2</span>, <span class="dv">1</span>))</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Data"</span>)</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Density"</span>)</span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="dv">3</span>, <span class="dv">10</span>)</span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="fl">0.5</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-22-output-1.png" width="597" height="434"></p>
+</div>
+</div>
+<p>To begin creating our KDE, we place a kernel on <em>each</em> datapoint in our dataset. For our dataset of 5 points, we will have 5 kernels.</p>
+<div class="cell" data-execution_count="22">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># You will work with the functions below in Lab 4</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_kde(kernel, pts, a):</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Takes in a kernel, set of points, and alpha</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Returns the KDE as a function</span></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> f(x):</span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> pt <span class="kw">in</span> pts:</span>
+<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>            output <span class="op">+=</span> kernel(x, pt, a)</span>
+<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> output <span class="op">/</span> <span class="bu">len</span>(pts) <span class="co"># Normalization factor</span></span>
+<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> f</span>
+<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-12"><a href="#cb29-12" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_kde(kernel, pts, a):</span>
+<span id="cb29-13"><a href="#cb29-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Calls create_kde and plots the corresponding KDE</span></span>
+<span id="cb29-14"><a href="#cb29-14" aria-hidden="true" tabindex="-1"></a>    f <span class="op">=</span> create_kde(kernel, pts, a)</span>
+<span id="cb29-15"><a href="#cb29-15" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.linspace(<span class="bu">min</span>(pts) <span class="op">-</span> <span class="dv">5</span>, <span class="bu">max</span>(pts) <span class="op">+</span> <span class="dv">5</span>, <span class="dv">1000</span>)</span>
+<span id="cb29-16"><a href="#cb29-16" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> [f(xi) <span class="cf">for</span> xi <span class="kw">in</span> x]</span>
+<span id="cb29-17"><a href="#cb29-17" aria-hidden="true" tabindex="-1"></a>    plt.plot(x, y)<span class="op">;</span></span>
+<span id="cb29-18"><a href="#cb29-18" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-19"><a href="#cb29-19" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_separate_kernels(kernel, pts, a, norm<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb29-20"><a href="#cb29-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Plots individual kernels, which are then summed to create the KDE</span></span>
+<span id="cb29-21"><a href="#cb29-21" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> np.linspace(<span class="bu">min</span>(pts) <span class="op">-</span> <span class="dv">5</span>, <span class="bu">max</span>(pts) <span class="op">+</span> <span class="dv">5</span>, <span class="dv">1000</span>)</span>
+<span id="cb29-22"><a href="#cb29-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> pt <span class="kw">in</span> pts:</span>
+<span id="cb29-23"><a href="#cb29-23" aria-hidden="true" tabindex="-1"></a>        y <span class="op">=</span> kernel(x, pt, a)</span>
+<span id="cb29-24"><a href="#cb29-24" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> norm:</span>
+<span id="cb29-25"><a href="#cb29-25" aria-hidden="true" tabindex="-1"></a>            y <span class="op">/=</span> <span class="bu">len</span>(pts)</span>
+<span id="cb29-26"><a href="#cb29-26" aria-hidden="true" tabindex="-1"></a>        plt.plot(x, y)</span>
+<span id="cb29-27"><a href="#cb29-27" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-28"><a href="#cb29-28" aria-hidden="true" tabindex="-1"></a>    plt.show()<span class="op">;</span></span>
+<span id="cb29-29"><a href="#cb29-29" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb29-30"><a href="#cb29-30" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="dv">3</span>, <span class="dv">10</span>)</span>
+<span id="cb29-31"><a href="#cb29-31" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="fl">0.5</span>)</span>
+<span id="cb29-32"><a href="#cb29-32" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Data"</span>)</span>
+<span id="cb29-33"><a href="#cb29-33" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Density"</span>)</span>
+<span id="cb29-34"><a href="#cb29-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-35"><a href="#cb29-35" aria-hidden="true" tabindex="-1"></a>plot_separate_kernels(gaussian_kernel, data, a <span class="op">=</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-23-output-1.png" width="597" height="434"></p>
+</div>
+</div>
+</section>
+<section id="step-2-normalize-kernels-to-have-total-area-of-1" class="level5" data-number="7.3.7.2.2">
+<h5 data-number="7.3.7.2.2" class="anchored" data-anchor-id="step-2-normalize-kernels-to-have-total-area-of-1"><span class="header-section-number">7.3.7.2.2</span> Step 2: Normalize Kernels to Have Total Area of 1</h5>
+<p>Above, we said that <em>each</em> kernel has an area of 1. Earlier, we also said that our goal is to construct a KDE curve using these kernels with a <em>total</em> area of 1. If we were to directly sum the kernels as they are, we would produce a KDE curve with an integrated area of (5 kernels) <span class="math inline">\(\times\)</span> (area of 1 each) = 5. To avoid this, we will <strong>normalize</strong> each of our kernels. This involves multiplying each kernel by <span class="math inline">\(1/(\#\:\text{datapoints})\)</span>.</p>
+<p>In the cell below, we multiply each of our 5 kernels by <span class="math inline">\(\frac{1}{5}\)</span> to apply normalization.</p>
+<div class="cell" data-execution_count="23">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="dv">3</span>, <span class="dv">10</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="fl">0.5</span>)</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Data"</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Density"</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="co"># The `norm` argument specifies whether or not to normalize the kernels</span></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>plot_separate_kernels(gaussian_kernel, data, a <span class="op">=</span> <span class="dv">1</span>, norm <span class="op">=</span> <span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-24-output-1.png" width="597" height="434"></p>
+</div>
+</div>
+</section>
+<section id="step-3-sum-kernels-together" class="level5" data-number="7.3.7.2.3">
+<h5 data-number="7.3.7.2.3" class="anchored" data-anchor-id="step-3-sum-kernels-together"><span class="header-section-number">7.3.7.2.3</span> Step 3: Sum Kernels Together</h5>
+<p>Our KDE curve is the sum of the normalized kernels. Notice that the final curve is identical to the plot generated by <code>sns.kdeplot</code> we saw earlier!</p>
+<div class="cell" data-execution_count="24">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="dv">3</span>, <span class="dv">10</span>)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="fl">0.5</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Data"</span>)</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Density"</span>)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>plot_kde(gaussian_kernel, data, a <span class="op">=</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-25-output-1.png" width="597" height="434"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="kernel-functions-and-bandwidths" class="level4" data-number="7.3.7.3">
+<h4 data-number="7.3.7.3" class="anchored" data-anchor-id="kernel-functions-and-bandwidths"><span class="header-section-number">7.3.7.3</span> Kernel Functions and Bandwidths</h4>
+<p>A kernel, for our purposes, is any valid probability density function. This means that a kernel function must:</p>
+<ul>
+<li>Be non-negative for all values (we can’t have negative probability)</li>
+<li>Integrate to 1</li>
+</ul>
+<section id="gaussian-kernel" class="level5" data-number="7.3.7.3.1">
+<h5 data-number="7.3.7.3.1" class="anchored" data-anchor-id="gaussian-kernel"><span class="header-section-number">7.3.7.3.1</span> Gaussian Kernel</h5>
+<p>As we saw above, a Gaussian kernel (also called the normal distribution or bell curve) is one of the most common choices of kernel functions. It is defined mathematically as:</p>
+<p><span class="math display">\[K_a(x, x_i) = \frac{1}{\sqrt{2\pi\alpha^{2}}}e^{-\frac{(x-x_i)^{2}}{2\alpha^{2}}}\]</span></p>
+<p>In this formula:</p>
+<ul>
+<li><span class="math inline">\(x\)</span> (no subscript) represents values along the x-axis of our plot</li>
+<li><span class="math inline">\(x_i\)</span> represents the <span class="math inline">\(i\)</span>th datapoint in our dataset. It is one of the values that we have actually collected in our data sampling process. In our example earlier, <span class="math inline">\(x_i=2.2\)</span>. Those of you who have taken a probability class may recognize <span class="math inline">\(x_i\)</span> as the <strong>mean</strong> of the normal distribution.</li>
+<li><span class="math inline">\(\alpha\)</span> is the bandwidth parameter, representing the width of our kernel. More formally, <span class="math inline">\(\alpha\)</span> is the <strong>standard deviation</strong> of the Gaussian curve.</li>
+</ul>
+<p>The details of this (admittedly intimidating) formula are less important than understanding its role in kernel density estimation – this equation gives us the shape of each kernel.</p>
+<p>A large value of <span class="math inline">\(\alpha\)</span> will produce a kernel that is wider and shorter – this leads to a smoother KDE when the kernels are summed together. Conversely, a small value of <span class="math inline">\(\alpha\)</span> will produce a narrower, taller kernel, and, with it, a noisier KDE.</p>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p><strong>Gaussian Kernel, <span class="math inline">\(\alpha\)</span> = 0.1</strong></p>
+<p><img src="images/gaussian_0.1.png" alt="gaussian_0.1" width="345"></p>
+</div><div class="column" style="width:20%;">
+<!-- empty column to create gap -->
+</div><div class="column" style="width:30%;">
+<p><strong>Gaussian Kernel, <span class="math inline">\(\alpha\)</span> = 1</strong></p>
+<p><img src="images/gaussian_1.png" alt="gaussian_1" width="345"></p>
+</div>
+</div>
+<div class="columns">
+<div class="column" style="width:30%;">
+<p><strong>Gaussian Kernel, <span class="math inline">\(\alpha\)</span> = 2</strong></p>
+<p><img src="images/gaussian_2.png" alt="gaussian_2" width="345"></p>
+</div><div class="column" style="width:20%;">
+<!-- empty column to create gap -->
+</div><div class="column" style="width:30%;">
+<p><strong>Gaussian Kernel, <span class="math inline">\(\alpha\)</span> = 10</strong></p>
+<p><img src="images/gaussian_10.png" alt="gaussian_10" width="345"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="boxcar-kernel" class="level4" data-number="7.3.7.4">
+<h4 data-number="7.3.7.4" class="anchored" data-anchor-id="boxcar-kernel"><span class="header-section-number">7.3.7.4</span> Boxcar Kernel</h4>
+<p>Another example of a kernel is the <strong>Boxcar kernel</strong>. The boxcar kernel assigns a uniform density to points within a “window” of the observation, and a density of 0 elsewhere. The equation below is a Boxcar kernel with the center at <span class="math inline">\(x_i\)</span> and the bandwidth of <span class="math inline">\(\alpha\)</span>.</p>
+<p><span class="math display">\[K_a(x, x_i) = \begin{cases}
+        \frac{1}{\alpha}, &amp; |x - x_i| \le \frac{\alpha}{2}\\
+        0, &amp; \text{else }
+    \end{cases}\]</span></p>
+<p>The boxcar kernel is seldom used in practice – we include it here to demonstrate that a kernel function can take whatever form you would like, provided it integrates to 1 and does not output negative values. In the cell below, we plot the boxcar kernel at our datapoint from before, <span class="math inline">\(2.2\)</span>.</p>
+<div class="cell" data-execution_count="25">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> boxcar_kernel(x, z, alpha):</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (((x<span class="op">-</span>z)<span class="op">&gt;=-</span>alpha<span class="op">/</span><span class="dv">2</span>)<span class="op">&amp;</span>((x<span class="op">-</span>z)<span class="op">&lt;=</span>alpha<span class="op">/</span><span class="dv">2</span>))<span class="op">/</span>alpha</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot our datapoint</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>sns.rugplot([<span class="fl">2.2</span>], height<span class="op">=</span><span class="fl">0.3</span>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Data"</span>)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Density"</span>)</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="dv">3</span>, <span class="dv">10</span>)</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="fl">0.5</span>)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the kernel</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">1000</span>)</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>plot_separate_kernels(boxcar_kernel, [<span class="fl">2.2</span>], a <span class="op">=</span> <span class="fl">2.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-26-output-1.png" width="597" height="434"></p>
+</div>
+</div>
+<p>Using the boxcar kernel with <span class="math inline">\(\alpha=2.5\)</span> to generate a KDE for our full dataset yields the following result:</p>
+<div class="cell" data-execution_count="26">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Data"</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Density"</span>)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="op">-</span><span class="dv">3</span>, <span class="dv">10</span>)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="fl">0.5</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the kernel</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">3</span>, <span class="dv">10</span>, <span class="dv">1000</span>)</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>plot_kde(boxcar_kernel, data, a <span class="op">=</span> <span class="fl">2.5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-27-output-1.png" width="597" height="434"></p>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="visualizing-relationships" class="level2" data-number="7.4">
+<h2 data-number="7.4" class="anchored" data-anchor-id="visualizing-relationships"><span class="header-section-number">7.4</span> Visualizing Relationships</h2>
+<p>Up until now, we’ve discussed how to visualize single-variable distributions. Now, let’s understand how to visualize the relationship between pairs of numerical variables.</p>
+<section id="scatter-plots" class="level4" data-number="7.4.0.1">
+<h4 data-number="7.4.0.1" class="anchored" data-anchor-id="scatter-plots"><span class="header-section-number">7.4.0.1</span> Scatter Plots</h4>
+<p><strong>Scatter plots</strong> are one of the most useful tools in representing the relationship between two quantitative variables. They are particularly important in gauging the strength, or correlation, of the relationship between variables. Knowledge of these relationships can then motivate decisions in our modeling process.</p>
+<p>In Matplotlib, we use the function <code>plt.scatter</code> to generate a scatter plot. Notice that unlike our examples of plotting single-variable distributions, now we specify sequences of values to be plotted along the x axis <em>and</em> the y axis.</p>
+<div class="cell" data-execution_count="27">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>plt.scatter(wb[<span class="st">"per capita: </span><span class="sc">% g</span><span class="st">rowth: 2016"</span>], <span class="op">\</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>            wb[<span class="st">'Adult literacy rate: Female: % ages 15 and older: 2005-14'</span>])</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"</span><span class="sc">% g</span><span class="st">rowth per capita"</span>)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Female adult literacy rate"</span>)</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Female adult literacy against </span><span class="sc">% g</span><span class="st">rowth"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-28-output-1.png" width="593" height="449"></p>
+</div>
+</div>
+<p>In Seaborn, we call the function <code>sns.scatterplot</code>. We use the <code>x</code> and <code>y</code> parameters to indicate the values to be plotted along the x and y axes, respectively. By using the <code>hue</code> parameter, we can specify a third variable to be used for coloring each scatter point.</p>
+<div class="cell" data-execution_count="28">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data <span class="op">=</span> wb, x <span class="op">=</span> <span class="st">"per capita: </span><span class="sc">% g</span><span class="st">rowth: 2016"</span>, <span class="op">\</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>               y <span class="op">=</span> <span class="st">"Adult literacy rate: Female: % ages 15 and older: 2005-14"</span>, </span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>               hue <span class="op">=</span> <span class="st">"Continent"</span>)</span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Female adult literacy against </span><span class="sc">% g</span><span class="st">rowth"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-29-output-1.png" width="593" height="449"></p>
+</div>
+</div>
+<p>Although the plots above communicate the general relationship between the two plotted variables, they both suffer a major limitation – <strong>overplotting</strong>. Overplotting occurs when scatter points with similar values are stacked on top of one another, making it difficult to see the number of scatter points actually plotted in the visualization. Notice how in the upper righthand region of the plots, we cannot easily tell just how many points have been plotted. This make our visualizations difficult to interpret.</p>
+<p>We have a few methods to help reduce overplotting:</p>
+<ul>
+<li>Decreasing the size of the scatter point markers can improve readability. We do this by setting a new value to the size parameter, <code>s</code>, of <code>plt.scatter</code> or <code>sns.scatterplot</code></li>
+<li><strong>Jittering</strong> is the process of adding a small amount of random noise to all x and y values to slightly shift the position of each datapoint. By randomly shifting all the data by some small distance, we can discern individual points more clearly without modifying the major trends of the original dataset.</li>
+</ul>
+<p>In the cell below, we first jitter the data using <code>np.random.uniform</code>, then re-plot it with smaller markers. The resulting plot is much easier to interpret.</p>
+<div class="cell" data-execution_count="29">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting a seed ensures that we produce the same plot each time</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="co"># This means that the course notes will not change each time you access them</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">150</span>)</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a><span class="co"># This call to np.random.uniform generates random numbers between -1 and 1</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="co"># We add these random numbers to the original x data to jitter it slightly</span></span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>x_noise <span class="op">=</span> np.random.uniform(<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>, <span class="bu">len</span>(wb))</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>jittered_x <span class="op">=</span> wb[<span class="st">"per capita: </span><span class="sc">% g</span><span class="st">rowth: 2016"</span>] <span class="op">+</span> x_noise</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Repeat for y data</span></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>y_noise <span class="op">=</span> np.random.uniform(<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>, <span class="bu">len</span>(wb))</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>jittered_y <span class="op">=</span> wb[<span class="st">"Adult literacy rate: Female: % ages 15 and older: 2005-14"</span>] <span class="op">+</span> y_noise</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Setting the size parameter `s` changes the size of each point</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>plt.scatter(jittered_x, jittered_y, s<span class="op">=</span><span class="dv">15</span>)</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"</span><span class="sc">% g</span><span class="st">rowth per capita (jittered)"</span>)</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Female adult literacy rate (jittered)"</span>)</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Female adult literacy against </span><span class="sc">% g</span><span class="st">rowth"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-30-output-1.png" width="593" height="449"></p>
+</div>
+</div>
+</section>
+<section id="lmplot-and-jointplot" class="level4" data-number="7.4.0.2">
+<h4 data-number="7.4.0.2" class="anchored" data-anchor-id="lmplot-and-jointplot"><span class="header-section-number">7.4.0.2</span> <code>lmplot</code> and <code>jointplot</code></h4>
+<p>Seaborn also includes several built-in functions for creating more sophisticated scatter plots. Two of the most commonly-used examples are <code>sns.lmplot</code> and <code>sns.jointplot</code>.</p>
+<p><code>sns.lmplot</code> plots both a scatter plot <em>and</em> a linear regression line, all in one function call. We’ll discuss linear regression in a few lectures.</p>
+<div class="cell" data-execution_count="30">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>sns.lmplot(data <span class="op">=</span> wb, x <span class="op">=</span> <span class="st">"per capita: </span><span class="sc">% g</span><span class="st">rowth: 2016"</span>, <span class="op">\</span></span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>           y <span class="op">=</span> <span class="st">"Adult literacy rate: Female: % ages 15 and older: 2005-14"</span>)</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Female adult literacy against </span><span class="sc">% g</span><span class="st">rowth"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-31-output-1.png" width="489" height="508"></p>
+</div>
+</div>
+<p><code>sns.jointplot</code> creates a visualization with three components: a scatter plot, a histogram of the distribution of x values, and a histogram of the distribution of y values.</p>
+<div class="cell" data-execution_count="31">
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>sns.jointplot(data <span class="op">=</span> wb, x <span class="op">=</span> <span class="st">"per capita: </span><span class="sc">% g</span><span class="st">rowth: 2016"</span>, <span class="op">\</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>           y <span class="op">=</span> <span class="st">"Adult literacy rate: Female: % ages 15 and older: 2005-14"</span>)</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.suptitle allows us to shift the title up so it does not overlap with the histogram</span></span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"Female adult literacy against </span><span class="sc">% g</span><span class="st">rowth"</span>)</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>plt.subplots_adjust(top<span class="op">=</span><span class="fl">0.9</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-32-output-1.png" width="570" height="567"></p>
+</div>
+</div>
+</section>
+<section id="hex-plots" class="level4" data-number="7.4.0.3">
+<h4 data-number="7.4.0.3" class="anchored" data-anchor-id="hex-plots"><span class="header-section-number">7.4.0.3</span> Hex plots</h4>
+<p>For datasets with a very large number of datapoints, jittering is unlikely to fully resolve the issue of overplotting. In these cases, we can attempt to visualize our data by its <em>density</em>, rather than displaying each individual datapoint.</p>
+<p><strong>Hex plots</strong> can be thought of as a two dimensional histograms that shows the joint distribution between two variables. This is particularly useful working with very dense data. In a hex plot, the x-y plane is binned into hexagons. Hexagons that are darker in color indicate a greater density of data – that is, there are more datapoints that lie in the region enclosed by the hexagon.</p>
+<p>We can generate a hex plot using <code>sns.jointplot</code> modified with the <code>kind</code> parameter.</p>
+<div class="cell" data-execution_count="32">
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>sns.jointplot(data <span class="op">=</span> wb, x <span class="op">=</span> <span class="st">"per capita: </span><span class="sc">% g</span><span class="st">rowth: 2016"</span>, <span class="op">\</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>              y <span class="op">=</span> <span class="st">"Adult literacy rate: Female: % ages 15 and older: 2005-14"</span>, <span class="op">\</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>              kind <span class="op">=</span> <span class="st">"hex"</span>)</span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="co"># plt.suptitle allows us to shift the title up so it does not overlap with the histogram</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"Female adult literacy against </span><span class="sc">% g</span><span class="st">rowth"</span>)</span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>plt.subplots_adjust(top<span class="op">=</span><span class="fl">0.9</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-33-output-1.png" width="570" height="567"></p>
+</div>
+</div>
+</section>
+<section id="contour-plots" class="level4" data-number="7.4.0.4">
+<h4 data-number="7.4.0.4" class="anchored" data-anchor-id="contour-plots"><span class="header-section-number">7.4.0.4</span> Contour Plots</h4>
+<p><strong>Contour plots</strong> are an alternative way of plotting the joint distribution of two variables. You can think of them as the 2-dimensional versions of KDE plots. A contour plot can be interpreted in a similar way to a <a href="https://gisgeography.com/contour-lines-topographic-map/">topographic map</a>. Each countour line represents an area that has the same <em>density</em> of datapoints throughout the region. Contours marked with darker colors contain more datapoints (a higher density) in that region.</p>
+<p><code>sns.kdeplot</code> will generate a contour plot if we specify both x and y data.</p>
+<div class="cell" data-execution_count="33">
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>sns.kdeplot(data <span class="op">=</span> wb, x <span class="op">=</span> <span class="st">"per capita: </span><span class="sc">% g</span><span class="st">rowth: 2016"</span>, <span class="op">\</span></span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>            y <span class="op">=</span> <span class="st">"Adult literacy rate: Female: % ages 15 and older: 2005-14"</span>, <span class="op">\</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>            fill <span class="op">=</span> <span class="va">True</span>)</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Female adult literacy against </span><span class="sc">% g</span><span class="st">rowth"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-34-output-1.png" width="596" height="449"></p>
+</div>
+</div>
+</section>
+</section>
+<section id="transformations" class="level2" data-number="7.5">
+<h2 data-number="7.5" class="anchored" data-anchor-id="transformations"><span class="header-section-number">7.5</span> Transformations</h2>
+<p>This lecture has covered visualizations in great depth. We looked at various forms of visualizations, plotting libraries, and high-level theory.</p>
+<p>Much of this was done to uncover insights in data, which will prove necessary when we begin building models of data later in the course. A strong graphical correlation between two variables hints at an underlying relationship that we may want to study in greater detail. However, relying on visual relationships alone is limiting - not all plots show association. The presence of outliers and other statistical anomalies make it hard to interpret data.</p>
+<p><strong>Transformations</strong> are the process of manipulating data to find significant relationships between variables. These are often found by applying mathematical functions to variables that “transform” their range of possible values and highlight some previously hidden associations between data.</p>
+<p>To see why we may want to transform data, consider the following plot of adult literacy rates against gross national income.</p>
+<div class="cell" data-execution_count="34">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Some data cleaning to help with the next example</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(index<span class="op">=</span>wb.index)</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'lit'</span>] <span class="op">=</span> wb[<span class="st">'Adult literacy rate: Female: % ages 15 and older: 2005-14'</span>] <span class="op">\</span></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>            <span class="op">+</span> wb[<span class="st">"Adult literacy rate: Male: % ages 15 and older: 2005-14"</span>]</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'inc'</span>] <span class="op">=</span> wb[<span class="st">'Gross national income per capita, Atlas method: $: 2016'</span>]</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>df.dropna(inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a>plt.scatter(df[<span class="st">"inc"</span>], df[<span class="st">"lit"</span>])</span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Gross national income per capita"</span>)</span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Adult literacy rate"</span>)</span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Adult literacy rate against GNI per capita"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-35-output-1.png" width="593" height="449"></p>
+</div>
+</div>
+<p>This plot is difficult to interpret for two reasons:</p>
+<ul>
+<li>The data shown in the visualization appears almost “smushed” – it is heavily concentrated in the upper lefthand region of the plot. Even if we jittered the dataset, we likely would not be able to fully assess all datapoints in that area.</li>
+<li>It is hard to generalize a clear relationship between the two plotted variables. While adult literacy rate appears to share some positive relationship with gross national income, we are not able to describe the specifics in this trend in much detail.</li>
+</ul>
+<p>A transformation would allow us to visualize this data more clearly, which, in turn, would enable us to describe the underlying relationship between our variables of interest.</p>
+<p>We will most commonly apply a transformation to <strong>linearize a relationship</strong> between variables. If we find a transformation to make a scatter plot of two variables linear, we can “backtrack” to find the exact relationship between the variables. This helps us in two major ways. Firstly, linear relationships are particularly simple to interpret – we have an intutive sense of what the slope and intercept of a linear trend represent, and how they can help us understand the relationship between two variables. Secondly, linear relationships are the backbone of linear models. We will begine exploring linear modeling in great detail next week. As we’ll soon see, linear models become much more effective when we are working with linearized data.</p>
+<p>In the remainder of this note, we will discuss how to linearize a dataset to produce the result below. Notice that the resulting plot displays a rough linear relationship between the values plotted on the x and y axes.</p>
+<p><img src="images/linearize.png" alt="linearize" width="700"></p>
+<section id="applying-transformations" class="level3" data-number="7.5.1">
+<h3 data-number="7.5.1" class="anchored" data-anchor-id="applying-transformations"><span class="header-section-number">7.5.1</span> Applying Transformations</h3>
+<p>To linearize a relationship, begin by asking yourself: what makes the data non-linear? It is helpful to repeat this question for each variable in your visualization.</p>
+<p>Let’s start by considering the gross national income variable in our plot above. Looking at <em>just</em> the x values in the scatter plot, we notice that most datapoints are clustered at low values to the left of the plot. The scale of the x axis is being distorted by the few outlying datapoints at extremely large values on the right.</p>
+<p><img src="images/horizontal.png" alt="horizontal" width="450"></p>
+<p>If we decreased the size of these outliers relative to the bulk of the data, we could reduce the distortion of the horizontal axis. How can we do this? We need a transformation that will:</p>
+<ul>
+<li>Decrease the magnitude of large x values by a signficant amount</li>
+<li>Not drastically change the magnitude of small x values</li>
+</ul>
+<p>One function that produces this result is the <strong>log transformation</strong>. When we take the logarithm of a large number, the original number will decrease in magnitude dramatically. Conversely, when we take the logarithm of a small number, the original number does not change its value by as significant of an amount (to illustrate this, consider the difference between <span class="math inline">\(\log{(100)} = 4.61\)</span> and <span class="math inline">\(\log{(10)} = 2.3\)</span>).</p>
+<p>In Data 100 (and most upper division STEM classes), <span class="math inline">\(\log\)</span> is used to refer to the natural logarithm with base <span class="math inline">\(e\)</span>.</p>
+<div class="cell" data-execution_count="35">
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># np.log takes the logarithm of an array or Series</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(np.log(df[<span class="st">"inc"</span>]), df[<span class="st">"lit"</span>])</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Log(gross national income per capita)"</span>)</span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Adult literacy rate"</span>)</span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Adult literacy rate against Log(GNI per capita)"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-36-output-1.png" width="593" height="449"></p>
+</div>
+</div>
+<p>After taking the logarithm of our x values, our plot appears much more balanced in its horizontal scale. We no longer have many datapoints clumped on one end and a few outliers out at extreme values.</p>
+<p>Let’s repeat this reasoning for the y values. Considering only the vertical axis of the plot, notice how there are many datapoints concentrated at large y values. Only a few datapoints lie at smaller values of y.</p>
+<p><img src="images/vertical.png" alt="vertical" width="550"></p>
+<p>If we were to “spread out” these large values of y more, we would no longer see the dense concentration in one region of the y axis. We need a transformation that will:</p>
+<ul>
+<li>Increase the magnitude of large values of y so these datapoints are distributed more broadly on the vertical scale</li>
+<li>Not substantially alter the scaling of small values of y (we do not want to drastically modify the lower end of the y axis, which is already distributed evenly on the vertical scale)</li>
+</ul>
+<p>In this case, it is helpful to apply a <strong>power transformation</strong> – that is, raise our y values to a power. Let’s try raising our adult literacy rate values to the power of 4. Large values raised to the power of 4 will increase in magnitude proportionally much more than small values raised to the power of 4 (consider the difference between <span class="math inline">\(2^4 = 16\)</span> and <span class="math inline">\(200^4 = 1600000000\)</span>).</p>
+<div class="cell" data-execution_count="36">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply a log transformation to the x values and a power transformation to the y values</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(np.log(df[<span class="st">"inc"</span>]), df[<span class="st">"lit"</span>]<span class="op">**</span><span class="dv">4</span>)</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Log(gross national income per capita)"</span>)</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Adult literacy rate (4th power)"</span>)</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"Adult literacy rate (4th power) against Log(GNI per capita)"</span>)</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>plt.subplots_adjust(top<span class="op">=</span><span class="fl">0.9</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-37-output-1.png" width="589" height="477"></p>
+</div>
+</div>
+<p>Our scatter plot is looking a lot better! Now, we are plotting the log of our original x values on the horizontal axis, and the 4th power of our original y values on the vertical axis. We start to see an approximate <em>linear</em> relationship between our transformed variables.</p>
+<p>What can we take away from this? We now know that the log of gross national income and adult literacy to the power of 4 are roughly linearly related. If we denote the original, untransformed gross national income values as <span class="math inline">\(x\)</span> and the original adult literacy rate values as <span class="math inline">\(y\)</span>, we can use the standard form of a linear fit to express this relationship:</p>
+<p><span class="math display">\[y^4 = m(\log{x}) + b\]</span></p>
+<p>Where <span class="math inline">\(m\)</span> represents the slope of the linear fit, while <span class="math inline">\(b\)</span> represents the intercept.</p>
+<p>The cell below computes <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span> for our transformed data. We’ll discuss how this code was generated in a future lecture.</p>
+<div class="cell" data-execution_count="37">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The code below fits a linear regression model. We'll discuss it at length in a future lecture</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> LinearRegression()</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>model.fit(np.log(df[[<span class="st">"inc"</span>]]), df[<span class="st">"lit"</span>]<span class="op">**</span><span class="dv">4</span>)</span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>m, b <span class="op">=</span> model.coef_[<span class="dv">0</span>], model.intercept_</span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"The slope, m, of the transformed data is: </span><span class="sc">{</span>m<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"The intercept, b, of the transformed data is: </span><span class="sc">{</span>b<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.sort_values(<span class="st">"inc"</span>)</span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>plt.scatter(np.log(df[<span class="st">"inc"</span>]), df[<span class="st">"lit"</span>]<span class="op">**</span><span class="dv">4</span>, label<span class="op">=</span><span class="st">"Transformed data"</span>)</span>
+<span id="cb44-13"><a href="#cb44-13" aria-hidden="true" tabindex="-1"></a>plt.plot(np.log(df[<span class="st">"inc"</span>]), m<span class="op">*</span>np.log(df[<span class="st">"inc"</span>])<span class="op">+</span>b, c<span class="op">=</span><span class="st">"red"</span>, label<span class="op">=</span><span class="st">"Linear regression"</span>)</span>
+<span id="cb44-14"><a href="#cb44-14" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Log(gross national income per capita)"</span>)</span>
+<span id="cb44-15"><a href="#cb44-15" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Adult literacy rate (4th power)"</span>)</span>
+<span id="cb44-16"><a href="#cb44-16" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code>The slope, m, of the transformed data is: 336400693.43172705
+The intercept, b, of the transformed data is: -1802204836.0479987</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-38-output-2.png" width="597" height="443"></p>
+</div>
+</div>
+<p>What if we want to understand the <em>underlying</em> relationship between our original variables, before they were transformed? We can simply rearrange our linear expression above!</p>
+<p>Recall our linear relationship between the transformed variables <span class="math inline">\(\log{x}\)</span> and <span class="math inline">\(y^4\)</span>.</p>
+<p><span class="math display">\[y^4 = m(\log{x}) + b\]</span></p>
+<p>By rearranging the equation, we find a relationship between the untransformed variables <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span>.</p>
+<p><span class="math display">\[y = [m(\log{x}) + b]^{(1/4)}\]</span></p>
+<p>When we plug in the values for <span class="math inline">\(m\)</span> and <span class="math inline">\(b\)</span> computed above, something interesting happens.</p>
+<div class="cell" data-execution_count="38">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Now, plug the values for m and b into the relationship between the untransformed x and y</span></span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>plt.scatter(df[<span class="st">"inc"</span>], df[<span class="st">"lit"</span>], label<span class="op">=</span><span class="st">"Untransformed data"</span>)</span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>plt.plot(df[<span class="st">"inc"</span>], (m<span class="op">*</span>np.log(df[<span class="st">"inc"</span>])<span class="op">+</span>b)<span class="op">**</span>(<span class="dv">1</span><span class="op">/</span><span class="dv">4</span>), c<span class="op">=</span><span class="st">"red"</span>, label<span class="op">=</span><span class="st">"Modeled relationship"</span>)</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Gross national income per capita"</span>)</span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Adult literacy rate"</span>)</span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="visualization_1_files/figure-html/cell-39-output-1.png" width="593" height="429"></p>
+</div>
+</div>
+<p>We have found a relationship between our original variables – gross national income and adult literacy rate!</p>
+<p>Transformations are powerful tools for understanding our data in greater detail. To summarize what we just achieved:</p>
+<ul>
+<li>We identified appropriate transformations to <strong>linearize</strong> the original data</li>
+<li>We used our knowledge of linear curves to compute the slope and intercept of the transformed data</li>
+<li>We used this slope and intercept information to derive a relationship in the untransformed data</li>
+</ul>
+<p>Linearization will be an important tool as we begin our work on linear modeling next week.</p>
+</section>
+<section id="tukey-mosteller-bulge-diagram" class="level3" data-number="7.5.2">
+<h3 data-number="7.5.2" class="anchored" data-anchor-id="tukey-mosteller-bulge-diagram"><span class="header-section-number">7.5.2</span> Tukey-Mosteller Bulge Diagram</h3>
+<p>The <strong>Tukey-Mosteller Bulge Diagram</strong> is a guide to possible transformations for achieving linearity. It is a visual summary of the reasoning we just worked through above.</p>
+<p><img src="images/tukey_mosteller.png" alt="tukey_mosteller" width="300"></p>
+<p>How does it work? Each curved “bulge” represents a possible shape of non-linear data. To use the diagram, find which of the four bulges resembles your dataset the most closely. Then, look at the axes of the quadrant for this bulge. The horizontal axis will list possible transformations that could be applied to your x data for linearization. Similarly, the verical axis will list possible transformations that could be applied to your y data. Note that each axis lists two possible transformations – <em>either</em> of these transformations has the potential to linearize your dataset. It’s a good idea to try both out to see which one produces better results on your specific data.</p>
+<p>Generally:</p>
+<ul>
+<li><span class="math inline">\(\sqrt{}\)</span> and <span class="math inline">\(\log{}\)</span> will reduce the magnitude of large values</li>
+<li>Powers (<span class="math inline">\(^2\)</span> and <span class="math inline">\(^3\)</span>) will increase the spread in magnitude of large values</li>
+</ul>
+<p><img src="images/bulge.png" alt="bulge" width="800"></p>
+<p><strong>Important:</strong> you should still understand the <em>logic</em> we worked through to determine how best to transform the data. The bulge diagram is just a summary of this same reasoning. You will be expected to be able to explain why a given transformation is or is not appropriate for linearization.</p>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../regex/regex.html" class="pagination-link">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text Wrangling and Regular Expressions</span></span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+
+
+
+</body></html>

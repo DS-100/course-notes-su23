@@ -1,5 +1,5 @@
 ---
-title: Visualization I
+title: Visualization
 format:
   html:
     toc: true
@@ -15,16 +15,16 @@ jupyter: python3
 
 ::: {.callout-note collapse="true"}
 ## Learning Outcomes
-- Use `matplotlib`, `seaborn`, and `plotly` to create data visualization.
-- Analyze histogram and identify outliers, mode, and skewness.
-- Using `boxplot` and `violinplot` to compare two distributions.
+- Visualize distributions and relationships using the Matplotlib and Seaborn plotting libraries
+- Apply kernel density estimation to smooth data
+- Transform data in preparation for visualization and modeling
 :::
 
-In our journey of the data science lifecycle, we have begun to explore the vast world of exploratory data analysis. More recently, we learned how to pre-process data using various data manipulation techniques. As we work towards understanding our data, there is one key component missing in our arsenal - the ability to visualize and discern relationships in existing data.
+In our journey of the data science lifecycle, we have begun to explore the vast world of exploratory data analysis. More recently, we learned how to pre-process data using various manipulation and cleaning techniques. As we work towards understanding our data, there is one key component missing in our arsenal - the ability to visualize and discern relationships in existing data.
 
-These next two lectures will introduce you to various examples of data visualizations and their underlying theory. In doing so, we'll motivate their importace in real-world examples with the use of plotting libraries.
+This lecture will introduce you to various examples of data visualizations and their underlying theory. In doing so, we'll motivate their importance in real-world examples with the use of plotting libraries.
 
-## Visualizations in Data 8 and Data 100 (so far)
+## Visualizations in Data 8 (and Data 100, so far)
 
 You've likely encountered several forms of data visualizations in your studies. You may remember two such examples from Data 8: line charts and histograms. Each of these served a unique purpose. For example, line charts displayed how numerical quantities changed over time, while histograms were useful in understanding a variable's distribution. 
 
@@ -52,16 +52,20 @@ You've likely encountered several forms of data visualizations in your studies. 
 
 Visualizations are useful for a number of reasons. In Data 100, we consider two areas in particular:
 
-1. To broaden your understanding of the data
-    - Key part in exploratory data analysis.
-    - Useful in investigating relationships between variables.
+1. To help your own understanding of the data
+    - Key part of exploratory data analysis.
+    - Summarize trends visually before in-depth analysis.
 2. To communicate results/conclusions to others 
-    - Visualization theory is especially important here.
+    - Fine-tuned to achieve a communications goal.
+    - Considerations: clarity, accessibility, providing necessary context.
+    
+Put together, these goals add more nuance to our visualization task. Visualization is not simply a matter of making "pretty" pictures; rather, we will need to do a lot of thinking about what stylistic choices communicate ideas in the most effective way.
 
 One of the most common applications of visualizations is in understanding a distribution of data.
 
-## An Overview of Distributions
+## Visualizing Distributions
 
+### Distributions
 A distribution describes the frequency of unique values in a variable. Distributions must satisfy two properties:
 
    1. Each data point must belong to only one category.
@@ -87,342 +91,854 @@ A distribution describes the frequency of unique values in a variable. Distribut
 
 ::::
 
-Left Diagram: This is not a valid distribution since individuals can be associated to more than one category and the bar values demonstrate values in minutes and not probability 
+Left Diagram: This is not a valid distribution since individuals can be associated to more than one category. The bar values indicate a *change* in time, rather than the count or proportion of individuals belonging to each categoy. 
 
-Right Diagram: This example satisfies the two properties of distributions, so it is a valid distribution.
+Right Diagram: This example satisfies the two properties of distributions, so it is a valid distribution. Each bar represents the percentage of individuals who belonging to the corresponding category. All percentages sum to 100%, as required.
 
-## Bar Plots
+### Variable Types
+In our previous work on EDA, we learned how to categorize variables by their type. We saw that some variables are quantitative while others are qualitative; we also discussed the sub-divisions of variables into continuous, discrete, ordinal, and nominal.
+
+<img src="images/variable.png" alt='variable' width='500'>
+
+Different plot types are more or less suited for displaying particular types of variables. Before creating a visualization, you should always ask yourself: what types of variables am I presenting? What plots are suitable to present this variable type?
+
+A summary of the plots generally used to display different variable types is given below. In the following sections, we will introduce each type of plot and learn how to generate them in code.
+
+:::: {.columns}
+
+::: {.column width="40%"}
+**Distribution of a qualitative variable:**
+
+* Bar plot
+<br>
+<br>
+<br>
+<br>
+<br>
+
+**Distribution of a continuous variable across qualitative categories:**
+
+* Overlaid histograms
+* Side-by-side box plots
+* Side-by-side violin plots
+* Overlaid KDE plots
+:::
+
+::: {.column width="10%"}
+<!-- empty column to create gap -->
+:::
+
+::: {.column width="40%"}
+**Distribution of a quantitative continuous variable:**
+
+* Histogram
+* Box plot
+* Violin plot
+* KDE plot
+
+**Relationship between quantitative continuous variables:**
+
+* Scatter plot
+* Hex plot
+* Contour map
+:::
+
+::::
+
+### Bar Plots
 
 As we saw above, a **bar plot** is one of the most common ways of displaying the distribution of a **qualitative** (categorical) variable. The length of a bar plot encodes the frequency of a category; the width encodes no useful information.
 
-Let's contextualize this in an example. We will use the familiar `births` dataset from Data 8 in our analysis.
+Let's contextualize this in an example. We will use the World Bank dataset `wb`, which contains information about countries and social statistics.
 
 ```{python}
 #| code-fold: true
 #| tags: []
 import pandas as pd
 
-births = pd.read_csv("data/baby.csv")
-births.head(5)
+wb = pd.read_csv("data/world_bank.csv", index_col=0)
+wb.head()
 ```
 
-We can visualize the distribution of the `Maternal Smoker` column using a bar plot. There are a few ways to do this.
+We can visualize the distribution of the `"Continent"` column using a bar plot. There are a few ways to do this.
 
-### Plotting in Pandas
+#### Plotting in Matplotlib
+
+[Matplotlib](https://matplotlib.org/stable/api/index) is a common library used for generating visualizations in Python. Most Matplotlib plotting functions follow the same structure: we pass in a sequence (list, array, or Series) of values to be plotted on the x-axis, and a second sequence of values to be plotted on the y-axis. In pseudocode, Matplotlib plotting calls typically have the form:
+    
+    # plt is the typical alias for Matplotlib
+    import matplotlib.pyplot as plt 
+    plt.plotting_function(x_values, y_values)
+
+To add labels and a title to a plot, we call the functions `plt.xlabel`, `plt.ylabel`, and `plt.title`.
+
+    plt.xlabel(“x axis label”)
+    plt.ylabel(“y axis label”)
+    plt.title(“Title of the plot”);
+
+The plotting function to create a bar plot in Matplotlib is `plt.bar`. To generate a bar plot, we will need to create a set of x values and y values to pass in as arguments to `plt.bar`. In the cell below, we call `.value_counts()` to obtain the distribution of the `"Continent"` column. The index of the resulting `Series` contains our desired x values (the names of each unique continent), while the values contain our y data (the counts of countries in each continent).
 
 ```{python}
 #| tags: []
-births['Maternal Smoker'].value_counts().plot(kind = 'bar');
+import matplotlib.pyplot as plt
+continents = wb["Continent"].value_counts()
+plt.bar(continents.index, continents)
+
+plt.xlabel("Continent")
+plt.ylabel("Count of countries")
+plt.title("Distribution of countries across continents");
 ```
 
-Recall that `.value_counts()` returns a `Series` with the total count of each unique value. We call `.plot(kind = 'bar')` on this result to visualize these counts as a bar plot.
-
-Plotting methods in `pandas` are the least preferred and not supported in Data 100, as their functionality is limited. Instead, future examples will focus on other libaries built specifically for visualizing data. The most well-known library here is `matplotlib`.
-
-### Plotting in Matplotlib
+You may have noticed the semicolon `;` at the end of cell above. This suppresses any unnecessary output other than the plot. If we do not include a semicolon, the plot will still generate, however, we will see extraneous text as well:
 
 ```{python}
-import matplotlib.pyplot as plt
-
-ms = births['Maternal Smoker'].value_counts()
-plt.bar(ms.index.astype('string'), ms)
-plt.xlabel('Maternal Smoker')
-plt.ylabel('Count');
+plt.bar(continents.index, continents)
 ```
 
-While more code is required to achieve the same result, `matplotlib` is often used over `pandas` for its ability to plot more complex visualizations, some of which are discussed shortly.
+#### Plotting in Seaborn
 
-However, notice how we need to explicitly specify the type of the value for the x-axis to `string`. In absence of conversion, the x-axis will be a range of integers rather than the two categories, `True` and `False`. This is because `matplotlib` coerces `True` to a value of 1 and `False` to 0. Also, note how we needed to label the axes with `plt.xlabel` and `plt.ylabel` - `matplotlib` does not support automatic axis labeling. To get around these inconveniences, we can use a more effecient plotting library, `seaborn`.
+[Seaborn](https://seaborn.pydata.org/) is another popular Python library for creating plots. In Data 100, we will explore the use of both Matplotlib and Seaborn. You may find that you prefer one over the other – if so, you are welcome to use your favorite method! We present plotting code for both libraries to help familiarize you with their use. 
 
-### Plotting in Seaborn
+Seaborn plotting functions use a different structure to what we saw in Matplotlib. In Seaborn, we pass in an entire `DataFrame` as an argument, then specify what column(s) from the `DataFrame` to plot. In pseudocode:
+    
+    # sns is the typical alias for Seaborn
+    import seaborn as sns
+    sns.plotting_function(data = df, x = "x_col", y = "y_col")
+    
+As before, we can add axis labels and a title:
+
+    plt.xlabel(“x axis label”)
+    plt.ylabel(“y axis label”)
+    plt.title(“Title of the plot”)
+
+The Seaborn plotting function for creating a bar plot is `sns.countplot`.
 
 ```{python}
 #| tags: []
 import seaborn as sns
-sns.countplot(data = births, x = 'Maternal Smoker');
+sns.countplot(data = wb, x = 'Continent');
 ```
 
-`seaborn.countplot` both counts and visualizes the number of unique values in a given column. This column is specified by the `x` argument to `sns.countplot`, while the `DataFrame` is specified by the `data` argument.
+`sns.countplot` both counts and visualizes the number of unique values in a given column, without the need for us to pre-process data using `.value_counts()`. The `DataFrame` containing our desired information is specified by the `data` argument, while the column to be plotted is specified by the `x` argument.
 
-For the vast majority of visualizations, `seaborn` is far more concise and aesthetically pleasing than `matplotlib`. However, the color scheme of this particular bar plot is abritrary - it encodes no additional information about the categories themselves. This is not always true; color may signify meaningful detail in other visualizations. We'll explore this more in-depth during the next lecture.
+---
+To visualize the distribution of a **quantiative** variable, bar plots are no longer an appropriate choice of visualization. To see why, consider what happens when we use `sns.countplot` to visualize the distribution of gross national income, a quantitative continuous variable.
 
-### Plotting in Plotly
+```{python}
+sns.countplot(data = wb, x = 'Gross national income per capita, Atlas method: $: 2016');
+```
 
-<img src="images/plotly_viz.png" alt='plotly_viz' width='600'>
+What happened? A bar plot (either `plt.bar` or `sns.countplot`) will create a separate bar for *each* unique value of a variable. With a continuous variable, we may not have a finite number of possible values, which can lead to situations where we would need many, many bars to display each unique value. 
 
-`plotly` is one of the most versatile plottling libraries and widely used in industry. However, `plotly` has various dependencies that make it difficult to support in Data 100. Therfore, we have intentionally excluded the code to generate the plot above.
+To visualize the distribution of a continuous variable, we use a different type of plot:
 
-By now, you'll have noticed that each of these plotting libraries have a very different syntax. As with `pandas`, we'll teach you the important methods in `matplotlib` and `seaborn`, but you'll learn more through documentation.
+* Box plot
+* Violin plot
+* Histogram
 
-1. [Matplotlib Documentation](https://matplotlib.org/stable/index.html)
-2. [Seaborn Documentation](https://seaborn.pydata.org/)
+### Box Plots
 
-Example Questions:
+**Box plots** display distributions using information about quartiles. 
 
-- What colors should we use?
-- How wide should the bars be?
-- Should the legend exist?
-- Should the bars and axes have dark borders?
+A quartile represents a 25% portion of the data. We say that:
+* The first quartile (Q1) repesents the 25th percentile – 25% of the data lies below the first quartile
+* The second quartile (Q2) represents the 50th percentile, also known as the median – 50% of the data lies below the second quartile
+* The third quartile (Q3) represents the 75th percentile – 75% of the data lies below the third quartile.
 
-To accomplish goal 2, here are some ways we can improve plot:
+In a box plot, the lower extent of the box lies at Q1, while the upper extent of the box lies at Q3. The horizontal line in the middle of the box corresponds to Q2 (equivalently, the median).
 
-- Introducing different colors for each bar
-- Including a legend
-- Including a title
-- Labeling the y-axis
-- Using color-blind friendly palettes
-- Re-orienting the labels
-- Increase the font size
+The **interquartile range** measures the spread of the middle $50$% of the distribution, calculated as the ($3^{rd}$ Quartile $-$ $1^{st}$ Quartile).
 
+The **whiskers** of a box-plot are the two points that lie at the \[$1^{st}$ Quartile $-$ ($1.5\times$ IQR)\], and the \[$3^{rd}$ Quartile $+$ ($1.5\times$ IQR)\]. They are the lower and upper ranges of "normal" data (the points excluding outliers). Subsequently, the **outliers** are the data points that fall beyond the whiskers, or further than ($1.5 \times$ IQR) from the extreme quartiles.
 
-## Histograms
+<img src="images/boxplot.png" alt='boxplot' width='500'>
 
-**Histograms** are a natural extension to bar plots; they visualize the distribution of **quantitative** (numerical) data.
+In Matplotlib, box plots are created using the function `plt.boxplot`.
 
-Revisiting our example with the `births` DataFrame, let's plot the distribution of the `Maternal Pregnancy Weight` column.
+```{python}
+# For simplicity, remove NaN values
+wb = wb[~wb["Gross domestic product: % growth : 2016"].isna()]
+
+plt.boxplot(wb['Gross domestic product: % growth : 2016'])
+
+plt.ylabel("% GDP growth")
+plt.title("Distribution of GDP growth across countries");
+```
+
+And in Seaborn, box plots are generated by `sns.boxplot`.
+
+```{python}
+sns.boxplot(data = wb, y = "Gross domestic product: % growth : 2016")
+
+plt.title("Distribution of GDP growth across countries");
+```
+
+Sometimes, we may wish to also incorporate a *qualiatative* variable. For example, we may wish to compare the distribution of a quantitative variable *across* a set of categories.
+
+To do so, we can plot **side-by-side box plots**. In the example below, the continent of each county, a qualitative nominal variable, is plotted on the x-axis, while GDP growth, a quantiative continuous variable, is plotted on the y-axis.
+
+```{python}
+sns.boxplot(data=wb, x= "Continent", y= "Gross domestic product: % growth : 2016")
+
+plt.title("Distribution of GDP growth by continent");
+```
+
+### Violin Plots
+
+**Violin plots**, much like box plots, encode information about quantiles. A violin plot *also* incorporates smoothed density curves to add an additional level of information – now, the width of the plot at each point also carries meaning. 
+
+The three quartiles and whiskers that we saw in box plots are still present in violin plots (look closely at the center)!
+
+```{python}
+# In Seaborn: sns.violinplot
+sns.violinplot(data = wb, y = 'Gross domestic product: % growth : 2016')
+
+plt.title("Distribution of GDP growth across countries");
+```
+
+```{python}
+# In Matplotlib: plt.violinplot
+plt.violinplot(wb['Gross domestic product: % growth : 2016'])
+
+plt.ylabel("% GDP growth")
+plt.title("Distribution of GDP growth across countries");
+```
+
+### Histograms
+
+**Histograms** are an alternative method of visualizing quantitative continuous distributions. You first encountered them in [Data 8](https://inferentialthinking.com/chapters/07/2/Visualizing_Numerical_Distributions.html#histogram). In a histogram, datapoints with similar values are collected into a shared "bin". These bins are scaled such that the area of each bin is equal to the percentage of datapoints it contains. 
+
+```{python}
+# In Matplotlib: plt.hist
+# The `edgecolor` argument controls the color of the bin edges
+gni = wb["Gross national income per capita, Atlas method: $: 2016"]
+plt.hist(gni, density=True, edgecolor="white")
+
+# Add labels
+plt.xlabel("Gross national income per capita")
+plt.ylabel("Density")
+plt.title("Distribution of gross national income per capita");
+```
+
+```{python}
+# In Seaborn: sns.histplot
+sns.histplot(data = wb, x = "Gross national income per capita, Atlas method: $: 2016", stat="density")
+
+plt.title("Distribution of gross national income per capita");
+```
+
+We can overlay histograms (or density curves) to compare distributions across qualitative categories.
+
+The `hue` parameter of `sns.histplot` specifies the column that should be used to determine the color of each category. `hue` can be used in many Seaborn plotting functions.
+
+Notice that the resulting plot includes a legend describing which color corresponds to each hemisphere – a legend should **always** be included if color is used to encode information in a visualization! This assists with our visualization goal of communicating our results to a broader audience.
 
 ```{python}
 #| code-fold: true
-births.head(5)
+# Create a new variable to store the hemisphere in which each country is located
+north = ["Asia", "Europe", "N. America"]
+south = ["Africa", "Oceania", "S. America"]
+wb.loc[wb["Continent"].isin(north), "Hemisphere"] = "Northern"
+wb.loc[wb["Continent"].isin(south), "Hemisphere"] = "Southern"
 ```
-
-How should we define our categories for this variable? In the previous example, these were the unique values of the `Maternal Smoker` column: `True` and `False`. If we use similar logic here, our categories are the different numerical weights contained in the `Maternal Pregnancy Weight` column.
-
-Under this assumption, let's plot this distribution using the `seaborn.countplot` function.
 
 ```{python}
-sns.countplot(data = births, x = 'Maternal Pregnancy Weight');
+sns.histplot(data = wb, x = "Gross national income per capita, Atlas method: $: 2016", \
+                        hue="Hemisphere", stat="density")
+
+plt.title("Distribution of gross national income per capita");
 ```
 
-This histogram clearly suffers from **overplotting**. This is somewhat expected for `Maternal Pregnancy Weight` - it is a quantitative variable that takes on a wide range of values.
-
-To combat this problem, statisticians use bins to categorize numerical data. Luckily, `seaborn` provides a helpful plotting function that automatically bins our data.
-
-```{python}
-sns.histplot(data = births, x = 'Maternal Pregnancy Weight');
-```
-
-This diagram is known as a histogram. While it looks more reasonable, notice how we lose fine-grain information on the distribution of data contained within each bin. We can introduce rug plots to minimize this information loss. An overlaid "rug plot" displays the within-bin distribution of our data, as denoted by the thickness of the colored line on the x-axis.
-
-```{python}
-sns.histplot(data = births, x = 'Maternal Pregnancy Weight');
-sns.rugplot(data = births, x = 'Maternal Pregnancy Weight', color = 'red');
-```
-
-You may have seen histograms drawn differently - perhaps with an overlaid **density curve** and normalized y-axis. We can display both with a few tweaks to our code. 
+You may have seen histograms drawn differently – perhaps with an overlaid **density curve** and normalized y-axis. We can display both with a few tweaks to our code. 
 
 To visualize a density curve, we can set the the `kde = True` argument of the `sns.histplot`. Setting the argument `stat = 'density'` normalizes our histogram and displays densities, instead of counts, on the y-axis. You'll notice that the area under the density curve is 1.
 
 ```{python}
-sns.histplot(data = births, x = 'Maternal Pregnancy Weight', kde = True, 
-             stat = 'density')
-sns.rugplot(data = births, x = 'Maternal Pregnancy Weight', color = 'red');
+sns.histplot(data = wb, x = "Gross national income per capita, Atlas method: $: 2016", \
+             kde = True, \
+             stat = 'density');
 ```
 
-## Evaluating Histograms
+#### Interpreting Histograms
 
-Histograms allow us to assess a distribution by their shape. There are a few properties of histograms we can analyze:
+Histograms allow us to assess a distribution by its shape. In doing so, there are a few features that we typically consider.
 
-1. Skewness and Tails
-    - Skewed left vs skewed right
-    - Left tail vs right tail
-2. Outliers
-    - Defined arbitrarily for now
-3. Modes
-    - Most commonly occuring data
+The **skew** of a histogram describes the direction in which its "tail" extends. If a distribution has a long right tail (such as gross national income per capita), it is **skewed right**. In a right-skewed distribution, the few large outliers "pull" the mean to the right of the median.
 
-### Skewness and Tails
+If a distribution has a long left tail (such as water source access), it is **skewed left**. In a left-skewed distribution, the few small outliers "pull" the mean to the left of the median. 
 
-If a distribution has a long right tail (such as `Maternal Pregancy Weight`), it is **skewed right**. In a right-skewed distribution, the few large outliers "pull" the mean to the **right** of the median.
-
-If a distribution has a long left tail, it is **skewed left**. In a left-skewed distribution, the few small outliers "pull" the mean to the **left** of the median. 
-
-In the case where a distribution has equal-sized right and left tails, it is **symmetric**. The mean is approximately **equal** to the median. Think of mean as the balancing point of the distribution
+In the case where a distribution has equal-sized right and left tails, it is **symmetric**. The mean is approximately equal to the median. Think of mean as the balancing point of the distribution
 
 ```{python}
-#| tags: []
 import numpy as np
 
-sns.histplot(data = births, x = 'Maternal Pregnancy Weight');
-df_mean = np.mean(births['Maternal Pregnancy Weight'])
-df_median = np.median(births['Maternal Pregnancy Weight'])
-print("The mean is: {} and the median is {}".format(df_mean,df_median))
-```
+sns.histplot(data = wb, x = "Gross national income per capita, Atlas method: $: 2016", stat = "density");
 
-### Outliers
+df_mean = np.mean(wb["Gross national income per capita, Atlas method: $: 2016"])
+df_median = np.nanmedian(wb["Gross national income per capita, Atlas method: $: 2016"])
 
-Loosely speaking, an **outlier** is defined as a data point that lies an abnormally large distance away from other values. We'll define the statistical measure for this shortly.
-
-Outliers disproportionately influce the mean because their magnitude is directly involved in computing the average. However, the median is largely unaffected - the magnitude of an outlier is irrelevant; we only care that it is some non-zero distance away from the midpoint of the data.
-
-```{python}
-#| tags: []
-sns.histplot(data = births, x = 'Maternal Pregnancy Weight');
-## Where do we draw the line of outlier? 
-plt.axvline(df_mean*1.75, color = 'red');
-```
-
-### Modes
-
-A **mode** of a distribution is a local or global maximum. A distribution with a single clear maximum is **unimodal**, distributions with two modes are **bimodal**, and those with 3 or more are **multimodal**. You need to distinguish between **modes** and *random noise*.
-
-
-For example, the distribution of birth weights for maternal smokers is (weakly) multimodal.
-
-```{python}
-births_maternal_smoker = births[births['Maternal Smoker'] == True]
-sns.histplot(data = births_maternal_smoker, x = 'Maternal Pregnancy Weight')\
-            .set(title = 'Maternal Smoker histogram');
-```
-
-On the other hand, the distribution of birth weights for maternal non-smokers is weakly bi-modal.
-
-```{python}
-births_maternal_non_smoker = births[births['Maternal Smoker'] == False]
-sns.histplot(data = births_maternal_non_smoker, x = 'Maternal Pregnancy Weight')\
-            .set(title = 'Maternal Non-Smoker histogram');
-```
-
-However, changing the bins reveals that the data is not bi-modal.
-
-```{python}
-sns.histplot(data = births_maternal_non_smoker, x = 'Maternal Pregnancy Weight',\
-             bins = 20);
-```
-
-## Density Curves
-
-Instead of a discrete histogram, we can visualize what a continuous distribution corresponding to that same data could look like using a curve.
-- The smooth curve drawn on top of the histogram here is called a density curve.
-
-In lecture 8, we will study how exactly to compute these density curves (using a technique is called Kernel Density Estimation). 
-
-If we plot `birth weights` of babies of *smoking mothers*, we get a histogram that appears bimodal.
-
-- Density curve reinforces belief in this bimodality.
-
-However, if we plot `birth weights` of babies of *non-smoking mothers*, we get a histogram that appears unimodal.
-
-From a goal 1 perspective, this is EDA which tells us there may be something interesting here worth pursuing.
-
-- Deeper analysis necessary!
-- If we found something truly interesting, we’d have to cautiously write up an argument and create goal 2 level visualizations.
-
-```{python}
-births_non_maternal_smoker = births[births['Maternal Smoker'] == False]
-births_maternal_smoker = births[births['Maternal Smoker'] == True]
- 
-sns.histplot(data = births_maternal_smoker , x = 'Birth Weight',\
-             kde = True);
+print(f"The mean, {df_mean}, is right of the median, {df_median}")
 ```
 
 ```{python}
-sns.histplot(data = births_non_maternal_smoker , x = 'Birth Weight',\
-             kde = True);
+sns.histplot(data = wb, x = 'Access to an improved water source: % of population: 2015', stat = "density");
+
+df_mean = np.mean(wb['Access to an improved water source: % of population: 2015'])
+df_median = np.nanmedian(wb['Access to an improved water source: % of population: 2015'])
+
+print(f"The mean, {df_mean}, is left of the median, {df_median}")
 ```
 
-### Histograms and Density
+A **mode** of a distribution is a local or global maximum. A distribution with a single clear maximum is **unimodal**, distributions with two modes are **bimodal**, and those with 3 or more are **multimodal**. 
 
-Rather than labeling by counts, we can instead plot the density, as shown below. Density gives us a measure that is invariant to the total number of observed units. The numerical values on the Y-axis for a sample of 100 units would be the same for when we observe a sample of 10000 units instead. We can still calculate the absolute number of observed units using density.
+You may need to distinguish between modes and *random noise*. Often, it is difficult to discern noise from true modes when working with histograms – a histogram may contain too much detail to be able to identify general trends across the distribution. One solution to this issue, which we will introduce next, is to construct a kernel density estimate.
 
-Example: There are 1174 observations total.
-- Total area of this bin should be: 120/1174  = ~10%
-- Density of this bin is therefore: 10% / (115 - 110) = 0.02
+<img src="images/modes.png" alt='modes' width='600'>
 
-<img src="images/example_density.png" alt='example_density.png' width='500'>
+### Kernel Density Estimation
 
-## Box Plots and Violin Plots
+#### KDE Theory
 
-### Boxplots
+A **kernel density estimate (KDE)** is a smooth, continuous function that approximates a curve. They allow us to represent general trends in a distribution without focusing on the details, which is useful to analyzing the broad structure of a dataset. 
 
-**Boxplots** are an alternative to histograms that visualize numerical distributions. They are especially useful in graphicaly summarizing several characteristics of a distribution. These include:
+More formally, a KDE attempts to approximate the underlying **probability distribution** from which our dataset was drawn. You may have encountered the idea of a probability distribution in your other classes; if not, we'll discuss it at length in Data 100 next lecture. For now, you can think of a probability distribution as a description of how likely it is for us to sample a particular value in our dataset. 
 
-1. Lower Quartile ($1^{st}$ Quartile)
-2. Median ($2^{nd}$ Quartile)
-3. Upper Quartile ($3^{rd}$ Quartile)
-4. Interquartile Range (IQR)
-5. Whiskers
-6. Outliers
+A KDE curve estimates the probability density function of a random variable. Consider the example below, where we have used `sns.displot` to plot both a histogram (containing the datapoints we actually collected) and a KDE curve (representing the *approximated* probability distribution from which this data was drawn). 
 
-The **lower quartile**, **median**, and **uper quartile** are the $25^{th}$, $50^{th}$, and $75^{th}$ percentiles of data, respectively. The **interquartile range** measures the spread of the middle $50$% of the distribution, calculated as the ($3^{rd}$ Quartile $-$ $1^{st}$ Quartile).
+```{python}
+sns.displot(data = wb, x = 'Antiretroviral therapy coverage: % of people living with HIV: 2015', \
+                       kde = True, stat = "density")
 
-The **whiskers** of a box-plot are the two points that lie at the \[$1^{st}$ Quartile $-$ ($1.5\times$ IQR)\], and the \[$3^{rd}$ Quartile $+$ ($1.5\times$ IQR)\]. They are the lower and upper ranges of "normal" data (the points excluding outliers). Subsequently, the **outliers** are the data points that fall beyond the whiskers, or further than ($1.5 \times$ IQR) from the extreme quartiles.
+plt.title("Distribution of HIV rates");
+```
 
-Let's visualize a box-plot of the `Birth Weight` column.
+Notice that the smooth KDE curve is higher when the histogram bins are taller. You can think of the height of the KDE curve as representing how "probable" it is that we randomly sample a datapoint with the corresponding value. This intuitively makes sense – if we have already collected more datapoints with a particular value (resulting in a tall histogram bin), it is more likely that, if we randomly sample another datapoint, we will sample one with a similar value (resulting in a high KDE curve).
+
+The area under a probability density function should always integrate to 1, representing the fact that the total probability of a distribution should always sum to 100%. Because of this, a KDE curve will always have an area of 1 under the curve.
+
+#### Constructing a KDE
+
+We perform kernel density estimation using three steps.
+
+1. Place a kernel at each data point
+2. Normalize kernels to have total area of 1 (across all kernels)
+3. Sum kernels together
+
+We'll explain what a "kernel" is momentarily.
+
+To make things simpler, let's construct a KDE for a small, artificially-generated dataset of 5 datapoints: $[2.2, 2.8, 3.7, 5.3, 5.7]$. In the plot below, each vertical bar represents one datapoint.
+
+```{python}
+#| code-fold: true
+data = [2.2, 2.8, 3.7, 5.3, 5.7]
+
+sns.rugplot(data, height=0.3)
+
+plt.xlabel("Data")
+plt.ylabel("Density")
+plt.xlim(-3, 10)
+plt.ylim(0, 0.5);
+```
+
+Our goal is to create the following KDE curve, which was generated automatically by `sns.kdeplot`.
+
+```{python}
+#| code-fold: true
+sns.kdeplot(data)
+
+plt.xlabel("Data")
+plt.xlim(-3, 10)
+plt.ylim(0, 0.5);
+```
+
+##### Step 1: Place a Kernel at Each Datapoint
+
+To begin generating a density curve, we need to choose a **kernel** and **bandwidth value ($\alpha$)**. What are these exactly? 
+
+A **kernel** is a density curve. It is the mathematical function that attempts to capture the randomness of each datapoint in our sampled data. To explain what this means, consider just *one* of the datapoints in our dataset: $2.2$. We obtained this datapoint by randomly sampling some information out in the real world (you can imagine $2.2$ as representing a single measurement taken in an experiment, for example). If we were to sample a new datapoint, we may obtain a slightly different value. It could be higher than $2.2$; it could also be lower than $2.2$. We make the assumption that any future sampled datapoints will likely be similar in value to the data we've already drawn. This means that our *kernel* – our description of the probability of randomly sampling any new value – will be greatest at the datapoint we've already drawn, but still have non-zero probability above and below it. The area under any kernel should integrate to 1, representing the total probability of drawing a new datapoint.
+
+A **bandwidth value**, usually denoted by $\alpha$, represents the width of the kernel. A large value of $\alpha$ will result in a wide, short kernel function, while a small value with result in a narrow, tall kernel.
+
+Below, we place a **Gaussian kernel**, plotted in orange, over the datapoint $2.2$. A Gaussian kernel is simply the normal distribution, which you may have called a bell curve in Data 8. 
 
 ```{python}
 #| code-fold: true
 
-sns.boxplot(data = births, y = 'Birth Weight');
+def gaussian_kernel(x, z, a):
+    # We'll discuss where this mathematical formulation came from later
+    return (1/np.sqrt(2*np.pi*a**2)) * np.exp((-(x - z)**2 / (2 * a**2)))
 
-bweights = births['Birth Weight']
-q1 = np.percentile(bweights, 25)
-q2 = np.percentile(bweights, 50)
-q3 = np.percentile(bweights, 75)
-iqr = q3 - q1
-whisk1 = q1 - (1.5 * iqr)
-whisk2 = q3 + (1.5 * iqr)
+# Plot our datapoint
+sns.rugplot([2.2], height=0.3)
 
-print("The first quartile is {}".format(q1))
-print("The second quartile is {}".format(q2))
-print("The third quartile is {}".format(q3))
-print("The interquartile range is {}".format(iqr))
-print("The whiskers are {} and {}".format(whisk1, whisk2))
+# Plot the kernel
+x = np.linspace(-3, 10, 1000)
+plt.plot(x, gaussian_kernel(x, 2.2, 1))
+
+plt.xlabel("Data")
+plt.ylabel("Density")
+plt.xlim(-3, 10)
+plt.ylim(0, 0.5);
 ```
 
-Here is a helpful visual that summarizes our discussion above.
-
-<img src="images/box-plot_vis.png" alt='box-plot_vis' width='500'>
-
-### Violin Plots
-
-Another diagram that is useful in visualizing a variable's distribution is the violin plot. A **violin plot** supplements a box-plot with a smoothed density curve on either side of the plot. These density curves highlight the relative frequency of variable's possible values. If you look closely, you'll be able to discern the quartiles, whiskers, and other hallmark features of the box-plot.
+To begin creating our KDE, we place a kernel on *each* datapoint in our dataset. For our dataset of 5 points, we will have 5 kernels.
 
 ```{python}
-sns.violinplot(data = births, y = 'Birth Weight');
+#| code-fold: true
+
+# You will work with the functions below in Lab 4
+def create_kde(kernel, pts, a):
+    # Takes in a kernel, set of points, and alpha
+    # Returns the KDE as a function
+    def f(x):
+        output = 0
+        for pt in pts:
+            output += kernel(x, pt, a)
+        return output / len(pts) # Normalization factor
+    return f
+
+def plot_kde(kernel, pts, a):
+    # Calls create_kde and plots the corresponding KDE
+    f = create_kde(kernel, pts, a)
+    x = np.linspace(min(pts) - 5, max(pts) + 5, 1000)
+    y = [f(xi) for xi in x]
+    plt.plot(x, y);
+    
+def plot_separate_kernels(kernel, pts, a, norm=False):
+    # Plots individual kernels, which are then summed to create the KDE
+    x = np.linspace(min(pts) - 5, max(pts) + 5, 1000)
+    for pt in pts:
+        y = kernel(x, pt, a)
+        if norm:
+            y /= len(pts)
+        plt.plot(x, y)
+    
+    plt.show();
+    
+plt.xlim(-3, 10)
+plt.ylim(0, 0.5)
+plt.xlabel("Data")
+plt.ylabel("Density")
+
+plot_separate_kernels(gaussian_kernel, data, a = 1)
 ```
 
-## Comparing Quantitative Distributions
+##### Step 2: Normalize Kernels to Have Total Area of 1
 
-Earlier in our discussion of the mode, we visualized two histograms that described the distribution of birth weights for maternal smokers and non-smokers. However, comparing these histograms was difficult because they were displayed on seperate plots. Can we overlay the two to tell a more compelling story?
+Above, we said that *each* kernel has an area of 1. Earlier, we also said that our goal is to construct a KDE curve using these kernels with a *total* area of 1. If we were to directly sum the kernels as they are, we would produce a KDE curve with an integrated area of (5 kernels) $\times$ (area of 1 each) = 5. To avoid this, we will **normalize** each of our kernels. This involves multiplying each kernel by $1/(\#\:\text{datapoints})$. 
 
-In `seaborn`, multiple calls to a plotting library in the same code cell will overlay the plots. For example:
+In the cell below, we multiply each of our 5 kernels by $\frac{1}{5}$ to apply normalization.
 
 ```{python}
-#| tags: []
-births_maternal_smoker = births[births['Maternal Smoker'] == False]
-births_non_maternal_smoker = births[births['Maternal Smoker'] == True]
+#| code-fold: true
+plt.xlim(-3, 10)
+plt.ylim(0, 0.5)
+plt.xlabel("Data")
+plt.ylabel("Density")
 
-sns.histplot(data = births_maternal_smoker, x = 'Birth Weight',
-             color = 'orange', label = 'smoker')
-sns.histplot(data = births_non_maternal_smoker, x = 'Birth Weight',
-             color = 'blue', label = 'nonsmoker')
+# The `norm` argument specifies whether or not to normalize the kernels
+plot_separate_kernels(gaussian_kernel, data, a = 1, norm = True)
+```
+
+##### Step 3: Sum Kernels Together
+
+Our KDE curve is the sum of the normalized kernels. Notice that the final curve is identical to the plot generated by `sns.kdeplot` we saw earlier!
+
+```{python}
+#| code-fold: true
+plt.xlim(-3, 10)
+plt.ylim(0, 0.5)
+plt.xlabel("Data")
+plt.ylabel("Density")
+
+plot_kde(gaussian_kernel, data, a = 1)
+```
+
+#### Kernel Functions and Bandwidths
+
+A kernel, for our purposes, is any valid probability density function. This means that a kernel function must:
+
+* Be non-negative for all values (we can't have negative probability)
+* Integrate to 1
+
+##### Gaussian Kernel
+
+As we saw above, a Gaussian kernel (also called the normal distribution or bell curve) is one of the most common choices of kernel functions. It is defined mathematically as:
+
+$$K_a(x, x_i) = \frac{1}{\sqrt{2\pi\alpha^{2}}}e^{-\frac{(x-x_i)^{2}}{2\alpha^{2}}}$$
+
+In this formula:
+
+* $x$ (no subscript) represents values along the x-axis of our plot
+* $x_i$ represents the $i$th datapoint in our dataset. It is one of the values that we have actually collected in our data sampling process. In our example earlier, $x_i=2.2$. Those of you who have taken a probability class may recognize $x_i$ as the **mean** of the normal distribution.
+* $\alpha$ is the bandwidth parameter, representing the width of our kernel. More formally, $\alpha$ is the **standard deviation** of the Gaussian curve.
+
+The details of this (admittedly intimidating) formula are less important than understanding its role in kernel density estimation – this equation gives us the shape of each kernel.
+
+A large value of $\alpha$ will produce a kernel that is wider and shorter – this leads to a smoother KDE when the kernels are summed together. Conversely, a small value of $\alpha$ will produce a narrower, taller kernel, and, with it, a noisier KDE.
+
+:::: {.columns}
+
+::: {.column width="30%"}
+**Gaussian Kernel, $\alpha$ = 0.1**
+
+<img src="images/gaussian_0.1.png" alt='gaussian_0.1' width='345'>
+:::
+
+::: {.column width="20%"}
+<!-- empty column to create gap -->
+:::
+
+::: {.column width="30%"}
+**Gaussian Kernel, $\alpha$ = 1**
+
+<img src="images/gaussian_1.png" alt='gaussian_1' width='345'>
+:::
+
+::::
+
+:::: {.columns}
+
+::: {.column width="30%"}
+**Gaussian Kernel, $\alpha$ = 2**
+
+<img src="images/gaussian_2.png" alt='gaussian_2' width='345'>
+:::
+
+::: {.column width="20%"}
+<!-- empty column to create gap -->
+:::
+
+::: {.column width="30%"}
+**Gaussian Kernel, $\alpha$ = 10**
+
+<img src="images/gaussian_10.png" alt='gaussian_10' width='345'>
+:::
+
+::::
+
+#### Boxcar Kernel
+
+Another example of a kernel is the **Boxcar kernel**. The boxcar kernel assigns a uniform density to points within a "window" of the observation, and a density of 0 elsewhere. The equation below is a Boxcar kernel with the center at $x_i$ and the bandwidth of $\alpha$.
+
+$$K_a(x, x_i) = \begin{cases}
+        \frac{1}{\alpha}, & |x - x_i| \le \frac{\alpha}{2}\\
+        0, & \text{else }
+    \end{cases}$$
+    
+The boxcar kernel is seldom used in practice – we include it here to demonstrate that a kernel function can take whatever form you would like, provided it integrates to 1 and does not output negative values. In the cell below, we plot the boxcar kernel at our datapoint from before, $2.2$.
+
+```{python}
+#| code-fold: true
+def boxcar_kernel(x, z, alpha):
+    return (((x-z)>=-alpha/2)&((x-z)<=alpha/2))/alpha
+
+# Plot our datapoint
+sns.rugplot([2.2], height=0.3)
+
+plt.xlabel("Data")
+plt.ylabel("Density")
+plt.xlim(-3, 10)
+plt.ylim(0, 0.5)
+
+# Plot the kernel
+x = np.linspace(-3, 10, 1000)
+plot_separate_kernels(boxcar_kernel, [2.2], a = 2.5)
+```
+
+Using the boxcar kernel with $\alpha=2.5$ to generate a KDE for our full dataset yields the following result:
+
+```{python}
+#| code-fold: true
+plt.xlabel("Data")
+plt.ylabel("Density")
+plt.xlim(-3, 10)
+plt.ylim(0, 0.5)
+
+# Plot the kernel
+x = np.linspace(-3, 10, 1000)
+plot_kde(boxcar_kernel, data, a = 2.5)
+```
+
+## Visualizing Relationships
+
+Up until now, we've discussed how to visualize single-variable distributions. Now, let's understand how to visualize the relationship between pairs of numerical variables.
+
+#### Scatter Plots
+
+**Scatter plots** are one of the most useful tools in representing the relationship between two quantitative variables. They are particularly important in gauging the strength, or correlation, of the relationship between variables. Knowledge of these relationships can then motivate decisions in our modeling process.
+
+In Matplotlib, we use the function `plt.scatter` to generate a scatter plot. Notice that unlike our examples of plotting single-variable distributions, now we specify sequences of values to be plotted along the x axis *and* the y axis. 
+
+```{python}
+plt.scatter(wb["per capita: % growth: 2016"], \
+            wb['Adult literacy rate: Female: % ages 15 and older: 2005-14'])
+
+plt.xlabel("% growth per capita")
+plt.ylabel("Female adult literacy rate")
+plt.title("Female adult literacy against % growth");
+```
+
+In Seaborn, we call the function `sns.scatterplot`. We use the `x` and `y` parameters to indicate the values to be plotted along the x and y axes, respectively. By using the `hue` parameter, we can specify a third variable to be used for coloring each scatter point.
+
+```{python}
+sns.scatterplot(data = wb, x = "per capita: % growth: 2016", \
+               y = "Adult literacy rate: Female: % ages 15 and older: 2005-14", 
+               hue = "Continent")
+
+plt.title("Female adult literacy against % growth");
+```
+
+Although the plots above communicate the general relationship between the two plotted variables, they both suffer a major limitation – **overplotting**. Overplotting occurs when scatter points with similar values are stacked on top of one another, making it difficult to see the number of scatter points actually plotted in the visualization. Notice how in the upper righthand region of the plots, we cannot easily tell just how many points have been plotted. This make our visualizations difficult to interpret. 
+
+We have a few methods to help reduce overplotting:
+
+* Decreasing the size of the scatter point markers can improve readability. We do this by setting a new value to the size parameter, `s`, of `plt.scatter` or `sns.scatterplot`
+* **Jittering** is the process of adding a small amount of random noise to all x and y values to slightly shift the position of each datapoint. By randomly shifting all the data by some small distance, we can discern individual points more clearly without modifying the major trends of the original dataset.
+
+In the cell below, we first jitter the data using `np.random.uniform`, then re-plot it with smaller markers. The resulting plot is much easier to interpret.
+
+```{python}
+# Setting a seed ensures that we produce the same plot each time
+# This means that the course notes will not change each time you access them
+np.random.seed(150)
+
+# This call to np.random.uniform generates random numbers between -1 and 1
+# We add these random numbers to the original x data to jitter it slightly
+x_noise = np.random.uniform(-1, 1, len(wb))
+jittered_x = wb["per capita: % growth: 2016"] + x_noise
+
+# Repeat for y data
+y_noise = np.random.uniform(-5, 5, len(wb))
+jittered_y = wb["Adult literacy rate: Female: % ages 15 and older: 2005-14"] + y_noise
+
+# Setting the size parameter `s` changes the size of each point
+plt.scatter(jittered_x, jittered_y, s=15)
+
+plt.xlabel("% growth per capita (jittered)")
+plt.ylabel("Female adult literacy rate (jittered)")
+plt.title("Female adult literacy against % growth");
+```
+
+#### `lmplot` and `jointplot`
+
+Seaborn also includes several built-in functions for creating more sophisticated scatter plots. Two of the most commonly-used examples are `sns.lmplot` and `sns.jointplot`. 
+
+`sns.lmplot` plots both a scatter plot *and* a linear regression line, all in one function call. We'll discuss linear regression in a few lectures. 
+
+```{python}
+sns.lmplot(data = wb, x = "per capita: % growth: 2016", \
+           y = "Adult literacy rate: Female: % ages 15 and older: 2005-14")
+
+plt.title("Female adult literacy against % growth");
+```
+
+`sns.jointplot` creates a visualization with three components: a scatter plot, a histogram of the distribution of x values, and a histogram of the distribution of y values.
+
+```{python}
+sns.jointplot(data = wb, x = "per capita: % growth: 2016", \
+           y = "Adult literacy rate: Female: % ages 15 and older: 2005-14")
+
+# plt.suptitle allows us to shift the title up so it does not overlap with the histogram
+plt.suptitle("Female adult literacy against % growth")
+plt.subplots_adjust(top=0.9);
+```
+
+#### Hex plots
+For datasets with a very large number of datapoints, jittering is unlikely to fully resolve the issue of overplotting. In these cases, we can attempt to visualize our data by its *density*, rather than displaying each individual datapoint.
+
+**Hex plots** can be thought of as a two dimensional histograms that shows the joint distribution between two variables. This is particularly useful working with very dense data. In a hex plot, the x-y plane is binned into hexagons. Hexagons that are darker in color indicate a greater density of data – that is, there are more datapoints that lie in the region enclosed by the hexagon.
+
+We can generate a hex plot using `sns.jointplot` modified with the `kind` parameter.
+
+```{python}
+sns.jointplot(data = wb, x = "per capita: % growth: 2016", \
+              y = "Adult literacy rate: Female: % ages 15 and older: 2005-14", \
+              kind = "hex")
+
+# plt.suptitle allows us to shift the title up so it does not overlap with the histogram
+plt.suptitle("Female adult literacy against % growth")
+plt.subplots_adjust(top=0.9);
+```
+
+#### Contour Plots
+
+**Contour plots** are an alternative way of plotting the joint distribution of two variables. You can think of them as the 2-dimensional versions of KDE plots. A contour plot can be interpreted in a similar way to a [topographic map](https://gisgeography.com/contour-lines-topographic-map/). Each countour line represents an area that has the same *density* of datapoints throughout the region. Contours marked with darker colors contain more datapoints (a higher density) in that region.
+
+`sns.kdeplot` will generate a contour plot if we specify both x and y data.
+
+```{python}
+sns.kdeplot(data = wb, x = "per capita: % growth: 2016", \
+            y = "Adult literacy rate: Female: % ages 15 and older: 2005-14", \
+            fill = True)
+
+plt.title("Female adult literacy against % growth");
+```
+
+## Transformations
+
+This lecture has covered visualizations in great depth. We looked at various forms of visualizations, plotting libraries, and high-level theory.
+
+Much of this was done to uncover insights in data, which will prove necessary when we begin building models of data later in the course. A strong graphical correlation between two variables hints at an underlying relationship that we may want to study in greater detail. However, relying on visual relationships alone is limiting - not all plots show association. The presence of outliers and other statistical anomalies make it hard to interpret data.
+
+**Transformations** are the process of manipulating data to find significant relationships between variables. These are often found by applying mathematical functions to variables that "transform" their range of possible values and highlight some previously hidden associations between data.
+
+To see why we may want to transform data, consider the following plot of adult literacy rates against gross national income.
+
+```{python}
+#| code-fold: true
+
+# Some data cleaning to help with the next example
+df = pd.DataFrame(index=wb.index)
+df['lit'] = wb['Adult literacy rate: Female: % ages 15 and older: 2005-14'] \
+            + wb["Adult literacy rate: Male: % ages 15 and older: 2005-14"]
+df['inc'] = wb['Gross national income per capita, Atlas method: $: 2016']
+df.dropna(inplace=True)
+
+plt.scatter(df["inc"], df["lit"])
+plt.xlabel("Gross national income per capita")
+plt.ylabel("Adult literacy rate")
+plt.title("Adult literacy rate against GNI per capita");
+```
+
+This plot is difficult to interpret for two reasons:
+
+* The data shown in the visualization appears almost "smushed" – it is heavily concentrated in the upper lefthand region of the plot. Even if we jittered the dataset, we likely would not be able to fully assess all datapoints in that area.
+* It is hard to generalize a clear relationship between the two plotted variables. While adult literacy rate appears to share some positive relationship with gross national income, we are not able to describe the specifics in this trend in much detail.
+
+A transformation would allow us to visualize this data more clearly, which, in turn, would enable us to describe the underlying relationship between our variables of interest.
+
+We will most commonly apply a transformation to **linearize a relationship** between variables. If we find a transformation to make a scatter plot of two variables linear, we can "backtrack" to find the exact relationship between the variables. This helps us in two major ways. Firstly, linear relationships are particularly simple to interpret – we have an intutive sense of what the slope and intercept of a linear trend represent, and how they can help us understand the relationship between two variables. Secondly, linear relationships are the backbone of linear models. We will begine exploring linear modeling in great detail next week. As we'll soon see, linear models become much more effective when we are working with linearized data.  
+
+In the remainder of this note, we will discuss how to linearize a dataset to produce the result below. Notice that the resulting plot displays a rough linear relationship between the values plotted on the x and y axes.
+
+<img src="images/linearize.png" alt='linearize' width='700'>
+
+### Applying Transformations
+
+To linearize a relationship, begin by asking yourself: what makes the data non-linear? It is helpful to repeat this question for each variable in your visualization.
+
+Let's start by considering the gross national income variable in our plot above. Looking at *just* the x values in the scatter plot, we notice that most datapoints are clustered at low values to the left of the plot. The scale of the x axis is being distorted by the few outlying datapoints at extremely large values on the right. 
+
+<img src="images/horizontal.png" alt='horizontal' width='450'>
+
+If we decreased the size of these outliers relative to the bulk of the data, we could reduce the distortion of the horizontal axis. How can we do this? We need a transformation that will:
+
+* Decrease the magnitude of large x values by a signficant amount
+* Not drastically change the magnitude of small x values
+
+One function that produces this result is the **log transformation**. When we take the logarithm of a large number, the original number will decrease in magnitude dramatically. Conversely, when we take the logarithm of a small number, the original number does not change its value by as significant of an amount (to illustrate this, consider the difference between $\log{(100)} = 4.61$ and $\log{(10)} = 2.3$).
+
+In Data 100 (and most upper division STEM classes), $\log$ is used to refer to the natural logarithm with base $e$.
+
+```{python}
+# np.log takes the logarithm of an array or Series
+plt.scatter(np.log(df["inc"]), df["lit"])
+
+plt.xlabel("Log(gross national income per capita)")
+plt.ylabel("Adult literacy rate")
+plt.title("Adult literacy rate against Log(GNI per capita)");
+```
+
+After taking the logarithm of our x values, our plot appears much more balanced in its horizontal scale. We no longer have many datapoints clumped on one end and a few outliers out at extreme values. 
+
+Let's repeat this reasoning for the y values. Considering only the vertical axis of the plot, notice how there are many datapoints concentrated at large y values. Only a few datapoints lie at smaller values of y.
+
+<img src="images/vertical.png" alt='vertical' width='550'>
+
+If we were to "spread out" these large values of y more, we would no longer see the dense concentration in one region of the y axis. We need a transformation that will:
+
+* Increase the magnitude of large values of y so these datapoints are distributed more broadly on the vertical scale
+* Not substantially alter the scaling of small values of y (we do not want to drastically modify the lower end of the y axis, which is already distributed evenly on the vertical scale)
+
+In this case, it is helpful to apply a **power transformation** – that is, raise our y values to a power. Let's try raising our adult literacy rate values to the power of 4. Large values raised to the power of 4 will increase in magnitude proportionally much more than small values raised to the power of 4 (consider the difference between $2^4 = 16$ and $200^4 = 1600000000$). 
+
+```{python}
+# Apply a log transformation to the x values and a power transformation to the y values
+plt.scatter(np.log(df["inc"]), df["lit"]**4)
+
+plt.xlabel("Log(gross national income per capita)")
+plt.ylabel("Adult literacy rate (4th power)")
+plt.suptitle("Adult literacy rate (4th power) against Log(GNI per capita)")
+plt.subplots_adjust(top=0.9);
+```
+
+Our scatter plot is looking a lot better! Now, we are plotting the log of our original x values on the horizontal axis, and the 4th power of our original y values on the vertical axis. We start to see an approximate *linear* relationship between our transformed variables. 
+
+What can we take away from this? We now know that the log of gross national income and adult literacy to the power of 4 are roughly linearly related. If we denote the original, untransformed gross national income values as $x$ and the original adult literacy rate values as $y$, we can use the standard form of a linear fit to express this relationship:
+
+$$y^4 = m(\log{x}) + b$$
+
+Where $m$ represents the slope of the linear fit, while $b$ represents the intercept. 
+
+The cell below computes $m$ and $b$ for our transformed data. We'll discuss how this code was generated in a future lecture.
+
+```{python}
+#| code-fold: true
+# The code below fits a linear regression model. We'll discuss it at length in a future lecture
+from sklearn.linear_model import LinearRegression
+
+model = LinearRegression()
+model.fit(np.log(df[["inc"]]), df["lit"]**4)
+m, b = model.coef_[0], model.intercept_
+
+print(f"The slope, m, of the transformed data is: {m}")
+print(f"The intercept, b, of the transformed data is: {b}")
+
+df = df.sort_values("inc")
+plt.scatter(np.log(df["inc"]), df["lit"]**4, label="Transformed data")
+plt.plot(np.log(df["inc"]), m*np.log(df["inc"])+b, c="red", label="Linear regression")
+plt.xlabel("Log(gross national income per capita)")
+plt.ylabel("Adult literacy rate (4th power)")
 plt.legend();
 ```
 
-However, notice how this diagram suffers from overplotting. We can fix this with a call to `sns.kdeplot`. This will remove the bins and overlay the histogram with a density curve that better summarizes the distribution.
+What if we want to understand the *underlying* relationship between our original variables, before they were transformed? We can simply rearrange our linear expression above! 
+
+Recall our linear relationship between the transformed variables $\log{x}$ and $y^4$. 
+
+$$y^4 = m(\log{x}) + b$$
+
+By rearranging the equation, we find a relationship between the untransformed variables $x$ and $y$. 
+
+$$y = [m(\log{x}) + b]^{(1/4)}$$
+
+When we plug in the values for $m$ and $b$ computed above, something interesting happens.
 
 ```{python}
-#| tags: []
-sns.kdeplot(data = births_maternal_smoker, x = 'Birth Weight', color = 'orange', label = 'smoker')
-sns.kdeplot(data = births_non_maternal_smoker, x = 'Birth Weight', color = 'blue', label = 'nonsmoker')
+#| code-fold: true
+# Now, plug the values for m and b into the relationship between the untransformed x and y
+plt.scatter(df["inc"], df["lit"], label="Untransformed data")
+plt.plot(df["inc"], (m*np.log(df["inc"])+b)**(1/4), c="red", label="Modeled relationship")
+plt.xlabel("Gross national income per capita")
+plt.ylabel("Adult literacy rate")
 plt.legend();
 ```
 
-Unfortunately, we lose critical information in our distribution by removing small details. Therefore, we typically prefer to use box-plots and violin plots when comparing distributions. These are more concise and allow us to compare summary statistics across many distributions.
+We have found a relationship between our original variables – gross national income and adult literacy rate!
 
-```{python}
-#| tags: []
-sns.violinplot(data = births, x = 'Maternal Smoker', y = 'Birth Weight');
-```
+Transformations are powerful tools for understanding our data in greater detail. To summarize what we just achieved:
 
-```{python}
-#| tags: []
-sns.boxplot(data=births, x = 'Maternal Smoker', y = 'Birth Weight');
-```
+* We identified appropriate transformations to **linearize** the original data
+* We used our knowledge of linear curves to compute the slope and intercept of the transformed data
+* We used this slope and intercept information to derive a relationship in the untransformed data
 
-## Ridge Plots
-Ridge plots show many density curves offset from one another with minimal overlap. They are useful when the specific shape of each curve is important.
+Linearization will be an important tool as we begin our work on linear modeling next week.
 
-<img src = "images/example_ridge.png" alt ="example_ridge.png" ></img>
+### Tukey-Mosteller Bulge Diagram
+
+The **Tukey-Mosteller Bulge Diagram** is a guide to possible transformations for achieving linearity. It is a visual summary of the reasoning we just worked through above. 
+
+<img src="images/tukey_mosteller.png" alt='tukey_mosteller' width='300'>
+
+How does it work? Each curved "bulge" represents a possible shape of non-linear data. To use the diagram, find which of the four bulges resembles your dataset the most closely. Then, look at the axes of the quadrant for this bulge. The horizontal axis will list possible transformations that could be applied to your x data for linearization. Similarly, the verical axis will list possible transformations that could be applied to your y data. Note that each axis lists two possible transformations – *either* of these transformations has the potential to linearize your dataset. It's a good idea to try both out to see which one produces better results on your specific data.
+
+Generally:
+
+* $\sqrt{}$ and $\log{}$ will reduce the magnitude of large values
+* Powers ($^2$ and $^3$) will increase the spread in magnitude of large values
+
+<img src="images/bulge.png" alt='bulge' width='800'>
+
+**Important:** you should still understand the *logic* we worked through to determine how best to transform the data. The bulge diagram is just a summary of this same reasoning. You will be expected to be able to explain why a given transformation is or is not appropriate for linearization.
 

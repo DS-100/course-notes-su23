@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Principles and Techniques of Data Science - 6&nbsp; Text Wrangling &amp; Regular Expressions</title>
+<title>Principles and Techniques of Data Science - 6&nbsp; Text Wrangling and Regular Expressions</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -93,6 +93,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../visualization_1/visualization_1.html" rel="next">
 <link href="../eda/eda.html" rel="prev">
 <link href="../data100_logo.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
@@ -136,7 +137,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <header id="quarto-header" class="headroom fixed-top">
   <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
     <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text Wrangling &amp; Regular Expressions</span></h1>
+      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text Wrangling and Regular Expressions</span></h1>
       <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
         <i class="bi bi-chevron-right"></i>
       </button>
@@ -197,7 +198,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../regex/regex.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text Wrangling &amp; Regular Expressions</span></a>
+  <a href="../regex/regex.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text Wrangling and Regular Expressions</span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../visualization_1/visualization_1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Visualization</span></a>
   </div>
 </li>
     </ul>
@@ -257,7 +263,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text Wrangling &amp; Regular Expressions</span></h1>
+<h1 class="title d-none d-lg-block"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text Wrangling and Regular Expressions</span></h1>
 </div>
 
 
@@ -508,25 +514,19 @@ Learning Outcomes
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        county_series</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>            .<span class="bu">str</span>.lower()</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>            .<span class="bu">str</span>.replace(<span class="st">' '</span>, <span class="st">''</span>)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>            .<span class="bu">str</span>.replace(<span class="st">'&amp;'</span>, <span class="st">'and'</span>)</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>            .<span class="bu">str</span>.replace(<span class="st">'.'</span>, <span class="st">''</span>)</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>            .<span class="bu">str</span>.replace(<span class="st">'county'</span>, <span class="st">''</span>)</span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>            .<span class="bu">str</span>.replace(<span class="st">'parish'</span>, <span class="st">''</span>)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>            .<span class="bu">str</span>.replace(<span class="st">' '</span>, <span class="st">''</span>, regex<span class="op">=</span><span class="va">True</span>) <span class="co">#Specifying regex=True helps avoid a FutureWarning</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>            .<span class="bu">str</span>.replace(<span class="st">'&amp;'</span>, <span class="st">'and'</span>, regex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>            .<span class="bu">str</span>.replace(<span class="st">'.'</span>, <span class="st">''</span>, regex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>            .<span class="bu">str</span>.replace(<span class="st">'county'</span>, <span class="st">''</span>, regex<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>            .<span class="bu">str</span>.replace(<span class="st">'parish'</span>, <span class="st">''</span>, regex<span class="op">=</span><span class="va">True</span>)</span>
 <span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    )</span>
 <span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>county_and_pop[<span class="st">'County'</span>] <span class="op">=</span> canonicalize_county_series(county_and_pop[<span class="st">'County'</span>])</span>
 <span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>county_and_state[<span class="st">'County'</span>] <span class="op">=</span> canonicalize_county_series(county_and_state[<span class="st">'County'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>FutureWarning:
-
-The default value of regex will change from True to False in a future version. In addition, single character regular expressions will *not* be treated as literal strings when regex=True.
-</code></pre>
-</div>
 </div>
 <p>Our canonicalized county names can be successfully merged across the tables.</p>
 <div class="cell" data-execution_count="4">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>county_and_state.merge(county_and_pop, left_on<span class="op">=</span><span class="st">"County"</span>, right_on<span class="op">=</span><span class="st">"County"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>county_and_state.merge(county_and_pop, left_on<span class="op">=</span><span class="st">"County"</span>, right_on<span class="op">=</span><span class="st">"County"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="4">
 
 <div>
@@ -575,9 +575,9 @@ The default value of regex will change from True to False in a future version. I
 <h3 data-number="6.2.2" class="anchored" data-anchor-id="extraction"><span class="header-section-number">6.2.2</span> Extraction</h3>
 <p>Now, let’s experiment with an extraction task. Consider the following three pieces of text data, which are a log files from a computer operating system.</p>
 <div class="cell" data-execution_count="5">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'data/log.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>    log_lines <span class="op">=</span> f.readlines()</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>log_lines</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(<span class="st">'data/log.txt'</span>, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>    log_lines <span class="op">=</span> f.readlines()</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>log_lines</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
 <pre><code>['169.237.46.168 - - [26/Jan/2014:10:47:58 -0800] "GET /stat141/Winter04/ HTTP/1.1" 200 2585 "http://anson.ucdavis.edu/courses/"\n',
  '193.205.203.3 - - [2/Feb/2005:17:23:6 -0800] "GET /stat141/Notes/dim.html HTTP/1.0" 404 302 "http://eeyore.ucdavis.edu/stat141/Notes/session.html"\n',
@@ -588,13 +588,13 @@ The default value of regex will change from True to False in a future version. I
 <p>Instead, we can use some clever thinking. Notice how the relevant information is contained within a set of brackets, further seperated by <code>/</code> and <code>:</code>. We can hone in on this region of text, and split the data on these characters. Python’s built-in <code>.split</code> function makes this easy.</p>
 <p>For simplicity, we’ll only consider a single string, rather than an entire <code>Series</code> of data.</p>
 <div class="cell" data-execution_count="6">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>first <span class="op">=</span> log_lines[<span class="dv">0</span>] <span class="co"># Only considering the first row of data</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>pertinent <span class="op">=</span> first.split(<span class="st">"["</span>)[<span class="dv">1</span>].split(<span class="st">']'</span>)[<span class="dv">0</span>]</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>day, month, rest <span class="op">=</span> pertinent.split(<span class="st">'/'</span>)</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>year, hour, minute, rest <span class="op">=</span> rest.split(<span class="st">':'</span>)</span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>seconds, time_zone <span class="op">=</span> rest.split(<span class="st">' '</span>)</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>day, month, year, hour, minute, seconds, time_zone</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>first <span class="op">=</span> log_lines[<span class="dv">0</span>] <span class="co"># Only considering the first row of data</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>pertinent <span class="op">=</span> first.split(<span class="st">"["</span>)[<span class="dv">1</span>].split(<span class="st">']'</span>)[<span class="dv">0</span>]</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>day, month, rest <span class="op">=</span> pertinent.split(<span class="st">'/'</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>year, hour, minute, rest <span class="op">=</span> rest.split(<span class="st">':'</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>seconds, time_zone <span class="op">=</span> rest.split(<span class="st">' '</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>day, month, year, hour, minute, seconds, time_zone</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
 <pre><code>('26', 'Jan', '2014', '10', '47', '58', '-0800')</code></pre>
 </div>
@@ -608,11 +608,11 @@ The default value of regex will change from True to False in a future version. I
 <p>A <strong>regular expression (“regex”)</strong> is a sequence of characters that specifies a search pattern. They are written to extract specific information from text. Regular expressions are part of a smaller programming language embedded in Python, made available through the <code>re</code> module. As such, they have a stand-alone syntax and methods for various capabilities.</p>
 <p>What do regex patterns look like? An example is given in the code cell below. This pattern is designed to seek out US Social Security Numbers, which have the format “###-##-####”. We’ll discuss how this pattern was formed, as well as how to design patterns of your own, in the next section.</p>
 <div class="cell" data-execution_count="7">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">r"[0-9]{3}-[0-9]{2}-[0-9]{4}"</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 of any digit, then a dash,</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># then 2 of any digit, then a dash,</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="co"># then 4 of any digit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">r"[0-9]{3}-[0-9]{2}-[0-9]{4}"</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 of any digit, then a dash,</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="co"># then 2 of any digit, then a dash,</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a><span class="co"># then 4 of any digit</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="7">
 <pre><code>'[0-9]{3}-[0-9]{2}-[0-9]{4}'</code></pre>
 </div>
@@ -699,7 +699,7 @@ The default value of regex will change from True to False in a future version. I
 <h3 data-number="6.3.3" class="anchored" data-anchor-id="interpreting-a-regex-pattern"><span class="header-section-number">6.3.3</span> Interpreting a Regex Pattern</h3>
 <p>At this point, we have the tools needed to write some fairly sophisticated patterns. The social security sumber pattern introduced at the start of this section no longer looks so foreign. Recall that our pattern took the following form:</p>
 <div class="cell" data-execution_count="8">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co">r"[0-9]{3}-[0-9]{2}-[0-9]{4}"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co">r"[0-9]{3}-[0-9]{2}-[0-9]{4}"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
 <pre><code>'[0-9]{3}-[0-9]{2}-[0-9]{4}'</code></pre>
 </div>
@@ -727,8 +727,8 @@ The default value of regex will change from True to False in a future version. I
 <p>At first blush, this pattern may seem like a fairly reasonable solution to the problem. However, something strange happens when we actually apply this pattern to a test string. In the code below, <code>r".*[aeiou]+.*"</code> represents our regex pattern, while <code>"Only one word in this sentence seems like it should match.”</code> represents the string of data that the pattern will attempt to match. We’ll discuss the functions used to apply regex patterns later.</p>
 <p>In the context of our goal from above, we only want to match the word “seems”.</p>
 <div class="cell" data-execution_count="9">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>re.search(<span class="vs">r".*[aeiou]+.*"</span>, <span class="st">"Only one word in this sentence seems like it should match."</span>)[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>re.search(<span class="vs">r".*[aeiou]+.*"</span>, <span class="st">"Only one word in this sentence seems like it should match."</span>)[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="9">
 <pre><code>'Only one word in this sentence seems like it should match.'</code></pre>
 </div>
@@ -739,7 +739,7 @@ The default value of regex will change from True to False in a future version. I
 <p>This means that we need to be mindful of regex’s greed when we are only interested in a specific portion of a string. If we are not careful, we may end up with a substantially longer match than intended.</p>
 <p>The following pattern avoids the issue we ran into above by being more specific about what characters can and cannot be included in our text string.</p>
 <div class="cell" data-execution_count="10">
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>re.search(<span class="vs">r"[a-z]*(aa|ee|ii|oo|uu)[a-z]*"</span>, <span class="st">"Only one word in this sentence seems like it should match."</span>)[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>re.search(<span class="vs">r"[a-z]*(aa|ee|ii|oo|uu)[a-z]*"</span>, <span class="st">"Only one word in this sentence seems like it should match."</span>)[<span class="dv">0</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="10">
 <pre><code>'seems'</code></pre>
 </div>
@@ -868,11 +868,11 @@ The default value of regex will change from True to False in a future version. I
 <p>The <code>re</code> module of Python allows us to use regex on individual strings. When working in <code>pandas</code>, <code>str</code> operations allow us to apply vectorized regex functions to <code>Series</code> of strings.</p>
 <p>To extract a regex match from a single string, we use the <code>re.findall</code> function. <code>re.findall</code> will return a list containing all matches of the regex pattern in a provided string.</p>
 <div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"My social security number is 123-45-6789 bro, or actually maybe it’s 321-45-6789."</span><span class="op">;</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>pattern <span class="op">=</span> <span class="vs">r"[0-9]</span><span class="sc">{3}</span><span class="vs">-[0-9]</span><span class="sc">{2}</span><span class="vs">-[0-9]</span><span class="sc">{4}</span><span class="vs">"</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>re.findall(pattern, text)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> re</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"My social security number is 123-45-6789 bro, or actually maybe it’s 321-45-6789."</span><span class="op">;</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>pattern <span class="op">=</span> <span class="vs">r"[0-9]</span><span class="sc">{3}</span><span class="vs">-[0-9]</span><span class="sc">{2}</span><span class="vs">-[0-9]</span><span class="sc">{4}</span><span class="vs">"</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>re.findall(pattern, text)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="11">
 <pre><code>['123-45-6789', '321-45-6789']</code></pre>
 </div>
@@ -881,18 +881,18 @@ The default value of regex will change from True to False in a future version. I
 <div class="cell" data-execution_count="12">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a DataFrame of social security numbers to use as an example</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>df_ssn <span class="op">=</span> pd.DataFrame(</span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'987-65-4321'</span>,</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>     <span class="st">'forty'</span>,</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>     <span class="st">'123-45-6789 bro or 321-45-6789'</span>,</span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>     <span class="st">'999-99-9999'</span>],</span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>[<span class="st">'SSN'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a DataFrame of social security numbers to use as an example</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>df_ssn <span class="op">=</span> pd.DataFrame(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    [<span class="st">'987-65-4321'</span>,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>     <span class="st">'forty'</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>     <span class="st">'123-45-6789 bro or 321-45-6789'</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>     <span class="st">'999-99-9999'</span>],</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>    columns<span class="op">=</span>[<span class="st">'SSN'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell" data-execution_count="13">
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># An example Series of social security numbers</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>df_ssn[<span class="st">"SSN"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># An example Series of social security numbers</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>df_ssn[<span class="st">"SSN"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
 <pre><code>0                       987-65-4321
 1                             forty
@@ -902,8 +902,8 @@ Name: SSN, dtype: object</code></pre>
 </div>
 </div>
 <div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using str.findall to extract SSNs</span></span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>df_ssn[<span class="st">"SSN"</span>].<span class="bu">str</span>.findall(pattern)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Using str.findall to extract SSNs</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>df_ssn[<span class="st">"SSN"</span>].<span class="bu">str</span>.findall(pattern)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>0                 [987-65-4321]
 1                            []
@@ -918,15 +918,158 @@ Name: SSN, dtype: object</code></pre>
 <p>Regex uses a piece of syntax called a <strong>capturing group</strong> to specify what subset of a pattern should be “captured”. Capturing groups are denoted by parentheses <code>( )</code>. Earlier, we used parentheses to outline the order of operations; depending on what regex function we use, parentheses can sometimes also be interpreted as capturing groups. <code>re.findall</code> and <code>str.findall</code> will both interpret parentheses as capturing groups.</p>
 <p>Consider the example text below. What if we wanted to extract the hour, minute, and second mentioned in the message?</p>
 <div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"I will meet you at 08:30:00 pm tomorrow"</span>      </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"I will meet you at 08:30:00 pm tomorrow"</span>      </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Capturing groups help us extract <em>only</em> the information about the time from this string. Notice that only the values enclosed in parentheses in the regex pattern are returned.</p>
 <div class="cell" data-execution_count="16">
-<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>pattern <span class="op">=</span> <span class="st">".*(\d\d):(\d\d):(\d\d).*"</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>matches <span class="op">=</span> re.findall(pattern, text)</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>matches</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>pattern <span class="op">=</span> <span class="st">".*(\d\d):(\d\d):(\d\d).*"</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>matches <span class="op">=</span> re.findall(pattern, text)</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>matches</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
 <pre><code>[('08', '30', '00')]</code></pre>
+</div>
+</div>
+<p>To extract capturing groups from a <code>Series</code>, we use the functions <code>str.extract</code> or <code>str.extractall</code>.</p>
+<p><code>str.extract</code> will scan each string in a <code>Series</code>, then return a <code>DataFrame</code> containing the <em>first</em> match for the provided regex pattern. Each capturing group within that pattern will be placed in a column of the <code>DataFrame</code>.</p>
+<div class="cell" data-execution_count="17">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Recall our SSN DataFrame from above</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>df_ssn</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="17">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>SSN</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>987-65-4321</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>forty</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>123-45-6789 bro or 321-45-6789</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>999-99-9999</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Will extract only the *first* match of all groups</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>pattern_group_mult <span class="op">=</span> <span class="vs">r"([0-9]</span><span class="sc">{3}</span><span class="vs">)-([0-9]</span><span class="sc">{2}</span><span class="vs">)-([0-9]</span><span class="sc">{4}</span><span class="vs">)"</span> <span class="co"># 3 groups</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>df_ssn[<span class="st">'SSN'</span>].<span class="bu">str</span>.extract(pattern_group_mult)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>987</td>
+      <td>65</td>
+      <td>4321</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>NaN</td>
+      <td>NaN</td>
+      <td>NaN</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>123</td>
+      <td>45</td>
+      <td>6789</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>999</td>
+      <td>99</td>
+      <td>9999</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+</div>
+<p>Sometimes, a regex pattern may encounter multiple matches in a single entry string of a <code>Series</code>. The function <code>str.extractall</code> will extract <em>all</em> matched instances of the regex pattern, not just the first. It produces a <code>MultiIndexed DataFrame</code> where text strings with multiple regex matches will have a row for each match.</p>
+<div class="cell" data-execution_count="19">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Will extract all matches of all groups</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>df_ssn[<span class="st">'SSN'</span>].<span class="bu">str</span>.extractall(pattern_group_mult)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+
+<div>
+
+<table class="dataframe table table-sm table-striped">
+  <thead>
+    <tr>
+      <th></th>
+      <th></th>
+      <th>0</th>
+      <th>1</th>
+      <th>2</th>
+    </tr>
+    <tr>
+      <th></th>
+      <th>match</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <th>0</th>
+      <td>987</td>
+      <td>65</td>
+      <td>4321</td>
+    </tr>
+    <tr>
+      <th rowspan="2" valign="top">2</th>
+      <th>0</th>
+      <td>123</td>
+      <td>45</td>
+      <td>6789</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>321</td>
+      <td>45</td>
+      <td>6789</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <th>0</th>
+      <td>999</td>
+      <td>99</td>
+      <td>9999</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 </div>
 </div>
 </section>
@@ -934,41 +1077,41 @@ Name: SSN, dtype: object</code></pre>
 <section id="substitution" class="level3" data-number="6.4.2">
 <h3 data-number="6.4.2" class="anchored" data-anchor-id="substitution"><span class="header-section-number">6.4.2</span> Substitution</h3>
 <p>Another task we may encounter when working with text data is the need to substitute portions of a string with a different character. For example, we may want to replace messy HTML tags with an empty string to clean a dataset.</p>
-<div class="cell" data-execution_count="17">
-<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A messy string with extraneous HTML data</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"&lt;div&gt;&lt;td valign='top'&gt;Moo&lt;/td&gt;&lt;/div&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-execution_count="20">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># A messy string with extraneous HTML data</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>text <span class="op">=</span> <span class="st">"&lt;div&gt;&lt;td valign='top'&gt;Moo&lt;/td&gt;&lt;/div&gt;"</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>When working with individual strings, we use <code>re.sub</code>. The code below seeks out HTML tags denoted with angle brackets <code>&lt; &gt;</code> in the text and replaces them with empty strings. The first argument to the function is the regex pattern, the second is the string that should replace any matched text, and the third is the test string on which to run the pattern.</p>
-<div class="cell" data-execution_count="18">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pattern <span class="op">=</span> <span class="vs">r"&lt;[^&gt;]+&gt;"</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>re.sub(pattern, <span class="st">""</span>, text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="18">
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>pattern <span class="op">=</span> <span class="vs">r"&lt;[^&gt;]+&gt;"</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>re.sub(pattern, <span class="st">""</span>, text)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
 <pre><code>'Moo'</code></pre>
 </div>
 </div>
 <p>The vectorized <code>pandas</code> equivalent is <code>str.replace</code>. The first argument to the function is the regex pattern we wish to use; the second argument is the string that should replace the matched text. The <code>regex</code> parameter tells <code>str.replace</code> to expect a regex pattern.</p>
-<div class="cell" data-execution_count="19">
+<div class="cell" data-execution_count="22">
 <details>
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a DataFrame of HTML tags to use as an example</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>df_html <span class="op">=</span> pd.DataFrame([<span class="st">'&lt;div&gt;&lt;td valign="top"&gt;Moo&lt;/td&gt;&lt;/div&gt;'</span>,</span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>                   <span class="st">'&lt;a href="http://ds100.org"&gt;Link&lt;/a&gt;'</span>,</span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>                   <span class="st">'&lt;b&gt;Bold text&lt;/b&gt;'</span>], columns<span class="op">=</span>[<span class="st">'Html'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a DataFrame of HTML tags to use as an example</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>df_html <span class="op">=</span> pd.DataFrame([<span class="st">'&lt;div&gt;&lt;td valign="top"&gt;Moo&lt;/td&gt;&lt;/div&gt;'</span>,</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>                   <span class="st">'&lt;a href="http://ds100.org"&gt;Link&lt;/a&gt;'</span>,</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>                   <span class="st">'&lt;b&gt;Bold text&lt;/b&gt;'</span>], columns<span class="op">=</span>[<span class="st">'Html'</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div class="cell" data-execution_count="20">
-<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># An example Series of HTML data</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>df_html[<span class="st">"Html"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="20">
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># An example Series of HTML data</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>df_html[<span class="st">"Html"</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
 <pre><code>0    &lt;div&gt;&lt;td valign="top"&gt;Moo&lt;/td&gt;&lt;/div&gt;
 1     &lt;a href="http://ds100.org"&gt;Link&lt;/a&gt;
 2                        &lt;b&gt;Bold text&lt;/b&gt;
 Name: Html, dtype: object</code></pre>
 </div>
 </div>
-<div class="cell" data-execution_count="21">
-<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>df_html[<span class="st">"Html"</span>].<span class="bu">str</span>.replace(pattern, <span class="st">""</span>, regex<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="21">
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>df_html[<span class="st">"Html"</span>].<span class="bu">str</span>.replace(pattern, <span class="st">""</span>, regex<span class="op">=</span><span class="va">True</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="24">
 <pre><code>0          Moo
 1         Link
 2    Bold text
@@ -1121,6 +1264,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../visualization_1/visualization_1.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Visualization</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav>
 </div> <!-- /content -->
