@@ -209,6 +209,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Constant Model, Loss, and Transformations</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../ols/ols.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ordinary Least Squares</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -1489,12 +1495,12 @@ Name: Sex, dtype: object</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">64331</td>
+<td data-quarto-table-cell-role="th">273252</td>
 <td>CA</td>
-<td>F</td>
-<td>1971</td>
-<td>Ladawn</td>
-<td>10</td>
+<td>M</td>
+<td>1964</td>
+<td>Cyrus</td>
+<td>5</td>
 </tr>
 </tbody>
 </table>
@@ -1522,44 +1528,44 @@ Name: Sex, dtype: object</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">264364</td>
-<td>CA</td>
-<td>M</td>
-<td>1957</td>
-<td>Rodney</td>
-<td>514</td>
-</tr>
-<tr class="even">
-<td data-quarto-table-cell-role="th">341859</td>
-<td>CA</td>
-<td>M</td>
-<td>2001</td>
-<td>Dominique</td>
-<td>33</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">199675</td>
+<td data-quarto-table-cell-role="th">112998</td>
 <td>CA</td>
 <td>F</td>
-<td>2012</td>
-<td>Tatyana</td>
-<td>11</td>
+<td>1990</td>
+<td>Chanel</td>
+<td>124</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">348940</td>
-<td>CA</td>
-<td>M</td>
-<td>2004</td>
-<td>Daniel</td>
-<td>4170</td>
-</tr>
-<tr class="odd">
-<td data-quarto-table-cell-role="th">99753</td>
+<td data-quarto-table-cell-role="th">129181</td>
 <td>CA</td>
 <td>F</td>
-<td>1986</td>
-<td>Mallory</td>
-<td>304</td>
+<td>1994</td>
+<td>Shasta</td>
+<td>15</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">57099</td>
+<td>CA</td>
+<td>F</td>
+<td>1968</td>
+<td>Joyce</td>
+<td>134</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">225103</td>
+<td>CA</td>
+<td>F</td>
+<td>2019</td>
+<td>Reese</td>
+<td>161</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">42139</td>
+<td>CA</td>
+<td>F</td>
+<td>1960</td>
+<td>Lisa</td>
+<td>3117</td>
 </tr>
 </tbody>
 </table>
@@ -1587,36 +1593,36 @@ Name: Sex, dtype: object</code></pre>
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">340046</td>
+<td data-quarto-table-cell-role="th">151771</td>
 <td>CA</td>
-<td>M</td>
+<td>F</td>
 <td>2000</td>
-<td>Andrue</td>
-<td>10</td>
+<td>Karinna</td>
+<td>7</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">340242</td>
+<td data-quarto-table-cell-role="th">149755</td>
 <td>CA</td>
-<td>M</td>
+<td>F</td>
 <td>2000</td>
-<td>Zeus</td>
-<td>9</td>
+<td>Eunice</td>
+<td>48</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">151563</td>
+<td data-quarto-table-cell-role="th">150413</td>
 <td>CA</td>
 <td>F</td>
 <td>2000</td>
-<td>Marisleysis</td>
-<td>8</td>
+<td>Marla</td>
+<td>19</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">152611</td>
+<td data-quarto-table-cell-role="th">339830</td>
 <td>CA</td>
-<td>F</td>
+<td>M</td>
 <td>2000</td>
-<td>Majesty</td>
-<td>5</td>
+<td>Abhishek</td>
+<td>13</td>
 </tr>
 </tbody>
 </table>
@@ -1743,7 +1749,7 @@ Name: Name, dtype: object</code></pre>
 <div class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>babynames.groupby(<span class="st">"Year"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="31">
-<pre><code>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x1187f27d0&gt;</code></pre>
+<pre><code>&lt;pandas.core.groupby.generic.DataFrameGroupBy object at 0x11ca83410&gt;</code></pre>
 </div>
 </div>
 <p>What does this strange output mean? Calling <a href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.DataFrame.groupby.html"><code>.groupby</code></a> has generated a <code>GroupBy</code> object. You can imagine this as a set of “mini” sub-DataFrames, where each subframe contains all of the rows from <code>babynames</code> that correspond to a particular year.</p>

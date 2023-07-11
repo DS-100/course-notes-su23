@@ -16,7 +16,7 @@ format:
 jupyter: python3
 ---
 
-::: {.callout-note collapse="true"}
+::: {.callout-note}
 ## Learning Outcomes
 * Define linearity with respect to a vector of parameters $\theta$
 * Understand the use of matrix notation to express multiple linear regression
@@ -26,7 +26,7 @@ jupyter: python3
 
 We've now spent a number of lectures exploring how to build effective models – we introduced the SLR and constant models, selected cost functions to suit our modeling task, and applied transformations to improve the linear fit.
 
-Throughout all of this, we considered models of one feature ($\hat{y}_i = \theta_0 + \theta_1 x_i$) or zero features ($\hat{y}_i = \theta$). As data scientists, we usually have access to datasets containing *many* features. To make the best models we can, it will be beneficial to consider all of the variables available to us as inputs to a model, rather than just one. In today's lecture, we'll introduce **multiple Linear regression** as a framework to incorporate multiple features into a model. We will also learn how to accelerate the modeling process – specifically, we'll see how linear algebra offers us a powerful set of tools for understanding model performance.
+Throughout all of this, we considered models of one feature ($\hat{y}_i = \theta_0 + \theta_1 x_i$) or zero features ($\hat{y}_i = \theta_0$). As data scientists, we usually have access to datasets containing *many* features. To make the best models we can, it will be beneficial to consider all of the variables available to us as inputs to a model, rather than just one. In today's lecture, we'll introduce **multiple Linear regression** as a framework to incorporate multiple features into a model. We will also learn how to accelerate the modeling process – specifically, we'll see how linear algebra offers us a powerful set of tools for understanding model performance.
 
 ## Linearity
 
@@ -78,9 +78,9 @@ Notice that we have inserted 1 as the first value in the observation vector. Whe
 
 ## Linear Algebra Approach
 
-We now know how to generate a single prediction from multiple observed features. Data scientists usually work at scale – that is, they want to build models that can produce many predictions, all at once. The vector notation we introduced above gives us a hint on how we can expedite multiple Linear regression. We want to use the tools of linear algebra.
+We now know how to generate a single prediction from multiple observed features. Data scientists usually work at scale – that is, they want to build models that can produce many predictions, all at once. The vector notation we introduced above gives us a hint on how we can expedite Multiple Linear regression. We want to use the tools of linear algebra.
 
-Let's think carefully about what we did to generate the single prediction above. To make a prediction from the first observation in the data, we took the scalar product of the parameter vector and first observation vector. To make a prediction from the *second* observation, we would repeat this process to find the scalar product of the parameter vector and the *second* observation vector. If we wanted to find the model predictions for each observation in the dataset, we'd repeat this process for all $n$ observations in the data. 
+Let's think carefully about what we did to generate the single prediction above. To make a prediction from the first observation in the data, we took the dot product of the parameter vector and first observation vector. To make a prediction from the *second* observation, we would repeat this process to find the dot product of the parameter vector and the *second* observation vector. If we wanted to find the model predictions for each observation in the dataset, we'd repeat this process for all $n$ observations in the data. 
 
 $$\hat{y}_1 = [1,\:x_{11},\:x_{12},\:x_{13},\:...,\:x_{1p}] \theta$$
 $$\hat{y}_2 = [1,\:x_{21},\:x_{22},\:x_{23},\:...,\:x_{2p}] \theta$$
@@ -97,12 +97,15 @@ To review what is happening in the design matrix: each row represents a single o
 
 <img src="images/row_col.png" alt='row_col' width='600'>
 
-The multiple Linear regression model can then be restated in terms of matrices:
-$$\mathbb{\hat{Y}} = \mathbb{X} \theta$$
+The Multiple Linear regression model can then be restated in terms of matrices:
+$$
+\Large
+\mathbb{\hat{Y}} = \mathbb{X} \theta
+$$
 
 Here, $\mathbb{\hat{Y}}$ is the **prediction vector** with dimensions $(n \times 1)$. It contains the prediction made by the model for each of $n$ input observations.
 
-We now have a new approach to understanding models in terms of vectors and matrices. To accompany this new convention, we should update our understanding of cost functions and model fitting.
+We now have a new approach to understanding models in terms of vectors and matrices. To accompany this new convention, we should update our understanding of risk functions and model fitting.
 
 Recall our definition of MSE:
 $$R(\theta) = \frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2$$
@@ -122,7 +125,7 @@ Here, the superscript 2 outside of the norm double bars means that we are *squar
 
 $$R(\theta) = \frac{1}{n} ||\mathbb{Y} - \mathbb{X} \theta||_2^2$$
 
-Under the linear algebra perspective, our new task is to fit the optimal parameter vector $\theta$ such that the cost function is minimized. Equivalently, we wish to minimize the norm $$||\mathbb{Y} - \mathbb{X} \theta||_2 = ||\mathbb{Y} - \hat{\mathbb{Y}}||_2$$. 
+Under the linear algebra perspective, our new task is to fit the optimal parameter vector $\theta$ such that the cost function is minimized. Equivalently, we wish to minimize the norm $$||\mathbb{Y} - \mathbb{X} \theta||_2 = ||\mathbb{Y} - \hat{\mathbb{Y}}||_2.$$ 
 
 We can restate this goal in two ways:
 
@@ -169,17 +172,17 @@ Recall that the **span** or **column space** of a matrix is the set of all possi
 
 Because the prediction vector, $\hat{\mathbb{Y}} = \mathbb{X} \theta$, is a linear combination of the columns of $\mathbb{X}$, we know that the **predictions are contained in the span of $\mathbb{X}$**. That is, we know that $\mathbb{\hat{Y}} \in \text{Span}(\mathbb{X})$.
 
-The diagram below is a simplified view of $\text{Span}(\mathbb{X})$, assuminh that each column of $\mathbb{X}$ has length $n$. Notice that the columns of $\mathbb{X}$ define a subspace of $\mathbb{R}^n$, where each point in the subspace can be reached by a linear combination of $\mathbb{X}$'s columns. The prediction vector $\mathbb{\hat{Y}}$ lies somewhere in this subspace.
+The diagram below is a simplified view of $\text{Span}(\mathbb{X})$, assuming that each column of $\mathbb{X}$ has length $n$. Notice that the columns of $\mathbb{X}$ define a subspace of $\mathbb{R}^n$, where each point in the subspace can be reached by a linear combination of $\mathbb{X}$'s columns. The prediction vector $\mathbb{\hat{Y}}$ lies somewhere in this subspace.
 
 <img src="images/span.png" alt='span' width='600'>
 
-Examining this diagram, we find a problem. The vector of true values, $\mathbb{Y}$, could theoretically lie *anywhere* in $\mathbb{R}^n$ space – its exact location depends on the data we collect out in the real world. However, our multiple Linear regression model can only make predictions in the subspace of $\mathbb{R}^n$ spanned by $\mathbb{X}$. Remember the model fitting goal we established in the previous section: we want to generate predictions such that the distance between the vector of true values, $\mathbb{Y}$, and the vector of predicted values, $\mathbb{\hat{Y}}$, is minimized. This means that **we want $\mathbb{\hat{Y}}$ to be the vector in $\text{Span}(\mathbb{X})$ that is closest to $\mathbb{Y}$**. 
+Examining this diagram, we find a problem. The vector of true values, $\mathbb{Y}$, could theoretically lie *anywhere* in $\mathbb{R}^n$ space – its exact location depends on the data we collect out in the real world. However, our multiple linear regression model can only make predictions in the subspace of $\mathbb{R}^n$ spanned by $\mathbb{X}$. Remember the model fitting goal we established in the previous section: we want to generate predictions such that the distance between the vector of true values, $\mathbb{Y}$, and the vector of predicted values, $\mathbb{\hat{Y}}$, is minimized. This means that **we want $\mathbb{\hat{Y}}$ to be the vector in $\text{Span}(\mathbb{X})$ that is closest to $\mathbb{Y}$**. 
 
 Another way of rephrasing this goal is to say that we wish to minimize the length of the residual vector $e$, as measured by its $L_2$ norm. 
 
 <img src="images/residual.png" alt='residual' width='600'>
 
-The vector in $\text{Span}(\mathbb{X})$ that is closest to $\mathbb{Y}$ is always the **orthogonal projection** of $\mathbb{Y}$ onto $\text{Span}(\mathbb{X})$. Thus, we should choose the parameter vector $\theta$ that makes the **residual vector orthogonal to any vector in $\text{Span}(\mathbb{X})$**. You can visualize this as the vector created by dropping a perpendicular line from $\mathbb{Y}$ onto the span of $\mathbb{X}$. 
+The vector in $\text{Span}(\mathbb{X})$ that is closest to $\mathbb{Y}$ is always the **orthogonal projection** of $\mathbb{Y}$ onto $\text{Span}(\mathbb{X}).$ Thus, we should choose the parameter vector $\theta$ that makes the **residual vector orthogonal to any vector in $\text{Span}(\mathbb{X})$**. You can visualize this as the vector created by dropping a perpendicular line from $\mathbb{Y}$ onto the span of $\mathbb{X}$. 
 
 How does this help us identify the optimal parameter vector, $\hat{\theta}$? Recall that two vectors are orthogonal if their dot product is zero. A vector $\vec{v}$ is orthogonal to the span of a matrix $M$ if $\vec{v}$ is orthogonal to each column in $M$. Put together, a vector $\vec{v}$ is orthogonal to $\text{Span}(M)$ if:
 
@@ -203,17 +206,17 @@ Note that the least squares estimate was derived under the assumption that $\mat
 
 ## Evaluating Model Performance
 
-Our geometric view of multiple Linear regression has taken us far! We have identified the optimal set of parameter values to minimize MSE in a model of multiple features.
+Our geometric view of multiple linear regression has taken us far! We have identified the optimal set of parameter values to minimize MSE in a model of multiple features.
 
 Now, we want to understand how well our fitted model performs. One measure of model performance is the **Root Mean Squared Error**, or RMSE. The RMSE is simply the square root of MSE. Taking the square root converts the value back into the original, non-squared units of $y_i$, which is useful for understanding the model's performance. A low RMSE indicates more "accurate" predictions – that there is lower average loss across the dataset.
 
 $$\text{RMSE} = \sqrt{\frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2}$$
 
-When working with SLR, we generated plots of the residuals against a single feature to understand the behavior of residuals. When working with several features in multiple Linear regression, it no longer makes sense to consider a single feature in our residual plots. Instead, multiple Linear regression is evaluated by making plots of the residuals against the predicted values. As was the case with SLR, a multiple Linear model performs well if its residual plot shows no patterns.
+When working with SLR, we generated plots of the residuals against a single feature to understand the behavior of residuals. When working with several features in multiple linear regression, it no longer makes sense to consider a single feature in our residual plots. Instead, multiple linear regression is evaluated by making plots of the residuals against the predicted values. As was the case with SLR, a multiple linear model performs well if its residual plot shows no patterns.
 
 <img src="images/residual_plot.png" alt='residual_plot' width='500'>
 
-For SLR, we used the correlation coefficient to capture the association between the target variable and a single feature variable. In a multiple Linear setting, we will need a performance metric that can account for multiple features at once. **Multiple $R^2$**, also called the **coefficient of determination**, is the ratio of the variance of the predicted values $\hat{y}_i$ to the variance of the true values $y_i$. It can be interpreted as the *proportion* of variance in the observations that is explained by the model. 
+For SLR, we used the correlation coefficient to capture the association between the target variable and a single feature variable. In a multiple linear model setting, we will need a performance metric that can account for multiple features at once. **Multiple $R^2$**, also called the **coefficient of determination**, is the ratio of the variance of the predicted values $\hat{y}_i$ to the variance of the true values $y_i$. It can be interpreted as the *proportion* of variance in the observations that is explained by the model. 
 
 $$R^2 = \frac{\text{variance of } \hat{y}_i}{\text{variance of } y_i} = \frac{\sigma^2_{\hat{y}}}{\sigma^2_y}$$
 
