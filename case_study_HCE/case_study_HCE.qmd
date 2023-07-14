@@ -18,111 +18,171 @@ jupyter: python3
 
 ::: {.callout-note collapse="true"}
 ## Learning Outcomes
-* Learn about the ethical dilemmas that data scientists face.
-* Know how critique models using contextual knowledge about data. 
+* Investigate a real-world case study of the human contexts and ethics in which data science operates
+* Understand how to critique models using contextual knowledge about data
 :::
 
-::: {.callout-DISCLAIMER}
+::: {.callout-CONTENT}
 
-The following chapter discusses issues of structural racism. Some of the items in the chapter may be sensitive and may or may not be the opinions, ideas, and beliefs of students who collected the materials. The Data 100 course staff tries its best to only present information that is relevant for teaching the lessons at hand.
+The following chapter discusses issues of structural racism. Some of the items in the chapter may be sensitive and may or may not reflect the opinions, ideas, and beliefs of course staff who collected the materials. Please reach out to your GSI or the instructors if you have any concerns or questions about the content that follows.
 
 :::
 
+*With thanks to guest lecturer Ari Edmundson.*
 
-Let's immerse ourselves in the real world story of data scientists working for an organization called the Cook County Assessor's Office (CCAO). Their job is to **estimate the values of houses** in order to **assign property taxes**. This is because tax burden in this area is determined by the estimated **value** of a house, which is different from its price. Since values change over time and there is no obvious indicators of value, they created a **model** to estimate the values of houses. In this chapter, we will dig deep into what problems that biased the models, the consequences to human lives, and how we can learn from this example to do better.  
+Let's immerse ourselves in the real-world story of data scientists working for an organization called the Cook County Assessor's Office (CCAO). Their job is to **estimate the values of houses** in Cook County, Illinois, in order to **determine property taxation rates**. This is because the property tax burden (the amount of tax to be paid by a homeowner) in this area is determined by the estimated **value** of a house. The homeowner of a house that is higher in value will have to pay *more* property tax than the homeowner of a house that is lower in value.
+
+
+In the eyes of the CCAO, a house's "value" may differ from its *price* on the housing market, which is why assessment of properties is necessary. Additionally, some homes may have never been listed on the housing market before, so they have no established "sale price." Since values change over time and there is no obvious indicators of value, the CCAO created a **model** to estimate the values of houses. In this lecture, we will dig deep into issues of biases encoded into this model, the consequences for human lives, and how we can learn from this example to do better.  
 
 
 ## The Problem
 
-In a [report](https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/assessments.html) by the Chicago Tribune uncovered a major scandal. The team showed that the model perpetuated a highly regressive tax system which disproportionately burdened African American and Latinx homeowners in Cook County. How did they know? 
+A 2017 [report](https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/assessments.html) by the Chicago Tribune uncovered a major scandal. The team showed that the model perpetuated a highly regressive tax system which disproportionately burdened Black and Latinx homeowners in Cook County. 
 
-<a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/assessments.html">
-<img src = "images/vis_1.png"></img></a>
-
+To understand the implications of a regressive tax system for these communities, we'll first consider some background.
 
 
-In the field of housing assessment, there are standard metrics that assessors use across the world to estimate the fairness of assessments: [coefficient of dispersion](https://www.realestateagent.com/real-estate-glossary/real-estate/coefficient-of-dispersion.html) and [price-related differential](https://leg.wa.gov/House/Committees/FIN/Documents/2009/RatioText.pdf). These metrics have been rigorously tested by experts in the field, and are out of scope for our class. Calculating these metrics for the Cook County prices and found that the pricing created by the CCAO did not fall in acceptable ranges (See figure above). This by itself is **not the end** of the story, but a good indicator that **something fishy was going on**.
+:::: {.columns}
 
-<a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/assessments.html">
-<img src = "images/vis_2.png" width = "300"></img></a>
-
-
-
-This then prompted them to investigate if the model itself was producing fair tax rates. Evidently, when accounting for the home owner's income they found that the model actually produced a **regressive** tax rate (See figure above).
-
-
-::: {.callout-Definition collapse="true"}
-
-Regressive (tax): A tax rate is regressive if the percentage tax rate is higher for individuals with lower net income. 
-
-Progressive (tax): A tax rate is progressive if the percentage tax rate is higher for individuals with higher net income. 
-
+::: {.column width="50%"}
+In the field of housing assessment, assessors often use two metrics to estimate the fairness of assessments: the [coefficient of dispersion](https://www.realestateagent.com/real-estate-glossary/real-estate/coefficient-of-dispersion.html) and the [price-related differential](https://leg.wa.gov/House/Committees/FIN/Documents/2009/RatioText.pdf). The details of these metrics are out of scope for Data 100, but you can think of them as methods of measuring the "consistency" with which an assessor assigns values to properties. Investigators found that the property valuations performed by the CCAO did not fall into acceptable ranges.  
 :::
 
-<a href="https://www.clccrul.org/bpnc-v-berrios-facts?rq=berrios">
+
+::: {.column width="50%"}
+<br>
+<a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/assessments.html">
+<img src = "images/vis_1.png" width=400></img></a>
+:::
+
+::::
+
+This by itself was **not the end** of the story, but was an indicator that **something fishy was going on**.
+
+:::: {.columns}
+
+::: {.column width="10%"}
+<a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/assessments.html">
+<img src = "images/vis_2.png" width = "150"></img></a>
+:::
+
+::: {.column width="10%"}
+<!-- empty column to create gap -->
+:::
+
+::: {.column width="80%"}
+
+This finding prompted the investigative team to assess if the model designed by the CCAO was outputting fair tax rates. After accounting for the **income level** of the property homeowner, they found that the CCAO's model was producing a **regressive** tax system. Properties owned by low-income homeowners were being *overvalued*, which meant that these homeowners had to pay property taxes at a rate *higher* than the true worth of their homes.
+
+::: {.callout-Definition collapse="false"}
+
+**Regressive:** A tax rate is regressive if the percentage tax rate is higher for individuals with *lower* net income. 
+
+**Progressive:** A tax rate is progressive if the percentage tax rate is higher for individuals with *higher* net income. 
+
+:::
+:::
+
+::::
+
+
+Digging even deeper into the model revealed that the system was not only unfair to homeowners across the axis of income (impacting high-income and low-income communities in different ways), but also unfair over the axis of race. As demonstrated in the figure below, there seemed to be a relationship between a homeowner's race and the property value assigned by the CCAO model. Houses in regions with predominantly white homeowners tended to be *undervalued*, meaning that these homeowners had to pay property tax *lower* than the true worth of their homes.
+
+<center><a href="https://www.clccrul.org/bpnc-v-berrios-facts?rq=berrios">
 <img src = "images/vis_3.jpg" width = "600"></img>
-</a>
-
-Digging further shows that not only was the system unfair to people across the axis of income, it was also unfair across the axis of race(See figure above). The likelihood that your home was under or over assessed was highly dependent on your race did not sit will with many home owners.
-
+</a></center>
 
 
 ### Spotlight: Appeals
 
-What actually caused this to come about? The whole answer is a lot bigger than just models. At the end of the day, these are real systems that have a lot of moving parts. One of those moving parts was the **appeals system**. Homeowners are mailed the value their home is assess for by CCAO, and the homeowner can choose to appeal to a board of elected officials to try and change the listed value of their home, and thus how much they are taxed. In theory, this sounds like a very fair system: there is a human that oversees the final pricing of houses rather than just an algorithm. However, it ended up exacerbating the problems.   
+What was the origin of these disparities in the assessment scheme? The answer is a lot bigger than just the CCAO's model. At the end of the day, these are real social systems that have a lot of moving parts.
+
+One of those moving parts was the **appeals system**. After the CCAO has performed an assessment, they mail the assessed home value to the homeowner of the property. The homeowner can then choose to appeal this assessment value to a board of elected officials in an attempt to change the final property value, and, thus, how much they will be taxed. In theory, this sounds like a very fair system: there is a human that oversees the final pricing of houses rather than just an algorithm. However, it ended up exacerbating the problems.   
 
 “Appeals are a good thing,” Thomas Jaconetty, deputy assessor for valuation and appeals, said in an interview. “The goal here is fairness. We made the numbers. We can change them.”
 
-<a href = "https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/appeals.html"> <img src = "images/vis_4.png"></img>
-</a>
 
-Here we can borrow lessons from [Critical Race Theory](https://www.britannica.com/topic/critical-race-theory). On the surface, everyone having the legal right to try and appeal is undeniable. However, not everyone has an equal ability to. Those who have the money to hire tax lawyers to appeal for them have a drastically higher chance trying and succeeding (See above figure). This model is part of a deeper institutional pattern rife with potential corruption.
+:::: {.columns}
 
+::: {.column width="10%"}
+<a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/appeals.html">
+<img src = "images/vis_4.png" width = "150"></img></a>
+:::
 
-<a href = "https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/appeals.html"> <img src = "images/vis_5.png"></img>
-</a>
+::: {.column width="10%"}
+<!-- empty column to create gap -->
+:::
 
-Homeowners who appealed were generally underassessed relative to other homeowners (See above figure). Those with higher incomes pay less in property tax, tax lawyers are able to grow their business due to their role in appeals, and politicians are commonly socially connected to the aforementioned tax lawyers and wealthy homeowners. All these stakeholders have reasons to advertise the model as a integral part of a fair system. Here lies the value in asking questions. A system that seems fair on the surface may in actuality be unfair upon taking a closer look.  
+::: {.column width="80%"}
+
+On the surface, it's undeniable that everyone should have the legal right to appeal the assessment decision. However, the current state of the legal system means that not everyone has an equal ability to launch an appeal. Those who have the money to hire **tax lawyers** to appeal the assessment on their behalf have a drastically higher chance of succeeding in their appeal. This model is part of a deeper institutional pattern rife with potential corruption.
+
+Homeowners who appealed were generally under-assessed relative to other homeowners, meaning that their property tax rate was low relative to the true value of their homes. This meant that high-income homeowners ultimately paid proportionately less in property tax. It also meant that tax lawyers were able to grow their businesses due to their growing roles in the appeals process. In Cook County, politicians often shared social connections with both these tax lawyers and the wealthy homeowners they served. 
+:::
+
+::::
+All these stakeholders – high-income homeowners, tax lawyers, and some politicians – therefore had reasons to advertise the CCAO model as being an integral part of a fair assessment system. 
+
+Here lies the value in asking questions. A system that seems fair on the surface may, in actuality, be unfair upon taking a closer look. 
+
+<center><img src = "images/vis_5.png" width = "400"></img></a></center>
 
 ### Human Impacts
-
-<a href = "https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/assessments.html"> <img src = "images/vis_6.png"></img>
-</a>
-
 The impact of the housing model extends beyond the realm of home ownership and taxation. Discriminatory practices have a long history within the United States, and the model served to perpetuate this fact. To this day, Chicago is one of the most segregated cities in the United States ([source](https://fivethirtyeight.com/features/the-most-diverse-cities-are-often-the-most-segregated/)). These factors are central to informing us, as data scientists, about what is at stake.
+
+<center><a href = "https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/assessments.html"> <img src = "images/vis_6.png" width="400"></img></a></center>
 
 
 ### Spotlight: Intersection of Real Estate and Race
 
-Housing has been a persistent source of racial inequality throughout US History, amongst other factors. It is one of the main areas where inequalities are created and reproduced. In the beginning, [Jim Crow](https://www.history.com/topics/early-20th-century-us/jim-crow-laws) laws were explicit in forbidding Persons of Color from Schools, public utilities, etc. 
+Housing has been a persistent source and manifestation of racial inequality throughout US history. It is one of the most visible areas where inequalities are created and reproduced. In the early 20th century, [Jim Crow](https://www.history.com/topics/early-20th-century-us/jim-crow-laws) laws were explicit in systematically excluding people of color from housing opportunities equal to those made available to white communities. 
 
-<a href = "https://dsl.richmond.edu/panorama/redlining/#loc=11/41.84/-87.674"><img src = "images/vis_7.png"></img></a>
+:::: {.columns}
 
+::: {.column width="50%"}
+Today, while advancements in civil rights have been made, the ongoing impacts of these laws are tangible in many parts of the US. One legacy of the Jim Crow era is housing segregation born from discriminatory practices in the real estate industry. The real estate industry, guided by almost exclusively white leaders, was “professionalized” in the 1920’s and 1930’s by aspiring to become a science guided by strict methods and principles. One of these principles was known as **redlining**. Redlining involved making it difficult, if not impossible, to get a federally-backed mortgage to buy a house in specific neighborhoods coded as “risky." Often, neighborhoods were identified as "risky" based on their racial composition. In doing so, the real estate industry attempted to create "objective" rating systems for property assessments that encoded **race** as a factor in valuations. 
+:::
 
-Today, while advancements in Civil Rights have been made, the spirit of the laws are alive in many parts of the US. The real estate industry was “professionalized” in the 1920’s and 1930’s by aspiring to become a science guided by strict methods and principles:
+::: {.column width="5%"}
+<!-- empty column to create gap -->
+:::
 
-- Redlining: making it difficult or impossible to get a federally-backed mortgage to buy a house in specific neighborhoods coded as “risky” (red). 
-    - What made them “risky” according to the makers of these was racial composition.
-    - Segregation was not only a result of federal policy, but developed by real estate professionals. 
-- The methods centered on creating objective rating systems (information technologies) for the appraisal of property values which encoded **race** as a factor of valuation (See figure below) 
-    - This, in turn, influenced federal policy and practice
-
-<img src = "images/vis_8.png"></img>
+::: {.column width="45%"}
+<br>
+<img src = "images/vis_8.png" width="400"></img>
 
 Source: Colin Koopman, How We Became Our Data (2019) p. 137
+:::
 
+::::
+The result was that people of color tended to purchase and own homes in areas far from where white homeowners resided. This housing segregation is still present in many communities across the US today, including in Cook County.
 
 
 
 
 ## The Response: Cook County Open Data Initiative
 
-The response started in politics. A new assessor, Fritz Kaegi, was elected and created a new mandate with two goals: 
+The response to the injustices uncovered by the investigative team started in politics. A new CCAO assessor, Fritz Kaegi, was elected. He created a new mandate with two goals: 
 
-- Distributional equity in property taxation = properties of same value treated alike during assessments
-- Creates new Office of Data Science
+:::: {.columns}
 
-<img src = "images/vis_9.png"></img>
+::: {.column width="30%"}
+<img src = "images/vis_9.png" width="300"></img>
+:::
+
+::: {.column width="5%"}
+<!-- empty column to create gap -->
+:::
+
+::: {.column width="65%"}
+- Distributional equity in property taxation: properties of same value should be treated alike during assessments
+- Insitute a new Office of Data Science to address the biases of the existing CCAO model
+:::
+
+::::
+
+Let's consider the work of data scientists in the new CCAO Office of Data Science through the lens of the data science lifecycle.
 
 ### Question/Problem Formulation
 
@@ -131,7 +191,7 @@ The response started in politics. A new assessor, Fritz Kaegi, was elected and c
 - What are the hypotheses we want to test?
 - What are our metrics for success?
 
-The new Office of Data Science started by redefining their goals. 
+After performing similar reflections, the new Office of Data Science started their work by redefining their goals. 
 
 1. Accurately, uniformly, and impartially assess the value of a home.
 
@@ -145,13 +205,11 @@ The new Office of Data Science started by redefining their goals.
     - Engenders trust in the system among all stakeholders 
 
 
-:::{.callout-definitions collapse="true"}
+:::{.callout-definitions collapse="false"}
 
-**Definitions**: Fairness and Transparency
+**Fairness:** The ability of the modeling pipeline to accurately assess property values, accounting for disparities in geography, information, etc. 
 
-Fairness: The ability of our pipeline to accurately assess property values, accounting for disparities in geography, information, etc. 
-
-Transparency: The ability of the data science department to share and explain pipeline results and decisions to both internal and external stakeholders
+**Transparency:** The ability of the data science department to share and explain pipeline results and decisions to both internal and external stakeholders
 
 :::
 
@@ -161,11 +219,7 @@ Transparency: The ability of the data science department to share and explain pi
 - How will we sample more data?
 - Is our data representative of the population we want to study?
 
-Example: Sales data
-
-<img src = "images/vis_10.png"></img>
-
-They also critically examined their original sales data: 
+The CCAO data scientists then critically examined the housing data available to them. This is the very same housing data that you will work with in Projects A1 and A2.
 
 1. How was this data collected?
 2. When was this data collected? 
@@ -173,11 +227,9 @@ They also critically examined their original sales data:
 4. For what purposes was the data collected?
 5. How and why were particular categories created? 
 
-For example, attributes can affect likelihood of appearing in the data. For example, housing data in the floodplains geographic region of Chicago were less represented than other regions.
+They found that some housing types were less represented than others in the data used to train the original CCAO model. For example, properties located in the floodplains of Chicago were under-represented relative to other regions in Cook County. Certain features were also recorded at different rates. Improvements in homes, which tend to increase property value, were unlikely to be reported by the homeowners.
 
-The features can even be reported at different rates. Improvements in homes, which tend to increase property value, were unlikely to be reported by the homeowners.
-
-Additionally, they found that there was simply more missing data in lower income neighborhoods. 
+Notably, they found that there was simply more missing data in lower income neighborhoods. 
 
 ### Exploratory Data Analysis
 
@@ -186,16 +238,16 @@ Additionally, they found that there was simply more missing data in lower income
 - What are the biases, anomalies, or other issues with the data?
 - How do we transform the data to enable effective analysis?
 
-Before the modeling step, they investigated a multitude of crucial questions:  
+Before beginning to formulate new models, the data scientists considered a number of important exploratory questions.
 
 1. Which attributes are most predictive of sales price?
 2. Is the data uniformly distributed? 
-3. Do all neighborhoods have up to date data? Do all neighborhoods have the same granularity?  
+3. Do all neighborhoods have up-to-date data? Do all neighborhoods have the same granularity?  
 4. Do some neighborhoods have missing or outdated data? 
 
-Firstly, they found that the impact of certain features, such as bedroom number, were much more impactful in determining house value inside certain neighborhoods more than others. This informed them that different models should be used depending on the neighborhood.
+They found that the impact of certain features, such as the number of bedrooms in a home, were much more impactful in determining house value for properties in certain neighborhoods than they were in other neighborhoods. This suggested that different models should be applied for different neighborhoods.
 
-They also noticed that low income neighborhoods had disproportionately spottier data. This informed them that they needed to develop new data collection practices--including finding new sources of data. 
+They also noticed that low income neighborhoods had data with disproportionately many missing values. This informed them that they needed to develop new data collection practices – including finding new sources of data. 
 
 
 
@@ -205,19 +257,21 @@ They also noticed that low income neighborhoods had disproportionately spottier 
 - Does it answer our questions or accurately solve the problem?
 - How robust are our conclusions and can we trust the predictions? 
 
-Rather than using a singular model to predict sale prices (“fair market value”) of unsold properties, the CCAO fit machine learning models that discover patterns using known sale prices and characteristics of **similar and nearby properties**. It uses different model weights for each township.
+Rather than using a singular model to predict the sale prices (“fair market value”) of unsold properties, the CCAO fit machine learning models that discover patterns using known sale prices and characteristics of **similar and nearby properties**. It uses different model weights for each township.
 
 Compared to traditional mass appraisal, the CCAO’s new approach is more granular and more sensitive to neighborhood variations. 
+
+You can explore the CCAO dataset and models for yourself via their [GitLab](https://gitlab.com/ccao-data-science---modeling).
 
 
 ### Reports Decisions, and Conclusions
 
 - How successful is the system for each goal?
-    - accuracy/uniformity of the model.
-    - fairness and transparency that eliminates regressivity and engenders trust.
+    - Was the new approach able to achieve accuracy/uniformity of the model?
+    - Has this system instituted fairness and transparency that eliminates regressivity and engenders trust?
 - How do you know? 
 
-The model is not the end of the road. The new Office still sends homeowners their house evaluations, but now the data that they get sent back from the homeowners is taken into account. More detailed reports are being written by the office itself to democratize the information. Town halls and other public facing outreach helps involves the whole community in the process of housing evaluations, rather than limiting participation to a select few.
+The model is not the end of the road. The new Office of Data Science still sends homeowners their house evaluations, but now the data that they get sent *back* from the homeowners is taken into account when refining the model. More detailed reports are being written by the office itself to democratize the information. Town halls and other public facing outreach help to ensure that the whole community is involved in the process of housing evaluations, rather than limiting participation to a select few.
 
 ## Key Takeaways
 
@@ -228,11 +282,6 @@ The model is not the end of the road. The new Office still sends homeowners thei
 3. Learn to work with contexts, and consider how your data analysis will reshape them
 
 4. Keep in mind the power, and limits, of data analysis
-
-
-
-
-
 
 
 ## Lessons for Data Science Practice
