@@ -62,16 +62,16 @@ This by itself was **not the end** of the story, but was an indicator that **som
 
 :::: {.columns}
 
-::: {.column width="10%"}
+::: {.column width="20%"}
 <a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/assessments.html">
-<img src = "images/vis_2.png" width = "150"></img></a>
+<img src = "images/vis_2.png" width = "200"></img></a>
 :::
 
 ::: {.column width="10%"}
 <!-- empty column to create gap -->
 :::
 
-::: {.column width="80%"}
+::: {.column width="70%"}
 
 This finding prompted the investigative team to assess if the model designed by the CCAO was outputting fair tax rates. After accounting for the **income level** of the property homeowner, they found that the CCAO's model was producing a **regressive** tax system. Properties owned by low-income homeowners were being *overvalued*, which meant that these homeowners had to pay property taxes at a rate *higher* than the true worth of their homes.
 
@@ -105,16 +105,16 @@ One of those moving parts was the **appeals system**. After the CCAO has perform
 
 :::: {.columns}
 
-::: {.column width="10%"}
+::: {.column width="20%"}
 <a href="https://apps.chicagotribune.com/news/watchdog/cook-county-property-tax-divide/appeals.html">
-<img src = "images/vis_4.png" width = "150"></img></a>
+<img src = "images/vis_4.png" width = "200"></img></a>
 :::
 
 ::: {.column width="10%"}
 <!-- empty column to create gap -->
 :::
 
-::: {.column width="80%"}
+::: {.column width="70%"}
 
 On the surface, it's undeniable that everyone should have the legal right to appeal the assessment decision. However, the current state of the legal system means that not everyone has an equal ability to launch an appeal. Those who have the money to hire **tax lawyers** to appeal the assessment on their behalf have a drastically higher chance of succeeding in their appeal. This model is part of a deeper institutional pattern rife with potential corruption.
 
@@ -150,7 +150,7 @@ Today, while advancements in civil rights have been made, the ongoing impacts of
 
 ::: {.column width="45%"}
 <br>
-<img src = "images/vis_8.png" width="400"></img>
+<img src = "images/vis_8.png" width="320"></img>
 
 Source: Colin Koopman, How We Became Our Data (2019) p. 137
 :::
@@ -168,7 +168,7 @@ The response to the injustices uncovered by the investigative team started in po
 :::: {.columns}
 
 ::: {.column width="30%"}
-<img src = "images/vis_9.png" width="300"></img>
+<img src = "images/vis_9.png" width="240"></img>
 :::
 
 ::: {.column width="5%"}
