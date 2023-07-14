@@ -99,7 +99,11 @@ Suppose I have a population of three individuals A, B, and C and I decide to sam
 
 The following table lists the probability that all subsets of 2 individuals and their probability of being the sample:
 
-![A Probability sample](images/probability.png)
+| All  subsets of 2 | Probability |
+|---------|-----|
+| {A, B} | 0.5 |
+| {A, C} | 0.5 |
+| {B, C} | 0 |
 
 Though not a great one, this is a probability sample, since we know the chance of getting each subset.
 

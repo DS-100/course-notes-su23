@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.280">
+<meta name="generator" content="quarto-1.3.361">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,9 +17,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -46,43 +47,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -121,13 +92,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
@@ -136,11 +109,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Visualization</span></h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../visualization_1/visualization_1.html"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Visualization</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -148,7 +126,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="../index.html" class="sidebar-logo-link">
       <img src="../data100_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
@@ -156,140 +134,155 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Principles and Techniques of Data Science</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/DS-100/course-notes-su23" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/DS-100/course-notes-su23" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../intro_lec/introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="../intro_lec/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pandas_1/pandas_1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Pandas I</span></a>
+  <a href="../pandas_1/pandas_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Pandas I</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pandas_2/pandas_2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pandas II</span></a>
+  <a href="../pandas_2/pandas_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pandas II</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pandas_3/pandas_3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Pandas III</span></a>
+  <a href="../pandas_3/pandas_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Pandas III</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../eda/eda.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Cleaning and EDA</span></a>
+  <a href="../eda/eda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Cleaning and EDA</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../regex/regex.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text Wrangling and Regular Expressions</span></a>
+  <a href="../regex/regex.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text Wrangling and Regular Expressions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../visualization_1/visualization_1.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Visualization</span></a>
+  <a href="../visualization_1/visualization_1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Visualization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sampling/sampling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Sampling</span></a>
+  <a href="../sampling/sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../intro_to_modeling/intro_to_modeling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduction to Modeling</span></a>
+  <a href="../intro_to_modeling/intro_to_modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduction to Modeling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../constant_model_loss_transformations/loss_transformations.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Constant Model, Loss, and Transformations</span></a>
+  <a href="../constant_model_loss_transformations/loss_transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Constant Model, Loss, and Transformations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ols/ols.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ordinary Least Squares</span></a>
+  <a href="../ols/ols.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ordinary Least Squares</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../gradient_descent/gradient_descent.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Gradient Descent</span></a>
+  <a href="../gradient_descent/gradient_descent.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Gradient Descent</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../feature_engineering/feature_engineering.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Sklearn and Feature Engineering</span></a>
+  <a href="../feature_engineering/feature_engineering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Sklearn and Feature Engineering</span></span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#visualizations-in-data-8-and-data-100-so-far" id="toc-visualizations-in-data-8-and-data-100-so-far" class="nav-link active" data-scroll-target="#visualizations-in-data-8-and-data-100-so-far"><span class="toc-section-number">7.1</span>  Visualizations in Data 8 (and Data 100, so far)</a></li>
-  <li><a href="#goals-of-visualization" id="toc-goals-of-visualization" class="nav-link" data-scroll-target="#goals-of-visualization"><span class="toc-section-number">7.2</span>  Goals of Visualization</a></li>
-  <li><a href="#visualizing-distributions" id="toc-visualizing-distributions" class="nav-link" data-scroll-target="#visualizing-distributions"><span class="toc-section-number">7.3</span>  Visualizing Distributions</a>
+  <li><a href="#visualizations-in-data-8-and-data-100-so-far" id="toc-visualizations-in-data-8-and-data-100-so-far" class="nav-link active" data-scroll-target="#visualizations-in-data-8-and-data-100-so-far"><span class="header-section-number">7.1</span> Visualizations in Data 8 (and Data 100, so far)</a></li>
+  <li><a href="#goals-of-visualization" id="toc-goals-of-visualization" class="nav-link" data-scroll-target="#goals-of-visualization"><span class="header-section-number">7.2</span> Goals of Visualization</a></li>
+  <li><a href="#visualizing-distributions" id="toc-visualizing-distributions" class="nav-link" data-scroll-target="#visualizing-distributions"><span class="header-section-number">7.3</span> Visualizing Distributions</a>
   <ul>
-  <li><a href="#distributions" id="toc-distributions" class="nav-link" data-scroll-target="#distributions"><span class="toc-section-number">7.3.1</span>  Distributions</a></li>
-  <li><a href="#variable-types" id="toc-variable-types" class="nav-link" data-scroll-target="#variable-types"><span class="toc-section-number">7.3.2</span>  Variable Types</a></li>
-  <li><a href="#bar-plots" id="toc-bar-plots" class="nav-link" data-scroll-target="#bar-plots"><span class="toc-section-number">7.3.3</span>  Bar Plots</a>
+  <li><a href="#distributions" id="toc-distributions" class="nav-link" data-scroll-target="#distributions"><span class="header-section-number">7.3.1</span> Distributions</a></li>
+  <li><a href="#variable-types" id="toc-variable-types" class="nav-link" data-scroll-target="#variable-types"><span class="header-section-number">7.3.2</span> Variable Types</a></li>
+  <li><a href="#bar-plots" id="toc-bar-plots" class="nav-link" data-scroll-target="#bar-plots"><span class="header-section-number">7.3.3</span> Bar Plots</a>
   <ul>
-  <li><a href="#plotting-in-matplotlib" id="toc-plotting-in-matplotlib" class="nav-link" data-scroll-target="#plotting-in-matplotlib"><span class="toc-section-number">7.3.3.1</span>  Plotting in Matplotlib</a></li>
-  <li><a href="#plotting-in-seaborn" id="toc-plotting-in-seaborn" class="nav-link" data-scroll-target="#plotting-in-seaborn"><span class="toc-section-number">7.3.3.2</span>  Plotting in Seaborn</a></li>
+  <li><a href="#plotting-in-matplotlib" id="toc-plotting-in-matplotlib" class="nav-link" data-scroll-target="#plotting-in-matplotlib"><span class="header-section-number">7.3.3.1</span> Plotting in Matplotlib</a></li>
+  <li><a href="#plotting-in-seaborn" id="toc-plotting-in-seaborn" class="nav-link" data-scroll-target="#plotting-in-seaborn"><span class="header-section-number">7.3.3.2</span> Plotting in Seaborn</a></li>
   </ul></li>
-  <li><a href="#box-plots" id="toc-box-plots" class="nav-link" data-scroll-target="#box-plots"><span class="toc-section-number">7.3.4</span>  Box Plots</a></li>
-  <li><a href="#violin-plots" id="toc-violin-plots" class="nav-link" data-scroll-target="#violin-plots"><span class="toc-section-number">7.3.5</span>  Violin Plots</a></li>
-  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms"><span class="toc-section-number">7.3.6</span>  Histograms</a>
+  <li><a href="#box-plots" id="toc-box-plots" class="nav-link" data-scroll-target="#box-plots"><span class="header-section-number">7.3.4</span> Box Plots</a></li>
+  <li><a href="#violin-plots" id="toc-violin-plots" class="nav-link" data-scroll-target="#violin-plots"><span class="header-section-number">7.3.5</span> Violin Plots</a></li>
+  <li><a href="#histograms" id="toc-histograms" class="nav-link" data-scroll-target="#histograms"><span class="header-section-number">7.3.6</span> Histograms</a>
   <ul>
-  <li><a href="#interpreting-histograms" id="toc-interpreting-histograms" class="nav-link" data-scroll-target="#interpreting-histograms"><span class="toc-section-number">7.3.6.1</span>  Interpreting Histograms</a></li>
+  <li><a href="#interpreting-histograms" id="toc-interpreting-histograms" class="nav-link" data-scroll-target="#interpreting-histograms"><span class="header-section-number">7.3.6.1</span> Interpreting Histograms</a></li>
   </ul></li>
-  <li><a href="#kernel-density-estimation" id="toc-kernel-density-estimation" class="nav-link" data-scroll-target="#kernel-density-estimation"><span class="toc-section-number">7.3.7</span>  Kernel Density Estimation</a>
+  <li><a href="#kernel-density-estimation" id="toc-kernel-density-estimation" class="nav-link" data-scroll-target="#kernel-density-estimation"><span class="header-section-number">7.3.7</span> Kernel Density Estimation</a>
   <ul>
-  <li><a href="#kde-theory" id="toc-kde-theory" class="nav-link" data-scroll-target="#kde-theory"><span class="toc-section-number">7.3.7.1</span>  KDE Theory</a></li>
-  <li><a href="#constructing-a-kde" id="toc-constructing-a-kde" class="nav-link" data-scroll-target="#constructing-a-kde"><span class="toc-section-number">7.3.7.2</span>  Constructing a KDE</a>
+  <li><a href="#kde-theory" id="toc-kde-theory" class="nav-link" data-scroll-target="#kde-theory"><span class="header-section-number">7.3.7.1</span> KDE Theory</a></li>
+  <li><a href="#constructing-a-kde" id="toc-constructing-a-kde" class="nav-link" data-scroll-target="#constructing-a-kde"><span class="header-section-number">7.3.7.2</span> Constructing a KDE</a>
   <ul class="collapse">
-  <li><a href="#step-1-place-a-kernel-at-each-datapoint" id="toc-step-1-place-a-kernel-at-each-datapoint" class="nav-link" data-scroll-target="#step-1-place-a-kernel-at-each-datapoint"><span class="toc-section-number">7.3.7.2.1</span>  Step 1: Place a Kernel at Each Datapoint</a></li>
-  <li><a href="#step-2-normalize-kernels-to-have-total-area-of-1" id="toc-step-2-normalize-kernels-to-have-total-area-of-1" class="nav-link" data-scroll-target="#step-2-normalize-kernels-to-have-total-area-of-1"><span class="toc-section-number">7.3.7.2.2</span>  Step 2: Normalize Kernels to Have Total Area of 1</a></li>
-  <li><a href="#step-3-sum-kernels-together" id="toc-step-3-sum-kernels-together" class="nav-link" data-scroll-target="#step-3-sum-kernels-together"><span class="toc-section-number">7.3.7.2.3</span>  Step 3: Sum Kernels Together</a></li>
+  <li><a href="#step-1-place-a-kernel-at-each-datapoint" id="toc-step-1-place-a-kernel-at-each-datapoint" class="nav-link" data-scroll-target="#step-1-place-a-kernel-at-each-datapoint"><span class="header-section-number">7.3.7.2.1</span> Step 1: Place a Kernel at Each Datapoint</a></li>
+  <li><a href="#step-2-normalize-kernels-to-have-total-area-of-1" id="toc-step-2-normalize-kernels-to-have-total-area-of-1" class="nav-link" data-scroll-target="#step-2-normalize-kernels-to-have-total-area-of-1"><span class="header-section-number">7.3.7.2.2</span> Step 2: Normalize Kernels to Have Total Area of 1</a></li>
+  <li><a href="#step-3-sum-kernels-together" id="toc-step-3-sum-kernels-together" class="nav-link" data-scroll-target="#step-3-sum-kernels-together"><span class="header-section-number">7.3.7.2.3</span> Step 3: Sum Kernels Together</a></li>
   </ul></li>
-  <li><a href="#kernel-functions-and-bandwidths" id="toc-kernel-functions-and-bandwidths" class="nav-link" data-scroll-target="#kernel-functions-and-bandwidths"><span class="toc-section-number">7.3.7.3</span>  Kernel Functions and Bandwidths</a>
+  <li><a href="#kernel-functions-and-bandwidths" id="toc-kernel-functions-and-bandwidths" class="nav-link" data-scroll-target="#kernel-functions-and-bandwidths"><span class="header-section-number">7.3.7.3</span> Kernel Functions and Bandwidths</a>
   <ul class="collapse">
-  <li><a href="#gaussian-kernel" id="toc-gaussian-kernel" class="nav-link" data-scroll-target="#gaussian-kernel"><span class="toc-section-number">7.3.7.3.1</span>  Gaussian Kernel</a></li>
+  <li><a href="#gaussian-kernel" id="toc-gaussian-kernel" class="nav-link" data-scroll-target="#gaussian-kernel"><span class="header-section-number">7.3.7.3.1</span> Gaussian Kernel</a></li>
   </ul></li>
-  <li><a href="#boxcar-kernel" id="toc-boxcar-kernel" class="nav-link" data-scroll-target="#boxcar-kernel"><span class="toc-section-number">7.3.7.4</span>  Boxcar Kernel</a></li>
+  <li><a href="#boxcar-kernel" id="toc-boxcar-kernel" class="nav-link" data-scroll-target="#boxcar-kernel"><span class="header-section-number">7.3.7.4</span> Boxcar Kernel</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#visualizing-relationships" id="toc-visualizing-relationships" class="nav-link" data-scroll-target="#visualizing-relationships"><span class="toc-section-number">7.4</span>  Visualizing Relationships</a>
+  <li><a href="#visualizing-relationships" id="toc-visualizing-relationships" class="nav-link" data-scroll-target="#visualizing-relationships"><span class="header-section-number">7.4</span> Visualizing Relationships</a>
   <ul>
-  <li><a href="#scatter-plots" id="toc-scatter-plots" class="nav-link" data-scroll-target="#scatter-plots"><span class="toc-section-number">7.4.0.1</span>  Scatter Plots</a></li>
-  <li><a href="#lmplot-and-jointplot" id="toc-lmplot-and-jointplot" class="nav-link" data-scroll-target="#lmplot-and-jointplot"><span class="toc-section-number">7.4.0.2</span>  <code>lmplot</code> and <code>jointplot</code></a></li>
-  <li><a href="#hex-plots" id="toc-hex-plots" class="nav-link" data-scroll-target="#hex-plots"><span class="toc-section-number">7.4.0.3</span>  Hex plots</a></li>
-  <li><a href="#contour-plots" id="toc-contour-plots" class="nav-link" data-scroll-target="#contour-plots"><span class="toc-section-number">7.4.0.4</span>  Contour Plots</a></li>
+  <li><a href="#scatter-plots" id="toc-scatter-plots" class="nav-link" data-scroll-target="#scatter-plots"><span class="header-section-number">7.4.0.1</span> Scatter Plots</a></li>
+  <li><a href="#lmplot-and-jointplot" id="toc-lmplot-and-jointplot" class="nav-link" data-scroll-target="#lmplot-and-jointplot"><span class="header-section-number">7.4.0.2</span> <code>lmplot</code> and <code>jointplot</code></a></li>
+  <li><a href="#hex-plots" id="toc-hex-plots" class="nav-link" data-scroll-target="#hex-plots"><span class="header-section-number">7.4.0.3</span> Hex plots</a></li>
+  <li><a href="#contour-plots" id="toc-contour-plots" class="nav-link" data-scroll-target="#contour-plots"><span class="header-section-number">7.4.0.4</span> Contour Plots</a></li>
   </ul></li>
-  <li><a href="#transformations" id="toc-transformations" class="nav-link" data-scroll-target="#transformations"><span class="toc-section-number">7.5</span>  Transformations</a>
+  <li><a href="#transformations" id="toc-transformations" class="nav-link" data-scroll-target="#transformations"><span class="header-section-number">7.5</span> Transformations</a>
   <ul>
-  <li><a href="#applying-transformations" id="toc-applying-transformations" class="nav-link" data-scroll-target="#applying-transformations"><span class="toc-section-number">7.5.1</span>  Applying Transformations</a></li>
-  <li><a href="#tukey-mosteller-bulge-diagram" id="toc-tukey-mosteller-bulge-diagram" class="nav-link" data-scroll-target="#tukey-mosteller-bulge-diagram"><span class="toc-section-number">7.5.2</span>  Tukey-Mosteller Bulge Diagram</a></li>
+  <li><a href="#applying-transformations" id="toc-applying-transformations" class="nav-link" data-scroll-target="#applying-transformations"><span class="header-section-number">7.5.1</span> Applying Transformations</a></li>
+  <li><a href="#tukey-mosteller-bulge-diagram" id="toc-tukey-mosteller-bulge-diagram" class="nav-link" data-scroll-target="#tukey-mosteller-bulge-diagram"><span class="header-section-number">7.5.2</span> Tukey-Mosteller Bulge Diagram</a></li>
   </ul></li>
   </ul>
 </nav>
@@ -299,7 +292,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Visualization</span></h1>
+<h1 class="title"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Visualization</span></h1>
 </div>
 
 
@@ -314,12 +307,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Learning Outcomes
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -443,159 +436,160 @@ Learning Outcomes
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>wb.head()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="1">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Continent</th>
-      <th>Country</th>
-      <th>Primary completion rate: Male: % of relevant age group: 2015</th>
-      <th>Primary completion rate: Female: % of relevant age group: 2015</th>
-      <th>Lower secondary completion rate: Male: % of relevant age group: 2015</th>
-      <th>Lower secondary completion rate: Female: % of relevant age group: 2015</th>
-      <th>Youth literacy rate: Male: % of ages 15-24: 2005-14</th>
-      <th>Youth literacy rate: Female: % of ages 15-24: 2005-14</th>
-      <th>Adult literacy rate: Male: % ages 15 and older: 2005-14</th>
-      <th>Adult literacy rate: Female: % ages 15 and older: 2005-14</th>
-      <th>...</th>
-      <th>Access to improved sanitation facilities: % of population: 1990</th>
-      <th>Access to improved sanitation facilities: % of population: 2015</th>
-      <th>Child immunization rate: Measles: % of children ages 12-23 months: 2015</th>
-      <th>Child immunization rate: DTP3: % of children ages 12-23 months: 2015</th>
-      <th>Children with acute respiratory infection taken to health provider: % of children under age 5 with ARI: 2009-2016</th>
-      <th>Children with diarrhea who received oral rehydration and continuous feeding: % of children under age 5 with diarrhea: 2009-2016</th>
-      <th>Children sleeping under treated bed nets: % of children under age 5: 2009-2016</th>
-      <th>Children with fever receiving antimalarial drugs: % of children under age 5 with fever: 2009-2016</th>
-      <th>Tuberculosis: Treatment success rate: % of new cases: 2014</th>
-      <th>Tuberculosis: Cases detection rate: % of new estimated cases: 2015</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Africa</td>
-      <td>Algeria</td>
-      <td>106.0</td>
-      <td>105.0</td>
-      <td>68.0</td>
-      <td>85.0</td>
-      <td>96.0</td>
-      <td>92.0</td>
-      <td>83.0</td>
-      <td>68.0</td>
-      <td>...</td>
-      <td>80.0</td>
-      <td>88.0</td>
-      <td>95.0</td>
-      <td>95.0</td>
-      <td>66.0</td>
-      <td>42.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>88.0</td>
-      <td>80.0</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Africa</td>
-      <td>Angola</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>79.0</td>
-      <td>67.0</td>
-      <td>82.0</td>
-      <td>60.0</td>
-      <td>...</td>
-      <td>22.0</td>
-      <td>52.0</td>
-      <td>55.0</td>
-      <td>64.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>25.9</td>
-      <td>28.3</td>
-      <td>34.0</td>
-      <td>64.0</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Africa</td>
-      <td>Benin</td>
-      <td>83.0</td>
-      <td>73.0</td>
-      <td>50.0</td>
-      <td>37.0</td>
-      <td>55.0</td>
-      <td>31.0</td>
-      <td>41.0</td>
-      <td>18.0</td>
-      <td>...</td>
-      <td>7.0</td>
-      <td>20.0</td>
-      <td>75.0</td>
-      <td>79.0</td>
-      <td>23.0</td>
-      <td>33.0</td>
-      <td>72.7</td>
-      <td>25.9</td>
-      <td>89.0</td>
-      <td>61.0</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>Africa</td>
-      <td>Botswana</td>
-      <td>98.0</td>
-      <td>101.0</td>
-      <td>86.0</td>
-      <td>87.0</td>
-      <td>96.0</td>
-      <td>99.0</td>
-      <td>87.0</td>
-      <td>89.0</td>
-      <td>...</td>
-      <td>39.0</td>
-      <td>63.0</td>
-      <td>97.0</td>
-      <td>95.0</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>NaN</td>
-      <td>77.0</td>
-      <td>62.0</td>
-    </tr>
-    <tr>
-      <th>5</th>
-      <td>Africa</td>
-      <td>Burundi</td>
-      <td>58.0</td>
-      <td>66.0</td>
-      <td>35.0</td>
-      <td>30.0</td>
-      <td>90.0</td>
-      <td>88.0</td>
-      <td>89.0</td>
-      <td>85.0</td>
-      <td>...</td>
-      <td>42.0</td>
-      <td>48.0</td>
-      <td>93.0</td>
-      <td>94.0</td>
-      <td>55.0</td>
-      <td>43.0</td>
-      <td>53.8</td>
-      <td>25.4</td>
-      <td>91.0</td>
-      <td>51.0</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Continent</th>
+<th data-quarto-table-cell-role="th">Country</th>
+<th data-quarto-table-cell-role="th">Primary completion rate: Male: % of relevant age group: 2015</th>
+<th data-quarto-table-cell-role="th">Primary completion rate: Female: % of relevant age group: 2015</th>
+<th data-quarto-table-cell-role="th">Lower secondary completion rate: Male: % of relevant age group: 2015</th>
+<th data-quarto-table-cell-role="th">Lower secondary completion rate: Female: % of relevant age group: 2015</th>
+<th data-quarto-table-cell-role="th">Youth literacy rate: Male: % of ages 15-24: 2005-14</th>
+<th data-quarto-table-cell-role="th">Youth literacy rate: Female: % of ages 15-24: 2005-14</th>
+<th data-quarto-table-cell-role="th">Adult literacy rate: Male: % ages 15 and older: 2005-14</th>
+<th data-quarto-table-cell-role="th">Adult literacy rate: Female: % ages 15 and older: 2005-14</th>
+<th data-quarto-table-cell-role="th">...</th>
+<th data-quarto-table-cell-role="th">Access to improved sanitation facilities: % of population: 1990</th>
+<th data-quarto-table-cell-role="th">Access to improved sanitation facilities: % of population: 2015</th>
+<th data-quarto-table-cell-role="th">Child immunization rate: Measles: % of children ages 12-23 months: 2015</th>
+<th data-quarto-table-cell-role="th">Child immunization rate: DTP3: % of children ages 12-23 months: 2015</th>
+<th data-quarto-table-cell-role="th">Children with acute respiratory infection taken to health provider: % of children under age 5 with ARI: 2009-2016</th>
+<th data-quarto-table-cell-role="th">Children with diarrhea who received oral rehydration and continuous feeding: % of children under age 5 with diarrhea: 2009-2016</th>
+<th data-quarto-table-cell-role="th">Children sleeping under treated bed nets: % of children under age 5: 2009-2016</th>
+<th data-quarto-table-cell-role="th">Children with fever receiving antimalarial drugs: % of children under age 5 with fever: 2009-2016</th>
+<th data-quarto-table-cell-role="th">Tuberculosis: Treatment success rate: % of new cases: 2014</th>
+<th data-quarto-table-cell-role="th">Tuberculosis: Cases detection rate: % of new estimated cases: 2015</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Africa</td>
+<td>Algeria</td>
+<td>106.0</td>
+<td>105.0</td>
+<td>68.0</td>
+<td>85.0</td>
+<td>96.0</td>
+<td>92.0</td>
+<td>83.0</td>
+<td>68.0</td>
+<td>...</td>
+<td>80.0</td>
+<td>88.0</td>
+<td>95.0</td>
+<td>95.0</td>
+<td>66.0</td>
+<td>42.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>88.0</td>
+<td>80.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Africa</td>
+<td>Angola</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>79.0</td>
+<td>67.0</td>
+<td>82.0</td>
+<td>60.0</td>
+<td>...</td>
+<td>22.0</td>
+<td>52.0</td>
+<td>55.0</td>
+<td>64.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>25.9</td>
+<td>28.3</td>
+<td>34.0</td>
+<td>64.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Africa</td>
+<td>Benin</td>
+<td>83.0</td>
+<td>73.0</td>
+<td>50.0</td>
+<td>37.0</td>
+<td>55.0</td>
+<td>31.0</td>
+<td>41.0</td>
+<td>18.0</td>
+<td>...</td>
+<td>7.0</td>
+<td>20.0</td>
+<td>75.0</td>
+<td>79.0</td>
+<td>23.0</td>
+<td>33.0</td>
+<td>72.7</td>
+<td>25.9</td>
+<td>89.0</td>
+<td>61.0</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>Africa</td>
+<td>Botswana</td>
+<td>98.0</td>
+<td>101.0</td>
+<td>86.0</td>
+<td>87.0</td>
+<td>96.0</td>
+<td>99.0</td>
+<td>87.0</td>
+<td>89.0</td>
+<td>...</td>
+<td>39.0</td>
+<td>63.0</td>
+<td>97.0</td>
+<td>95.0</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>77.0</td>
+<td>62.0</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">5</td>
+<td>Africa</td>
+<td>Burundi</td>
+<td>58.0</td>
+<td>66.0</td>
+<td>35.0</td>
+<td>30.0</td>
+<td>90.0</td>
+<td>88.0</td>
+<td>89.0</td>
+<td>85.0</td>
+<td>...</td>
+<td>42.0</td>
+<td>48.0</td>
+<td>93.0</td>
+<td>94.0</td>
+<td>55.0</td>
+<td>43.0</td>
+<td>53.8</td>
+<td>25.4</td>
+<td>91.0</td>
+<td>51.0</td>
+</tr>
+</tbody>
 </table>
+
 <p>5 rows × 47 columns</p>
 </div>
 </div>
@@ -849,7 +843,7 @@ plt.title(“Title of the plot”)</code></pre>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Distribution of HIV rates"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="visualization_1_files/figure-html/cell-19-output-1.png" width="497" height="488"></p>
+<p><img src="visualization_1_files/figure-html/cell-19-output-1.png" width="470" height="490"></p>
 </div>
 </div>
 <p>Notice that the smooth KDE curve is higher when the histogram bins are taller. You can think of the height of the KDE curve as representing how “probable” it is that we randomly sample a datapoint with the corresponding value. This intuitively makes sense – if we have already collected more datapoints with a particular value (resulting in a tall histogram bin), it is more likely that, if we randomly sample another datapoint, we will sample one with a similar value (resulting in a high KDE curve).</p>
@@ -1172,7 +1166,7 @@ plt.title(“Title of the plot”)</code></pre>
 <span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Female adult literacy against </span><span class="sc">% g</span><span class="st">rowth"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="visualization_1_files/figure-html/cell-31-output-1.png" width="489" height="508"></p>
+<p><img src="visualization_1_files/figure-html/cell-31-output-1.png" width="470" height="490"></p>
 </div>
 </div>
 <p><code>sns.jointplot</code> creates a visualization with three components: a scatter plot, a histogram of the distribution of x values, and a histogram of the distribution of y values.</p>
@@ -1184,7 +1178,7 @@ plt.title(“Title of the plot”)</code></pre>
 <span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"Female adult literacy against </span><span class="sc">% g</span><span class="st">rowth"</span>)</span>
 <span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>plt.subplots_adjust(top<span class="op">=</span><span class="fl">0.9</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="visualization_1_files/figure-html/cell-32-output-1.png" width="570" height="567"></p>
+<p><img src="visualization_1_files/figure-html/cell-32-output-1.png" width="570" height="569"></p>
 </div>
 </div>
 </section>
@@ -1202,7 +1196,7 @@ plt.title(“Title of the plot”)</code></pre>
 <span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"Female adult literacy against </span><span class="sc">% g</span><span class="st">rowth"</span>)</span>
 <span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>plt.subplots_adjust(top<span class="op">=</span><span class="fl">0.9</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="visualization_1_files/figure-html/cell-33-output-1.png" width="570" height="567"></p>
+<p><img src="visualization_1_files/figure-html/cell-33-output-1.png" width="570" height="569"></p>
 </div>
 </div>
 </section>
@@ -1407,9 +1401,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1474,6 +1482,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
