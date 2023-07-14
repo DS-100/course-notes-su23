@@ -320,4 +320,3 @@ The model is not the end of the road. The new Office of Data Science still sends
     - How does your work fit in the broader literature? 
     - Where does your work agree or disagree with the status quo?
     - Do your conclusions make sense?
-
