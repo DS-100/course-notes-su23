@@ -239,6 +239,11 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   <a href="../case_study_HCE/case_study_HCE.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Case Study in Human Contexts and Ethics</span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../cv_regularization/cv_reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Cross Validation and Regularization</span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -427,23 +432,23 @@ Learning Outcomes
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>np.random.multinomial(<span class="dv">100</span>, [<span class="fl">0.60</span>, <span class="fl">0.30</span>, <span class="fl">0.10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>array([63, 27, 10])</code></pre>
+<pre><code>array([65, 22, 13])</code></pre>
 </div>
 </div>
 <p>This method allows us to generate, say, 10 samples of size 100 using the <code>size</code> parameter:</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>np.random.multinomial(<span class="dv">100</span>, [<span class="fl">0.60</span>, <span class="fl">0.30</span>, <span class="fl">0.10</span>], size<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>array([[56, 36,  8],
-       [63, 28,  9],
-       [62, 30,  8],
-       [68, 27,  5],
-       [63, 29,  8],
-       [59, 29, 12],
-       [61, 31,  8],
-       [51, 37, 12],
-       [57, 31, 12],
-       [61, 27, 12]])</code></pre>
+<pre><code>array([[65, 26,  9],
+       [56, 34, 10],
+       [52, 43,  5],
+       [63, 24, 13],
+       [60, 34,  6],
+       [56, 32, 12],
+       [58, 31, 11],
+       [58, 30, 12],
+       [60, 28, 12],
+       [64, 28,  8]])</code></pre>
 </div>
 </div>
 </section>
