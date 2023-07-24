@@ -64,6 +64,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
+<link href="../probability_2/probability_2.html" rel="next">
 <link href="../cv_regularization/cv_reg.html" rel="prev">
 <link href="../data100_logo.png" rel="icon" type="image/png">
 <script src="../site_libs/quarto-html/quarto.js"></script>
@@ -246,6 +247,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Random Variables</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../probability_2/probability_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Model Bias, Variance, and Inference</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -327,6 +334,7 @@ Learning Outcomes
 <li>Define a random variable in terms of its distribution</li>
 <li>Compute the expectation and variance of a random variable</li>
 <li>Gain familiarity with the Bernoulli and binomial random variables</li>
+<li>Apply the Central Limit Theorem to approximate parameters of a population</li>
 </ul>
 </div>
 </div>
@@ -415,10 +423,7 @@ Example 2: Sampling Data 100 Students
 </table>
 </div>
 </div>
-<div class="callout-Definition" data-collapse="false">
-<p>The <strong>distribution</strong> of a random variable <span class="math inline">\(X\)</span> is a description of how the total probability of 100% is split over all the possible values of <span class="math inline">\(X\)</span>.</p>
-<p>A distribution fully defines a random variable.</p>
-</div>
+<p>The <strong>distribution</strong> of a random variable <span class="math inline">\(X\)</span> is a description of how the total probability of 100% is split over all the possible values of <span class="math inline">\(X\)</span>. A distribution fully defines a random variable.</p>
 <div class="columns">
 <div class="column" style="width:45%;">
 <p>For a <strong>discrete random variable</strong> <span class="math inline">\(Y\)</span> with a finite number of possible values, we define its distribution by stating the probability of <span class="math inline">\(Y\)</span> taking on some specific value, <span class="math inline">\(y\)</span>, for all possible values of <span class="math inline">\(Y\)</span>.</p>
@@ -431,12 +436,12 @@ Example 2: Sampling Data 100 Students
 <p><img src="images/discrete_continuous.png" alt="discrete_continuous" width="600"></p>
 <section id="named-distributions" class="level4" data-number="16.1.2.1">
 <h4 data-number="16.1.2.1" class="anchored" data-anchor-id="named-distributions"><span class="header-section-number">16.1.2.1</span> Named Distributions</h4>
-<p>Apart from probability distribution tables, histograms, and density curves, we can also specify the distribution of a random variable using their names, since they are used very often. Usually they also have <em>parameters</em>, which are constants associated with the distribution. They define a random variable’s shape and possible values.</p>
+<p>Apart from probability distribution tables, histograms, and density curves, we can also specify the distribution of some random variables using their names, if they are used often enough. Usually they also have <em>parameters</em>, which are constants associated with the distribution. They define a random variable’s shape and possible values.</p>
 <p><strong>Bernoulli</strong>(<span class="math inline">\(p\)</span>): This is the distribution of a binary random variable that takes on value <span class="math inline">\(1\)</span> with some probability <span class="math inline">\(p\)</span>, and value <span class="math inline">\(0\)</span> with probability <span class="math inline">\(1-p\)</span>. Bernoulli random variables are often referred to as “indicator variables”. The random variable <span class="math inline">\(X\)</span> we defined in Example 1 follows the Bernoulli distribution with <span class="math inline">\(p=0.5\)</span>.</p>
 <p><strong>Binomial</strong>(<span class="math inline">\(n\)</span>, <span class="math inline">\(p\)</span>): If we take the sum of <span class="math inline">\(n\)</span> independent Bernoulli random variables with probability <span class="math inline">\(p\)</span>, we get a Binomial random variable with parameters <span class="math inline">\(n\)</span> and <span class="math inline">\(p\)</span>. In the context of Example, 1, if we toss the fair coin <span class="math inline">\(n\)</span> times and record the total number of times the coin lands heads, the result will be Binomial(<span class="math inline">\(n\)</span>, <span class="math inline">\(0.5\)</span>).</p>
-<p><strong>Uniform</strong> on a <em>finite</em> set of possible values: This is the distribution that makes all elements of the set of possible values equally likely. For example, if we roll a standard 6-sided die, the result of the roll will be Uniform on the set of numbers <span class="math inline">\(\{1, 2, \dots, 6\}\)</span>.</p>
-<p><strong>Uniform</strong> on an <em>infinite</em> set of possible values: This is the distribution of a continuous random variables that have equal <em>density</em> on all of its possible values. The Uniform random variable on the unit interval <span class="math inline">\((0, 1)\)</span> is a special one—its density curve is flat on <span class="math inline">\((0, 1)\)</span> and <span class="math inline">\(0\)</span> elsewhere.</p>
-<p><strong>Normal</strong>(<span class="math inline">\(\mu, \sigma^2\)</span>): This is probably the most well-known probability distribution, also known as the Gaussian distribution. Normal random variables are continuous, so they have density curves. The parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> specify the center (i.e.&nbsp;mean) and spread (i.e.&nbsp;variance) of the density curve. You’ve seen Normal random variables arise from the Central Limit Theorem in Data 8. We will also explore this very soon.</p>
+<p><strong>Uniform</strong> on a <em>finite</em> set of possible values: This is the distribution that makes all elements of the set of possible values equally likely. For example, if we roll a standard 6-sided die, the result of the roll will be Uniform on the set of numbers <span class="math inline">\(\{1, 2, 3, 4, 5, 6\}\)</span>.</p>
+<p><strong>Uniform</strong> on an <em>infinite</em> set of possible values: This is the distribution of a continuous random variable that has equal <em>density</em> on all of its possible values. The Uniform random variable on the unit interval <span class="math inline">\((0, 1)\)</span> is a special one—its density curve is flat on <span class="math inline">\((0, 1)\)</span> and <span class="math inline">\(0\)</span> elsewhere.</p>
+<p><strong>Normal</strong>(<span class="math inline">\(\mu, \sigma^2\)</span>): This is probably the most well-known probability distribution, also known as the Gaussian distribution. Normal random variables are continuous, so they have density curves. The parameters <span class="math inline">\(\mu\)</span> and <span class="math inline">\(\sigma^2\)</span> specify the center (i.e.&nbsp;mean) and spread (i.e.&nbsp;variance) of the density curve. You’ve seen Normal random variables arise from the Central Limit Theorem in Data 8. We will also explore this in a later section.</p>
 </section>
 </section>
 </section>
@@ -694,28 +699,28 @@ Example 3: Two dice
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>6</td>
+<td>4</td>
 <td>3</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>1</td>
+<td>4</td>
 <td>6</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
+<td>6</td>
 <td>4</td>
-<td>2</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>6</td>
 <td>5</td>
+<td>3</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>1</td>
-<td>4</td>
+<td>5</td>
+<td>3</td>
 </tr>
 </tbody>
 </table>
@@ -748,38 +753,38 @@ Example 3: Two dice
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
-<td>6</td>
+<td>4</td>
 <td>3</td>
-<td>12</td>
-<td>9</td>
+<td>8</td>
+<td>7</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
-<td>1</td>
+<td>4</td>
 <td>6</td>
-<td>2</td>
-<td>7</td>
+<td>8</td>
+<td>10</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>4</td>
-<td>2</td>
-<td>8</td>
 <td>6</td>
+<td>4</td>
+<td>12</td>
+<td>10</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>6</td>
 <td>5</td>
-<td>12</td>
-<td>11</td>
+<td>3</td>
+<td>10</td>
+<td>8</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
-<td>1</td>
-<td>4</td>
-<td>2</td>
 <td>5</td>
+<td>3</td>
+<td>10</td>
+<td>8</td>
 </tr>
 </tbody>
 </table>
@@ -818,18 +823,18 @@ Example 3: Two dice
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">E[•]</td>
-<td>6.994225</td>
-<td>6.996750</td>
+<td>7.002200</td>
+<td>6.999487</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Var(•)</td>
-<td>11.664512</td>
-<td>5.849613</td>
+<td>11.732242</td>
+<td>5.861411</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">SD(•)</td>
-<td>3.415335</td>
-<td>2.418597</td>
+<td>3.425236</td>
+<td>2.421035</td>
 </tr>
 </tbody>
 </table>
@@ -1259,6 +1264,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       </a>          
   </div>
   <div class="nav-page nav-page-next">
+      <a href="../probability_2/probability_2.html" class="pagination-link">
+        <span class="nav-page-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Model Bias, Variance, and Inference</span></span> <i class="bi bi-arrow-right-short"></i>
+      </a>
   </div>
 </nav><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
 <div class="sourceCode" id="cb8" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
@@ -1281,529 +1289,524 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Define a random variable in terms of its distribution</span>
 <span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Compute the expectation and variance of a random variable</span>
 <span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Gain familiarity with the Bernoulli and binomial random variables</span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>In the past few lectures, we've examined the role of complexity in influencing model performance. We've considered model complexity in the context of a tradeoff between two competing factors: model variance and training error. </span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>Thus far, our analysis has been mostly qualitative. We've acknowledged that our choice of model complexity needs to strike a balance between model variance and training error, but we haven't yet discussed *why* exactly this tradeoff exists.</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>To better understand the origin of this tradeoff, we will need to introduce the language of **random variables**. The next two lectures of probability will be a brief digression from our work on modeling so we can build up the concepts needed to understand this so-called **bias-variance tradeoff**. Our roadmap for the next few lectures will be:</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Random variables: introduce random variables, considering the concepts of expectation, variance, and covariance</span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Bias, Variance, and Inference: re-express the ideas of model variance and training error in terms of random variables and use this new perspective to investigate our choice of model complexity</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>Let's get to it.</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a><span class="fu">## Random Variables</span></span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a><span class="fu">### Definition</span></span>
-<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a>Suppose we generate a set of random data, for example, toss a coin, or collect a random sample from some population. A **random variable** is a numerical function of the randomness in the data. </span>
-<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
-<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 1: Tossing a fair coin</span></span>
-<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a>We are tossing a fair coin. A fair coin can land either heads ($H$) or tails ($T$), each with probability 0.5. If we toss the coin once, there are two possible outcomes: $H$ or $T$. With these possible outcomes, a random variable $X$ can be defined as follows:</span>
-<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>X = \begin{cases}</span>
-<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>1, &amp;\text{if coin lands heads}<span class="sc">\\</span></span>
-<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>0, &amp;\text{if coin lands tails}</span>
-<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
-<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a>The random variable $X$ is *random* due to the randomness of the sample; it is a *variable* because its exact value depends on how this random sample came out—in this case if the coin lands heads or tails. It is a function because it takes the outcome ($H$ or $T$) and outputs $0$ or $1$.</span>
-<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a>Another example can come from drawing random samples.</span>
-<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
-<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 2: Sampling Data 100 Students</span></span>
-<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a>We want to study Data 100 students through sampling. To do this, we draw a random sample $s$ of size 3 from all students enrolled in Data 100. We might then define the random variable $Y$ to be the number of Data Science majors in this sample.</span>
-<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"images/rv.png"</span> <span class="er">alt</span><span class="ot">=</span><span class="st">'rv'</span> <span class="er">width</span><span class="ot">=</span><span class="st">'600'</span><span class="kw">&gt;</span></span>
-<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a>$Y$ is *random* because the sample we draw is random. Similar to $X$, $Y$ is also a function. Its input/domain is the set of all possible subset of 3 students that we can draw, and its output/range is the set of numbers of data science majors we can draw from this population, from $0$ to $3$ (if we have at least three data science majors in the class).</span>
-<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a>In both of the above examples, $X$ and $Y$ are functions. We typically denote random variables with uppercase letters, such as $X$ or $Y$. </span>
-<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a><span class="fu">### Distribution</span></span>
-<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a>For any random variable, we need to be able to specify two things:</span>
-<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Possible values**: This is the set of values the random variable can take on (i.e. the range/output of the function). In Example 1, the possible values of $X$ is the set $<span class="sc">\{</span>0, 1<span class="sc">\}</span>$.</span>
-<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Probabilities**: This is the set of probabilities describing how the total probability of 100% is split over all the possible values. In Example 1, the corresponding probabilities for possible values $0$ and $1$ are both $\frac{1}{2}$.</span>
-<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a>:::: {.columns}</span>
-<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a>::: {.column width="55%"}</span>
-<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a>We often specify these two things using a probability distribution table. For Example 1, the probability distribution table of $X$ is on the right.</span>
-<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a>Specifying these two things is specifying the **distribution** of a random variable.</span>
-<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a>::: {.column width="5%"}</span>
-<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- empty column to create gap --&gt;</span></span>
-<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a>::: {.column width="40%"}</span>
-<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a>|$x$|$P(X = x)$|</span>
-<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a>|-----|-----|</span>
-<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a>|0|$\frac{1}{2}$|</span>
-<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a>|1|$\frac{1}{2}$|</span>
-<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a>:::: </span>
-<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a>::: {.callout-Definition collapse="false"}</span>
-<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a>The **distribution** of a random variable $X$ is a description of how the total probability of 100% is split over all the possible values of $X$.</span>
-<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a>A distribution fully defines a random variable.</span>
-<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Apply the Central Limit Theorem to approximate parameters of a population</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>In the past few lectures, we've examined the role of complexity in influencing model performance. We've considered model complexity in the context of a tradeoff between two competing factors: model variance and training error. </span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>Thus far, our analysis has been mostly qualitative. We've acknowledged that our choice of model complexity needs to strike a balance between model variance and training error, but we haven't yet discussed *why* exactly this tradeoff exists.</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>To better understand the origin of this tradeoff, we will need to introduce the language of **random variables**. The next two lectures of probability will be a brief digression from our work on modeling so we can build up the concepts needed to understand this so-called **bias-variance tradeoff**. Our roadmap for the next few lectures will be:</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a><span class="ss">1. </span>Random variables: introduce random variables, considering the concepts of expectation, variance, and covariance</span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a><span class="ss">2. </span>Bias, Variance, and Inference: re-express the ideas of model variance and training error in terms of random variables and use this new perspective to investigate our choice of model complexity</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>Let's get to it.</span>
+<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a><span class="fu">## Random Variables</span></span>
+<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-37"><a href="#cb8-37" aria-hidden="true" tabindex="-1"></a><span class="fu">### Definition</span></span>
+<span id="cb8-38"><a href="#cb8-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-39"><a href="#cb8-39" aria-hidden="true" tabindex="-1"></a>Suppose we generate a set of random data, for example, toss a coin, or collect a random sample from some population. A **random variable** is a numerical function of the randomness in the data. </span>
+<span id="cb8-40"><a href="#cb8-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-41"><a href="#cb8-41" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb8-42"><a href="#cb8-42" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 1: Tossing a fair coin</span></span>
+<span id="cb8-43"><a href="#cb8-43" aria-hidden="true" tabindex="-1"></a>We are tossing a fair coin. A fair coin can land either heads ($H$) or tails ($T$), each with probability 0.5. If we toss the coin once, there are two possible outcomes: $H$ or $T$. With these possible outcomes, a random variable $X$ can be defined as follows:</span>
+<span id="cb8-44"><a href="#cb8-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-45"><a href="#cb8-45" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-46"><a href="#cb8-46" aria-hidden="true" tabindex="-1"></a>X = \begin{cases}</span>
+<span id="cb8-47"><a href="#cb8-47" aria-hidden="true" tabindex="-1"></a>1, &amp;\text{if coin lands heads}<span class="sc">\\</span></span>
+<span id="cb8-48"><a href="#cb8-48" aria-hidden="true" tabindex="-1"></a>0, &amp;\text{if coin lands tails}</span>
+<span id="cb8-49"><a href="#cb8-49" aria-hidden="true" tabindex="-1"></a>\end{cases}</span>
+<span id="cb8-50"><a href="#cb8-50" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-51"><a href="#cb8-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-52"><a href="#cb8-52" aria-hidden="true" tabindex="-1"></a>The random variable $X$ is *random* due to the randomness of the sample; it is a *variable* because its exact value depends on how this random sample came out—in this case if the coin lands heads or tails. It is a function because it takes the outcome ($H$ or $T$) and outputs $0$ or $1$.</span>
+<span id="cb8-53"><a href="#cb8-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-54"><a href="#cb8-54" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-55"><a href="#cb8-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-56"><a href="#cb8-56" aria-hidden="true" tabindex="-1"></a>Another example can come from drawing random samples.</span>
+<span id="cb8-57"><a href="#cb8-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-58"><a href="#cb8-58" aria-hidden="true" tabindex="-1"></a>::: {.callout-warning}</span>
+<span id="cb8-59"><a href="#cb8-59" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 2: Sampling Data 100 Students</span></span>
+<span id="cb8-60"><a href="#cb8-60" aria-hidden="true" tabindex="-1"></a>We want to study Data 100 students through sampling. To do this, we draw a random sample $s$ of size 3 from all students enrolled in Data 100. We might then define the random variable $Y$ to be the number of Data Science majors in this sample.</span>
+<span id="cb8-61"><a href="#cb8-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-62"><a href="#cb8-62" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"images/rv.png"</span> <span class="er">alt</span><span class="ot">=</span><span class="st">'rv'</span> <span class="er">width</span><span class="ot">=</span><span class="st">'600'</span><span class="kw">&gt;</span></span>
+<span id="cb8-63"><a href="#cb8-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-64"><a href="#cb8-64" aria-hidden="true" tabindex="-1"></a>$Y$ is *random* because the sample we draw is random. Similar to $X$, $Y$ is also a function. Its input/domain is the set of all possible subset of 3 students that we can draw, and its output/range is the set of numbers of data science majors we can draw from this population, from $0$ to $3$ (if we have at least three data science majors in the class).</span>
+<span id="cb8-65"><a href="#cb8-65" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-66"><a href="#cb8-66" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-67"><a href="#cb8-67" aria-hidden="true" tabindex="-1"></a>In both of the above examples, $X$ and $Y$ are functions. We typically denote random variables with uppercase letters, such as $X$ or $Y$. </span>
+<span id="cb8-68"><a href="#cb8-68" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-69"><a href="#cb8-69" aria-hidden="true" tabindex="-1"></a><span class="fu">### Distribution</span></span>
+<span id="cb8-70"><a href="#cb8-70" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-71"><a href="#cb8-71" aria-hidden="true" tabindex="-1"></a>For any random variable, we need to be able to specify two things:</span>
+<span id="cb8-72"><a href="#cb8-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-73"><a href="#cb8-73" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Possible values**: This is the set of values the random variable can take on (i.e. the range/output of the function). In Example 1, the possible values of $X$ is the set $<span class="sc">\{</span>0, 1<span class="sc">\}</span>$.</span>
+<span id="cb8-74"><a href="#cb8-74" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>**Probabilities**: This is the set of probabilities describing how the total probability of 100% is split over all the possible values. In Example 1, the corresponding probabilities for possible values $0$ and $1$ are both $\frac{1}{2}$.</span>
+<span id="cb8-75"><a href="#cb8-75" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-76"><a href="#cb8-76" aria-hidden="true" tabindex="-1"></a>:::: {.columns}</span>
+<span id="cb8-77"><a href="#cb8-77" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-78"><a href="#cb8-78" aria-hidden="true" tabindex="-1"></a>::: {.column width="55%"}</span>
+<span id="cb8-79"><a href="#cb8-79" aria-hidden="true" tabindex="-1"></a>We often specify these two things using a probability distribution table. For Example 1, the probability distribution table of $X$ is on the right.</span>
+<span id="cb8-80"><a href="#cb8-80" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-81"><a href="#cb8-81" aria-hidden="true" tabindex="-1"></a>Specifying these two things is specifying the **distribution** of a random variable.</span>
+<span id="cb8-82"><a href="#cb8-82" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-83"><a href="#cb8-83" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-84"><a href="#cb8-84" aria-hidden="true" tabindex="-1"></a>::: {.column width="5%"}</span>
+<span id="cb8-85"><a href="#cb8-85" aria-hidden="true" tabindex="-1"></a><span class="co">&lt;!-- empty column to create gap --&gt;</span></span>
+<span id="cb8-86"><a href="#cb8-86" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-87"><a href="#cb8-87" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-88"><a href="#cb8-88" aria-hidden="true" tabindex="-1"></a>::: {.column width="40%"}</span>
+<span id="cb8-89"><a href="#cb8-89" aria-hidden="true" tabindex="-1"></a>|$x$|$P(X = x)$|</span>
+<span id="cb8-90"><a href="#cb8-90" aria-hidden="true" tabindex="-1"></a>|-----|-----|</span>
+<span id="cb8-91"><a href="#cb8-91" aria-hidden="true" tabindex="-1"></a>|0|$\frac{1}{2}$|</span>
+<span id="cb8-92"><a href="#cb8-92" aria-hidden="true" tabindex="-1"></a>|1|$\frac{1}{2}$|</span>
+<span id="cb8-93"><a href="#cb8-93" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-94"><a href="#cb8-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-95"><a href="#cb8-95" aria-hidden="true" tabindex="-1"></a>:::: </span>
+<span id="cb8-96"><a href="#cb8-96" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-97"><a href="#cb8-97" aria-hidden="true" tabindex="-1"></a>The **distribution** of a random variable $X$ is a description of how the total probability of 100% is split over all the possible values of $X$. A distribution fully defines a random variable.</span>
+<span id="cb8-98"><a href="#cb8-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-99"><a href="#cb8-99" aria-hidden="true" tabindex="-1"></a>:::: {.columns}</span>
+<span id="cb8-100"><a href="#cb8-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-101"><a href="#cb8-101" aria-hidden="true" tabindex="-1"></a>::: {.column width="45%"}</span>
+<span id="cb8-102"><a href="#cb8-102" aria-hidden="true" tabindex="-1"></a>For a **discrete random variable** $Y$ with a finite number of possible values, we define its distribution by stating the probability of $Y$ taking on some specific value, $y$, for all possible values of $Y$. </span>
 <span id="cb8-103"><a href="#cb8-103" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a>:::: {.columns}</span>
-<span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a>::: {.column width="45%"}</span>
-<span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a>For a **discrete random variable** $Y$ with a finite number of possible values, we define its distribution by stating the probability of $Y$ taking on some specific value, $y$, for all possible values of $Y$. </span>
+<span id="cb8-104"><a href="#cb8-104" aria-hidden="true" tabindex="-1"></a>The left DataFrame displays all possible samples we could collect in Example 2 and the corresponding values for our random variable $Y$. The right DataFrames displays the probability distribution table of $Y$.</span>
+<span id="cb8-105"><a href="#cb8-105" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-106"><a href="#cb8-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-107"><a href="#cb8-107" aria-hidden="true" tabindex="-1"></a>::: {.column width="55%"}</span>
 <span id="cb8-108"><a href="#cb8-108" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-109"><a href="#cb8-109" aria-hidden="true" tabindex="-1"></a>The left DataFrame displays all possible samples we could collect in Example 2 and the corresponding values for our random variable $Y$. The right DataFrames displays the probability distribution table of $Y$.</span>
+<span id="cb8-109"><a href="#cb8-109" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"images/distribution.png"</span> <span class="er">alt</span><span class="ot">=</span><span class="st">'distribution'</span> <span class="er">width</span><span class="ot">=</span><span class="st">'500'</span><span class="kw">&gt;</span></span>
 <span id="cb8-110"><a href="#cb8-110" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb8-111"><a href="#cb8-111" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-112"><a href="#cb8-112" aria-hidden="true" tabindex="-1"></a>::: {.column width="55%"}</span>
+<span id="cb8-112"><a href="#cb8-112" aria-hidden="true" tabindex="-1"></a>::::</span>
 <span id="cb8-113"><a href="#cb8-113" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-114"><a href="#cb8-114" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"images/distribution.png"</span> <span class="er">alt</span><span class="ot">=</span><span class="st">'distribution'</span> <span class="er">width</span><span class="ot">=</span><span class="st">'500'</span><span class="kw">&gt;</span></span>
-<span id="cb8-115"><a href="#cb8-115" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb8-116"><a href="#cb8-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-117"><a href="#cb8-117" aria-hidden="true" tabindex="-1"></a>::::</span>
+<span id="cb8-114"><a href="#cb8-114" aria-hidden="true" tabindex="-1"></a>The distribution of a discrete variable can also be represented using a histogram, shown below. If a variable is **continuous** – it can take on infinitely many values – we can illustrate its distribution using a density curve. </span>
+<span id="cb8-115"><a href="#cb8-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-116"><a href="#cb8-116" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"images/discrete_continuous.png"</span> <span class="er">alt</span><span class="ot">=</span><span class="st">'discrete_continuous'</span> <span class="er">width</span><span class="ot">=</span><span class="st">'600'</span><span class="kw">&gt;</span></span>
+<span id="cb8-117"><a href="#cb8-117" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-118"><a href="#cb8-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-119"><a href="#cb8-119" aria-hidden="true" tabindex="-1"></a>The distribution of a discrete variable can also be represented using a histogram, shown below. If a variable is **continuous** – it can take on infinitely many values – we can illustrate its distribution using a density curve. </span>
+<span id="cb8-119"><a href="#cb8-119" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Named Distributions</span></span>
 <span id="cb8-120"><a href="#cb8-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"images/discrete_continuous.png"</span> <span class="er">alt</span><span class="ot">=</span><span class="st">'discrete_continuous'</span> <span class="er">width</span><span class="ot">=</span><span class="st">'600'</span><span class="kw">&gt;</span></span>
+<span id="cb8-121"><a href="#cb8-121" aria-hidden="true" tabindex="-1"></a>Apart from probability distribution tables, histograms, and density curves, we can also specify the distribution of some random variables using their names, if they are used often enough. Usually they also have *parameters*, which are constants associated with the distribution. They define a random variable's shape and possible values.</span>
 <span id="cb8-122"><a href="#cb8-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-123"><a href="#cb8-123" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-124"><a href="#cb8-124" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Named Distributions</span></span>
-<span id="cb8-125"><a href="#cb8-125" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-126"><a href="#cb8-126" aria-hidden="true" tabindex="-1"></a>Apart from probability distribution tables, histograms, and density curves, we can also specify the distribution of a random variable using their names, since they are used very often. Usually they also have *parameters*, which are constants associated with the distribution. They define a random variable's shape and possible values.</span>
-<span id="cb8-127"><a href="#cb8-127" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-128"><a href="#cb8-128" aria-hidden="true" tabindex="-1"></a>**Bernoulli**($p$): This is the distribution of a binary random variable that takes on value $1$ with some probability $p$, and value $0$ with probability $1-p$. Bernoulli random variables are often referred to as "indicator variables". The random variable $X$ we defined in Example 1 follows the Bernoulli distribution with $p=0.5$.</span>
-<span id="cb8-129"><a href="#cb8-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-130"><a href="#cb8-130" aria-hidden="true" tabindex="-1"></a>**Binomial**($n$, $p$): If we take the sum of $n$ independent Bernoulli random variables with probability $p$, we get a Binomial random variable with parameters $n$ and $p$. In the context of Example, 1, if we toss the fair coin $n$ times and record the total number of times the coin lands heads, the result will be Binomial($n$, $0.5$).</span>
-<span id="cb8-131"><a href="#cb8-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-132"><a href="#cb8-132" aria-hidden="true" tabindex="-1"></a>**Uniform** on a *finite* set of possible values: This is the distribution that makes all elements of the set of possible values equally likely. For example, if we roll a standard 6-sided die, the result of the roll will be Uniform on the set of numbers $<span class="sc">\{</span>1, 2, \dots, 6<span class="sc">\}</span>$.</span>
-<span id="cb8-133"><a href="#cb8-133" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-134"><a href="#cb8-134" aria-hidden="true" tabindex="-1"></a>**Uniform** on an *infinite* set of possible values: This is the distribution of a continuous random variables that have equal *density* on all of its possible values. The Uniform random variable on the unit interval $(0, 1)$ is a special one—its density curve is flat on $(0, 1)$ and $0$ elsewhere.</span>
-<span id="cb8-135"><a href="#cb8-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-136"><a href="#cb8-136" aria-hidden="true" tabindex="-1"></a>**Normal**($\mu, \sigma^2$): This is probably the most well-known probability distribution, also known as the Gaussian distribution. Normal random variables are continuous, so they have density curves. The parameters $\mu$ and $\sigma^2$ specify the center (i.e. mean) and spread (i.e. variance) of the density curve. You've seen Normal random variables arise from the Central Limit Theorem in Data 8. We will also explore this very soon.</span>
-<span id="cb8-137"><a href="#cb8-137" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-138"><a href="#cb8-138" aria-hidden="true" tabindex="-1"></a><span class="fu">## Expectation and Variance</span></span>
+<span id="cb8-123"><a href="#cb8-123" aria-hidden="true" tabindex="-1"></a>**Bernoulli**($p$): This is the distribution of a binary random variable that takes on value $1$ with some probability $p$, and value $0$ with probability $1-p$. Bernoulli random variables are often referred to as "indicator variables". The random variable $X$ we defined in Example 1 follows the Bernoulli distribution with $p=0.5$.</span>
+<span id="cb8-124"><a href="#cb8-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-125"><a href="#cb8-125" aria-hidden="true" tabindex="-1"></a>**Binomial**($n$, $p$): If we take the sum of $n$ independent Bernoulli random variables with probability $p$, we get a Binomial random variable with parameters $n$ and $p$. In the context of Example, 1, if we toss the fair coin $n$ times and record the total number of times the coin lands heads, the result will be Binomial($n$, $0.5$).</span>
+<span id="cb8-126"><a href="#cb8-126" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-127"><a href="#cb8-127" aria-hidden="true" tabindex="-1"></a>**Uniform** on a *finite* set of possible values: This is the distribution that makes all elements of the set of possible values equally likely. For example, if we roll a standard 6-sided die, the result of the roll will be Uniform on the set of numbers $<span class="sc">\{</span>1, 2, 3, 4, 5, 6<span class="sc">\}</span>$.</span>
+<span id="cb8-128"><a href="#cb8-128" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-129"><a href="#cb8-129" aria-hidden="true" tabindex="-1"></a>**Uniform** on an *infinite* set of possible values: This is the distribution of a continuous random variable that has equal *density* on all of its possible values. The Uniform random variable on the unit interval $(0, 1)$ is a special one—its density curve is flat on $(0, 1)$ and $0$ elsewhere.</span>
+<span id="cb8-130"><a href="#cb8-130" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-131"><a href="#cb8-131" aria-hidden="true" tabindex="-1"></a>**Normal**($\mu, \sigma^2$): This is probably the most well-known probability distribution, also known as the Gaussian distribution. Normal random variables are continuous, so they have density curves. The parameters $\mu$ and $\sigma^2$ specify the center (i.e. mean) and spread (i.e. variance) of the density curve. You've seen Normal random variables arise from the Central Limit Theorem in Data 8. We will also explore this in a later section.</span>
+<span id="cb8-132"><a href="#cb8-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-133"><a href="#cb8-133" aria-hidden="true" tabindex="-1"></a><span class="fu">## Expectation and Variance</span></span>
+<span id="cb8-134"><a href="#cb8-134" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-135"><a href="#cb8-135" aria-hidden="true" tabindex="-1"></a>Often, it is easier to describe a random variable using some numerical summary, rather than fully specifying its distribution. These numerical summaries are constant numbers that characterize some properties of the random variable. Because they give a "summary" of how the variable tends to behave, they are *not* random – think of them as a static number that describes a certain property of the random variable. In Data 100, we will focus our attention on the expectation and variance of a random variable.</span>
+<span id="cb8-136"><a href="#cb8-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-137"><a href="#cb8-137" aria-hidden="true" tabindex="-1"></a><span class="fu">### Expectation</span></span>
+<span id="cb8-138"><a href="#cb8-138" aria-hidden="true" tabindex="-1"></a>The **expectation** of a random variable $X$ is the weighted average of the possible values of $X$, where the weights are the probabilities of $X$ taking on each possible value. To compute the expectation, we find each possible value $x$, weight it by the probability of $X$ taking on the value, and sum across all possible values $x$:</span>
 <span id="cb8-139"><a href="#cb8-139" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-140"><a href="#cb8-140" aria-hidden="true" tabindex="-1"></a>Often, it is easier to describe a random variable using some numerical summary, rather than fully specifying its distribution. These numerical summaries are constant numbers that characterize some properties of the random variable. Because they give a "summary" of how the variable tends to behave, they are *not* random – think of them as a static number that describes a certain property of the random variable. In Data 100, we will focus our attention on the expectation and variance of a random variable.</span>
+<span id="cb8-140"><a href="#cb8-140" aria-hidden="true" tabindex="-1"></a>$$E<span class="co">[</span><span class="ot">X</span><span class="co">]</span> = \sum_{\text{all possible } x} x P(X=x).$$</span>
 <span id="cb8-141"><a href="#cb8-141" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-142"><a href="#cb8-142" aria-hidden="true" tabindex="-1"></a><span class="fu">### Expectation</span></span>
-<span id="cb8-143"><a href="#cb8-143" aria-hidden="true" tabindex="-1"></a>The **expectation** of a random variable $X$ is the weighted average of the possible values of $X$, where the weights are the probabilities of $X$ taking on each possible value. To compute the expectation, we find each possible value $x$, weight it by the probability of $X$ taking on the value, and sum across all possible values $x$:</span>
-<span id="cb8-144"><a href="#cb8-144" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-145"><a href="#cb8-145" aria-hidden="true" tabindex="-1"></a>$$E<span class="co">[</span><span class="ot">X</span><span class="co">]</span> = \sum_{\text{all possible } x} x P(X=x).$$</span>
+<span id="cb8-142"><a href="#cb8-142" aria-hidden="true" tabindex="-1"></a>The expectation is used as a measure of the "mean", or "center of gravity", of a random variable.</span>
+<span id="cb8-143"><a href="#cb8-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-144"><a href="#cb8-144" aria-hidden="true" tabindex="-1"></a><span class="fu">### Variance</span></span>
+<span id="cb8-145"><a href="#cb8-145" aria-hidden="true" tabindex="-1"></a>The **variance** of a random variable is a measure of how far it can deviate from its expectation. It is defined as the expected squared deviation from the expectation of $X$. Put more simply, variance asks: how far does $X$ typically vary from its average value? What is the spread of $X$'s distribution?</span>
 <span id="cb8-146"><a href="#cb8-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-147"><a href="#cb8-147" aria-hidden="true" tabindex="-1"></a>The expectation is used as a measure of the "mean", or "center of gravity", of a random variable.</span>
+<span id="cb8-147"><a href="#cb8-147" aria-hidden="true" tabindex="-1"></a>$$\text{Var}(X) = E<span class="co">[</span><span class="ot">(X-E[X])^2</span><span class="co">]</span>$$</span>
 <span id="cb8-148"><a href="#cb8-148" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-149"><a href="#cb8-149" aria-hidden="true" tabindex="-1"></a><span class="fu">### Variance</span></span>
-<span id="cb8-150"><a href="#cb8-150" aria-hidden="true" tabindex="-1"></a>The **variance** of a random variable is a measure of how far it can deviate from its expectation. It is defined as the expected squared deviation from the expectation of $X$. Put more simply, variance asks: how far does $X$ typically vary from its average value? What is the spread of $X$'s distribution?</span>
-<span id="cb8-151"><a href="#cb8-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-152"><a href="#cb8-152" aria-hidden="true" tabindex="-1"></a>$$\text{Var}(X) = E<span class="co">[</span><span class="ot">(X-E[X])^2</span><span class="co">]</span>$$</span>
-<span id="cb8-153"><a href="#cb8-153" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-154"><a href="#cb8-154" aria-hidden="true" tabindex="-1"></a>If we expand the square and use properties of expectation, we can re-express this statement as the **computational formula for variance**. This form is often more convenient to use when computing the variance of a variable by hand.</span>
-<span id="cb8-155"><a href="#cb8-155" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-156"><a href="#cb8-156" aria-hidden="true" tabindex="-1"></a>$$\text{Var}(X) = E<span class="co">[</span><span class="ot">X^2</span><span class="co">]</span> - (E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>)^2$$</span>
-<span id="cb8-157"><a href="#cb8-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-158"><a href="#cb8-158" aria-hidden="true" tabindex="-1"></a>How do we compute the expectation of $X^2$? Any function of a random variable is *also* a random variable – that means that by squaring $X$, we've created a new random variable. To compute $E<span class="co">[</span><span class="ot">X^2</span><span class="co">]</span>$, we can simply apply our definition of expectation to the random variable $X^2$:</span>
-<span id="cb8-159"><a href="#cb8-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-160"><a href="#cb8-160" aria-hidden="true" tabindex="-1"></a>$$E<span class="co">[</span><span class="ot">X^2</span><span class="co">]</span> = \sum_{\text{all possible } x} x^2 P(X = x).$$ </span>
+<span id="cb8-149"><a href="#cb8-149" aria-hidden="true" tabindex="-1"></a>If we expand the square and use properties of expectation, we can re-express this statement as the **computational formula for variance**. This form is often more convenient to use when computing the variance of a variable by hand.</span>
+<span id="cb8-150"><a href="#cb8-150" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-151"><a href="#cb8-151" aria-hidden="true" tabindex="-1"></a>$$\text{Var}(X) = E<span class="co">[</span><span class="ot">X^2</span><span class="co">]</span> - (E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>)^2$$</span>
+<span id="cb8-152"><a href="#cb8-152" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-153"><a href="#cb8-153" aria-hidden="true" tabindex="-1"></a>How do we compute the expectation of $X^2$? Any function of a random variable is *also* a random variable – that means that by squaring $X$, we've created a new random variable. To compute $E<span class="co">[</span><span class="ot">X^2</span><span class="co">]</span>$, we can simply apply our definition of expectation to the random variable $X^2$:</span>
+<span id="cb8-154"><a href="#cb8-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-155"><a href="#cb8-155" aria-hidden="true" tabindex="-1"></a>$$E<span class="co">[</span><span class="ot">X^2</span><span class="co">]</span> = \sum_{\text{all possible } x} x^2 P(X = x).$$ </span>
+<span id="cb8-156"><a href="#cb8-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-157"><a href="#cb8-157" aria-hidden="true" tabindex="-1"></a>The variance is used as a measure of "spread" of a random variable.</span>
+<span id="cb8-158"><a href="#cb8-158" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-159"><a href="#cb8-159" aria-hidden="true" tabindex="-1"></a><span class="fu">### Standard Deviation</span></span>
+<span id="cb8-160"><a href="#cb8-160" aria-hidden="true" tabindex="-1"></a>Notice that the units of variance are the *square* of the units of $X$. For example, if the random variable $X$ was measured in meters, its variance would be measured in meters$^2$. The **standard deviation** of a random variable converts things back to the correct scale by taking the square root of variance:</span>
 <span id="cb8-161"><a href="#cb8-161" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-162"><a href="#cb8-162" aria-hidden="true" tabindex="-1"></a>The variance is used as a measure of "spread" of a random variable.</span>
+<span id="cb8-162"><a href="#cb8-162" aria-hidden="true" tabindex="-1"></a>$$\text{SD}(X)  = \sqrt{\text{Var}(X)}.$$</span>
 <span id="cb8-163"><a href="#cb8-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-164"><a href="#cb8-164" aria-hidden="true" tabindex="-1"></a><span class="fu">### Standard Deviation</span></span>
-<span id="cb8-165"><a href="#cb8-165" aria-hidden="true" tabindex="-1"></a>Notice that the units of variance are the *square* of the units of $X$. For example, if the random variable $X$ was measured in meters, its variance would be measured in meters$^2$. The **standard deviation** of a random variable converts things back to the correct scale by taking the square root of variance:</span>
+<span id="cb8-164"><a href="#cb8-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-165"><a href="#cb8-165" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sums of Random Variables</span></span>
 <span id="cb8-166"><a href="#cb8-166" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-167"><a href="#cb8-167" aria-hidden="true" tabindex="-1"></a>$$\text{SD}(X)  = \sqrt{\text{Var}(X)}.$$</span>
+<span id="cb8-167"><a href="#cb8-167" aria-hidden="true" tabindex="-1"></a>It is common to work with multiple random variables at the same time, therefore, we are often interested in how sums of random variables behave.</span>
 <span id="cb8-168"><a href="#cb8-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-169"><a href="#cb8-169" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-170"><a href="#cb8-170" aria-hidden="true" tabindex="-1"></a><span class="fu">## Sums of Random Variables</span></span>
-<span id="cb8-171"><a href="#cb8-171" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-172"><a href="#cb8-172" aria-hidden="true" tabindex="-1"></a>It is common to work with multiple random variables at the same time, therefore, we are often interested in how sums of random variables behave.</span>
-<span id="cb8-173"><a href="#cb8-173" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-174"><a href="#cb8-174" aria-hidden="true" tabindex="-1"></a><span class="fu">### Equality</span></span>
-<span id="cb8-175"><a href="#cb8-175" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-176"><a href="#cb8-176" aria-hidden="true" tabindex="-1"></a>Before looking at sums of random variables, let's first look at different kinds of equalities between random variables.For any two random variables $X$ and $Y$,</span>
+<span id="cb8-169"><a href="#cb8-169" aria-hidden="true" tabindex="-1"></a><span class="fu">### Equality</span></span>
+<span id="cb8-170"><a href="#cb8-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-171"><a href="#cb8-171" aria-hidden="true" tabindex="-1"></a>Before looking at sums of random variables, let's first look at different kinds of equalities between random variables.For any two random variables $X$ and $Y$,</span>
+<span id="cb8-172"><a href="#cb8-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-173"><a href="#cb8-173" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>$X$ and $Y$ are **equal** if $X(s) = Y(s)$ for every sample $s$. Regardless of the exact sample drawn, $X$ is always equal to $Y$. In other words, if $X = 1$, then $Y$ must also be $1$. We write this as $X = Y$.</span>
+<span id="cb8-174"><a href="#cb8-174" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>$X$ and $Y$ are **identically distributed** if the distribution of $X$ is equal to the distribution of $Y$. That is, $X$ and $Y$ take on the same set of possible values, and each of these possible values is taken with the same probability. On any specific sample $s$, identically distributed variables do *not* necessarily share the same value. For example, we can roll two standard 6-sided dice and let the result of one die be $X_1$ and the result of the other be $X_2$. $X_1$ and $X_2$ are equal in distribution since they have the same set of possible values $<span class="sc">\{</span>1, 2, \dots, 6<span class="sc">\}</span>$ and the probability of them taking on each value is $1/6$. However, the two dice might land differently, so when $X_1 = 2$, $X_2$ need not be $2$. We write this as $X_1 \stackrel{d}{=} X_2$. </span>
+<span id="cb8-175"><a href="#cb8-175" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>$X$ and $Y$ are **independent and identically distributed (i.i.d.)** if (1) the variables are identically distributed and (2) knowing the outcome of one variable does not influence our belief of the outcome of the other. In the previous two-die example, if we assume the outcome of one die does not affect the outcome of the other, then $X_1$ and $X_2$ are independent and identically distributed.</span>
+<span id="cb8-176"><a href="#cb8-176" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-177"><a href="#cb8-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-178"><a href="#cb8-178" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>$X$ and $Y$ are **equal** if $X(s) = Y(s)$ for every sample $s$. Regardless of the exact sample drawn, $X$ is always equal to $Y$. In other words, if $X = 1$, then $Y$ must also be $1$. We write this as $X = Y$.</span>
-<span id="cb8-179"><a href="#cb8-179" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>$X$ and $Y$ are **identically distributed** if the distribution of $X$ is equal to the distribution of $Y$. That is, $X$ and $Y$ take on the same set of possible values, and each of these possible values is taken with the same probability. On any specific sample $s$, identically distributed variables do *not* necessarily share the same value. For example, we can roll two standard 6-sided dice and let the result of one die be $X_1$ and the result of the other be $X_2$. $X_1$ and $X_2$ are equal in distribution since they have the same set of possible values $<span class="sc">\{</span>1, 2, \dots, 6<span class="sc">\}</span>$ and the probability of them taking on each value is $1/6$. However, the two dice might land differently, so when $X_1 = 2$, $X_2$ need not be $2$. We write this as $X_1 \stackrel{d}{=} X_2$. </span>
-<span id="cb8-180"><a href="#cb8-180" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>$X$ and $Y$ are **independent and identically distributed (i.i.d.)** if (1) the variables are identically distributed and (2) knowing the outcome of one variable does not influence our belief of the outcome of the other. In the previous two-die example, if we assume the outcome of one die does not affect the outcome of the other, then $X_1$ and $X_2$ are independent and identically distributed.</span>
+<span id="cb8-178"><a href="#cb8-178" aria-hidden="true" tabindex="-1"></a><span class="fu">### Distribution of Sums</span></span>
+<span id="cb8-179"><a href="#cb8-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-180"><a href="#cb8-180" aria-hidden="true" tabindex="-1"></a>We are often interested in distributions of sums of random variables. We will use the two-die example in the last section as a motivating example.</span>
 <span id="cb8-181"><a href="#cb8-181" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-182"><a href="#cb8-182" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-183"><a href="#cb8-183" aria-hidden="true" tabindex="-1"></a><span class="fu">### Distribution of Sums</span></span>
+<span id="cb8-182"><a href="#cb8-182" aria-hidden="true" tabindex="-1"></a>:::{.callout-warning}</span>
+<span id="cb8-183"><a href="#cb8-183" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 3: Two dice</span></span>
 <span id="cb8-184"><a href="#cb8-184" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-185"><a href="#cb8-185" aria-hidden="true" tabindex="-1"></a>We are often interested in distributions of sums of random variables. We will use the two-die example in the last section as a motivating example.</span>
+<span id="cb8-185"><a href="#cb8-185" aria-hidden="true" tabindex="-1"></a>Suppose we roll two standard, 6-sided dice. Let $X_1$ be the number the first die landed on, and $X_2$ be the number the second die landed on. If we assume that the outcome of one die does not affect the outcome of the other, we know $X_1$ and $X_2$ are i.i.d..</span>
 <span id="cb8-186"><a href="#cb8-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-187"><a href="#cb8-187" aria-hidden="true" tabindex="-1"></a>:::{.callout-warning}</span>
-<span id="cb8-188"><a href="#cb8-188" aria-hidden="true" tabindex="-1"></a><span class="fu">## Example 3: Two dice</span></span>
-<span id="cb8-189"><a href="#cb8-189" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-190"><a href="#cb8-190" aria-hidden="true" tabindex="-1"></a>Suppose we roll two standard, 6-sided dice. Let $X_1$ be the number the first die landed on, and $X_2$ be the number the second die landed on. If we assume that the outcome of one die does not affect the outcome of the other, we know $X_1$ and $X_2$ are i.i.d..</span>
-<span id="cb8-191"><a href="#cb8-191" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-192"><a href="#cb8-192" aria-hidden="true" tabindex="-1"></a>Like mentioned above, $X_1$ and $X_2$ are Uniform random variables on the set $<span class="sc">\{</span>1, 2, 3, 4, 5, 6<span class="sc">\}</span>$. We therefore have that $E<span class="co">[</span><span class="ot">X_1</span><span class="co">]</span> = E<span class="co">[</span><span class="ot">X_2</span><span class="co">]</span> = 7/2$ and $\text{Var}(X_1) = \text{Var}(X_2) = 35/12$.</span>
+<span id="cb8-187"><a href="#cb8-187" aria-hidden="true" tabindex="-1"></a>Like mentioned above, $X_1$ and $X_2$ are Uniform random variables on the set $<span class="sc">\{</span>1, 2, 3, 4, 5, 6<span class="sc">\}</span>$. We therefore have that $E<span class="co">[</span><span class="ot">X_1</span><span class="co">]</span> = E<span class="co">[</span><span class="ot">X_2</span><span class="co">]</span> = 7/2$ and $\text{Var}(X_1) = \text{Var}(X_2) = 35/12$.</span>
+<span id="cb8-188"><a href="#cb8-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-189"><a href="#cb8-189" aria-hidden="true" tabindex="-1"></a>We can then define two random variables $Y$ and $Z$ as follows:</span>
+<span id="cb8-190"><a href="#cb8-190" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-191"><a href="#cb8-191" aria-hidden="true" tabindex="-1"></a>$$Y = X_1 + X_1 = 2X_1$$</span>
+<span id="cb8-192"><a href="#cb8-192" aria-hidden="true" tabindex="-1"></a>$$Z = X_1 + X_2$$</span>
 <span id="cb8-193"><a href="#cb8-193" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-194"><a href="#cb8-194" aria-hidden="true" tabindex="-1"></a>We can then define two random variables $Y$ and $Z$ as follows:</span>
-<span id="cb8-195"><a href="#cb8-195" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-196"><a href="#cb8-196" aria-hidden="true" tabindex="-1"></a>$$Y = X_1 + X_1 = 2X_1$$</span>
-<span id="cb8-197"><a href="#cb8-197" aria-hidden="true" tabindex="-1"></a>$$Z = X_1 + X_2$$</span>
+<span id="cb8-194"><a href="#cb8-194" aria-hidden="true" tabindex="-1"></a>Do $Y$ and $Z$ have the same distribution? </span>
+<span id="cb8-195"><a href="#cb8-195" aria-hidden="true" tabindex="-1"></a>:::</span>
+<span id="cb8-196"><a href="#cb8-196" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-197"><a href="#cb8-197" aria-hidden="true" tabindex="-1"></a>To answer this question, we can firs turn to Python and use it to simulate these two random variables.</span>
 <span id="cb8-198"><a href="#cb8-198" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-199"><a href="#cb8-199" aria-hidden="true" tabindex="-1"></a>Do $Y$ and $Z$ have the same distribution? </span>
-<span id="cb8-200"><a href="#cb8-200" aria-hidden="true" tabindex="-1"></a>:::</span>
-<span id="cb8-201"><a href="#cb8-201" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-202"><a href="#cb8-202" aria-hidden="true" tabindex="-1"></a>To answer this question, we can firs turn to Python and use it to simulate these two random variables.</span>
-<span id="cb8-203"><a href="#cb8-203" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-204"><a href="#cb8-204" aria-hidden="true" tabindex="-1"></a>We first import the necessary libraries and define some helper functions. You can expand the next cell to see the full implementations.</span>
-<span id="cb8-205"><a href="#cb8-205" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-208"><a href="#cb8-208" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb8-209"><a href="#cb8-209" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
-<span id="cb8-210"><a href="#cb8-210" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
-<span id="cb8-211"><a href="#cb8-211" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(font_scale<span class="op">=</span><span class="fl">1.5</span>)</span>
-<span id="cb8-212"><a href="#cb8-212" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb8-213"><a href="#cb8-213" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
-<span id="cb8-214"><a href="#cb8-214" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> linear_model</span>
-<span id="cb8-215"><a href="#cb8-215" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
-<span id="cb8-216"><a href="#cb8-216" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_absolute_error</span>
-<span id="cb8-217"><a href="#cb8-217" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
-<span id="cb8-218"><a href="#cb8-218" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
-<span id="cb8-219"><a href="#cb8-219" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
-<span id="cb8-220"><a href="#cb8-220" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
-<span id="cb8-221"><a href="#cb8-221" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
-<span id="cb8-222"><a href="#cb8-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-223"><a href="#cb8-223" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> adjust_fontsize(size<span class="op">=</span><span class="va">None</span>):</span>
-<span id="cb8-224"><a href="#cb8-224" aria-hidden="true" tabindex="-1"></a>    SMALL_SIZE <span class="op">=</span> <span class="dv">8</span></span>
-<span id="cb8-225"><a href="#cb8-225" aria-hidden="true" tabindex="-1"></a>    MEDIUM_SIZE <span class="op">=</span> <span class="dv">10</span></span>
-<span id="cb8-226"><a href="#cb8-226" aria-hidden="true" tabindex="-1"></a>    BIGGER_SIZE <span class="op">=</span> <span class="dv">12</span></span>
-<span id="cb8-227"><a href="#cb8-227" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> size <span class="op">!=</span> <span class="va">None</span>:</span>
-<span id="cb8-228"><a href="#cb8-228" aria-hidden="true" tabindex="-1"></a>        SMALL_SIZE <span class="op">=</span> MEDIUM_SIZE <span class="op">=</span> BIGGER_SIZE <span class="op">=</span> size</span>
-<span id="cb8-229"><a href="#cb8-229" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-230"><a href="#cb8-230" aria-hidden="true" tabindex="-1"></a>    plt.rc(<span class="st">'font'</span>, size<span class="op">=</span>SMALL_SIZE)          <span class="co"># controls default text sizes</span></span>
-<span id="cb8-231"><a href="#cb8-231" aria-hidden="true" tabindex="-1"></a>    plt.rc(<span class="st">'axes'</span>, titlesize<span class="op">=</span>SMALL_SIZE)     <span class="co"># fontsize of the axes title</span></span>
-<span id="cb8-232"><a href="#cb8-232" aria-hidden="true" tabindex="-1"></a>    plt.rc(<span class="st">'axes'</span>, labelsize<span class="op">=</span>MEDIUM_SIZE)    <span class="co"># fontsize of the x and y labels</span></span>
-<span id="cb8-233"><a href="#cb8-233" aria-hidden="true" tabindex="-1"></a>    plt.rc(<span class="st">'xtick'</span>, labelsize<span class="op">=</span>SMALL_SIZE)    <span class="co"># fontsize of the tick labels</span></span>
-<span id="cb8-234"><a href="#cb8-234" aria-hidden="true" tabindex="-1"></a>    plt.rc(<span class="st">'ytick'</span>, labelsize<span class="op">=</span>SMALL_SIZE)    <span class="co"># fontsize of the tick labels</span></span>
-<span id="cb8-235"><a href="#cb8-235" aria-hidden="true" tabindex="-1"></a>    plt.rc(<span class="st">'legend'</span>, fontsize<span class="op">=</span>SMALL_SIZE)    <span class="co"># legend fontsize</span></span>
-<span id="cb8-236"><a href="#cb8-236" aria-hidden="true" tabindex="-1"></a>    plt.rc(<span class="st">'figure'</span>, titlesize<span class="op">=</span>BIGGER_SIZE)  <span class="co"># fontsize of the figure title</span></span>
-<span id="cb8-237"><a href="#cb8-237" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-238"><a href="#cb8-238" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'fivethirtyeight'</span>)</span>
-<span id="cb8-239"><a href="#cb8-239" aria-hidden="true" tabindex="-1"></a>sns.set_context(<span class="st">"talk"</span>)</span>
-<span id="cb8-240"><a href="#cb8-240" aria-hidden="true" tabindex="-1"></a>sns.set_theme()</span>
-<span id="cb8-241"><a href="#cb8-241" aria-hidden="true" tabindex="-1"></a>adjust_fontsize(size<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb8-242"><a href="#cb8-242" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb8-199"><a href="#cb8-199" aria-hidden="true" tabindex="-1"></a>We first import the necessary libraries and define some helper functions. You can expand the next cell to see the full implementations.</span>
+<span id="cb8-200"><a href="#cb8-200" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-203"><a href="#cb8-203" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb8-204"><a href="#cb8-204" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb8-205"><a href="#cb8-205" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb8-206"><a href="#cb8-206" aria-hidden="true" tabindex="-1"></a>sns.<span class="bu">set</span>(font_scale<span class="op">=</span><span class="fl">1.5</span>)</span>
+<span id="cb8-207"><a href="#cb8-207" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb8-208"><a href="#cb8-208" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb8-209"><a href="#cb8-209" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> linear_model</span>
+<span id="cb8-210"><a href="#cb8-210" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_squared_error</span>
+<span id="cb8-211"><a href="#cb8-211" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> mean_absolute_error</span>
+<span id="cb8-212"><a href="#cb8-212" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.graph_objects <span class="im">as</span> go</span>
+<span id="cb8-213"><a href="#cb8-213" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> plotly.express <span class="im">as</span> px</span>
+<span id="cb8-214"><a href="#cb8-214" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.pipeline <span class="im">import</span> Pipeline</span>
+<span id="cb8-215"><a href="#cb8-215" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> PolynomialFeatures</span>
+<span id="cb8-216"><a href="#cb8-216" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.linear_model <span class="im">import</span> LinearRegression</span>
+<span id="cb8-217"><a href="#cb8-217" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-218"><a href="#cb8-218" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> adjust_fontsize(size<span class="op">=</span><span class="va">None</span>):</span>
+<span id="cb8-219"><a href="#cb8-219" aria-hidden="true" tabindex="-1"></a>    SMALL_SIZE <span class="op">=</span> <span class="dv">8</span></span>
+<span id="cb8-220"><a href="#cb8-220" aria-hidden="true" tabindex="-1"></a>    MEDIUM_SIZE <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb8-221"><a href="#cb8-221" aria-hidden="true" tabindex="-1"></a>    BIGGER_SIZE <span class="op">=</span> <span class="dv">12</span></span>
+<span id="cb8-222"><a href="#cb8-222" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> size <span class="op">!=</span> <span class="va">None</span>:</span>
+<span id="cb8-223"><a href="#cb8-223" aria-hidden="true" tabindex="-1"></a>        SMALL_SIZE <span class="op">=</span> MEDIUM_SIZE <span class="op">=</span> BIGGER_SIZE <span class="op">=</span> size</span>
+<span id="cb8-224"><a href="#cb8-224" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-225"><a href="#cb8-225" aria-hidden="true" tabindex="-1"></a>    plt.rc(<span class="st">'font'</span>, size<span class="op">=</span>SMALL_SIZE)          <span class="co"># controls default text sizes</span></span>
+<span id="cb8-226"><a href="#cb8-226" aria-hidden="true" tabindex="-1"></a>    plt.rc(<span class="st">'axes'</span>, titlesize<span class="op">=</span>SMALL_SIZE)     <span class="co"># fontsize of the axes title</span></span>
+<span id="cb8-227"><a href="#cb8-227" aria-hidden="true" tabindex="-1"></a>    plt.rc(<span class="st">'axes'</span>, labelsize<span class="op">=</span>MEDIUM_SIZE)    <span class="co"># fontsize of the x and y labels</span></span>
+<span id="cb8-228"><a href="#cb8-228" aria-hidden="true" tabindex="-1"></a>    plt.rc(<span class="st">'xtick'</span>, labelsize<span class="op">=</span>SMALL_SIZE)    <span class="co"># fontsize of the tick labels</span></span>
+<span id="cb8-229"><a href="#cb8-229" aria-hidden="true" tabindex="-1"></a>    plt.rc(<span class="st">'ytick'</span>, labelsize<span class="op">=</span>SMALL_SIZE)    <span class="co"># fontsize of the tick labels</span></span>
+<span id="cb8-230"><a href="#cb8-230" aria-hidden="true" tabindex="-1"></a>    plt.rc(<span class="st">'legend'</span>, fontsize<span class="op">=</span>SMALL_SIZE)    <span class="co"># legend fontsize</span></span>
+<span id="cb8-231"><a href="#cb8-231" aria-hidden="true" tabindex="-1"></a>    plt.rc(<span class="st">'figure'</span>, titlesize<span class="op">=</span>BIGGER_SIZE)  <span class="co"># fontsize of the figure title</span></span>
+<span id="cb8-232"><a href="#cb8-232" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-233"><a href="#cb8-233" aria-hidden="true" tabindex="-1"></a>plt.style.use(<span class="st">'fivethirtyeight'</span>)</span>
+<span id="cb8-234"><a href="#cb8-234" aria-hidden="true" tabindex="-1"></a>sns.set_context(<span class="st">"talk"</span>)</span>
+<span id="cb8-235"><a href="#cb8-235" aria-hidden="true" tabindex="-1"></a>sns.set_theme()</span>
+<span id="cb8-236"><a href="#cb8-236" aria-hidden="true" tabindex="-1"></a>adjust_fontsize(size<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb8-237"><a href="#cb8-237" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>matplotlib inline</span>
+<span id="cb8-238"><a href="#cb8-238" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-239"><a href="#cb8-239" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb8-240"><a href="#cb8-240" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
+<span id="cb8-241"><a href="#cb8-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-242"><a href="#cb8-242" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb8-243"><a href="#cb8-243" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-244"><a href="#cb8-244" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
-<span id="cb8-245"><a href="#cb8-245" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
-<span id="cb8-246"><a href="#cb8-246" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-247"><a href="#cb8-247" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-248"><a href="#cb8-248" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-249"><a href="#cb8-249" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper functions to plot and </span></span>
-<span id="cb8-250"><a href="#cb8-250" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute expectation, variance, standard deviation</span></span>
-<span id="cb8-251"><a href="#cb8-251" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_dist(dist_df,</span>
-<span id="cb8-252"><a href="#cb8-252" aria-hidden="true" tabindex="-1"></a>                      xname<span class="op">=</span><span class="st">"x"</span>, pname<span class="op">=</span><span class="st">"P(X = x)"</span>, varname<span class="op">=</span><span class="st">"X"</span>,</span>
-<span id="cb8-253"><a href="#cb8-253" aria-hidden="true" tabindex="-1"></a>                      save<span class="op">=</span><span class="va">False</span>):</span>
-<span id="cb8-254"><a href="#cb8-254" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb8-255"><a href="#cb8-255" aria-hidden="true" tabindex="-1"></a><span class="co">    Plot a distribution from a distribution table.</span></span>
-<span id="cb8-256"><a href="#cb8-256" aria-hidden="true" tabindex="-1"></a><span class="co">    Single-variate.</span></span>
-<span id="cb8-257"><a href="#cb8-257" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb8-258"><a href="#cb8-258" aria-hidden="true" tabindex="-1"></a>    plt.bar(dist_df[xname], dist_df[pname])</span>
-<span id="cb8-259"><a href="#cb8-259" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(pname)</span>
-<span id="cb8-260"><a href="#cb8-260" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(xname)</span>
-<span id="cb8-261"><a href="#cb8-261" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f"Distribution of $</span><span class="sc">{</span>varname<span class="sc">}</span><span class="ss">$"</span>)</span>
-<span id="cb8-262"><a href="#cb8-262" aria-hidden="true" tabindex="-1"></a>    plt.xticks(<span class="bu">sorted</span>(dist_df[xname].unique()))</span>
-<span id="cb8-263"><a href="#cb8-263" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> save:</span>
-<span id="cb8-264"><a href="#cb8-264" aria-hidden="true" tabindex="-1"></a>        fig <span class="op">=</span> plt.gcf()</span>
-<span id="cb8-265"><a href="#cb8-265" aria-hidden="true" tabindex="-1"></a>        fig.patch.set_alpha(<span class="fl">0.0</span>)</span>
-<span id="cb8-266"><a href="#cb8-266" aria-hidden="true" tabindex="-1"></a>        plt.savefig(<span class="ss">f"dist</span><span class="sc">{</span>varname<span class="sc">}</span><span class="ss">.png"</span>, bbox_inches <span class="op">=</span> <span class="st">'tight'</span>)<span class="op">;</span></span>
-<span id="cb8-267"><a href="#cb8-267" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-268"><a href="#cb8-268" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-269"><a href="#cb8-269" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate_samples(df, xname<span class="op">=</span><span class="st">"x"</span>, pname<span class="op">=</span><span class="st">"P(X = x)"</span>, size<span class="op">=</span><span class="dv">1</span>):</span>
-<span id="cb8-270"><a href="#cb8-270" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.random.choice(</span>
-<span id="cb8-271"><a href="#cb8-271" aria-hidden="true" tabindex="-1"></a>                df[xname], <span class="co"># Draw from these choiecs</span></span>
-<span id="cb8-272"><a href="#cb8-272" aria-hidden="true" tabindex="-1"></a>                size<span class="op">=</span>size, <span class="co"># This many times</span></span>
-<span id="cb8-273"><a href="#cb8-273" aria-hidden="true" tabindex="-1"></a>                p<span class="op">=</span>df[pname]) <span class="co"># According to this distribution</span></span>
-<span id="cb8-274"><a href="#cb8-274" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-275"><a href="#cb8-275" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate_iid_df(dist_df, nvars, rows, varname<span class="op">=</span><span class="st">"X"</span>):</span>
-<span id="cb8-276"><a href="#cb8-276" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb8-277"><a href="#cb8-277" aria-hidden="true" tabindex="-1"></a><span class="co">    Make an (row x nvars) dataframe</span></span>
-<span id="cb8-278"><a href="#cb8-278" aria-hidden="true" tabindex="-1"></a><span class="co">    by calling simulate_samples for each of the nvars per row</span></span>
-<span id="cb8-279"><a href="#cb8-279" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb8-280"><a href="#cb8-280" aria-hidden="true" tabindex="-1"></a>    sample_dict <span class="op">=</span> {}</span>
-<span id="cb8-281"><a href="#cb8-281" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nvars):</span>
-<span id="cb8-282"><a href="#cb8-282" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Generate many datapoints </span></span>
-<span id="cb8-283"><a href="#cb8-283" aria-hidden="true" tabindex="-1"></a>        sample_dict[<span class="ss">f"</span><span class="sc">{</span>varname<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> <span class="op">\</span></span>
-<span id="cb8-284"><a href="#cb8-284" aria-hidden="true" tabindex="-1"></a>            simulate_samples(dist_df, size<span class="op">=</span>rows)</span>
-<span id="cb8-285"><a href="#cb8-285" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(sample_dict)</span>
-<span id="cb8-286"><a href="#cb8-286" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-287"><a href="#cb8-287" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-288"><a href="#cb8-288" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_simulated_dist(df, colname, show_stats<span class="op">=</span><span class="va">True</span>, save<span class="op">=</span><span class="va">False</span>, <span class="op">**</span>kwargs):</span>
-<span id="cb8-289"><a href="#cb8-289" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb8-290"><a href="#cb8-290" aria-hidden="true" tabindex="-1"></a><span class="co">    Plot a simulated population.</span></span>
-<span id="cb8-291"><a href="#cb8-291" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb8-292"><a href="#cb8-292" aria-hidden="true" tabindex="-1"></a>    sns.histplot(data<span class="op">=</span>df, x<span class="op">=</span>colname, stat<span class="op">=</span><span class="st">'probability'</span>, discrete<span class="op">=</span><span class="va">True</span>, <span class="op">**</span>kwargs)</span>
-<span id="cb8-293"><a href="#cb8-293" aria-hidden="true" tabindex="-1"></a>    plt.xticks(<span class="bu">sorted</span>(df[colname].unique())) <span class="co"># if there are gaps)</span></span>
-<span id="cb8-294"><a href="#cb8-294" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> show_stats:</span>
-<span id="cb8-295"><a href="#cb8-295" aria-hidden="true" tabindex="-1"></a>        display(stats_df_multi(df, [colname]))</span>
-<span id="cb8-296"><a href="#cb8-296" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> save:</span>
-<span id="cb8-297"><a href="#cb8-297" aria-hidden="true" tabindex="-1"></a>        fig <span class="op">=</span> plt.gcf()</span>
-<span id="cb8-298"><a href="#cb8-298" aria-hidden="true" tabindex="-1"></a>        fig.patch.set_alpha(<span class="fl">0.0</span>)</span>
-<span id="cb8-299"><a href="#cb8-299" aria-hidden="true" tabindex="-1"></a>        plt.savefig(<span class="ss">f"sim</span><span class="sc">{</span>colname<span class="sc">}</span><span class="ss">.png"</span>, bbox_inches <span class="op">=</span> <span class="st">'tight'</span>)<span class="op">;</span></span>
-<span id="cb8-300"><a href="#cb8-300" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-301"><a href="#cb8-301" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> stats_df_multi(df, colnames):</span>
-<span id="cb8-302"><a href="#cb8-302" aria-hidden="true" tabindex="-1"></a>    means <span class="op">=</span> df[colnames].mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb8-303"><a href="#cb8-303" aria-hidden="true" tabindex="-1"></a>    variances <span class="op">=</span> df[colnames].var(axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb8-304"><a href="#cb8-304" aria-hidden="true" tabindex="-1"></a>    stdevs <span class="op">=</span> df[colnames].std(axis<span class="op">=</span><span class="dv">0</span>)</span>
-<span id="cb8-305"><a href="#cb8-305" aria-hidden="true" tabindex="-1"></a>    df_stats <span class="op">=</span> pd.concat([means, variances, stdevs],axis<span class="op">=</span><span class="dv">1</span>).T</span>
-<span id="cb8-306"><a href="#cb8-306" aria-hidden="true" tabindex="-1"></a>    df_stats[<span class="st">'index_col'</span>] <span class="op">=</span> [<span class="st">"E[•]"</span>, <span class="st">"Var(•)"</span>, <span class="st">"SD(•)"</span>]</span>
-<span id="cb8-307"><a href="#cb8-307" aria-hidden="true" tabindex="-1"></a>    df_stats <span class="op">=</span> df_stats.set_index(<span class="st">'index_col'</span>, drop<span class="op">=</span><span class="va">True</span>).rename_axis(<span class="va">None</span>)</span>
-<span id="cb8-308"><a href="#cb8-308" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df_stats</span>
-<span id="cb8-309"><a href="#cb8-309" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-310"><a href="#cb8-310" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_simulated_dist_multi(df, colnames, show_stats<span class="op">=</span><span class="va">True</span>):</span>
-<span id="cb8-311"><a href="#cb8-311" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
-<span id="cb8-312"><a href="#cb8-312" aria-hidden="true" tabindex="-1"></a><span class="co">    If multiple columns provided, use separate plots.</span></span>
-<span id="cb8-313"><a href="#cb8-313" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
-<span id="cb8-314"><a href="#cb8-314" aria-hidden="true" tabindex="-1"></a>    ncols <span class="op">=</span> <span class="dv">1</span></span>
-<span id="cb8-315"><a href="#cb8-315" aria-hidden="true" tabindex="-1"></a>    nrows <span class="op">=</span> <span class="bu">len</span>(colnames)</span>
-<span id="cb8-316"><a href="#cb8-316" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">2</span><span class="op">*</span>nrows<span class="op">+</span><span class="dv">2</span>))</span>
-<span id="cb8-317"><a href="#cb8-317" aria-hidden="true" tabindex="-1"></a>    </span>
-<span id="cb8-318"><a href="#cb8-318" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, colname <span class="kw">in</span> <span class="bu">enumerate</span>(colnames):</span>
-<span id="cb8-319"><a href="#cb8-319" aria-hidden="true" tabindex="-1"></a>        subplot_int <span class="op">=</span> <span class="bu">int</span>(<span class="dv">100</span><span class="op">*</span><span class="bu">int</span>(nrows) <span class="op">+</span> <span class="dv">10</span><span class="op">*</span><span class="bu">int</span>(ncols) <span class="op">+</span> <span class="bu">int</span>(i<span class="op">+</span><span class="dv">1</span>))</span>
-<span id="cb8-320"><a href="#cb8-320" aria-hidden="true" tabindex="-1"></a>        plt.subplot(subplot_int)</span>
-<span id="cb8-321"><a href="#cb8-321" aria-hidden="true" tabindex="-1"></a>        plot_simulated_dist(df, colname, show_stats<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb8-322"><a href="#cb8-322" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
-<span id="cb8-323"><a href="#cb8-323" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> show_stats:</span>
-<span id="cb8-324"><a href="#cb8-324" aria-hidden="true" tabindex="-1"></a>        display(stats_df_multi(df, colnames))</span>
-<span id="cb8-325"><a href="#cb8-325" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb8-326"><a href="#cb8-326" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-327"><a href="#cb8-327" aria-hidden="true" tabindex="-1"></a>We start by defining the distribution of a single die roll:</span>
-<span id="cb8-328"><a href="#cb8-328" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-331"><a href="#cb8-331" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb8-332"><a href="#cb8-332" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
-<span id="cb8-333"><a href="#cb8-333" aria-hidden="true" tabindex="-1"></a>roll_df <span class="op">=</span> pd.DataFrame({<span class="st">"x"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>],</span>
-<span id="cb8-334"><a href="#cb8-334" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"P(X = x)"</span>: np.ones(<span class="dv">6</span>)<span class="op">/</span><span class="dv">6</span>})</span>
-<span id="cb8-335"><a href="#cb8-335" aria-hidden="true" tabindex="-1"></a>roll_df</span>
-<span id="cb8-336"><a href="#cb8-336" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb8-337"><a href="#cb8-337" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-338"><a href="#cb8-338" aria-hidden="true" tabindex="-1"></a>Using this die, we can simulate $X_1$ and $X_2$ by taking independent draws with replacement from the above distribution table. Below we call a helper function <span class="in">`simulate_iid_df`</span>, which simulates an 80,000-row table of $X_1, X_2$. It uses <span class="in">`np.random.choice(arr, size, p)`</span> <span class="co">[</span><span class="ot">link</span><span class="co">](https://numpy.org/doc/stable/reference/random/generated/numpy.random.choice.html)</span> where <span class="in">`arr`</span> is the array the values and <span class="in">`p`</span> is the probability associated with choosing each value.</span>
-<span id="cb8-339"><a href="#cb8-339" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-342"><a href="#cb8-342" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb8-343"><a href="#cb8-343" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
-<span id="cb8-344"><a href="#cb8-344" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">80000</span></span>
-<span id="cb8-345"><a href="#cb8-345" aria-hidden="true" tabindex="-1"></a>sim_rolls_df <span class="op">=</span> simulate_iid_df(roll_df, nvars<span class="op">=</span><span class="dv">2</span>, rows<span class="op">=</span>N)</span>
-<span id="cb8-346"><a href="#cb8-346" aria-hidden="true" tabindex="-1"></a>sim_rolls_df.head(<span class="dv">5</span>)</span>
-<span id="cb8-347"><a href="#cb8-347" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb8-348"><a href="#cb8-348" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-349"><a href="#cb8-349" aria-hidden="true" tabindex="-1"></a>We then add $Y = 2X_1$ and $Z = X_1 + X_2$ to the simulated results.</span>
-<span id="cb8-350"><a href="#cb8-350" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-353"><a href="#cb8-353" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb8-354"><a href="#cb8-354" aria-hidden="true" tabindex="-1"></a>sim_rolls_df[<span class="st">'Y'</span>] <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> sim_rolls_df[<span class="st">'X_1'</span>]</span>
-<span id="cb8-355"><a href="#cb8-355" aria-hidden="true" tabindex="-1"></a>sim_rolls_df[<span class="st">'Z'</span>] <span class="op">=</span> sim_rolls_df[<span class="st">'X_1'</span>] <span class="op">+</span> sim_rolls_df[<span class="st">'X_2'</span>]</span>
-<span id="cb8-356"><a href="#cb8-356" aria-hidden="true" tabindex="-1"></a>sim_rolls_df.head(<span class="dv">5</span>)</span>
-<span id="cb8-357"><a href="#cb8-357" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb8-358"><a href="#cb8-358" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-359"><a href="#cb8-359" aria-hidden="true" tabindex="-1"></a>Combing back to our question: Do $Y$ and $Z$ follow the same distribution? We can first visualize their (approximated) distribution using histograms.</span>
+<span id="cb8-244"><a href="#cb8-244" aria-hidden="true" tabindex="-1"></a><span class="co"># Helper functions to plot and </span></span>
+<span id="cb8-245"><a href="#cb8-245" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute expectation, variance, standard deviation</span></span>
+<span id="cb8-246"><a href="#cb8-246" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_dist(dist_df,</span>
+<span id="cb8-247"><a href="#cb8-247" aria-hidden="true" tabindex="-1"></a>                      xname<span class="op">=</span><span class="st">"x"</span>, pname<span class="op">=</span><span class="st">"P(X = x)"</span>, varname<span class="op">=</span><span class="st">"X"</span>,</span>
+<span id="cb8-248"><a href="#cb8-248" aria-hidden="true" tabindex="-1"></a>                      save<span class="op">=</span><span class="va">False</span>):</span>
+<span id="cb8-249"><a href="#cb8-249" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb8-250"><a href="#cb8-250" aria-hidden="true" tabindex="-1"></a><span class="co">    Plot a distribution from a distribution table.</span></span>
+<span id="cb8-251"><a href="#cb8-251" aria-hidden="true" tabindex="-1"></a><span class="co">    Single-variate.</span></span>
+<span id="cb8-252"><a href="#cb8-252" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb8-253"><a href="#cb8-253" aria-hidden="true" tabindex="-1"></a>    plt.bar(dist_df[xname], dist_df[pname])</span>
+<span id="cb8-254"><a href="#cb8-254" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(pname)</span>
+<span id="cb8-255"><a href="#cb8-255" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(xname)</span>
+<span id="cb8-256"><a href="#cb8-256" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="ss">f"Distribution of $</span><span class="sc">{</span>varname<span class="sc">}</span><span class="ss">$"</span>)</span>
+<span id="cb8-257"><a href="#cb8-257" aria-hidden="true" tabindex="-1"></a>    plt.xticks(<span class="bu">sorted</span>(dist_df[xname].unique()))</span>
+<span id="cb8-258"><a href="#cb8-258" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> save:</span>
+<span id="cb8-259"><a href="#cb8-259" aria-hidden="true" tabindex="-1"></a>        fig <span class="op">=</span> plt.gcf()</span>
+<span id="cb8-260"><a href="#cb8-260" aria-hidden="true" tabindex="-1"></a>        fig.patch.set_alpha(<span class="fl">0.0</span>)</span>
+<span id="cb8-261"><a href="#cb8-261" aria-hidden="true" tabindex="-1"></a>        plt.savefig(<span class="ss">f"dist</span><span class="sc">{</span>varname<span class="sc">}</span><span class="ss">.png"</span>, bbox_inches <span class="op">=</span> <span class="st">'tight'</span>)<span class="op">;</span></span>
+<span id="cb8-262"><a href="#cb8-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-263"><a href="#cb8-263" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-264"><a href="#cb8-264" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate_samples(df, xname<span class="op">=</span><span class="st">"x"</span>, pname<span class="op">=</span><span class="st">"P(X = x)"</span>, size<span class="op">=</span><span class="dv">1</span>):</span>
+<span id="cb8-265"><a href="#cb8-265" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.random.choice(</span>
+<span id="cb8-266"><a href="#cb8-266" aria-hidden="true" tabindex="-1"></a>                df[xname], <span class="co"># Draw from these choiecs</span></span>
+<span id="cb8-267"><a href="#cb8-267" aria-hidden="true" tabindex="-1"></a>                size<span class="op">=</span>size, <span class="co"># This many times</span></span>
+<span id="cb8-268"><a href="#cb8-268" aria-hidden="true" tabindex="-1"></a>                p<span class="op">=</span>df[pname]) <span class="co"># According to this distribution</span></span>
+<span id="cb8-269"><a href="#cb8-269" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-270"><a href="#cb8-270" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> simulate_iid_df(dist_df, nvars, rows, varname<span class="op">=</span><span class="st">"X"</span>):</span>
+<span id="cb8-271"><a href="#cb8-271" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb8-272"><a href="#cb8-272" aria-hidden="true" tabindex="-1"></a><span class="co">    Make an (row x nvars) dataframe</span></span>
+<span id="cb8-273"><a href="#cb8-273" aria-hidden="true" tabindex="-1"></a><span class="co">    by calling simulate_samples for each of the nvars per row</span></span>
+<span id="cb8-274"><a href="#cb8-274" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb8-275"><a href="#cb8-275" aria-hidden="true" tabindex="-1"></a>    sample_dict <span class="op">=</span> {}</span>
+<span id="cb8-276"><a href="#cb8-276" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(nvars):</span>
+<span id="cb8-277"><a href="#cb8-277" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Generate many datapoints </span></span>
+<span id="cb8-278"><a href="#cb8-278" aria-hidden="true" tabindex="-1"></a>        sample_dict[<span class="ss">f"</span><span class="sc">{</span>varname<span class="sc">}</span><span class="ss">_</span><span class="sc">{</span>i<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">"</span>] <span class="op">=</span> <span class="op">\</span></span>
+<span id="cb8-279"><a href="#cb8-279" aria-hidden="true" tabindex="-1"></a>            simulate_samples(dist_df, size<span class="op">=</span>rows)</span>
+<span id="cb8-280"><a href="#cb8-280" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pd.DataFrame(sample_dict)</span>
+<span id="cb8-281"><a href="#cb8-281" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-282"><a href="#cb8-282" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-283"><a href="#cb8-283" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_simulated_dist(df, colname, show_stats<span class="op">=</span><span class="va">True</span>, save<span class="op">=</span><span class="va">False</span>, <span class="op">**</span>kwargs):</span>
+<span id="cb8-284"><a href="#cb8-284" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb8-285"><a href="#cb8-285" aria-hidden="true" tabindex="-1"></a><span class="co">    Plot a simulated population.</span></span>
+<span id="cb8-286"><a href="#cb8-286" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb8-287"><a href="#cb8-287" aria-hidden="true" tabindex="-1"></a>    sns.histplot(data<span class="op">=</span>df, x<span class="op">=</span>colname, stat<span class="op">=</span><span class="st">'probability'</span>, discrete<span class="op">=</span><span class="va">True</span>, <span class="op">**</span>kwargs)</span>
+<span id="cb8-288"><a href="#cb8-288" aria-hidden="true" tabindex="-1"></a>    plt.xticks(<span class="bu">sorted</span>(df[colname].unique())) <span class="co"># if there are gaps)</span></span>
+<span id="cb8-289"><a href="#cb8-289" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> show_stats:</span>
+<span id="cb8-290"><a href="#cb8-290" aria-hidden="true" tabindex="-1"></a>        display(stats_df_multi(df, [colname]))</span>
+<span id="cb8-291"><a href="#cb8-291" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> save:</span>
+<span id="cb8-292"><a href="#cb8-292" aria-hidden="true" tabindex="-1"></a>        fig <span class="op">=</span> plt.gcf()</span>
+<span id="cb8-293"><a href="#cb8-293" aria-hidden="true" tabindex="-1"></a>        fig.patch.set_alpha(<span class="fl">0.0</span>)</span>
+<span id="cb8-294"><a href="#cb8-294" aria-hidden="true" tabindex="-1"></a>        plt.savefig(<span class="ss">f"sim</span><span class="sc">{</span>colname<span class="sc">}</span><span class="ss">.png"</span>, bbox_inches <span class="op">=</span> <span class="st">'tight'</span>)<span class="op">;</span></span>
+<span id="cb8-295"><a href="#cb8-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-296"><a href="#cb8-296" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> stats_df_multi(df, colnames):</span>
+<span id="cb8-297"><a href="#cb8-297" aria-hidden="true" tabindex="-1"></a>    means <span class="op">=</span> df[colnames].mean(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb8-298"><a href="#cb8-298" aria-hidden="true" tabindex="-1"></a>    variances <span class="op">=</span> df[colnames].var(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb8-299"><a href="#cb8-299" aria-hidden="true" tabindex="-1"></a>    stdevs <span class="op">=</span> df[colnames].std(axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb8-300"><a href="#cb8-300" aria-hidden="true" tabindex="-1"></a>    df_stats <span class="op">=</span> pd.concat([means, variances, stdevs],axis<span class="op">=</span><span class="dv">1</span>).T</span>
+<span id="cb8-301"><a href="#cb8-301" aria-hidden="true" tabindex="-1"></a>    df_stats[<span class="st">'index_col'</span>] <span class="op">=</span> [<span class="st">"E[•]"</span>, <span class="st">"Var(•)"</span>, <span class="st">"SD(•)"</span>]</span>
+<span id="cb8-302"><a href="#cb8-302" aria-hidden="true" tabindex="-1"></a>    df_stats <span class="op">=</span> df_stats.set_index(<span class="st">'index_col'</span>, drop<span class="op">=</span><span class="va">True</span>).rename_axis(<span class="va">None</span>)</span>
+<span id="cb8-303"><a href="#cb8-303" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> df_stats</span>
+<span id="cb8-304"><a href="#cb8-304" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-305"><a href="#cb8-305" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_simulated_dist_multi(df, colnames, show_stats<span class="op">=</span><span class="va">True</span>):</span>
+<span id="cb8-306"><a href="#cb8-306" aria-hidden="true" tabindex="-1"></a>    <span class="co">"""</span></span>
+<span id="cb8-307"><a href="#cb8-307" aria-hidden="true" tabindex="-1"></a><span class="co">    If multiple columns provided, use separate plots.</span></span>
+<span id="cb8-308"><a href="#cb8-308" aria-hidden="true" tabindex="-1"></a><span class="co">    """</span></span>
+<span id="cb8-309"><a href="#cb8-309" aria-hidden="true" tabindex="-1"></a>    ncols <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb8-310"><a href="#cb8-310" aria-hidden="true" tabindex="-1"></a>    nrows <span class="op">=</span> <span class="bu">len</span>(colnames)</span>
+<span id="cb8-311"><a href="#cb8-311" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">2</span><span class="op">*</span>nrows<span class="op">+</span><span class="dv">2</span>))</span>
+<span id="cb8-312"><a href="#cb8-312" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb8-313"><a href="#cb8-313" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i, colname <span class="kw">in</span> <span class="bu">enumerate</span>(colnames):</span>
+<span id="cb8-314"><a href="#cb8-314" aria-hidden="true" tabindex="-1"></a>        subplot_int <span class="op">=</span> <span class="bu">int</span>(<span class="dv">100</span><span class="op">*</span><span class="bu">int</span>(nrows) <span class="op">+</span> <span class="dv">10</span><span class="op">*</span><span class="bu">int</span>(ncols) <span class="op">+</span> <span class="bu">int</span>(i<span class="op">+</span><span class="dv">1</span>))</span>
+<span id="cb8-315"><a href="#cb8-315" aria-hidden="true" tabindex="-1"></a>        plt.subplot(subplot_int)</span>
+<span id="cb8-316"><a href="#cb8-316" aria-hidden="true" tabindex="-1"></a>        plot_simulated_dist(df, colname, show_stats<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb8-317"><a href="#cb8-317" aria-hidden="true" tabindex="-1"></a>    plt.tight_layout()</span>
+<span id="cb8-318"><a href="#cb8-318" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> show_stats:</span>
+<span id="cb8-319"><a href="#cb8-319" aria-hidden="true" tabindex="-1"></a>        display(stats_df_multi(df, colnames))</span>
+<span id="cb8-320"><a href="#cb8-320" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-321"><a href="#cb8-321" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-322"><a href="#cb8-322" aria-hidden="true" tabindex="-1"></a>We start by defining the distribution of a single die roll:</span>
+<span id="cb8-323"><a href="#cb8-323" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-326"><a href="#cb8-326" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb8-327"><a href="#cb8-327" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb8-328"><a href="#cb8-328" aria-hidden="true" tabindex="-1"></a>roll_df <span class="op">=</span> pd.DataFrame({<span class="st">"x"</span>: [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>],</span>
+<span id="cb8-329"><a href="#cb8-329" aria-hidden="true" tabindex="-1"></a>                        <span class="st">"P(X = x)"</span>: np.ones(<span class="dv">6</span>)<span class="op">/</span><span class="dv">6</span>})</span>
+<span id="cb8-330"><a href="#cb8-330" aria-hidden="true" tabindex="-1"></a>roll_df</span>
+<span id="cb8-331"><a href="#cb8-331" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-332"><a href="#cb8-332" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-333"><a href="#cb8-333" aria-hidden="true" tabindex="-1"></a>Using this die, we can simulate $X_1$ and $X_2$ by taking independent draws with replacement from the above distribution table. Below we call a helper function <span class="in">`simulate_iid_df`</span>, which simulates an 80,000-row table of $X_1, X_2$. It uses <span class="in">`np.random.choice(arr, size, p)`</span> <span class="co">[</span><span class="ot">link</span><span class="co">](https://numpy.org/doc/stable/reference/random/generated/numpy.random.choice.html)</span> where <span class="in">`arr`</span> is the array the values and <span class="in">`p`</span> is the probability associated with choosing each value.</span>
+<span id="cb8-334"><a href="#cb8-334" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-337"><a href="#cb8-337" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb8-338"><a href="#cb8-338" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb8-339"><a href="#cb8-339" aria-hidden="true" tabindex="-1"></a>N <span class="op">=</span> <span class="dv">80000</span></span>
+<span id="cb8-340"><a href="#cb8-340" aria-hidden="true" tabindex="-1"></a>sim_rolls_df <span class="op">=</span> simulate_iid_df(roll_df, nvars<span class="op">=</span><span class="dv">2</span>, rows<span class="op">=</span>N)</span>
+<span id="cb8-341"><a href="#cb8-341" aria-hidden="true" tabindex="-1"></a>sim_rolls_df.head(<span class="dv">5</span>)</span>
+<span id="cb8-342"><a href="#cb8-342" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-343"><a href="#cb8-343" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-344"><a href="#cb8-344" aria-hidden="true" tabindex="-1"></a>We then add $Y = 2X_1$ and $Z = X_1 + X_2$ to the simulated results.</span>
+<span id="cb8-345"><a href="#cb8-345" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-348"><a href="#cb8-348" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb8-349"><a href="#cb8-349" aria-hidden="true" tabindex="-1"></a>sim_rolls_df[<span class="st">'Y'</span>] <span class="op">=</span> <span class="dv">2</span> <span class="op">*</span> sim_rolls_df[<span class="st">'X_1'</span>]</span>
+<span id="cb8-350"><a href="#cb8-350" aria-hidden="true" tabindex="-1"></a>sim_rolls_df[<span class="st">'Z'</span>] <span class="op">=</span> sim_rolls_df[<span class="st">'X_1'</span>] <span class="op">+</span> sim_rolls_df[<span class="st">'X_2'</span>]</span>
+<span id="cb8-351"><a href="#cb8-351" aria-hidden="true" tabindex="-1"></a>sim_rolls_df.head(<span class="dv">5</span>)</span>
+<span id="cb8-352"><a href="#cb8-352" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-353"><a href="#cb8-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-354"><a href="#cb8-354" aria-hidden="true" tabindex="-1"></a>Combing back to our question: Do $Y$ and $Z$ follow the same distribution? We can first visualize their (approximated) distribution using histograms.</span>
+<span id="cb8-355"><a href="#cb8-355" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-358"><a href="#cb8-358" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb8-359"><a href="#cb8-359" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
 <span id="cb8-360"><a href="#cb8-360" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-363"><a href="#cb8-363" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb8-364"><a href="#cb8-364" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
-<span id="cb8-365"><a href="#cb8-365" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-366"><a href="#cb8-366" aria-hidden="true" tabindex="-1"></a>plot_simulated_dist(sim_rolls_df, <span class="st">"Y"</span>, show_stats <span class="op">=</span> <span class="va">False</span>)</span>
-<span id="cb8-367"><a href="#cb8-367" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-361"><a href="#cb8-361" aria-hidden="true" tabindex="-1"></a>plot_simulated_dist(sim_rolls_df, <span class="st">"Y"</span>, show_stats <span class="op">=</span> <span class="va">False</span>)</span>
+<span id="cb8-362"><a href="#cb8-362" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-363"><a href="#cb8-363" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-366"><a href="#cb8-366" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb8-367"><a href="#cb8-367" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
 <span id="cb8-368"><a href="#cb8-368" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-371"><a href="#cb8-371" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb8-372"><a href="#cb8-372" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb8-369"><a href="#cb8-369" aria-hidden="true" tabindex="-1"></a>plot_simulated_dist(sim_rolls_df, <span class="st">"Z"</span>, show_stats <span class="op">=</span> <span class="va">False</span>, color<span class="op">=</span><span class="st">"gold"</span>)</span>
+<span id="cb8-370"><a href="#cb8-370" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-371"><a href="#cb8-371" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-372"><a href="#cb8-372" aria-hidden="true" tabindex="-1"></a>Clearly, $Y$ and $Z$ do not follow the same distribution. They even have different sets of possible values: while $Z$ can take on odd numbers, $Y$ cannot! We can also print out the (approximated) expectation, variance, and standard deviation of $Y$ and $Z$ from our simulated result—even though the estimated expectations are similar, $Y$ has a larger variance/standard deviation than $Z$. </span>
 <span id="cb8-373"><a href="#cb8-373" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-374"><a href="#cb8-374" aria-hidden="true" tabindex="-1"></a>plot_simulated_dist(sim_rolls_df, <span class="st">"Z"</span>, show_stats <span class="op">=</span> <span class="va">False</span>, color<span class="op">=</span><span class="st">"gold"</span>)</span>
-<span id="cb8-375"><a href="#cb8-375" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb8-376"><a href="#cb8-376" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-377"><a href="#cb8-377" aria-hidden="true" tabindex="-1"></a>Clearly, $Y$ and $Z$ do not follow the same distribution. They even have different sets of possible values: while $Z$ can take on odd numbers, $Y$ cannot! We can also print out the (approximated) expectation, variance, and standard deviation of $Y$ and $Z$ from our simulated result—even though the estimated expectations are similar, $Y$ has a larger variance/standard deviation than $Z$. </span>
+<span id="cb8-376"><a href="#cb8-376" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb8-377"><a href="#cb8-377" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
 <span id="cb8-378"><a href="#cb8-378" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-381"><a href="#cb8-381" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb8-382"><a href="#cb8-382" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: false</span></span>
+<span id="cb8-379"><a href="#cb8-379" aria-hidden="true" tabindex="-1"></a>stats_df_multi(sim_rolls_df, [<span class="st">"Y"</span>, <span class="st">"Z"</span>])</span>
+<span id="cb8-380"><a href="#cb8-380" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb8-381"><a href="#cb8-381" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-382"><a href="#cb8-382" aria-hidden="true" tabindex="-1"></a>We got the above numbers through simulation. It was accurate enough for some tasks: in fact, the larger the simulated rows $N$ get, the closer the simulated expectation will be to the true expectation. However, simulation can be tedious and computationally expensive. Is there a better way we can get the true expectations and variance of $Y$ and $Z$? Indeed, we can compute these using some properties of expectation and variance.</span>
 <span id="cb8-383"><a href="#cb8-383" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-384"><a href="#cb8-384" aria-hidden="true" tabindex="-1"></a>stats_df_multi(sim_rolls_df, [<span class="st">"Y"</span>, <span class="st">"Z"</span>])</span>
-<span id="cb8-385"><a href="#cb8-385" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb8-386"><a href="#cb8-386" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-387"><a href="#cb8-387" aria-hidden="true" tabindex="-1"></a>We got the above numbers through simulation. It was accurate enough for some tasks: in fact, the larger the simulated rows $N$ get, the closer the simulated expectation will be to the true expectation. However, simulation can be tedious and computationally expensive. Is there a better way we can get the true expectations and variance of $Y$ and $Z$? Indeed, we can compute these using some properties of expectation and variance.</span>
-<span id="cb8-388"><a href="#cb8-388" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-389"><a href="#cb8-389" aria-hidden="true" tabindex="-1"></a><span class="fu">### Properties of Expectation and Variance</span></span>
-<span id="cb8-390"><a href="#cb8-390" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-391"><a href="#cb8-391" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Linearity of Expectation</span></span>
-<span id="cb8-392"><a href="#cb8-392" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-393"><a href="#cb8-393" aria-hidden="true" tabindex="-1"></a>An important property in probability is the **linearity of expectation**. The expectation of the linear transformation $aX+b$, where $a$ and $b$ are constants, is:</span>
-<span id="cb8-394"><a href="#cb8-394" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-395"><a href="#cb8-395" aria-hidden="true" tabindex="-1"></a>$$E<span class="co">[</span><span class="ot">aX+b</span><span class="co">]</span> = aE<span class="co">[</span><span class="ot">\mathbb{X}</span><span class="co">]</span> + b.$$</span>
-<span id="cb8-396"><a href="#cb8-396" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-397"><a href="#cb8-397" aria-hidden="true" tabindex="-1"></a>Expectation is also linear in *sums* of random variables. For two random variables $X$ and $Y$, we have</span>
-<span id="cb8-398"><a href="#cb8-398" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-399"><a href="#cb8-399" aria-hidden="true" tabindex="-1"></a>$$E<span class="co">[</span><span class="ot">X+Y</span><span class="co">]</span> = E<span class="co">[</span><span class="ot">X</span><span class="co">]</span> + E<span class="co">[</span><span class="ot">Y</span><span class="co">]</span>,$$</span>
-<span id="cb8-400"><a href="#cb8-400" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-401"><a href="#cb8-401" aria-hidden="true" tabindex="-1"></a>regardless of the relationships between $X$ and $Y$.</span>
-<span id="cb8-402"><a href="#cb8-402" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-403"><a href="#cb8-403" aria-hidden="true" tabindex="-1"></a>Using this property, we can calculate the expectations of $Y$ and $Z$ from Example 3:</span>
-<span id="cb8-404"><a href="#cb8-404" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-384"><a href="#cb8-384" aria-hidden="true" tabindex="-1"></a><span class="fu">### Properties of Expectation and Variance</span></span>
+<span id="cb8-385"><a href="#cb8-385" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-386"><a href="#cb8-386" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Linearity of Expectation</span></span>
+<span id="cb8-387"><a href="#cb8-387" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-388"><a href="#cb8-388" aria-hidden="true" tabindex="-1"></a>An important property in probability is the **linearity of expectation**. The expectation of the linear transformation $aX+b$, where $a$ and $b$ are constants, is:</span>
+<span id="cb8-389"><a href="#cb8-389" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-390"><a href="#cb8-390" aria-hidden="true" tabindex="-1"></a>$$E<span class="co">[</span><span class="ot">aX+b</span><span class="co">]</span> = aE<span class="co">[</span><span class="ot">\mathbb{X}</span><span class="co">]</span> + b.$$</span>
+<span id="cb8-391"><a href="#cb8-391" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-392"><a href="#cb8-392" aria-hidden="true" tabindex="-1"></a>Expectation is also linear in *sums* of random variables. For two random variables $X$ and $Y$, we have</span>
+<span id="cb8-393"><a href="#cb8-393" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-394"><a href="#cb8-394" aria-hidden="true" tabindex="-1"></a>$$E<span class="co">[</span><span class="ot">X+Y</span><span class="co">]</span> = E<span class="co">[</span><span class="ot">X</span><span class="co">]</span> + E<span class="co">[</span><span class="ot">Y</span><span class="co">]</span>,$$</span>
+<span id="cb8-395"><a href="#cb8-395" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-396"><a href="#cb8-396" aria-hidden="true" tabindex="-1"></a>regardless of the relationships between $X$ and $Y$.</span>
+<span id="cb8-397"><a href="#cb8-397" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-398"><a href="#cb8-398" aria-hidden="true" tabindex="-1"></a>Using this property, we can calculate the expectations of $Y$ and $Z$ from Example 3:</span>
+<span id="cb8-399"><a href="#cb8-399" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-400"><a href="#cb8-400" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-401"><a href="#cb8-401" aria-hidden="true" tabindex="-1"></a>\begin{align*}</span>
+<span id="cb8-402"><a href="#cb8-402" aria-hidden="true" tabindex="-1"></a>E<span class="co">[</span><span class="ot">Y</span><span class="co">]</span> &amp;= E<span class="co">[</span><span class="ot">2X_1</span><span class="co">]</span> = 2E<span class="co">[</span><span class="ot">X_1</span><span class="co">]</span> = 2\cdot \frac{7}{2} = 7<span class="sc">\\</span></span>
+<span id="cb8-403"><a href="#cb8-403" aria-hidden="true" tabindex="-1"></a>E<span class="co">[</span><span class="ot">Z</span><span class="co">]</span> &amp;= E<span class="co">[</span><span class="ot">X_1 + X_2</span><span class="co">]</span> = E<span class="co">[</span><span class="ot">X_1</span><span class="co">]</span> + E<span class="co">[</span><span class="ot">X_2</span><span class="co">]</span> = 7.</span>
+<span id="cb8-404"><a href="#cb8-404" aria-hidden="true" tabindex="-1"></a>\end{align*}</span>
 <span id="cb8-405"><a href="#cb8-405" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-406"><a href="#cb8-406" aria-hidden="true" tabindex="-1"></a>\begin{align*}</span>
-<span id="cb8-407"><a href="#cb8-407" aria-hidden="true" tabindex="-1"></a>E<span class="co">[</span><span class="ot">Y</span><span class="co">]</span> &amp;= E<span class="co">[</span><span class="ot">2X_1</span><span class="co">]</span> = 2E<span class="co">[</span><span class="ot">X_1</span><span class="co">]</span> = 2\cdot \frac{7}{2} = 7<span class="sc">\\</span></span>
-<span id="cb8-408"><a href="#cb8-408" aria-hidden="true" tabindex="-1"></a>E<span class="co">[</span><span class="ot">Z</span><span class="co">]</span> &amp;= E<span class="co">[</span><span class="ot">X_1 + X_2</span><span class="co">]</span> = E<span class="co">[</span><span class="ot">X_1</span><span class="co">]</span> + E<span class="co">[</span><span class="ot">X_2</span><span class="co">]</span> = 7.</span>
-<span id="cb8-409"><a href="#cb8-409" aria-hidden="true" tabindex="-1"></a>\end{align*}</span>
-<span id="cb8-410"><a href="#cb8-410" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-411"><a href="#cb8-411" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-412"><a href="#cb8-412" aria-hidden="true" tabindex="-1"></a>This confirms our simulated results.</span>
-<span id="cb8-413"><a href="#cb8-413" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-414"><a href="#cb8-414" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Variance of Linear Combinations, Covariance</span></span>
-<span id="cb8-415"><a href="#cb8-415" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-416"><a href="#cb8-416" aria-hidden="true" tabindex="-1"></a>Variance, on the other hand, does not have this nice linearity property. It is *non-linear*. The variance of the linear transformation $aX+b$ is:</span>
-<span id="cb8-417"><a href="#cb8-417" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-418"><a href="#cb8-418" aria-hidden="true" tabindex="-1"></a>$$\text{Var}(aX+b) = a^2 \text{Var}(X).$$</span>
+<span id="cb8-406"><a href="#cb8-406" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-407"><a href="#cb8-407" aria-hidden="true" tabindex="-1"></a>This confirms our simulated results.</span>
+<span id="cb8-408"><a href="#cb8-408" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-409"><a href="#cb8-409" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Variance of Linear Combinations, Covariance</span></span>
+<span id="cb8-410"><a href="#cb8-410" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-411"><a href="#cb8-411" aria-hidden="true" tabindex="-1"></a>Variance, on the other hand, does not have this nice linearity property. It is *non-linear*. The variance of the linear transformation $aX+b$ is:</span>
+<span id="cb8-412"><a href="#cb8-412" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-413"><a href="#cb8-413" aria-hidden="true" tabindex="-1"></a>$$\text{Var}(aX+b) = a^2 \text{Var}(X).$$</span>
+<span id="cb8-414"><a href="#cb8-414" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-415"><a href="#cb8-415" aria-hidden="true" tabindex="-1"></a>The full proof of this fact can be found using the definition of variance. As general intuition, consider that $aX+b$ scales the variable $X$ by a factor of $a$, then shifts the distribution of $X$ by $b$ units. </span>
+<span id="cb8-416"><a href="#cb8-416" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-417"><a href="#cb8-417" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Shifting the distribution by $b$ *does not* impact the *spread* of the distribution. Thus, $\text{Var}(aX+b) = \text{Var}(aX)$.</span>
+<span id="cb8-418"><a href="#cb8-418" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Scaling the distribution by $a$ *does* impact the spread of the distribution.</span>
 <span id="cb8-419"><a href="#cb8-419" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-420"><a href="#cb8-420" aria-hidden="true" tabindex="-1"></a>The full proof of this fact can be found using the definition of variance. As general intuition, consider that $aX+b$ scales the variable $X$ by a factor of $a$, then shifts the distribution of $X$ by $b$ units. </span>
+<span id="cb8-420"><a href="#cb8-420" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"images/transformation.png"</span> <span class="er">alt</span><span class="ot">=</span><span class="st">'transformation'</span> <span class="er">width</span><span class="ot">=</span><span class="st">'600'</span><span class="kw">&gt;</span></span>
 <span id="cb8-421"><a href="#cb8-421" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-422"><a href="#cb8-422" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Shifting the distribution by $b$ *does not* impact the *spread* of the distribution. Thus, $\text{Var}(aX+b) = \text{Var}(aX)$.</span>
-<span id="cb8-423"><a href="#cb8-423" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Scaling the distribution by $a$ *does* impact the spread of the distribution.</span>
-<span id="cb8-424"><a href="#cb8-424" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-425"><a href="#cb8-425" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"images/transformation.png"</span> <span class="er">alt</span><span class="ot">=</span><span class="st">'transformation'</span> <span class="er">width</span><span class="ot">=</span><span class="st">'600'</span><span class="kw">&gt;</span></span>
-<span id="cb8-426"><a href="#cb8-426" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-427"><a href="#cb8-427" aria-hidden="true" tabindex="-1"></a>If we wish to understand the spread in the distribution of the *summed* random variables $X + Y$, we can manipulate the definition of variance to find:</span>
-<span id="cb8-428"><a href="#cb8-428" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-429"><a href="#cb8-429" aria-hidden="true" tabindex="-1"></a>$$\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) + 2E<span class="co">[</span><span class="ot">(X-E[X])(Y-E[Y])</span><span class="co">]</span>$$</span>
-<span id="cb8-430"><a href="#cb8-430" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-431"><a href="#cb8-431" aria-hidden="true" tabindex="-1"></a>This last term is of special significance. We define the **covariance** of two random variables as the expected product of deviations from expectation:</span>
+<span id="cb8-422"><a href="#cb8-422" aria-hidden="true" tabindex="-1"></a>If we wish to understand the spread in the distribution of the *summed* random variables $X + Y$, we can manipulate the definition of variance to find:</span>
+<span id="cb8-423"><a href="#cb8-423" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-424"><a href="#cb8-424" aria-hidden="true" tabindex="-1"></a>$$\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) + 2E<span class="co">[</span><span class="ot">(X-E[X])(Y-E[Y])</span><span class="co">]</span>$$</span>
+<span id="cb8-425"><a href="#cb8-425" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-426"><a href="#cb8-426" aria-hidden="true" tabindex="-1"></a>This last term is of special significance. We define the **covariance** of two random variables as the expected product of deviations from expectation:</span>
+<span id="cb8-427"><a href="#cb8-427" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-428"><a href="#cb8-428" aria-hidden="true" tabindex="-1"></a>$$\text{Cov}(X, Y) = E<span class="co">[</span><span class="ot">(X - E[X])(Y - E[Y])</span><span class="co">]</span>.$$</span>
+<span id="cb8-429"><a href="#cb8-429" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-430"><a href="#cb8-430" aria-hidden="true" tabindex="-1"></a>You can think of covariance as a generalization of variance to *two* random variables: </span>
+<span id="cb8-431"><a href="#cb8-431" aria-hidden="true" tabindex="-1"></a>$$\text{Cov}(X, X) = E<span class="co">[</span><span class="ot">(X - E[X])^2</span><span class="co">]</span> = \text{Var}(X).$$</span>
 <span id="cb8-432"><a href="#cb8-432" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-433"><a href="#cb8-433" aria-hidden="true" tabindex="-1"></a>$$\text{Cov}(X, Y) = E<span class="co">[</span><span class="ot">(X - E[X])(Y - E[Y])</span><span class="co">]</span>.$$</span>
+<span id="cb8-433"><a href="#cb8-433" aria-hidden="true" tabindex="-1"></a>We can treat covariance as a measure of association. Remember the definition of correlation given when we first established SLR? The random variable version of the definition can be expressed as follows:</span>
 <span id="cb8-434"><a href="#cb8-434" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-435"><a href="#cb8-435" aria-hidden="true" tabindex="-1"></a>You can think of covariance as a generalization of variance to *two* random variables: </span>
-<span id="cb8-436"><a href="#cb8-436" aria-hidden="true" tabindex="-1"></a>$$\text{Cov}(X, X) = E<span class="co">[</span><span class="ot">(X - E[X])^2</span><span class="co">]</span> = \text{Var}(X).$$</span>
-<span id="cb8-437"><a href="#cb8-437" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-438"><a href="#cb8-438" aria-hidden="true" tabindex="-1"></a>We can treat covariance as a measure of association. Remember the definition of correlation given when we first established SLR? The random variable version of the definition can be expressed as follows:</span>
+<span id="cb8-435"><a href="#cb8-435" aria-hidden="true" tabindex="-1"></a>$$r(X, Y) = E\left<span class="co">[</span><span class="ot">\left(\frac{X-E[X]}{\text{SD}(X)}\right)\left(\frac{Y-E[Y]}{\text{SD}(Y)}\right)\right</span><span class="co">]</span> = \frac{\text{Cov}(X, Y)}{\text{SD}(X)\text{SD}(Y)}.$$</span>
+<span id="cb8-436"><a href="#cb8-436" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-437"><a href="#cb8-437" aria-hidden="true" tabindex="-1"></a>It turns out we've been quietly using covariance for some time now! If $X$ and $Y$ are independent, then $\text{Cov}(X, Y) =0$ and $r(X, Y) = 0$. Note, however, that the converse is not always true: $X$ and $Y$ could have $\text{Cov}(X, Y) = r(X, Y) = 0$ but not be independent. This means that the variance of a sum of independent random variables is the sum of their variances:</span>
+<span id="cb8-438"><a href="#cb8-438" aria-hidden="true" tabindex="-1"></a>$$\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) \qquad \text{if } X, Y \text{ are independent}$$</span>
 <span id="cb8-439"><a href="#cb8-439" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-440"><a href="#cb8-440" aria-hidden="true" tabindex="-1"></a>$$r(X, Y) = E\left<span class="co">[</span><span class="ot">\left(\frac{X-E[X]}{\text{SD}(X)}\right)\left(\frac{Y-E[Y]}{\text{SD}(Y)}\right)\right</span><span class="co">]</span> = \frac{\text{Cov}(X, Y)}{\text{SD}(X)\text{SD}(Y)}.$$</span>
+<span id="cb8-440"><a href="#cb8-440" aria-hidden="true" tabindex="-1"></a>As a side note, to find the standard deviation of a linear transformation $aX+b$, take the square root of the variance:</span>
 <span id="cb8-441"><a href="#cb8-441" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-442"><a href="#cb8-442" aria-hidden="true" tabindex="-1"></a>It turns out we've been quietly using covariance for some time now! If $X$ and $Y$ are independent, then $\text{Cov}(X, Y) =0$ and $r(X, Y) = 0$. Note, however, that the converse is not always true: $X$ and $Y$ could have $\text{Cov}(X, Y) = r(X, Y) = 0$ but not be independent. This means that the variance of a sum of independent random variables is the sum of their variances:</span>
-<span id="cb8-443"><a href="#cb8-443" aria-hidden="true" tabindex="-1"></a>$$\text{Var}(X + Y) = \text{Var}(X) + \text{Var}(Y) \qquad \text{if } X, Y \text{ are independent}$$</span>
-<span id="cb8-444"><a href="#cb8-444" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-445"><a href="#cb8-445" aria-hidden="true" tabindex="-1"></a>As a side note, to find the standard deviation of a linear transformation $aX+b$, take the square root of the variance:</span>
-<span id="cb8-446"><a href="#cb8-446" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-447"><a href="#cb8-447" aria-hidden="true" tabindex="-1"></a>$$\text{SD}(aX+b) = \sqrt{\text{Var}(aX+b)} = \sqrt{a^2 \text{Var}(X)} = |a|\text{SD}(X).$$</span>
-<span id="cb8-448"><a href="#cb8-448" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-449"><a href="#cb8-449" aria-hidden="true" tabindex="-1"></a>Using this, we can calculate the variances of $Y$ and $Z$ from Example 3:</span>
-<span id="cb8-450"><a href="#cb8-450" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-442"><a href="#cb8-442" aria-hidden="true" tabindex="-1"></a>$$\text{SD}(aX+b) = \sqrt{\text{Var}(aX+b)} = \sqrt{a^2 \text{Var}(X)} = |a|\text{SD}(X).$$</span>
+<span id="cb8-443"><a href="#cb8-443" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-444"><a href="#cb8-444" aria-hidden="true" tabindex="-1"></a>Using this, we can calculate the variances of $Y$ and $Z$ from Example 3:</span>
+<span id="cb8-445"><a href="#cb8-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-446"><a href="#cb8-446" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-447"><a href="#cb8-447" aria-hidden="true" tabindex="-1"></a>\begin{align*}</span>
+<span id="cb8-448"><a href="#cb8-448" aria-hidden="true" tabindex="-1"></a>\text{Var}(Y) &amp;= \text{Var}(2X_1) = 2^2\text{Var}(X_1) = 35/3 \approx 11.67<span class="sc">\\</span></span>
+<span id="cb8-449"><a href="#cb8-449" aria-hidden="true" tabindex="-1"></a>\text{Var}(Z) &amp;= \text{Var}(X_1 + X_2) = \text{Var}(X_1) + \text{Var}(X_2) = 35/6 \approx 5.83.</span>
+<span id="cb8-450"><a href="#cb8-450" aria-hidden="true" tabindex="-1"></a>\end{align*}</span>
 <span id="cb8-451"><a href="#cb8-451" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-452"><a href="#cb8-452" aria-hidden="true" tabindex="-1"></a>\begin{align*}</span>
-<span id="cb8-453"><a href="#cb8-453" aria-hidden="true" tabindex="-1"></a>\text{Var}(Y) &amp;= \text{Var}(2X_1) = 2^2\text{Var}(X_1) = 35/3 \approx 11.67<span class="sc">\\</span></span>
-<span id="cb8-454"><a href="#cb8-454" aria-hidden="true" tabindex="-1"></a>\text{Var}(Z) &amp;= \text{Var}(X_1 + X_2) = \text{Var}(X_1) + \text{Var}(X_2) = 35/6 \approx 5.83.</span>
-<span id="cb8-455"><a href="#cb8-455" aria-hidden="true" tabindex="-1"></a>\end{align*}</span>
-<span id="cb8-456"><a href="#cb8-456" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-457"><a href="#cb8-457" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-458"><a href="#cb8-458" aria-hidden="true" tabindex="-1"></a>This also confirms our simulation.</span>
-<span id="cb8-459"><a href="#cb8-459" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-460"><a href="#cb8-460" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example: Bernoulli and Binomial Random Variables</span></span>
-<span id="cb8-461"><a href="#cb8-461" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-462"><a href="#cb8-462" aria-hidden="true" tabindex="-1"></a>To solidify our understanding of expectation and variance. Let's revisit the Bernoulli distribution and Binomial distribution we introduced above.</span>
-<span id="cb8-463"><a href="#cb8-463" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-464"><a href="#cb8-464" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Expectation and Variance of Bernoulli</span></span>
-<span id="cb8-465"><a href="#cb8-465" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-466"><a href="#cb8-466" aria-hidden="true" tabindex="-1"></a>Let $X$ be a Bernoulli($p$) random variable. We denote this as $X \sim \text{Bernoulli}(p)$. This means that $X$ takes on the value $1$ with probability $p$ and $0$ with probability $1-p$. We can therefore calculate its expectation as follows:</span>
-<span id="cb8-467"><a href="#cb8-467" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-468"><a href="#cb8-468" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-469"><a href="#cb8-469" aria-hidden="true" tabindex="-1"></a>\begin{align*}</span>
-<span id="cb8-470"><a href="#cb8-470" aria-hidden="true" tabindex="-1"></a>E<span class="co">[</span><span class="ot">X</span><span class="co">]</span> &amp;= \sum_{\text{all possible } x} xP(X = x)<span class="sc">\\</span></span>
-<span id="cb8-471"><a href="#cb8-471" aria-hidden="true" tabindex="-1"></a>&amp;= 1 \cdot p + 0 \cdot (1-p) <span class="sc">\\</span></span>
-<span id="cb8-472"><a href="#cb8-472" aria-hidden="true" tabindex="-1"></a>&amp;= p.</span>
-<span id="cb8-473"><a href="#cb8-473" aria-hidden="true" tabindex="-1"></a>\end{align*}</span>
-<span id="cb8-474"><a href="#cb8-474" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-475"><a href="#cb8-475" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-476"><a href="#cb8-476" aria-hidden="true" tabindex="-1"></a>It is important to note that the expectation of a random variable does not need to be a possible value of the random variable. In this case, the possible values of $X$ are $<span class="sc">\{</span>0, 1<span class="sc">\}</span>$, but its expectation is $p$, not necessarily $0$ or $1$. </span>
-<span id="cb8-477"><a href="#cb8-477" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-478"><a href="#cb8-478" aria-hidden="true" tabindex="-1"></a>To calculate its variance, we use the computation formula $\text{Var}(X) = E<span class="co">[</span><span class="ot">X^2</span><span class="co">]</span> - (E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>)^2$. We first need $E<span class="co">[</span><span class="ot">X^2</span><span class="co">]</span>$:</span>
-<span id="cb8-479"><a href="#cb8-479" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-480"><a href="#cb8-480" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-481"><a href="#cb8-481" aria-hidden="true" tabindex="-1"></a>\begin{align*}</span>
-<span id="cb8-482"><a href="#cb8-482" aria-hidden="true" tabindex="-1"></a>E<span class="co">[</span><span class="ot">X^2</span><span class="co">]</span> &amp;= \sum_{\text{all possible } x} x^2 P(X = x)<span class="sc">\\</span></span>
-<span id="cb8-483"><a href="#cb8-483" aria-hidden="true" tabindex="-1"></a>&amp;= 1^2 \cdot p + 0^2 \cdot (1-p)<span class="sc">\\</span></span>
-<span id="cb8-484"><a href="#cb8-484" aria-hidden="true" tabindex="-1"></a>&amp;= p.</span>
-<span id="cb8-485"><a href="#cb8-485" aria-hidden="true" tabindex="-1"></a>\end{align*}</span>
-<span id="cb8-486"><a href="#cb8-486" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-487"><a href="#cb8-487" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-488"><a href="#cb8-488" aria-hidden="true" tabindex="-1"></a>Then we can calculate $\text{Var}(X)$:</span>
-<span id="cb8-489"><a href="#cb8-489" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-490"><a href="#cb8-490" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-491"><a href="#cb8-491" aria-hidden="true" tabindex="-1"></a>\text{Var}(X) = E<span class="co">[</span><span class="ot">X^2</span><span class="co">]</span> - (E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>)^2 = p - p^2 = p(1-p).</span>
-<span id="cb8-492"><a href="#cb8-492" aria-hidden="true" tabindex="-1"></a>$$ </span>
-<span id="cb8-493"><a href="#cb8-493" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-494"><a href="#cb8-494" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Expectation and Variance of Binomial</span></span>
-<span id="cb8-495"><a href="#cb8-495" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-496"><a href="#cb8-496" aria-hidden="true" tabindex="-1"></a>If we take the sum of $n$ independent Bernoulli random variables with probability $p$, we get a Binomial random variable with parameters $n$ and $p$. Let $X_1, X_2, \dots, X_n$ be i.i.d. Bernoulli random variables with parameter $p$, then we can define a random variable $Y$ as a sum of the $X_i$'s:</span>
-<span id="cb8-497"><a href="#cb8-497" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-498"><a href="#cb8-498" aria-hidden="true" tabindex="-1"></a>$$Y = \sum_{i=1}^n X_i.$$</span>
-<span id="cb8-499"><a href="#cb8-499" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-500"><a href="#cb8-500" aria-hidden="true" tabindex="-1"></a>$Y$ follows the Binomial distribution with parameters $n$ and $p$. We denote this as $Y \sim \text{Binomial}(n, p).$ We can calculate its expectation:</span>
-<span id="cb8-501"><a href="#cb8-501" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-502"><a href="#cb8-502" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-503"><a href="#cb8-503" aria-hidden="true" tabindex="-1"></a>\begin{align*}</span>
-<span id="cb8-504"><a href="#cb8-504" aria-hidden="true" tabindex="-1"></a>E<span class="co">[</span><span class="ot">Y</span><span class="co">]</span> &amp;= E\Big<span class="co">[</span><span class="ot">\sum_{i=1}^n X_i\Big</span><span class="co">]</span>= \sum_{i=1}^n E<span class="co">[</span><span class="ot">X_i</span><span class="co">]</span> = \sum_{i=1}^n p = np.</span>
-<span id="cb8-505"><a href="#cb8-505" aria-hidden="true" tabindex="-1"></a>\end{align*}</span>
+<span id="cb8-452"><a href="#cb8-452" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-453"><a href="#cb8-453" aria-hidden="true" tabindex="-1"></a>This also confirms our simulation.</span>
+<span id="cb8-454"><a href="#cb8-454" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-455"><a href="#cb8-455" aria-hidden="true" tabindex="-1"></a><span class="fu">### Example: Bernoulli and Binomial Random Variables</span></span>
+<span id="cb8-456"><a href="#cb8-456" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-457"><a href="#cb8-457" aria-hidden="true" tabindex="-1"></a>To solidify our understanding of expectation and variance. Let's revisit the Bernoulli distribution and Binomial distribution we introduced above.</span>
+<span id="cb8-458"><a href="#cb8-458" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-459"><a href="#cb8-459" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Expectation and Variance of Bernoulli</span></span>
+<span id="cb8-460"><a href="#cb8-460" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-461"><a href="#cb8-461" aria-hidden="true" tabindex="-1"></a>Let $X$ be a Bernoulli($p$) random variable. We denote this as $X \sim \text{Bernoulli}(p)$. This means that $X$ takes on the value $1$ with probability $p$ and $0$ with probability $1-p$. We can therefore calculate its expectation as follows:</span>
+<span id="cb8-462"><a href="#cb8-462" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-463"><a href="#cb8-463" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-464"><a href="#cb8-464" aria-hidden="true" tabindex="-1"></a>\begin{align*}</span>
+<span id="cb8-465"><a href="#cb8-465" aria-hidden="true" tabindex="-1"></a>E<span class="co">[</span><span class="ot">X</span><span class="co">]</span> &amp;= \sum_{\text{all possible } x} xP(X = x)<span class="sc">\\</span></span>
+<span id="cb8-466"><a href="#cb8-466" aria-hidden="true" tabindex="-1"></a>&amp;= 1 \cdot p + 0 \cdot (1-p) <span class="sc">\\</span></span>
+<span id="cb8-467"><a href="#cb8-467" aria-hidden="true" tabindex="-1"></a>&amp;= p.</span>
+<span id="cb8-468"><a href="#cb8-468" aria-hidden="true" tabindex="-1"></a>\end{align*}</span>
+<span id="cb8-469"><a href="#cb8-469" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-470"><a href="#cb8-470" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-471"><a href="#cb8-471" aria-hidden="true" tabindex="-1"></a>It is important to note that the expectation of a random variable does not need to be a possible value of the random variable. In this case, the possible values of $X$ are $<span class="sc">\{</span>0, 1<span class="sc">\}</span>$, but its expectation is $p$, not necessarily $0$ or $1$. </span>
+<span id="cb8-472"><a href="#cb8-472" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-473"><a href="#cb8-473" aria-hidden="true" tabindex="-1"></a>To calculate its variance, we use the computation formula $\text{Var}(X) = E<span class="co">[</span><span class="ot">X^2</span><span class="co">]</span> - (E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>)^2$. We first need $E<span class="co">[</span><span class="ot">X^2</span><span class="co">]</span>$:</span>
+<span id="cb8-474"><a href="#cb8-474" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-475"><a href="#cb8-475" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-476"><a href="#cb8-476" aria-hidden="true" tabindex="-1"></a>\begin{align*}</span>
+<span id="cb8-477"><a href="#cb8-477" aria-hidden="true" tabindex="-1"></a>E<span class="co">[</span><span class="ot">X^2</span><span class="co">]</span> &amp;= \sum_{\text{all possible } x} x^2 P(X = x)<span class="sc">\\</span></span>
+<span id="cb8-478"><a href="#cb8-478" aria-hidden="true" tabindex="-1"></a>&amp;= 1^2 \cdot p + 0^2 \cdot (1-p)<span class="sc">\\</span></span>
+<span id="cb8-479"><a href="#cb8-479" aria-hidden="true" tabindex="-1"></a>&amp;= p.</span>
+<span id="cb8-480"><a href="#cb8-480" aria-hidden="true" tabindex="-1"></a>\end{align*}</span>
+<span id="cb8-481"><a href="#cb8-481" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-482"><a href="#cb8-482" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-483"><a href="#cb8-483" aria-hidden="true" tabindex="-1"></a>Then we can calculate $\text{Var}(X)$:</span>
+<span id="cb8-484"><a href="#cb8-484" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-485"><a href="#cb8-485" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-486"><a href="#cb8-486" aria-hidden="true" tabindex="-1"></a>\text{Var}(X) = E<span class="co">[</span><span class="ot">X^2</span><span class="co">]</span> - (E<span class="co">[</span><span class="ot">X</span><span class="co">]</span>)^2 = p - p^2 = p(1-p).</span>
+<span id="cb8-487"><a href="#cb8-487" aria-hidden="true" tabindex="-1"></a>$$ </span>
+<span id="cb8-488"><a href="#cb8-488" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-489"><a href="#cb8-489" aria-hidden="true" tabindex="-1"></a><span class="fu">#### Expectation and Variance of Binomial</span></span>
+<span id="cb8-490"><a href="#cb8-490" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-491"><a href="#cb8-491" aria-hidden="true" tabindex="-1"></a>If we take the sum of $n$ independent Bernoulli random variables with probability $p$, we get a Binomial random variable with parameters $n$ and $p$. Let $X_1, X_2, \dots, X_n$ be i.i.d. Bernoulli random variables with parameter $p$, then we can define a random variable $Y$ as a sum of the $X_i$'s:</span>
+<span id="cb8-492"><a href="#cb8-492" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-493"><a href="#cb8-493" aria-hidden="true" tabindex="-1"></a>$$Y = \sum_{i=1}^n X_i.$$</span>
+<span id="cb8-494"><a href="#cb8-494" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-495"><a href="#cb8-495" aria-hidden="true" tabindex="-1"></a>$Y$ follows the Binomial distribution with parameters $n$ and $p$. We denote this as $Y \sim \text{Binomial}(n, p).$ We can calculate its expectation:</span>
+<span id="cb8-496"><a href="#cb8-496" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-497"><a href="#cb8-497" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-498"><a href="#cb8-498" aria-hidden="true" tabindex="-1"></a>\begin{align*}</span>
+<span id="cb8-499"><a href="#cb8-499" aria-hidden="true" tabindex="-1"></a>E<span class="co">[</span><span class="ot">Y</span><span class="co">]</span> &amp;= E\Big<span class="co">[</span><span class="ot">\sum_{i=1}^n X_i\Big</span><span class="co">]</span>= \sum_{i=1}^n E<span class="co">[</span><span class="ot">X_i</span><span class="co">]</span> = \sum_{i=1}^n p = np.</span>
+<span id="cb8-500"><a href="#cb8-500" aria-hidden="true" tabindex="-1"></a>\end{align*}</span>
+<span id="cb8-501"><a href="#cb8-501" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-502"><a href="#cb8-502" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-503"><a href="#cb8-503" aria-hidden="true" tabindex="-1"></a>The second step follows from the linearity of expectation, and the third step comes from the expectation of a $\text{Bernoulli}(p)$ random variable. </span>
+<span id="cb8-504"><a href="#cb8-504" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-505"><a href="#cb8-505" aria-hidden="true" tabindex="-1"></a>We can also calculate the variance, using the properties of variance:</span>
 <span id="cb8-506"><a href="#cb8-506" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-507"><a href="#cb8-507" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-508"><a href="#cb8-508" aria-hidden="true" tabindex="-1"></a>The second step follows from the linearity of expectation, and the third step comes from the expectation of a $\text{Bernoulli}(p)$ random variable. </span>
+<span id="cb8-507"><a href="#cb8-507" aria-hidden="true" tabindex="-1"></a>\text{Var}(Y) = \text{Var}\Big(\sum_{i=1}^n X_i\Big) = \sum_{i=1}^n \text{Var}(X_i) = \sum_{i=1}^n p(1-p) = np(1-p),</span>
+<span id="cb8-508"><a href="#cb8-508" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb8-509"><a href="#cb8-509" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-510"><a href="#cb8-510" aria-hidden="true" tabindex="-1"></a>We can also calculate the variance, using the properties of variance:</span>
-<span id="cb8-511"><a href="#cb8-511" aria-hidden="true" tabindex="-1"></a>$$</span>
-<span id="cb8-512"><a href="#cb8-512" aria-hidden="true" tabindex="-1"></a>\text{Var}(Y) = \text{Var}\Big(\sum_{i=1}^n X_i\Big) = \sum_{i=1}^n \text{Var}(X_i) = \sum_{i=1}^n p(1-p) = np(1-p),</span>
-<span id="cb8-513"><a href="#cb8-513" aria-hidden="true" tabindex="-1"></a>$$</span>
+<span id="cb8-510"><a href="#cb8-510" aria-hidden="true" tabindex="-1"></a>where the second step follows from the variance of sums of independent random variables, and the third steps comes from the variance of a $\text{Bernoulli}(p)$ random variable.</span>
+<span id="cb8-511"><a href="#cb8-511" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-512"><a href="#cb8-512" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-513"><a href="#cb8-513" aria-hidden="true" tabindex="-1"></a><span class="fu">## Populations and Samples</span></span>
 <span id="cb8-514"><a href="#cb8-514" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-515"><a href="#cb8-515" aria-hidden="true" tabindex="-1"></a>where the second step follows from the variance of sums of independent random variables, and the third steps comes from the variance of a $\text{Bernoulli}(p)$ random variable.</span>
+<span id="cb8-515"><a href="#cb8-515" aria-hidden="true" tabindex="-1"></a>Up to this point, we've been talking about the concept of a **distribution** – a statement of all possible values that a random variable can take on, as well as the probability of the variable taking on each value. Knowing the full distribution is the same as knowing the full **population**. For example, in Example 2, we were able to display the probability distribution table of the number of data science students in our sample because we know the population of Data 100 students: how many enrolled students there are in total, and how many enrolled students are data science majors.</span>
 <span id="cb8-516"><a href="#cb8-516" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-517"><a href="#cb8-517" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-518"><a href="#cb8-518" aria-hidden="true" tabindex="-1"></a><span class="fu">## Populations and Samples</span></span>
-<span id="cb8-519"><a href="#cb8-519" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-520"><a href="#cb8-520" aria-hidden="true" tabindex="-1"></a>Up to this point, we've been talking about the concept of a **distribution** – a statement of all possible values that a random variable can take on, as well as the probability of the variable taking on each value. Knowing the full distribution is the same as knowing the full **population**. For example, in Example 2, we were able to display the probability distribution table of the number of data science students in our sample because we know the population of Data 100 students: how many enrolled students there are in total, and how many enrolled students are data science majors.</span>
-<span id="cb8-521"><a href="#cb8-521" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-522"><a href="#cb8-522" aria-hidden="true" tabindex="-1"></a>In data science, however, we seldom have access to the entire population we wish to investigate. If we want to understand the distribution of a random variable across the population, we often need to use the empirical distribution of collected samples to *infer* the distribution of the population. <span class="co">[</span><span class="ot">The Law of Averages</span><span class="co">](https://inferentialthinking.com/chapters/10/1/Empirical_Distributions.html#the-law-of-averages)</span> from Data 8 tells us that, with high probability, the empirical distribution of a large random sample will resemble the distribution of the population from which the sample was drawn. For example, to understand the distribution of heights of people across the US population, we can't directly survey every single person in the country, so we might instead take samples of heights and use them to estimate the population's distribution.</span>
-<span id="cb8-523"><a href="#cb8-523" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-524"><a href="#cb8-524" aria-hidden="true" tabindex="-1"></a><span class="fu">### Parameters and Statistics</span></span>
-<span id="cb8-525"><a href="#cb8-525" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-526"><a href="#cb8-526" aria-hidden="true" tabindex="-1"></a>A common situation is wishing to know some **parameters** of a population. Parameters are numerical quantities associated with a population. Population mean, median, maximum, minimum, and proportion are some examples of parameters. For example, the average height of all people in the US, the total number of participants in this year's Berkeley Half-Marathon, or the percentage of voters that will vote for a candidate.</span>
-<span id="cb8-527"><a href="#cb8-527" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-528"><a href="#cb8-528" aria-hidden="true" tabindex="-1"></a>It is important to note that, similar to expectations and variances, population parameters are fixed values.</span>
-<span id="cb8-529"><a href="#cb8-529" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-530"><a href="#cb8-530" aria-hidden="true" tabindex="-1"></a>For reasons mentioned above, we often don't have access to the entire population, therefore these population parameters— even though fixed—are unknown to us. To estimate these unknown parameters, we rely on **sample statistics** computed on samples drawn from the population. Statistics are numerical quantities computed using the data in samples. Sample mean, sample median, and sample proportion are examples of statistics.</span>
-<span id="cb8-531"><a href="#cb8-531" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-532"><a href="#cb8-532" aria-hidden="true" tabindex="-1"></a>For example, in order to understand the average height of the US population, we can take samples from the US population, compute the sample mean, and use it to estimate the population mean.</span>
-<span id="cb8-533"><a href="#cb8-533" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-534"><a href="#cb8-534" aria-hidden="true" tabindex="-1"></a>It is important to note that sample statistics are random variables, due to the randomness of the sample.</span>
-<span id="cb8-535"><a href="#cb8-535" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-536"><a href="#cb8-536" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Central Limit Theorem</span></span>
-<span id="cb8-537"><a href="#cb8-537" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-538"><a href="#cb8-538" aria-hidden="true" tabindex="-1"></a>Much effort has been devoted in data science and statistics to understand one particular sample statistic: the sample mean. This includes the Central Limit Theorem. You encountered this before in <span class="co">[</span><span class="ot">Data 8</span><span class="co">](https://inferentialthinking.com/chapters/14/4/Central_Limit_Theorem.html?)</span>. </span>
-<span id="cb8-539"><a href="#cb8-539" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-540"><a href="#cb8-540" aria-hidden="true" tabindex="-1"></a>The Central Limit Theorem states that the probability distribution of the sum or average of a large random sample drawn with replacement will be roughly normal, regardless of the distribution of the population from which the sample is drawn.</span>
-<span id="cb8-541"><a href="#cb8-541" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-542"><a href="#cb8-542" aria-hidden="true" tabindex="-1"></a>In simpler terms, if we</span>
+<span id="cb8-517"><a href="#cb8-517" aria-hidden="true" tabindex="-1"></a>In data science, however, we seldom have access to the entire population we wish to investigate. If we want to understand the distribution of a random variable across the population, we often need to use the empirical distribution of collected samples to *infer* the distribution of the population. <span class="co">[</span><span class="ot">The Law of Averages</span><span class="co">](https://inferentialthinking.com/chapters/10/1/Empirical_Distributions.html#the-law-of-averages)</span> from Data 8 tells us that, with high probability, the empirical distribution of a large random sample will resemble the distribution of the population from which the sample was drawn. For example, to understand the distribution of heights of people across the US population, we can't directly survey every single person in the country, so we might instead take samples of heights and use them to estimate the population's distribution.</span>
+<span id="cb8-518"><a href="#cb8-518" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-519"><a href="#cb8-519" aria-hidden="true" tabindex="-1"></a><span class="fu">### Parameters and Statistics</span></span>
+<span id="cb8-520"><a href="#cb8-520" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-521"><a href="#cb8-521" aria-hidden="true" tabindex="-1"></a>A common situation is wishing to know some **parameters** of a population. Parameters are numerical quantities associated with a population. Population mean, median, maximum, minimum, and proportion are some examples of parameters. For example, the average height of all people in the US, the total number of participants in this year's Berkeley Half-Marathon, or the percentage of voters that will vote for a candidate.</span>
+<span id="cb8-522"><a href="#cb8-522" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-523"><a href="#cb8-523" aria-hidden="true" tabindex="-1"></a>It is important to note that, similar to expectations and variances, population parameters are fixed values.</span>
+<span id="cb8-524"><a href="#cb8-524" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-525"><a href="#cb8-525" aria-hidden="true" tabindex="-1"></a>For reasons mentioned above, we often don't have access to the entire population, therefore these population parameters— even though fixed—are unknown to us. To estimate these unknown parameters, we rely on **sample statistics** computed on samples drawn from the population. Statistics are numerical quantities computed using the data in samples. Sample mean, sample median, and sample proportion are examples of statistics.</span>
+<span id="cb8-526"><a href="#cb8-526" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-527"><a href="#cb8-527" aria-hidden="true" tabindex="-1"></a>For example, in order to understand the average height of the US population, we can take samples from the US population, compute the sample mean, and use it to estimate the population mean.</span>
+<span id="cb8-528"><a href="#cb8-528" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-529"><a href="#cb8-529" aria-hidden="true" tabindex="-1"></a>It is important to note that sample statistics are random variables, due to the randomness of the sample.</span>
+<span id="cb8-530"><a href="#cb8-530" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-531"><a href="#cb8-531" aria-hidden="true" tabindex="-1"></a><span class="fu">### The Central Limit Theorem</span></span>
+<span id="cb8-532"><a href="#cb8-532" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-533"><a href="#cb8-533" aria-hidden="true" tabindex="-1"></a>Much effort has been devoted in data science and statistics to understand one particular sample statistic: the sample mean. This includes the Central Limit Theorem. You encountered this before in <span class="co">[</span><span class="ot">Data 8</span><span class="co">](https://inferentialthinking.com/chapters/14/4/Central_Limit_Theorem.html?)</span>. </span>
+<span id="cb8-534"><a href="#cb8-534" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-535"><a href="#cb8-535" aria-hidden="true" tabindex="-1"></a>The Central Limit Theorem states that the probability distribution of the sum or average of a large random sample drawn with replacement will be roughly normal, regardless of the distribution of the population from which the sample is drawn.</span>
+<span id="cb8-536"><a href="#cb8-536" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-537"><a href="#cb8-537" aria-hidden="true" tabindex="-1"></a>In simpler terms, if we</span>
+<span id="cb8-538"><a href="#cb8-538" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-539"><a href="#cb8-539" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Draw a sample of size $n$ from a population with mean $\mu$ and standard deviation $\sigma$,</span>
+<span id="cb8-540"><a href="#cb8-540" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Compute the mean of this sample; call it $\bar{X}_n$, and</span>
+<span id="cb8-541"><a href="#cb8-541" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Repeat this process: draw many more samples and compute the mean of each, </span>
+<span id="cb8-542"><a href="#cb8-542" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Then the distribution of these sample means is normal with standard deviation $\sigma/\sqrt{n}$ and mean equal to the population mean, $\mu$</span>
 <span id="cb8-543"><a href="#cb8-543" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-544"><a href="#cb8-544" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Draw a sample of size $n$ from a population with mean $\mu$ and standard deviation $\sigma$,</span>
-<span id="cb8-545"><a href="#cb8-545" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Compute the mean of this sample; call it $\bar{X}_n$, and</span>
-<span id="cb8-546"><a href="#cb8-546" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Repeat this process: draw many more samples and compute the mean of each, </span>
-<span id="cb8-547"><a href="#cb8-547" aria-hidden="true" tabindex="-1"></a><span class="ss">* </span>Then the distribution of these sample means is normal with standard deviation $\sigma/\sqrt{n}$ and mean equal to the population mean, $\mu$</span>
-<span id="cb8-548"><a href="#cb8-548" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-549"><a href="#cb8-549" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"images/clt.png"</span> <span class="er">alt</span><span class="ot">=</span><span class="st">'clt'</span> <span class="er">width</span><span class="ot">=</span><span class="st">'600'</span><span class="kw">&gt;</span></span>
-<span id="cb8-550"><a href="#cb8-550" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-551"><a href="#cb8-551" aria-hidden="true" tabindex="-1"></a>Importantly, the CLT assumes that each observation in our samples is drawn i.i.d. from the distribution of the population. In addition, the CLT is accurate only when sample size $n$ is "large." What counts as a "large" sample size depends on the specific distribution. If a population is highly symmetric and unimodal, we could need as few as $n=20$; if a population is very skewed, we need a larger $n$. A probability class like Data 140 investigates this idea in greater details.</span>
-<span id="cb8-552"><a href="#cb8-552" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-553"><a href="#cb8-553" aria-hidden="true" tabindex="-1"></a>Why is this helpful? Consider what might happen if we estimated the population distribution from just *one* sample. If we happened, by random chance, to draw a sample with a different mean or spread than that of the population, we might get a skewed view of how the population behaves (consider the extreme case where we happen to sample the exact same value $n$ times!). By drawing many samples, we can consider how the sample distribution varies across multiple subsets of the data. This allows us to approximate the properties of the population without the need to survey every single member. </span>
-<span id="cb8-554"><a href="#cb8-554" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-555"><a href="#cb8-555" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"images/CLTdiff.png"</span> <span class="er">alt</span><span class="ot">=</span><span class="st">'clt'</span> <span class="er">width</span><span class="ot">=</span><span class="st">'400'</span><span class="kw">&gt;</span></span>
-<span id="cb8-556"><a href="#cb8-556" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-557"><a href="#cb8-557" aria-hidden="true" tabindex="-1"></a>Notice the difference in variation between the two distributions that are different in sample size. The distribution with bigger sample size ($n=800$) is tighter around the mean than the distribution with smaller sample size ($n=200$). Try plugging in these values into the standard deviation equation for the normal distribution to make sense of this! </span>
+<span id="cb8-544"><a href="#cb8-544" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"images/clt.png"</span> <span class="er">alt</span><span class="ot">=</span><span class="st">'clt'</span> <span class="er">width</span><span class="ot">=</span><span class="st">'600'</span><span class="kw">&gt;</span></span>
+<span id="cb8-545"><a href="#cb8-545" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-546"><a href="#cb8-546" aria-hidden="true" tabindex="-1"></a>Importantly, the CLT assumes that each observation in our samples is drawn i.i.d. from the distribution of the population. In addition, the CLT is accurate only when sample size $n$ is "large." What counts as a "large" sample size depends on the specific distribution. If a population is highly symmetric and unimodal, we could need as few as $n=20$; if a population is very skewed, we need a larger $n$. A probability class like Data 140 investigates this idea in greater details.</span>
+<span id="cb8-547"><a href="#cb8-547" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-548"><a href="#cb8-548" aria-hidden="true" tabindex="-1"></a>Why is this helpful? Consider what might happen if we estimated the population distribution from just *one* sample. If we happened, by random chance, to draw a sample with a different mean or spread than that of the population, we might get a skewed view of how the population behaves (consider the extreme case where we happen to sample the exact same value $n$ times!). By drawing many samples, we can consider how the sample distribution varies across multiple subsets of the data. This allows us to approximate the properties of the population without the need to survey every single member. </span>
+<span id="cb8-549"><a href="#cb8-549" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-550"><a href="#cb8-550" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"images/CLTdiff.png"</span> <span class="er">alt</span><span class="ot">=</span><span class="st">'clt'</span> <span class="er">width</span><span class="ot">=</span><span class="st">'400'</span><span class="kw">&gt;</span></span>
+<span id="cb8-551"><a href="#cb8-551" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-552"><a href="#cb8-552" aria-hidden="true" tabindex="-1"></a>Notice the difference in variation between the two distributions that are different in sample size. The distribution with bigger sample size ($n=800$) is tighter around the mean than the distribution with smaller sample size ($n=200$). Try plugging in these values into the standard deviation equation for the normal distribution to make sense of this! </span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->

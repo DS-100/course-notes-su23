@@ -244,6 +244,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Random Variables</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../probability_2/probability_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Model Bias, Variance, and Inference</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -433,23 +439,23 @@ Learning Outcomes
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>np.random.multinomial(<span class="dv">100</span>, [<span class="fl">0.60</span>, <span class="fl">0.30</span>, <span class="fl">0.10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>array([63, 31,  6])</code></pre>
+<pre><code>array([61, 33,  6])</code></pre>
 </div>
 </div>
 <p>This method allows us to generate, say, 10 samples of size 100 using the <code>size</code> parameter:</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>np.random.multinomial(<span class="dv">100</span>, [<span class="fl">0.60</span>, <span class="fl">0.30</span>, <span class="fl">0.10</span>], size<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>array([[64, 29,  7],
-       [63, 30,  7],
-       [60, 32,  8],
-       [67, 25,  8],
-       [54, 35, 11],
-       [67, 26,  7],
-       [65, 26,  9],
-       [58, 32, 10],
-       [67, 24,  9],
-       [59, 28, 13]])</code></pre>
+<pre><code>array([[61, 32,  7],
+       [55, 35, 10],
+       [56, 37,  7],
+       [66, 25,  9],
+       [52, 41,  7],
+       [53, 32, 15],
+       [66, 23, 11],
+       [51, 36, 13],
+       [53, 32, 15],
+       [54, 30, 16]])</code></pre>
 </div>
 </div>
 </section>

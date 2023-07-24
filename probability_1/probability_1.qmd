@@ -18,6 +18,7 @@ jupyter: python3
 * Define a random variable in terms of its distribution
 * Compute the expectation and variance of a random variable
 * Gain familiarity with the Bernoulli and binomial random variables
+* Apply the Central Limit Theorem to approximate parameters of a population
 :::
 
 In the past few lectures, we've examined the role of complexity in influencing model performance. We've considered model complexity in the context of a tradeoff between two competing factors: model variance and training error. 
@@ -93,13 +94,7 @@ Specifying these two things is specifying the **distribution** of a random varia
 
 :::: 
 
-::: {.callout-Definition collapse="false"}
-
-The **distribution** of a random variable $X$ is a description of how the total probability of 100% is split over all the possible values of $X$.
-
-A distribution fully defines a random variable.
-
-:::
+The **distribution** of a random variable $X$ is a description of how the total probability of 100% is split over all the possible values of $X$. A distribution fully defines a random variable.
 
 :::: {.columns}
 
@@ -123,17 +118,17 @@ The distribution of a discrete variable can also be represented using a histogra
 
 #### Named Distributions
 
-Apart from probability distribution tables, histograms, and density curves, we can also specify the distribution of a random variable using their names, since they are used very often. Usually they also have *parameters*, which are constants associated with the distribution. They define a random variable's shape and possible values.
+Apart from probability distribution tables, histograms, and density curves, we can also specify the distribution of some random variables using their names, if they are used often enough. Usually they also have *parameters*, which are constants associated with the distribution. They define a random variable's shape and possible values.
 
 **Bernoulli**($p$): This is the distribution of a binary random variable that takes on value $1$ with some probability $p$, and value $0$ with probability $1-p$. Bernoulli random variables are often referred to as "indicator variables". The random variable $X$ we defined in Example 1 follows the Bernoulli distribution with $p=0.5$.
 
 **Binomial**($n$, $p$): If we take the sum of $n$ independent Bernoulli random variables with probability $p$, we get a Binomial random variable with parameters $n$ and $p$. In the context of Example, 1, if we toss the fair coin $n$ times and record the total number of times the coin lands heads, the result will be Binomial($n$, $0.5$).
 
-**Uniform** on a *finite* set of possible values: This is the distribution that makes all elements of the set of possible values equally likely. For example, if we roll a standard 6-sided die, the result of the roll will be Uniform on the set of numbers $\{1, 2, \dots, 6\}$.
+**Uniform** on a *finite* set of possible values: This is the distribution that makes all elements of the set of possible values equally likely. For example, if we roll a standard 6-sided die, the result of the roll will be Uniform on the set of numbers $\{1, 2, 3, 4, 5, 6\}$.
 
-**Uniform** on an *infinite* set of possible values: This is the distribution of a continuous random variables that have equal *density* on all of its possible values. The Uniform random variable on the unit interval $(0, 1)$ is a special one—its density curve is flat on $(0, 1)$ and $0$ elsewhere.
+**Uniform** on an *infinite* set of possible values: This is the distribution of a continuous random variable that has equal *density* on all of its possible values. The Uniform random variable on the unit interval $(0, 1)$ is a special one—its density curve is flat on $(0, 1)$ and $0$ elsewhere.
 
-**Normal**($\mu, \sigma^2$): This is probably the most well-known probability distribution, also known as the Gaussian distribution. Normal random variables are continuous, so they have density curves. The parameters $\mu$ and $\sigma^2$ specify the center (i.e. mean) and spread (i.e. variance) of the density curve. You've seen Normal random variables arise from the Central Limit Theorem in Data 8. We will also explore this very soon.
+**Normal**($\mu, \sigma^2$): This is probably the most well-known probability distribution, also known as the Gaussian distribution. Normal random variables are continuous, so they have density curves. The parameters $\mu$ and $\sigma^2$ specify the center (i.e. mean) and spread (i.e. variance) of the density curve. You've seen Normal random variables arise from the Central Limit Theorem in Data 8. We will also explore this in a later section.
 
 ## Expectation and Variance
 
