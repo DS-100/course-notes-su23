@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-{"headings":["what-is-a-model","reasons-for-building-models","common-types-of-models","simple-linear-regression","notations-and-definitions","standard-units","correlation","alternate-form","derivation","the-modeling-process","choosing-a-model","choosing-a-loss-function","fitting-the-model","evaluating-performance"],"options":{"chapters":true},"entries":[]}
-=======
-{"options":{"chapters":true},"entries":[],"headings":["what-is-a-model","reasons-for-building-models","common-types-of-models","simple-linear-regression","notations-and-definitions","standard-units","correlation","alternate-form","derivation","the-modeling-process","choosing-a-model","choosing-a-loss-function","fitting-the-model","evaluating-performance"]}
->>>>>>> eb04e8ed7999d6674be465ecdb57b23aff8b6c4d
+{"entries":[],"options":{"chapters":true},"headings":["what-is-a-model","reasons-for-building-models","common-types-of-models","simple-linear-regression","notations-and-definitions","standard-units","correlation","alternate-form","derivation","the-modeling-process","choosing-a-model","choosing-a-loss-function","fitting-the-model","evaluating-performance"]}

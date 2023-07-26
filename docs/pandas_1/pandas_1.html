@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.280">
+<meta name="generator" content="quarto-1.3.361">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,9 +17,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -46,43 +47,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -121,7 +92,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
@@ -135,11 +107,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Pandas I</span></h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../pandas_1/pandas_1.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Pandas I</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -147,7 +124,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="../index.html" class="sidebar-logo-link">
       <img src="../data100_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
@@ -155,157 +132,177 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Principles and Techniques of Data Science</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/DS-100/course-notes-su23" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/DS-100/course-notes-su23" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../intro_lec/introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="../intro_lec/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pandas_1/pandas_1.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Pandas I</span></a>
+  <a href="../pandas_1/pandas_1.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Pandas I</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pandas_2/pandas_2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pandas II</span></a>
+  <a href="../pandas_2/pandas_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pandas II</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pandas_3/pandas_3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Pandas III</span></a>
+  <a href="../pandas_3/pandas_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Pandas III</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../eda/eda.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Cleaning and EDA</span></a>
+  <a href="../eda/eda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Cleaning and EDA</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../regex/regex.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text Wrangling and Regular Expressions</span></a>
+  <a href="../regex/regex.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text Wrangling and Regular Expressions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../visualization_1/visualization_1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Visualization</span></a>
+  <a href="../visualization_1/visualization_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Visualization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sampling/sampling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Sampling</span></a>
+  <a href="../sampling/sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../intro_to_modeling/intro_to_modeling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduction to Modeling</span></a>
+  <a href="../intro_to_modeling/intro_to_modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduction to Modeling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../constant_model_loss_transformations/loss_transformations.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Constant Model, Loss, and Transformations</span></a>
+  <a href="../constant_model_loss_transformations/loss_transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Constant Model, Loss, and Transformations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ols/ols.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ordinary Least Squares</span></a>
+  <a href="../ols/ols.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ordinary Least Squares</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../gradient_descent/gradient_descent.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Gradient Descent</span></a>
+  <a href="../gradient_descent/gradient_descent.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Gradient Descent</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../feature_engineering/feature_engineering.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Sklearn and Feature Engineering</span></a>
+  <a href="../feature_engineering/feature_engineering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Sklearn and Feature Engineering</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../case_study_HCE/case_study_HCE.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Case Study in Human Contexts and Ethics</span></a>
+  <a href="../case_study_HCE/case_study_HCE.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Case Study in Human Contexts and Ethics</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cv_regularization/cv_reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Cross Validation and Regularization</span></a>
+  <a href="../cv_regularization/cv_reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Cross Validation and Regularization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../probability_1/probability_1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Random Variables</span></a>
+  <a href="../probability_1/probability_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Random Variables</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../probability_2/probability_2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Model Bias, Variance, and Inference</span></a>
+  <a href="../probability_2/probability_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Model Bias, Variance, and Inference</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../logistic_regression_1/logistic_reg_1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Logistic Regression I</span></a>
+  <a href="../logistic_regression_1/logistic_reg_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Logistic Regression I</span></span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#tabular-data" id="toc-tabular-data" class="nav-link active" data-scroll-target="#tabular-data"><span class="toc-section-number">2.1</span>  Tabular Data</a></li>
-  <li><a href="#dataframes-series-and-indices" id="toc-dataframes-series-and-indices" class="nav-link" data-scroll-target="#dataframes-series-and-indices"><span class="toc-section-number">2.2</span>  DataFrames, Series, and Indices</a>
+  <li><a href="#tabular-data" id="toc-tabular-data" class="nav-link active" data-scroll-target="#tabular-data"><span class="header-section-number">2.1</span> Tabular Data</a></li>
+  <li><a href="#dataframes-series-and-indices" id="toc-dataframes-series-and-indices" class="nav-link" data-scroll-target="#dataframes-series-and-indices"><span class="header-section-number">2.2</span> DataFrames, Series, and Indices</a>
   <ul>
-  <li><a href="#series" id="toc-series" class="nav-link" data-scroll-target="#series"><span class="toc-section-number">2.2.1</span>  Series</a>
+  <li><a href="#series" id="toc-series" class="nav-link" data-scroll-target="#series"><span class="header-section-number">2.2.1</span> Series</a>
   <ul>
-  <li><a href="#selection-in-series" id="toc-selection-in-series" class="nav-link" data-scroll-target="#selection-in-series"><span class="toc-section-number">2.2.1.1</span>  Selection in Series</a>
+  <li><a href="#selection-in-series" id="toc-selection-in-series" class="nav-link" data-scroll-target="#selection-in-series"><span class="header-section-number">2.2.1.1</span> Selection in Series</a>
   <ul class="collapse">
-  <li><a href="#a-single-index-label" id="toc-a-single-index-label" class="nav-link" data-scroll-target="#a-single-index-label"><span class="toc-section-number">2.2.1.1.1</span>  A Single Index Label</a></li>
-  <li><a href="#a-list-of-index-labels" id="toc-a-list-of-index-labels" class="nav-link" data-scroll-target="#a-list-of-index-labels"><span class="toc-section-number">2.2.1.1.2</span>  A List of Index Labels</a></li>
-  <li><a href="#a-filtering-condition" id="toc-a-filtering-condition" class="nav-link" data-scroll-target="#a-filtering-condition"><span class="toc-section-number">2.2.1.1.3</span>  A Filtering Condition</a></li>
+  <li><a href="#a-single-index-label" id="toc-a-single-index-label" class="nav-link" data-scroll-target="#a-single-index-label"><span class="header-section-number">2.2.1.1.1</span> A Single Index Label</a></li>
+  <li><a href="#a-list-of-index-labels" id="toc-a-list-of-index-labels" class="nav-link" data-scroll-target="#a-list-of-index-labels"><span class="header-section-number">2.2.1.1.2</span> A List of Index Labels</a></li>
+  <li><a href="#a-filtering-condition" id="toc-a-filtering-condition" class="nav-link" data-scroll-target="#a-filtering-condition"><span class="header-section-number">2.2.1.1.3</span> A Filtering Condition</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#dataframes" id="toc-dataframes" class="nav-link" data-scroll-target="#dataframes"><span class="toc-section-number">2.2.2</span>  DataFrames</a>
+  <li><a href="#dataframes" id="toc-dataframes" class="nav-link" data-scroll-target="#dataframes"><span class="header-section-number">2.2.2</span> DataFrames</a>
   <ul>
-  <li><a href="#creating-a-dataframe" id="toc-creating-a-dataframe" class="nav-link" data-scroll-target="#creating-a-dataframe"><span class="toc-section-number">2.2.2.1</span>  Creating a DataFrame</a>
+  <li><a href="#creating-a-dataframe" id="toc-creating-a-dataframe" class="nav-link" data-scroll-target="#creating-a-dataframe"><span class="header-section-number">2.2.2.1</span> Creating a DataFrame</a>
   <ul class="collapse">
-  <li><a href="#using-a-list-and-column-names" id="toc-using-a-list-and-column-names" class="nav-link" data-scroll-target="#using-a-list-and-column-names"><span class="toc-section-number">2.2.2.1.1</span>  Using a List and Column Names</a></li>
-  <li><a href="#from-a-dictionary" id="toc-from-a-dictionary" class="nav-link" data-scroll-target="#from-a-dictionary"><span class="toc-section-number">2.2.2.1.2</span>  From a Dictionary</a></li>
-  <li><a href="#from-a-series" id="toc-from-a-series" class="nav-link" data-scroll-target="#from-a-series"><span class="toc-section-number">2.2.2.1.3</span>  From a Series</a></li>
+  <li><a href="#using-a-list-and-column-names" id="toc-using-a-list-and-column-names" class="nav-link" data-scroll-target="#using-a-list-and-column-names"><span class="header-section-number">2.2.2.1.1</span> Using a List and Column Names</a></li>
+  <li><a href="#from-a-dictionary" id="toc-from-a-dictionary" class="nav-link" data-scroll-target="#from-a-dictionary"><span class="header-section-number">2.2.2.1.2</span> From a Dictionary</a></li>
+  <li><a href="#from-a-series" id="toc-from-a-series" class="nav-link" data-scroll-target="#from-a-series"><span class="header-section-number">2.2.2.1.3</span> From a Series</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#indices" id="toc-indices" class="nav-link" data-scroll-target="#indices"><span class="toc-section-number">2.2.3</span>  Indices</a></li>
+  <li><a href="#indices" id="toc-indices" class="nav-link" data-scroll-target="#indices"><span class="header-section-number">2.2.3</span> Indices</a></li>
   </ul></li>
-  <li><a href="#slicing-in-dataframes" id="toc-slicing-in-dataframes" class="nav-link" data-scroll-target="#slicing-in-dataframes"><span class="toc-section-number">2.3</span>  Slicing in DataFrames</a>
+  <li><a href="#slicing-in-dataframes" id="toc-slicing-in-dataframes" class="nav-link" data-scroll-target="#slicing-in-dataframes"><span class="header-section-number">2.3</span> Slicing in DataFrames</a>
   <ul>
-  <li><a href="#extracting-data-with-.head-and-.tail" id="toc-extracting-data-with-.head-and-.tail" class="nav-link" data-scroll-target="#extracting-data-with-.head-and-.tail"><span class="toc-section-number">2.3.1</span>  Extracting data with <code>.head</code> and <code>.tail</code></a></li>
-  <li><a href="#indexing-with-.loc" id="toc-indexing-with-.loc" class="nav-link" data-scroll-target="#indexing-with-.loc"><span class="toc-section-number">2.3.2</span>  Indexing with .loc</a></li>
-  <li><a href="#indexing-with-.iloc" id="toc-indexing-with-.iloc" class="nav-link" data-scroll-target="#indexing-with-.iloc"><span class="toc-section-number">2.3.3</span>  Indexing with .iloc</a></li>
-  <li><a href="#indexing-with" id="toc-indexing-with" class="nav-link" data-scroll-target="#indexing-with"><span class="toc-section-number">2.3.4</span>  Indexing with []</a>
+  <li><a href="#extracting-data-with-.head-and-.tail" id="toc-extracting-data-with-.head-and-.tail" class="nav-link" data-scroll-target="#extracting-data-with-.head-and-.tail"><span class="header-section-number">2.3.1</span> Extracting data with <code>.head</code> and <code>.tail</code></a></li>
+  <li><a href="#indexing-with-.loc" id="toc-indexing-with-.loc" class="nav-link" data-scroll-target="#indexing-with-.loc"><span class="header-section-number">2.3.2</span> Indexing with .loc</a></li>
+  <li><a href="#indexing-with-.iloc" id="toc-indexing-with-.iloc" class="nav-link" data-scroll-target="#indexing-with-.iloc"><span class="header-section-number">2.3.3</span> Indexing with .iloc</a></li>
+  <li><a href="#indexing-with" id="toc-indexing-with" class="nav-link" data-scroll-target="#indexing-with"><span class="header-section-number">2.3.4</span> Indexing with []</a>
   <ul>
-  <li><a href="#a-slice-of-row-numbers" id="toc-a-slice-of-row-numbers" class="nav-link" data-scroll-target="#a-slice-of-row-numbers"><span class="toc-section-number">2.3.4.1</span>  A slice of row numbers</a></li>
-  <li><a href="#a-list-of-column-labels" id="toc-a-list-of-column-labels" class="nav-link" data-scroll-target="#a-list-of-column-labels"><span class="toc-section-number">2.3.4.2</span>  A list of column labels</a></li>
-  <li><a href="#a-single-column-label" id="toc-a-single-column-label" class="nav-link" data-scroll-target="#a-single-column-label"><span class="toc-section-number">2.3.4.3</span>  A single column label</a></li>
+  <li><a href="#a-slice-of-row-numbers" id="toc-a-slice-of-row-numbers" class="nav-link" data-scroll-target="#a-slice-of-row-numbers"><span class="header-section-number">2.3.4.1</span> A slice of row numbers</a></li>
+  <li><a href="#a-list-of-column-labels" id="toc-a-list-of-column-labels" class="nav-link" data-scroll-target="#a-list-of-column-labels"><span class="header-section-number">2.3.4.2</span> A list of column labels</a></li>
+  <li><a href="#a-single-column-label" id="toc-a-single-column-label" class="nav-link" data-scroll-target="#a-single-column-label"><span class="header-section-number">2.3.4.3</span> A single column label</a></li>
   </ul></li>
   </ul></li>
-  <li><a href="#parting-note" id="toc-parting-note" class="nav-link" data-scroll-target="#parting-note"><span class="toc-section-number">2.4</span>  Parting Note</a></li>
+  <li><a href="#parting-note" id="toc-parting-note" class="nav-link" data-scroll-target="#parting-note"><span class="header-section-number">2.4</span> Parting Note</a></li>
   </ul>
 </nav>
     </div>
@@ -314,7 +311,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title d-none d-lg-block"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Pandas I</span></h1>
+<h1 class="title"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Pandas I</span></h1>
 </div>
 
 
@@ -329,12 +326,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Learning Outcomes
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -362,123 +359,124 @@ Learning Outcomes
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>pd.read_csv(<span class="st">"data/elections.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="1">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Year</th>
-      <th>Candidate</th>
-      <th>Party</th>
-      <th>Popular vote</th>
-      <th>Result</th>
-      <th>%</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1824</td>
-      <td>Andrew Jackson</td>
-      <td>Democratic-Republican</td>
-      <td>151271</td>
-      <td>loss</td>
-      <td>57.210122</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1824</td>
-      <td>John Quincy Adams</td>
-      <td>Democratic-Republican</td>
-      <td>113142</td>
-      <td>win</td>
-      <td>42.789878</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1828</td>
-      <td>Andrew Jackson</td>
-      <td>Democratic</td>
-      <td>642806</td>
-      <td>win</td>
-      <td>56.203927</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1828</td>
-      <td>John Quincy Adams</td>
-      <td>National Republican</td>
-      <td>500897</td>
-      <td>loss</td>
-      <td>43.796073</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1832</td>
-      <td>Andrew Jackson</td>
-      <td>Democratic</td>
-      <td>702735</td>
-      <td>win</td>
-      <td>54.574789</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>177</th>
-      <td>2016</td>
-      <td>Jill Stein</td>
-      <td>Green</td>
-      <td>1457226</td>
-      <td>loss</td>
-      <td>1.073699</td>
-    </tr>
-    <tr>
-      <th>178</th>
-      <td>2020</td>
-      <td>Joseph Biden</td>
-      <td>Democratic</td>
-      <td>81268924</td>
-      <td>win</td>
-      <td>51.311515</td>
-    </tr>
-    <tr>
-      <th>179</th>
-      <td>2020</td>
-      <td>Donald Trump</td>
-      <td>Republican</td>
-      <td>74216154</td>
-      <td>loss</td>
-      <td>46.858542</td>
-    </tr>
-    <tr>
-      <th>180</th>
-      <td>2020</td>
-      <td>Jo Jorgensen</td>
-      <td>Libertarian</td>
-      <td>1865724</td>
-      <td>loss</td>
-      <td>1.177979</td>
-    </tr>
-    <tr>
-      <th>181</th>
-      <td>2020</td>
-      <td>Howard Hawkins</td>
-      <td>Green</td>
-      <td>405035</td>
-      <td>loss</td>
-      <td>0.255731</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Candidate</th>
+<th data-quarto-table-cell-role="th">Party</th>
+<th data-quarto-table-cell-role="th">Popular vote</th>
+<th data-quarto-table-cell-role="th">Result</th>
+<th data-quarto-table-cell-role="th">%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1824</td>
+<td>Andrew Jackson</td>
+<td>Democratic-Republican</td>
+<td>151271</td>
+<td>loss</td>
+<td>57.210122</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1824</td>
+<td>John Quincy Adams</td>
+<td>Democratic-Republican</td>
+<td>113142</td>
+<td>win</td>
+<td>42.789878</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1828</td>
+<td>Andrew Jackson</td>
+<td>Democratic</td>
+<td>642806</td>
+<td>win</td>
+<td>56.203927</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1828</td>
+<td>John Quincy Adams</td>
+<td>National Republican</td>
+<td>500897</td>
+<td>loss</td>
+<td>43.796073</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1832</td>
+<td>Andrew Jackson</td>
+<td>Democratic</td>
+<td>702735</td>
+<td>win</td>
+<td>54.574789</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">177</td>
+<td>2016</td>
+<td>Jill Stein</td>
+<td>Green</td>
+<td>1457226</td>
+<td>loss</td>
+<td>1.073699</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">178</td>
+<td>2020</td>
+<td>Joseph Biden</td>
+<td>Democratic</td>
+<td>81268924</td>
+<td>win</td>
+<td>51.311515</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">179</td>
+<td>2020</td>
+<td>Donald Trump</td>
+<td>Republican</td>
+<td>74216154</td>
+<td>loss</td>
+<td>46.858542</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">180</td>
+<td>2020</td>
+<td>Jo Jorgensen</td>
+<td>Libertarian</td>
+<td>1865724</td>
+<td>loss</td>
+<td>1.177979</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">181</td>
+<td>2020</td>
+<td>Howard Hawkins</td>
+<td>Green</td>
+<td>405035</td>
+<td>loss</td>
+<td>0.255731</td>
+</tr>
+</tbody>
 </table>
+
 <p>182 rows × 6 columns</p>
 </div>
 </div>
@@ -626,123 +624,124 @@ dtype: int64</code></pre>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>elections <span class="op">=</span> pd.read_csv(<span class="st">"data/elections.csv"</span>)</span>
 <span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>elections</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="13">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Year</th>
-      <th>Candidate</th>
-      <th>Party</th>
-      <th>Popular vote</th>
-      <th>Result</th>
-      <th>%</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1824</td>
-      <td>Andrew Jackson</td>
-      <td>Democratic-Republican</td>
-      <td>151271</td>
-      <td>loss</td>
-      <td>57.210122</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1824</td>
-      <td>John Quincy Adams</td>
-      <td>Democratic-Republican</td>
-      <td>113142</td>
-      <td>win</td>
-      <td>42.789878</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1828</td>
-      <td>Andrew Jackson</td>
-      <td>Democratic</td>
-      <td>642806</td>
-      <td>win</td>
-      <td>56.203927</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1828</td>
-      <td>John Quincy Adams</td>
-      <td>National Republican</td>
-      <td>500897</td>
-      <td>loss</td>
-      <td>43.796073</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1832</td>
-      <td>Andrew Jackson</td>
-      <td>Democratic</td>
-      <td>702735</td>
-      <td>win</td>
-      <td>54.574789</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>177</th>
-      <td>2016</td>
-      <td>Jill Stein</td>
-      <td>Green</td>
-      <td>1457226</td>
-      <td>loss</td>
-      <td>1.073699</td>
-    </tr>
-    <tr>
-      <th>178</th>
-      <td>2020</td>
-      <td>Joseph Biden</td>
-      <td>Democratic</td>
-      <td>81268924</td>
-      <td>win</td>
-      <td>51.311515</td>
-    </tr>
-    <tr>
-      <th>179</th>
-      <td>2020</td>
-      <td>Donald Trump</td>
-      <td>Republican</td>
-      <td>74216154</td>
-      <td>loss</td>
-      <td>46.858542</td>
-    </tr>
-    <tr>
-      <th>180</th>
-      <td>2020</td>
-      <td>Jo Jorgensen</td>
-      <td>Libertarian</td>
-      <td>1865724</td>
-      <td>loss</td>
-      <td>1.177979</td>
-    </tr>
-    <tr>
-      <th>181</th>
-      <td>2020</td>
-      <td>Howard Hawkins</td>
-      <td>Green</td>
-      <td>405035</td>
-      <td>loss</td>
-      <td>0.255731</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Candidate</th>
+<th data-quarto-table-cell-role="th">Party</th>
+<th data-quarto-table-cell-role="th">Popular vote</th>
+<th data-quarto-table-cell-role="th">Result</th>
+<th data-quarto-table-cell-role="th">%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1824</td>
+<td>Andrew Jackson</td>
+<td>Democratic-Republican</td>
+<td>151271</td>
+<td>loss</td>
+<td>57.210122</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1824</td>
+<td>John Quincy Adams</td>
+<td>Democratic-Republican</td>
+<td>113142</td>
+<td>win</td>
+<td>42.789878</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1828</td>
+<td>Andrew Jackson</td>
+<td>Democratic</td>
+<td>642806</td>
+<td>win</td>
+<td>56.203927</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1828</td>
+<td>John Quincy Adams</td>
+<td>National Republican</td>
+<td>500897</td>
+<td>loss</td>
+<td>43.796073</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1832</td>
+<td>Andrew Jackson</td>
+<td>Democratic</td>
+<td>702735</td>
+<td>win</td>
+<td>54.574789</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">177</td>
+<td>2016</td>
+<td>Jill Stein</td>
+<td>Green</td>
+<td>1457226</td>
+<td>loss</td>
+<td>1.073699</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">178</td>
+<td>2020</td>
+<td>Joseph Biden</td>
+<td>Democratic</td>
+<td>81268924</td>
+<td>win</td>
+<td>51.311515</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">179</td>
+<td>2020</td>
+<td>Donald Trump</td>
+<td>Republican</td>
+<td>74216154</td>
+<td>loss</td>
+<td>46.858542</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">180</td>
+<td>2020</td>
+<td>Jo Jorgensen</td>
+<td>Libertarian</td>
+<td>1865724</td>
+<td>loss</td>
+<td>1.177979</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">181</td>
+<td>2020</td>
+<td>Howard Hawkins</td>
+<td>Green</td>
+<td>405035</td>
+<td>loss</td>
+<td>0.255731</td>
+</tr>
+</tbody>
 </table>
+
 <p>182 rows × 6 columns</p>
 </div>
 </div>
@@ -769,31 +768,32 @@ dtype: int64</code></pre>
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>df_list_1 <span class="op">=</span> pd.DataFrame([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], columns<span class="op">=</span>[<span class="st">"Numbers"</span>])</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>df_list_1</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Numbers</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>3</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Numbers</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>3</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -801,30 +801,31 @@ dtype: int64</code></pre>
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>df_list_2 <span class="op">=</span> pd.DataFrame([[<span class="dv">1</span>, <span class="st">"one"</span>], [<span class="dv">2</span>, <span class="st">"two"</span>]], columns <span class="op">=</span> [<span class="st">"Number"</span>, <span class="st">"Description"</span>])</span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>df_list_2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="15">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Number</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1</td>
-      <td>one</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2</td>
-      <td>two</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Number</th>
+<th data-quarto-table-cell-role="th">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1</td>
+<td>one</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>2</td>
+<td>two</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -836,30 +837,31 @@ dtype: int64</code></pre>
 <div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>df_dict <span class="op">=</span> pd.DataFrame({<span class="st">"Fruit"</span>: [<span class="st">"Strawberry"</span>, <span class="st">"Orange"</span>], <span class="st">"Price"</span>: [<span class="fl">5.49</span>, <span class="fl">3.99</span>]})</span>
 <span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>df_dict</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="16">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Fruit</th>
-      <th>Price</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Strawberry</td>
-      <td>5.49</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>Orange</td>
-      <td>3.99</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Fruit</th>
+<th data-quarto-table-cell-role="th">Price</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Strawberry</td>
+<td>5.49</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>Orange</td>
+<td>3.99</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -876,35 +878,36 @@ dtype: int64</code></pre>
 <span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"A-column"</span>: s_a, <span class="st">"B-column"</span>: s_b})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="17">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>A-column</th>
-      <th>B-column</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>r1</th>
-      <td>a1</td>
-      <td>b1</td>
-    </tr>
-    <tr>
-      <th>r2</th>
-      <td>a2</td>
-      <td>b2</td>
-    </tr>
-    <tr>
-      <th>r3</th>
-      <td>a3</td>
-      <td>b3</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">A-column</th>
+<th data-quarto-table-cell-role="th">B-column</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">r1</td>
+<td>a1</td>
+<td>b1</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">r2</td>
+<td>a2</td>
+<td>b2</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">r3</td>
+<td>a3</td>
+<td>b3</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -960,69 +963,70 @@ dtype: int64</code></pre>
 <div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the first 5 rows of the DataFrame</span></span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>elections.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="20">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Candidate</th>
-      <th>Year</th>
-      <th>Party</th>
-      <th>Popular vote</th>
-      <th>Result</th>
-      <th>%</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Andrew Jackson</td>
-      <td>1824</td>
-      <td>Democratic-Republican</td>
-      <td>151271</td>
-      <td>loss</td>
-      <td>57.210122</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>John Quincy Adams</td>
-      <td>1824</td>
-      <td>Democratic-Republican</td>
-      <td>113142</td>
-      <td>win</td>
-      <td>42.789878</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Andrew Jackson</td>
-      <td>1828</td>
-      <td>Democratic</td>
-      <td>642806</td>
-      <td>win</td>
-      <td>56.203927</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>John Quincy Adams</td>
-      <td>1828</td>
-      <td>National Republican</td>
-      <td>500897</td>
-      <td>loss</td>
-      <td>43.796073</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>Andrew Jackson</td>
-      <td>1832</td>
-      <td>Democratic</td>
-      <td>702735</td>
-      <td>win</td>
-      <td>54.574789</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Candidate</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Party</th>
+<th data-quarto-table-cell-role="th">Popular vote</th>
+<th data-quarto-table-cell-role="th">Result</th>
+<th data-quarto-table-cell-role="th">%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Andrew Jackson</td>
+<td>1824</td>
+<td>Democratic-Republican</td>
+<td>151271</td>
+<td>loss</td>
+<td>57.210122</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>John Quincy Adams</td>
+<td>1824</td>
+<td>Democratic-Republican</td>
+<td>113142</td>
+<td>win</td>
+<td>42.789878</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Andrew Jackson</td>
+<td>1828</td>
+<td>Democratic</td>
+<td>642806</td>
+<td>win</td>
+<td>56.203927</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>John Quincy Adams</td>
+<td>1828</td>
+<td>National Republican</td>
+<td>500897</td>
+<td>loss</td>
+<td>43.796073</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>Andrew Jackson</td>
+<td>1832</td>
+<td>Democratic</td>
+<td>702735</td>
+<td>win</td>
+<td>54.574789</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -1031,69 +1035,70 @@ dtype: int64</code></pre>
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the last 5 rows of the DataFrame</span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>elections.tail(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="21">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Candidate</th>
-      <th>Year</th>
-      <th>Party</th>
-      <th>Popular vote</th>
-      <th>Result</th>
-      <th>%</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>177</th>
-      <td>Jill Stein</td>
-      <td>2016</td>
-      <td>Green</td>
-      <td>1457226</td>
-      <td>loss</td>
-      <td>1.073699</td>
-    </tr>
-    <tr>
-      <th>178</th>
-      <td>Joseph Biden</td>
-      <td>2020</td>
-      <td>Democratic</td>
-      <td>81268924</td>
-      <td>win</td>
-      <td>51.311515</td>
-    </tr>
-    <tr>
-      <th>179</th>
-      <td>Donald Trump</td>
-      <td>2020</td>
-      <td>Republican</td>
-      <td>74216154</td>
-      <td>loss</td>
-      <td>46.858542</td>
-    </tr>
-    <tr>
-      <th>180</th>
-      <td>Jo Jorgensen</td>
-      <td>2020</td>
-      <td>Libertarian</td>
-      <td>1865724</td>
-      <td>loss</td>
-      <td>1.177979</td>
-    </tr>
-    <tr>
-      <th>181</th>
-      <td>Howard Hawkins</td>
-      <td>2020</td>
-      <td>Green</td>
-      <td>405035</td>
-      <td>loss</td>
-      <td>0.255731</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Candidate</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Party</th>
+<th data-quarto-table-cell-role="th">Popular vote</th>
+<th data-quarto-table-cell-role="th">Result</th>
+<th data-quarto-table-cell-role="th">%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">177</td>
+<td>Jill Stein</td>
+<td>2016</td>
+<td>Green</td>
+<td>1457226</td>
+<td>loss</td>
+<td>1.073699</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">178</td>
+<td>Joseph Biden</td>
+<td>2020</td>
+<td>Democratic</td>
+<td>81268924</td>
+<td>win</td>
+<td>51.311515</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">179</td>
+<td>Donald Trump</td>
+<td>2020</td>
+<td>Republican</td>
+<td>74216154</td>
+<td>loss</td>
+<td>46.858542</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">180</td>
+<td>Jo Jorgensen</td>
+<td>2020</td>
+<td>Libertarian</td>
+<td>1865724</td>
+<td>loss</td>
+<td>1.177979</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">181</td>
+<td>Howard Hawkins</td>
+<td>2020</td>
+<td>Green</td>
+<td>405035</td>
+<td>loss</td>
+<td>0.255731</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -1112,45 +1117,46 @@ dtype: int64</code></pre>
 <div class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>elections.loc[<span class="dv">0</span>:<span class="dv">3</span>, <span class="st">'Year'</span>:<span class="st">'Popular vote'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="23">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Year</th>
-      <th>Party</th>
-      <th>Popular vote</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1824</td>
-      <td>Democratic-Republican</td>
-      <td>151271</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1824</td>
-      <td>Democratic-Republican</td>
-      <td>113142</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1828</td>
-      <td>Democratic</td>
-      <td>642806</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1828</td>
-      <td>National Republican</td>
-      <td>500897</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Party</th>
+<th data-quarto-table-cell-role="th">Popular vote</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1824</td>
+<td>Democratic-Republican</td>
+<td>151271</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1824</td>
+<td>Democratic-Republican</td>
+<td>113142</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1828</td>
+<td>Democratic</td>
+<td>642806</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1828</td>
+<td>National Republican</td>
+<td>500897</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -1158,60 +1164,61 @@ dtype: int64</code></pre>
 <div class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>elections.loc[<span class="dv">0</span>:<span class="dv">3</span>, :]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="24">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Candidate</th>
-      <th>Year</th>
-      <th>Party</th>
-      <th>Popular vote</th>
-      <th>Result</th>
-      <th>%</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Andrew Jackson</td>
-      <td>1824</td>
-      <td>Democratic-Republican</td>
-      <td>151271</td>
-      <td>loss</td>
-      <td>57.210122</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>John Quincy Adams</td>
-      <td>1824</td>
-      <td>Democratic-Republican</td>
-      <td>113142</td>
-      <td>win</td>
-      <td>42.789878</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Andrew Jackson</td>
-      <td>1828</td>
-      <td>Democratic</td>
-      <td>642806</td>
-      <td>win</td>
-      <td>56.203927</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>John Quincy Adams</td>
-      <td>1828</td>
-      <td>National Republican</td>
-      <td>500897</td>
-      <td>loss</td>
-      <td>43.796073</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Candidate</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Party</th>
+<th data-quarto-table-cell-role="th">Popular vote</th>
+<th data-quarto-table-cell-role="th">Result</th>
+<th data-quarto-table-cell-role="th">%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Andrew Jackson</td>
+<td>1824</td>
+<td>Democratic-Republican</td>
+<td>151271</td>
+<td>loss</td>
+<td>57.210122</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>John Quincy Adams</td>
+<td>1824</td>
+<td>Democratic-Republican</td>
+<td>113142</td>
+<td>win</td>
+<td>42.789878</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Andrew Jackson</td>
+<td>1828</td>
+<td>Democratic</td>
+<td>642806</td>
+<td>win</td>
+<td>56.203927</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>John Quincy Adams</td>
+<td>1828</td>
+<td>National Republican</td>
+<td>500897</td>
+<td>loss</td>
+<td>43.796073</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -1220,50 +1227,51 @@ dtype: int64</code></pre>
 <div class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>elections.loc[[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="st">'Year'</span>, <span class="st">'Candidate'</span>, <span class="st">'Party'</span>, <span class="st">'Popular vote'</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="25">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Year</th>
-      <th>Candidate</th>
-      <th>Party</th>
-      <th>Popular vote</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1824</td>
-      <td>Andrew Jackson</td>
-      <td>Democratic-Republican</td>
-      <td>151271</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1824</td>
-      <td>John Quincy Adams</td>
-      <td>Democratic-Republican</td>
-      <td>113142</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1828</td>
-      <td>Andrew Jackson</td>
-      <td>Democratic</td>
-      <td>642806</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1828</td>
-      <td>John Quincy Adams</td>
-      <td>National Republican</td>
-      <td>500897</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Candidate</th>
+<th data-quarto-table-cell-role="th">Party</th>
+<th data-quarto-table-cell-role="th">Popular vote</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1824</td>
+<td>Andrew Jackson</td>
+<td>Democratic-Republican</td>
+<td>151271</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1824</td>
+<td>John Quincy Adams</td>
+<td>Democratic-Republican</td>
+<td>113142</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1828</td>
+<td>Andrew Jackson</td>
+<td>Democratic</td>
+<td>642806</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1828</td>
+<td>John Quincy Adams</td>
+<td>National Republican</td>
+<td>500897</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -1271,60 +1279,61 @@ dtype: int64</code></pre>
 <div class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>elections.loc[[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], :]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="26">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Candidate</th>
-      <th>Year</th>
-      <th>Party</th>
-      <th>Popular vote</th>
-      <th>Result</th>
-      <th>%</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Andrew Jackson</td>
-      <td>1824</td>
-      <td>Democratic-Republican</td>
-      <td>151271</td>
-      <td>loss</td>
-      <td>57.210122</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>John Quincy Adams</td>
-      <td>1824</td>
-      <td>Democratic-Republican</td>
-      <td>113142</td>
-      <td>win</td>
-      <td>42.789878</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Andrew Jackson</td>
-      <td>1828</td>
-      <td>Democratic</td>
-      <td>642806</td>
-      <td>win</td>
-      <td>56.203927</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>John Quincy Adams</td>
-      <td>1828</td>
-      <td>National Republican</td>
-      <td>500897</td>
-      <td>loss</td>
-      <td>43.796073</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Candidate</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Party</th>
+<th data-quarto-table-cell-role="th">Popular vote</th>
+<th data-quarto-table-cell-role="th">Result</th>
+<th data-quarto-table-cell-role="th">%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Andrew Jackson</td>
+<td>1824</td>
+<td>Democratic-Republican</td>
+<td>151271</td>
+<td>loss</td>
+<td>57.210122</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>John Quincy Adams</td>
+<td>1824</td>
+<td>Democratic-Republican</td>
+<td>113142</td>
+<td>win</td>
+<td>42.789878</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Andrew Jackson</td>
+<td>1828</td>
+<td>Democratic</td>
+<td>642806</td>
+<td>win</td>
+<td>56.203927</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>John Quincy Adams</td>
+<td>1828</td>
+<td>National Republican</td>
+<td>500897</td>
+<td>loss</td>
+<td>43.796073</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -1346,50 +1355,51 @@ dtype: int64</code></pre>
 <div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># elections.loc[0:3, 'Year':'Popular vote'] - Previous approach</span></span>
 <span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>elections.iloc[<span class="dv">0</span>:<span class="dv">4</span>, <span class="dv">0</span>:<span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="28">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Candidate</th>
-      <th>Year</th>
-      <th>Party</th>
-      <th>Popular vote</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Andrew Jackson</td>
-      <td>1824</td>
-      <td>Democratic-Republican</td>
-      <td>151271</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>John Quincy Adams</td>
-      <td>1824</td>
-      <td>Democratic-Republican</td>
-      <td>113142</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Andrew Jackson</td>
-      <td>1828</td>
-      <td>Democratic</td>
-      <td>642806</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>John Quincy Adams</td>
-      <td>1828</td>
-      <td>National Republican</td>
-      <td>500897</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Candidate</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Party</th>
+<th data-quarto-table-cell-role="th">Popular vote</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Andrew Jackson</td>
+<td>1824</td>
+<td>Democratic-Republican</td>
+<td>151271</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>John Quincy Adams</td>
+<td>1824</td>
+<td>Democratic-Republican</td>
+<td>113142</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Andrew Jackson</td>
+<td>1828</td>
+<td>Democratic</td>
+<td>642806</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>John Quincy Adams</td>
+<td>1828</td>
+<td>National Republican</td>
+<td>500897</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -1399,50 +1409,51 @@ dtype: int64</code></pre>
 <div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="co">#elections.loc[[0, 1, 2, 3], ['Year', 'Candidate', 'Party', 'Popular vote']] - Previous Approach</span></span>
 <span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>elections.iloc[[<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="29">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Candidate</th>
-      <th>Year</th>
-      <th>Party</th>
-      <th>Popular vote</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Andrew Jackson</td>
-      <td>1824</td>
-      <td>Democratic-Republican</td>
-      <td>151271</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>John Quincy Adams</td>
-      <td>1824</td>
-      <td>Democratic-Republican</td>
-      <td>113142</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Andrew Jackson</td>
-      <td>1828</td>
-      <td>Democratic</td>
-      <td>642806</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>John Quincy Adams</td>
-      <td>1828</td>
-      <td>National Republican</td>
-      <td>500897</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Candidate</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Party</th>
+<th data-quarto-table-cell-role="th">Popular vote</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Andrew Jackson</td>
+<td>1824</td>
+<td>Democratic-Republican</td>
+<td>151271</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>John Quincy Adams</td>
+<td>1824</td>
+<td>Democratic-Republican</td>
+<td>113142</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Andrew Jackson</td>
+<td>1828</td>
+<td>Democratic</td>
+<td>642806</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>John Quincy Adams</td>
+<td>1828</td>
+<td>National Republican</td>
+<td>500897</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -1463,60 +1474,61 @@ dtype: int64</code></pre>
 <div class="cell" data-execution_count="30">
 <div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>elections[<span class="dv">0</span>:<span class="dv">4</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="30">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Candidate</th>
-      <th>Year</th>
-      <th>Party</th>
-      <th>Popular vote</th>
-      <th>Result</th>
-      <th>%</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>Andrew Jackson</td>
-      <td>1824</td>
-      <td>Democratic-Republican</td>
-      <td>151271</td>
-      <td>loss</td>
-      <td>57.210122</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>John Quincy Adams</td>
-      <td>1824</td>
-      <td>Democratic-Republican</td>
-      <td>113142</td>
-      <td>win</td>
-      <td>42.789878</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>Andrew Jackson</td>
-      <td>1828</td>
-      <td>Democratic</td>
-      <td>642806</td>
-      <td>win</td>
-      <td>56.203927</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>John Quincy Adams</td>
-      <td>1828</td>
-      <td>National Republican</td>
-      <td>500897</td>
-      <td>loss</td>
-      <td>43.796073</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Candidate</th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Party</th>
+<th data-quarto-table-cell-role="th">Popular vote</th>
+<th data-quarto-table-cell-role="th">Result</th>
+<th data-quarto-table-cell-role="th">%</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>Andrew Jackson</td>
+<td>1824</td>
+<td>Democratic-Republican</td>
+<td>151271</td>
+<td>loss</td>
+<td>57.210122</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>John Quincy Adams</td>
+<td>1824</td>
+<td>Democratic-Republican</td>
+<td>113142</td>
+<td>win</td>
+<td>42.789878</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>Andrew Jackson</td>
+<td>1828</td>
+<td>Democratic</td>
+<td>642806</td>
+<td>win</td>
+<td>56.203927</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>John Quincy Adams</td>
+<td>1828</td>
+<td>National Republican</td>
+<td>500897</td>
+<td>loss</td>
+<td>43.796073</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -1527,99 +1539,100 @@ dtype: int64</code></pre>
 <div class="cell" data-execution_count="31">
 <div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>elections[[<span class="st">"Year"</span>, <span class="st">"Candidate"</span>, <span class="st">"Party"</span>, <span class="st">"Popular vote"</span>]]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="31">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Year</th>
-      <th>Candidate</th>
-      <th>Party</th>
-      <th>Popular vote</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>1824</td>
-      <td>Andrew Jackson</td>
-      <td>Democratic-Republican</td>
-      <td>151271</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>1824</td>
-      <td>John Quincy Adams</td>
-      <td>Democratic-Republican</td>
-      <td>113142</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>1828</td>
-      <td>Andrew Jackson</td>
-      <td>Democratic</td>
-      <td>642806</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>1828</td>
-      <td>John Quincy Adams</td>
-      <td>National Republican</td>
-      <td>500897</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>1832</td>
-      <td>Andrew Jackson</td>
-      <td>Democratic</td>
-      <td>702735</td>
-    </tr>
-    <tr>
-      <th>...</th>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-      <td>...</td>
-    </tr>
-    <tr>
-      <th>177</th>
-      <td>2016</td>
-      <td>Jill Stein</td>
-      <td>Green</td>
-      <td>1457226</td>
-    </tr>
-    <tr>
-      <th>178</th>
-      <td>2020</td>
-      <td>Joseph Biden</td>
-      <td>Democratic</td>
-      <td>81268924</td>
-    </tr>
-    <tr>
-      <th>179</th>
-      <td>2020</td>
-      <td>Donald Trump</td>
-      <td>Republican</td>
-      <td>74216154</td>
-    </tr>
-    <tr>
-      <th>180</th>
-      <td>2020</td>
-      <td>Jo Jorgensen</td>
-      <td>Libertarian</td>
-      <td>1865724</td>
-    </tr>
-    <tr>
-      <th>181</th>
-      <td>2020</td>
-      <td>Howard Hawkins</td>
-      <td>Green</td>
-      <td>405035</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Year</th>
+<th data-quarto-table-cell-role="th">Candidate</th>
+<th data-quarto-table-cell-role="th">Party</th>
+<th data-quarto-table-cell-role="th">Popular vote</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>1824</td>
+<td>Andrew Jackson</td>
+<td>Democratic-Republican</td>
+<td>151271</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>1824</td>
+<td>John Quincy Adams</td>
+<td>Democratic-Republican</td>
+<td>113142</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>1828</td>
+<td>Andrew Jackson</td>
+<td>Democratic</td>
+<td>642806</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>1828</td>
+<td>John Quincy Adams</td>
+<td>National Republican</td>
+<td>500897</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>1832</td>
+<td>Andrew Jackson</td>
+<td>Democratic</td>
+<td>702735</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">177</td>
+<td>2016</td>
+<td>Jill Stein</td>
+<td>Green</td>
+<td>1457226</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">178</td>
+<td>2020</td>
+<td>Joseph Biden</td>
+<td>Democratic</td>
+<td>81268924</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">179</td>
+<td>2020</td>
+<td>Donald Trump</td>
+<td>Republican</td>
+<td>74216154</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">180</td>
+<td>2020</td>
+<td>Jo Jorgensen</td>
+<td>Libertarian</td>
+<td>1865724</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">181</td>
+<td>2020</td>
+<td>Howard Hawkins</td>
+<td>Green</td>
+<td>405035</td>
+</tr>
+</tbody>
 </table>
+
 <p>182 rows × 4 columns</p>
 </div>
 </div>
@@ -1686,9 +1699,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1753,6 +1780,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
