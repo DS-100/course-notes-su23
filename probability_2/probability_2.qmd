@@ -29,13 +29,8 @@ Last time, we introduced the idea of random variables: numerical functions of a 
 
 In this lecture, we will delve more deeply into this idea of fitting a model to a sample. We'll explore how to re-express our modeling process in terms of random variables and use this new understanding to steer model complexity.  
 
-## Prediction and Inference
 
-So far, we've spent a great deal of time working with models—the Simple Linear Regression model, the Multiple Linear Regression model, and regularized linear models, etc.. When we first introduced the idea of modeling a few weeks ago, we did so in the context of **prediction**: using models to make predictions about unseen data. 
-
-Another reason we might build models is to better understand complex phenomena in the world around us. **Inference** is the task of using a model to infer the true underlying relationships between the features and response variables. If we are working with a set of housing data, *prediction* might ask: given the attributes of a house, how much is it worth? *Inference* might ask: how much does having a local park impact the value of a house?
-
-### Parameters, Statistics, and Estimators
+## Parameters, Statistics, and Estimators
 
 As mentioned last time, a major goal of inference is to draw conclusions about the full population of data, given only a random sample. To do this, we aim to estimate the value of a **parameter**, which is a numerical function of the *population* (for example, the population mean $\mu$). We use a collected sample to construct a **statistic**, which is a numerical function on the random *sample* (for example, the sample mean $\bar{X}_n$). It's helpful to think "p" for "parameter" and "population," and "s" for "sample" and "statistic."
 
@@ -247,9 +242,11 @@ In the Feature Engineering lecture, we considered the issue of overfitting. We s
 
 We need to strike a balance. Our goal in model creation is to use a complexity level that is high enough to keep bias low, but not so high that model variance is large.
 
-## Inference for Regression
+## Prediction and Inference
 
-We've spent a great deal of time now using random variables to explore model performance. It turns out that our work in probability can help us understand another aspect of model design – interpreting what exactly our fitted models can tell us about the world around us.
+So far, we've spent a great deal of time working with models—the Simple Linear Regression model, the Multiple Linear Regression model, and regularized linear models, etc.. When we first introduced the idea of modeling a few weeks ago, we did so in the context of **prediction**: using models to make predictions about unseen data. 
+
+Another reason we might build models is to better understand complex phenomena in the world around us. **Inference** is the task of using a model to infer the true underlying relationships between the features and response variables. If we are working with a set of housing data, *prediction* might ask: given the attributes of a house, how much is it worth? *Inference* might ask: how much does having a local park impact the value of a house?
 
 ### Interpreting $\theta$
 
@@ -516,6 +513,8 @@ It is important to keep in mind that all we did in this section also depend on s
 * We also assumed that the [assumptions of the bootstrap](https://inferentialthinking.com/chapters/13/3/Confidence_Intervals.html?highlight=p%20value%20confidence%20interval#care-in-using-the-bootstrap-percentile-method) (e.g. sample size $n$ is large, the sample is representative of the population distribution) holds. If these assumptions don't hold, then the results of the bootstrap might not be valid.
 
 ## (Bonus) Proof of Bias-Variance Decomposition
+
+This section walks through the detailed derivation of the Bias-Variance Decomposition in the Bias-Variance Tradeoff section earlier in this note.
 
 :::{.callout collapse="true"}
 ## Click to show

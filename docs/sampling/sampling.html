@@ -447,13 +447,18 @@ Learning Outcomes
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>np.random.multinomial(<span class="dv">100</span>, [<span class="fl">0.60</span>, <span class="fl">0.30</span>, <span class="fl">0.10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
+<<<<<<< HEAD
 <pre><code>array([57, 34,  9])</code></pre>
+=======
+<pre><code>array([54, 36, 10])</code></pre>
+>>>>>>> eb04e8ed7999d6674be465ecdb57b23aff8b6c4d
 </div>
 </div>
 <p>This method allows us to generate, say, 10 samples of size 100 using the <code>size</code> parameter:</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>np.random.multinomial(<span class="dv">100</span>, [<span class="fl">0.60</span>, <span class="fl">0.30</span>, <span class="fl">0.10</span>], size<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
+<<<<<<< HEAD
 <pre><code>array([[56, 36,  8],
        [52, 36, 12],
        [68, 26,  6],
@@ -464,6 +469,18 @@ Learning Outcomes
        [62, 23, 15],
        [63, 31,  6],
        [60, 31,  9]])</code></pre>
+=======
+<pre><code>array([[58, 34,  8],
+       [58, 33,  9],
+       [68, 25,  7],
+       [63, 30,  7],
+       [49, 39, 12],
+       [47, 44,  9],
+       [52, 29, 19],
+       [60, 30, 10],
+       [53, 35, 12],
+       [65, 20, 15]])</code></pre>
+>>>>>>> eb04e8ed7999d6674be465ecdb57b23aff8b6c4d
 </div>
 </div>
 </section>
