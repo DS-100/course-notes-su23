@@ -22,7 +22,7 @@ jupyter: python3
 
 In the previous lecture, we made our way through the beginnings of the classification process. We reframed our understanding of the modeling process in terms of *predicted probabilities*. We then derived the logistic regression model to predict the probability of a datapoint belonging to Class 1, given inputted features.
 
-In today's lecture, we'll address the second phase of a classification task: applying a decision rule to interpret these predicted probabilities and classify a datapoint. We'll also explore metrics to assess the performance of our classifiers on real-world data.
+In this lecture, we'll address the second phase of a classification task: applying a decision rule to interpret these predicted probabilities and classify a datapoint. We'll also explore metrics to assess the performance of our classifiers on real-world data.
 
 <img src="images/workflow.png" alt='classification workflow' width='750'>
 
@@ -47,6 +47,8 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 import matplotlib.pyplot as plt
+import warnings
+warnings.filterwarnings("ignore")
 
 games = pd.read_csv("data/games")
 ```
@@ -115,7 +117,7 @@ Let's break down what's going on here. We said that any datapoint with a predict
 1. Determine the value of our input feature, `"GOAL_DIFF"`, that leads to a predicted probability of exactly 0.5
 2. Look at the value of the input feature for each individual datapoint. If the input feature is *greater* in value than the critical value where the predicted probability is $0.5$, predict Class 1. Otherwise, predict Class 0
 
-<img src="images/db.png" alt='decision boundary' width='400'>
+<center><img src="images/db.png" alt='decision boundary' width='550'></center>
 
 Because we are now looking at the *features* of a datapoint when deciding which class to predict, it makes more sense to display only this input data. We do so by using a rugplot, which visualizes scatter points when we only have one variable.
 
@@ -212,7 +214,7 @@ When our data is linearly separable, we run into the problem of **diverging** mo
 Consider an artificially-generated "toy" dataset of two datapoints. 
 
 ```{python}
-#\code-fold: true
+#| code-fold: true
 toy_df = pd.DataFrame({"x": [-1, 1], "y": [0, 1]})
 sns.scatterplot(data=toy_df, x='x', y='y', hue="y", s=100, legend=None);
 ```
@@ -220,7 +222,7 @@ sns.scatterplot(data=toy_df, x='x', y='y', hue="y", s=100, legend=None);
 If we fit a logistic regression model with one feature to this data, we find a strange-looking cross-entropy loss surface.
 
 ```{python}
-#\code-fold: true
+#| code-fold: true
 
 def toy_model(theta1, x):
     return 1/(1 + np.exp(-theta1 * x))
@@ -252,202 +254,240 @@ To avoid the problem of diverging model parameters, we always *regularize* logis
 
 ## Performance Metrics
 
-Now that we have our classifier, let's quantify how well it performs. The most basic evaluation metric is **accuracy** -- the proportion of correctly classified points.
+We're in good shape: we've drived the logistic regression model to predict probabilities, and we've now introduced the idea of a decision rule to help us classify data into categories.
+
+To help quantify how "well" or "poorly" our model is doing, we'll introduce a set of classification **performance metrics**. You may wonder: why do we need any new metrics of performance? Don't we already have cross-entropy loss? Recall that cross-entropy loss deals with the predicted probabilities outputted by the sigmoid curve. In practice, we are usually more interested in whether or not our model *classifies* the data appropriately – determining if each point should belong to Class 0 or 1 – rather than the precide probabilities it predicts.
+
+### Accuracy
+The most basic evaluation metric is **accuracy**: the proportion of correctly classified points.
 
 $$\text{accuracy} = \frac{\# \text{ of points classified correctly}}{\# \text{ of total points}}$$
 
+Because we are working with binary labels of 0 or 1, computing the accuracy is equivalent to finding the average number of times our model makes a correct classification.
+
 ```{python}
-model.score(X, Y) # built-in accuracy function
+Y_hat = model.predict(X)
+
+accuracy = np.mean(Y==Y_hat)
+accuracy
 ```
 
-However, accuracy is not always a great metric for classification, particularily when the data has class imbalance. 
+Alternatively, we can use the built-in `.score()` method from `sklearn` to compute the accuracy.
 
-To understand why, let's consider a classification problem with 100 emails, 5 of which are spam. We'll investigate two models where accuracy is a poor metric. 
+```{python}
+model.score(X, Y)
+```
 
-- **Model 1**: Our first model classifies every email as non-spam. The model's accuracy is high ($\frac{95}{100} = 0.95$), but it doesn't detect any spam emails. Despite the high accuracy, this is a bad model.
-- **Model 2**: The second model classifies every email as spam. The accuracy is low ($\frac{5}{100} = 0.05$), but the model correctly labels every spam email. Unfortunately, it also misclassifies every non-spam email.
+Although accuracy is a very intuitive way of quantifying performance, it does come with drawbacks. Accuracy often misrepresents how well our model performs when there is **class imbalance** – that is, when there are signficantly more datapoints belonging to Class 1 than to Class 0, or vice-versa.
 
-### The Confusion Matrix
+:::{.callout collapse="false"}
+### Pitfalls of Accuracy: A Case Study
+Suppose you are trying to classify emails as spam (1) or ham (0). Your friend (feeling a little lazy) decides to create a classifier that *always* predicts $\hat{Y}=0$. Regardless of the inputted datapoint, your friend will always predict Class 0 (ham). 
 
-Model 1 from above has 5 **false negatives (FN)** -- data points which were predicted to belong to class $0$ (non-spam), but their true class was $1$ (spam). In a similar vein, Model 2 has 95 **false positives (FP)** -- that is, "false alarms" where we predict class $1$, but the true class was $0$. **True positives (TP)** and **true negatives (TN)** are when we correctly classify observations as being positive or negative, respectively.
+You obtain a dataset of 100 emails, of which 95 are ham and 5 are spam.
 
-These classifications can be concisely summarized in a **confusion matrix**. 
+By predicting that all 100 emails are truly ham, your friend's classifier makes 95 correct predictions and 5 incorrect predictions. That means that the accuracy of their classifier is 0.95! 
 
-<img src="images/confusion_matrix.png" alt='confusion_matrix' width='500'>
+On the surface, this seems like great performance. However, because there was imbalance in the two classes, the accuracy of the classifier is not a great indicator of how well it performs. In reality, your friend's classifier failed to identify *any* of the spam emails.
+:::
 
-An easy way to remember this terminology is as follows:
+### Classification Types
+To help us derive new performance metrics that perform better in the presence of class imbalance, let's take a moment to reflect on what "types" of classifications a model might make. There are four outcomes of any binary classification:
+
+* **True positive:** the classifier correctly classifies a Class 1 datapoint as being Class 1 ($Y=1, \hat{Y}=1$)
+* **True negative:** the classifier correctly classifies a Class 0 datapoint as being Class 0 ($Y=0, \hat{Y}=0$)
+* **False positive:** the classifier incorrectly classifies a Class 0 datapoint as being Class 1 ($Y=0, \hat{Y}=1$)
+* **False negative:** the classifier incorrectly classifies a Class 1 datapoint as being Class 0 ($Y=1, \hat{Y}=0$)
+
+That was a lot of words. It is often easier to express the different types of classifications visually using a **confusion matrix**.
+
+<center><img src="images/confusion.png" alt='confusion matrix' width='500'></center>
+
+One way to remember this terminology is as follows:
 
 1. Look at the second word in the phrase. *Positive* means a prediction of 1. *Negative* means a prediction of 0.
 2. Look at the first word in the phrase. *True* means our prediction was correct. *False* means it was incorrect.
-    
-A confusion matrix for a particular classifier may be found programatically. For our breast cancer data, it looks like this:
+
+### Precision and Recall
+With our understanding of possible classifications in hand, let's define two new performance metrics.
+
+**Precision** asks: of all the positive (Class 1) predictions made by the classifier, how many were truly positive?
+
+$$\text{Precision} = \frac{TP}{TP+FP}$$
+
+**Recall** asks: of all the observations that were truly positive (Class 1), how many did the classifier predict to be positive?
+
+$$\text{Recall} = \frac{TP}{TP+FN}$$
+
+Notice that precision and recall take slightly different approaches to quantifying how well the model performs. Precision examines all of the positive *predictions* made by the model; recall examines the *datapoints* that were truly positive.
+
+In practice, we would like our classifier to have both high precision and high recall. This can sometimes be a challenging goal. Precision penalizes false positives – as the number of false positives increases, the precision decreases. We might try to improve precision by reducing the number of positive predictions we make (and, at the same time, increasing the number of negative predictions).
+
+In contrast, recall penalizes false negatives – as the number of false negatives increases, the recall decreases. To avoid false negatives, we might increase the number of positive predictions we make while decreasing the number of negative predictions. This means that there is typically a *trade-off* when trying to maximize both precision and recall.
+
+So, should we prioritize precision or recall? It depends on the context. In many medical settings, there might be a much higher cost to "missing" positive cases by producing a false negative (for example, failing to detect a dangerous medical condition). In such situations, we may choose to focus on minimizing the number of false negatives by maximizing recall. 
+
+### False Positive Rates and True Positive Rates
+Let's introduce two more metrics.
+
+The **false positive rate (FPR)** asks: out of all datapoints that were truly negative (Class 0), how many did the classifier *incorrectly* predict to be positive?
+
+$$\text{FPR} = \frac{FP}{FP+TN}$$
+
+A similar metric is the **true positive rate (TPR)**, which finds the proportion of datapoints that were truly positive that the classifier correctly identified as positive. It is the same as recall defined above.
+
+$$\text{FPR} = \frac{TP}{TP+FN}$$
+
+## Changing the Classification Threshold
+
+Up until now, we have always been applying decision rules with a threshold of $T=0.5$. When a predicted probability $p$ was equal to or greater than $0.5$ we predicted Class 1; otherwise, we predicted Class 0.
+
+What happens when we change this threshold to some other value?
+
+Consider first the case where we lower the threshold to $T=0.25$. Any time the predicted probability of a datapoint belonging to Class 1 is greater than or equal to 0.25, the classifier will predict $\hat{Y}=1$. In other words, if the classifier predicts a 25% chance or higher of a datapoint being positive, it will classify the point as being Class 1. 
 
 ```{python}
-from sklearn.metrics import confusion_matrix
-
-y_pred = model.predict(X)
-confusion_matrix(Y, y_pred)
+y_hat = (p>=0.25).astype(int)
 ```
 
-### Accuracy, Precision, and Recall
+```{python}
+#| code-fold: true
+theta0 = model.intercept_
+theta1 = model.coef_[0]
+decision_boundary_T25 = (1/theta1)*(-np.log(1/0.25 - 1) - theta0)
 
-The purpose of our discussion of the confusion matrix was to motivate better performance metrics for classification problems with class imbalance - namely, precision and recall.
+x = np.linspace(-0.3, 0.3)
+sns.stripplot(x=games["GOAL_DIFF"], y=games["WON"], hue=y_hat, orient="h")
+plt.plot(x, sigmoid(model.intercept_ + model.coef_[0]*x), "k", label="P(Y=1|x)")
+plt.gca().invert_yaxis()
 
-**Precision** is defined as
+plt.annotate(f"Decision Boundary:\nx = {np.round(decision_boundary_T25[0], 3)}", (-0.3, 0.5));
+```
 
-$$\frac{\text{TP}}{\text{TP + FP}}$$
-
-Precision answers the question: "of all observations that were predicted to be $1$, what proportion were actually $1$?" It measures how accurate the classifier is when its predictions are positive.
-
-**Recall** (or **sensitivity**) is defined as 
-
-$$\frac{\text{TP}}{\text{TP + FN}}$$
-
-Recall aims to answer: "of all observations that were actually $1$, what proportion were predicted to be $1$?" It measures how many positive predictions were missed.
-
-Here's a helpful graphic that summarizes our discussion above.
-
-<img src="images/precision_recall_graphic.png" alt='confusion_matrix' width='700'>
-
-#### Example Calculation
-
-In this section, we will calculate the accuracy, precision, and recall performance metrics for our earlier spam classification example. As a reminder, we had a 100 emails, 5 of which were spam. We designed two models:
-
-- Model 1: Predict that every email is *non-spam*
-- Model 2: Predict that every email is *spam*
-
-##### Model 1
-
-First, let's begin by creating the confusion matrix.
+Notice that *more* datapoints are predicted to be Class 1 than when we used the threshold $T=0.5$. This is because the model needs to be less "confident" before making a positive prediction – the predicted probability of being Class 1 only needs to be 25% or higher for a positive prediction. Also observe that the decision boundary has shifted left of its original position when $T=0.5$. Changing the threshold value if *equivalent to shifting the decision boundary*.
 
 
-+-------------------+-------------------+---------------------------+
-|                   | 0                 | 1                         |
-+===================+===================+===========================+
-|  0                | True Negative: 95 | False Positive: 0         |
-+-------------------+-------------------+---------------------------+
-|  1                | False Negative: 5 | True Positive: 0          |
-+-------------------+-------------------+---------------------------+
+When we raise the threshold to $T=0.75$, we see the opposite behavior. The model will only predict Class 1 if there is a predicted 75% chance or higher of a datapoint belonging to Class 1, so we see fewer positive predictions. The decision boundary shifts right relative to the previous example.
 
-Convince yourself of why our confusion matrix looks like so.
+```{python}
+y_hat = (p>=0.75).astype(int)
+```
 
-$$\text{accuracy} = \frac{95}{100} = 0.95$$
-$$\text{precision} = \frac{0}{0 + 0} = \text{undefined}$$
-$$\text{recall} = \frac{0}{0 + 5} = 0$$
+```{python}
+#| code-fold: true
+theta0 = model.intercept_
+theta1 = model.coef_[0]
+decision_boundary_T75 = (1/theta1)*(-np.log(1/0.75 - 1) - theta0)
 
-- Notice how our precision is undefined because we never predicted class $1$
-- Our recall is 0 for the same reason -- the numerator is 0 (we had no positive predictions)
+x = np.linspace(-0.3, 0.3)
+sns.stripplot(x=games["GOAL_DIFF"], y=games["WON"], hue=y_hat, orient="h")
+plt.plot(x, sigmoid(model.intercept_ + model.coef_[0]*x), "k", label="P(Y=1|x)")
+plt.gca().invert_yaxis()
 
-##### Model 2
+plt.annotate(f"Decision Boundary:\nx = {np.round(decision_boundary_T75[0], 3)}", (0.1, 0.5));
+```
 
-Our confusion matrix for Model 2 looks like so.
+Taken together, we see that the value of the threshold $T$ determines the relative number of positive and negative predictions.
 
-+-------------------+-------------------+---------------------------+
-|                   | 0                 | 1                         |
-+===================+===================+===========================+
-|  0                | True Negative: 0  | False Positive: 95        |
-+-------------------+-------------------+---------------------------+
-|  1                | False Negative: 0 | True Positive: 5          |
-+-------------------+-------------------+---------------------------+
+How does changing the threshold impact the model's performance? It depends on our dataset, as well as which metric we are considering. Let's consider the accuracy of our logistic regression model on the `games` data. In the cell below, we test out many different possible values for the threshold. For each threshold value $T$, we compute what accuracy our model achieves if we use that value $T$ in our decision rule.
 
-$$\text{accuracy} = \frac{5}{100} = 0.05$$
-$$\text{precision} = \frac{5}{5 + 95} = 0.05$$
-$$\text{recall} = \frac{5}{5 + 0} = 1$$
+```{python}
+#| code-fold: true
 
-- Our precision is low because we have many false positives
-- Our recall is perfect - we correctly classified all spam emails (we never predicted class $0$)
+# Define performance metrics dependent on the threshold value
 
-#### Precision vs Recall
+def predict_threshold(model, X, T): 
+    prob_one = model.predict_proba(X)[:, 1]
+    return (prob_one >= T).astype(int)
 
-Precision ($\frac{\text{TP}}{\text{TP} + \textbf{ FP}}$) penalizes false positives, while recall ($\frac{\text{TP}}{\text{TP} + \textbf{ FN}}$) penalizes false negatives.
+def accuracy_threshold(X, Y, T):
+    return np.mean(predict_threshold(model, X, T) == Y)
 
-In fact, precision and recall are *inversely related*. This is evident in our second model -- we observed a high recall and low precision. Usually, there is a tradeoff in these two (most models can either minimize the number of FP or FN; and in rare cases, both). 
-
-The specific performance metric(s) to prioritize depends on the context. In many medical settings, there might be a much higher cost to missing positive cases. For instance, in our breast cancer example, it is more costly to misclassify malignant tumors (false negatives) than it is to incorrectly classify a benign tumor as malignant (false positives). In the case of the latter, pathologists can conduct further study to verify malignant tumors. As such, we should minimize the number of false negatives. This is equivalent to maximizing recall.
-
-## Adjusting the Classification Threshold
-
-One way to minimize the number of FP vs. FN (equivalently, maximizing precision vs. recall) is by adjusting the classification threshold $T$.
-
-$$\hat y = \begin{cases}
-        1, & P(Y=1|x) \ge T\\
-        0, & \text{otherwise }
-    \end{cases}$$
+def precision_threshold(X, Y, T):
+    Y_hat = predict_threshold(model, X, T)
+    return np.sum((Y_hat == 1) & (Y == 1)) / np.sum(Y_hat == 1)
     
-The default threshold in `sklearn` is $T = 0.5$. As we increase the threshold $T$, we “raise the standard” of how confident our classifier needs to be to predict 1 (i.e., “positive”).
+def recall_threshold(X, Y, T):
+    Y_hat = predict_threshold(model, X, T)
+    return np.sum((Y_hat == 1) & (Y == 1)) / np.sum(Y == 1)
 
-<img src="images/varying_threshold.png" alt='varying_threshold' width='800'>
+def tpr_threshold(X, Y, T): # Same as recall
+    Y_hat = predict_threshold(model, X, T)
+    return np.sum((Y_hat == 1) & (Y == 1)) / np.sum(Y == 1)
 
-As you may notice, the choice of threshold $T$ impacts our classifier's performance.
+def fpr_threshold(X, Y, T):
+    Y_hat = predict_threshold(model, X, T)
+    return np.sum((Y_hat == 1) & (Y == 0)) / np.sum(Y == 0)
+```
 
-- High $T$: Most predictions are $0$. 
-    - Lots of false negatives
-    - Fewer false positives
-- Low $T$: Most predictions are $1$. 
-    - Lots of false positives 
-    - Fewer false negatives
+```{python}
+# Compute accuracies for different thresholds
+thresholds = np.linspace(0, 1, 100)
+accs = [accuracy_threshold(X, Y, t) for t in thresholds]
 
-In fact, we can choose a threshold $T$ based on our desired number, or proportion, of false positives and false negatives. We can do so using a few different tools. We'll touch on two of the most important ones in Data 100.
+# Plot accuracy as a function of the threshold
+plt.plot(thresholds, accs)
+plt.xlabel("Threshold")
+plt.ylabel("Accuracy");
+```
 
-1. Precision-Recall Curve (PR Curve). [Covered in Extra Content]
-2. "Receiver Operating Characteristic" Curve (ROC Curve)
+With higher threshold values, we make fewer positive predictions (reducing the risk of false positives) but more negative predictions (increasing the risk of false negatives). With lower threshold values, the converse is true – we make more positive predictions and fewer negative predictions. Because the relative numbers of false negatives and positives change with each threshold value, the accuracy of the classifier varies with the threshold. It turns out that for our specific model and dataset, the threshold value that maximizes accuracy is a bit under $0.5$.
 
-To motivate the ROC Curve, let's first consider two more metrics - true positive rate (TPR) and false positive rate (FPR).
+```{python}
+print(f"Threshold that maximizes accuracy: T = {thresholds[np.argmax(accs)]}")
+```
 
-### Two More Metrics
+Changing the threshold value also allows us to more clearly see the trade-off between precision and recall described earlier. As the threshold increases, fewer positive predictions are made, decreasing the chances of a false positive while increasing the chances of a false negative. This means that precision increases while recall decreases.
 
-The **True Positive Rate (TPR)** is defined as
+```{python}
+precisions = [precision_threshold(X, Y, t) for t in thresholds]
+recalls = [recall_threshold(X, Y, t) for t in thresholds]
 
-$$\frac{\text{TP}}{\text{TP + FN}}$$
+plt.plot(thresholds, precisions, label="Precision")
+plt.plot(thresholds, recalls, label="Recall")
+plt.xlabel("Threshold")
+plt.ylabel("Precision/Recall")
+plt.legend();
+```
 
-You'll notice this is equivalent to *recall*. In the context of our spam email classifier, it answers the question: "what proportion of spam did I mark correctly?". 
+This means that we need to select our threshold value carefully as part of the model design process. If we are attempting to maximize the precision of our model, we may choose a large $T$; if we are trying to maximize recall, we will likely choose a smaller $T$.
 
-- We'd like this to be close to $1$
+A **precision-recall curve** visualizes the trade-off using a single graph trace. Each position on the precision-recall curve represents a possible choice of threshold value $T$. We then plot the precision and recall that our model obtains when using that value for the threshold.
 
-The **False Positive Rate (FPR)** is defined as
+```{python}
+plt.plot(recalls, precisions)
+plt.xlabel("Recall")
+plt.ylabel("Precision");
+```
 
-$$\frac{\text{FP}}{\text{FP + TN}}$$
+Often, we may attempt to maximize both precision and recall by selecting a threshold value that produces a point on the "bulge" of the curve in the upper righthand corner. This represents a point where both precision and recall are relatively high.
 
-Another word for FPR is *specificity*. This answers the question: "what proportion of regular email did I mark as spam?" 
+Alternatively, we may wish to understand the false positive and true positive rates of our classifier. We do so by constructing a **receiver operating characteristic (ROC) curve**. The name "ROC" orignates from the original use of this technique to process radar signal in World War II.
 
-- We'd like this to be close to $0$
+In an ROC curve, we similarly trial many possible values for the threshold $T$. For each possible $T$, we compute the TPR and FPR.
 
-As we increase threshold $T$, both TPR and FPR decrease. We've plotted this relationship below for some model on a toy dataset.
+```{python}
+tprs = [tpr_threshold(X, Y, t) for t in thresholds]
+fprs = [fpr_threshold(X, Y, t) for t in thresholds]
 
-<img src="images/tpr_fpr.png" alt='tpr_fpr' width='800'>
+plt.plot(fprs, tprs)
+plt.xlabel("FPR")
+plt.ylabel("TPR");
+```
 
+Our goal is to maximize TPR while keeping FPR low. To do so, we select a threshold value corresponding to the bulging region in the upper lefthand corner, where we see large TPR values and small FPR values.
 
-### The ROC Curve
+In an ideal world, we would be able to achieve a TPR of 1 (where we make no false negative predictions) and an FPR of 0 (where we make no false positive predictions). If we were to plot the ROC curve for such a classifier, it would look like a right angle. Notice that the optimal point in the lefthand corner corresponds to a TPR of 1 and FPR of 0.
 
-The “Receiver Operating Characteristic” Curve (**ROC Curve**) plots the tradeoff between FPR and TPR. Notice how the far-left of the curve corresponds to higher threshold $T$ values.
+<center><img src="images/perfect.png" alt='perfect predictor' width='500'></center>
 
-<img src="images/roc_curve.png" alt='roc_curve' width='700'>
+The area under the ROC curve of the perfect predictor is 1. One way of quantifying how close a real-world classifier is to being "perfect" is by computing the **area under the curve (AUC)**. The closer the AUC is to 1, the closer the classifier is performing to the ideal predictor.
 
-The “perfect” classifier is the one that has a TPR of 1, and FPR of 0. This is achieved at the top-left of the plot below. More generally, it's ROC curve resembles the curve in orange.
+If the best-case predictor behaves in the way outlined above, how does the *worst-case* predictor behave? In the absolute worst case, a predictor will predict randomly: it will generate predicted probabilities uniformly at random between 0 and 1, without considering the actual data it has been given. It can be shown that the random predictor generates an ROC curve where the FPR and TPR are equal at each possible threshold. 
 
-<img src="images/roc_curve_perfect.png" alt='roc_curve_perfect' width='700'>
+<center><img src="images/random.png" alt='random predictor' width='500'></center>
 
-We want our model to be as close to this orange curve as possible. How do we quantify "closeness"?
+The AUC of this worst-case random predictor is equal to 0.5: the area of the triangle outlined by its ROC curve. This is the worst possible AUC that can be achieved by a classifier.
 
-We can compute the **area under curve (AUC)** of the ROC curve. Notice how the perfect classifier has an AUC = 1. The closer our model's AUC is to 1, the better it is. On the other hand, a terrible model will have an AUC closer to 0.5. This indicates the classifier is not able to distinguish between positive and negative classes, and thus, randomly predicts one of the two.
-
-<img src="images/roc_curve_worst_predictor.png" alt='roc_curve_worst_predictor' width='900'>
-
-### Precision-Recall Curves
-
-A **Precision-Recall Curve (PR Curve)** is an alternative to the ROC curve that displays the relationship between precision and recall for various threshold values. It is constructed in a similar way as with the ROC curve.
-
-Let's first consider how precision and recall change as a function of the threshold $T$. We know this quite well from earlier -- precision will generally increase, and recall will decrease.
-
-<img src="images/precision-recall-thresh.png" alt='precision-recall-thresh' width='750'>
-
-Displayed below is the PR-Curve for the same toy dataset. Notice how threshold values increase as we move to the left.
-
-<img src="images/pr_curve_thresholds.png" alt='pr_curve_thresholds' width='685'>
-
-Once again, the perfect classifier will resemble the orange curve, this time, facing the opposite direction.
-
-<img src="images/pr_curve_perfect.png" alt='pr_curve_perfect' width='675'>
-
-We want our PR-Curve to be as close to the “top right” of this graph as possible. Again, we use the AUC to determine "closeness", with the perfect classifier exhibiting an AUC = 1 (and the worst with an AUC = 0.5).
+This means that we have now set the bounds for the performance of a real-world classifier. When we create classifiers of our own, our AUCs will lie between 0.5 (the worst AUC) and 1 (the best AUC). Our goal is to design a model that can achieve an AUC close to 1. 
 

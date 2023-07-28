@@ -65,7 +65,7 @@ For the curious: `"GOAL_DIFF"` represents the difference in successful field goa
 ```{python}
 #| code-fold: true
 import warnings
-warnings.simplefilter(action='ignore', category=FutureWarning)
+warnings.filterwarnings("ignore")
 
 import pandas as pd
 import numpy as np

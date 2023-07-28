@@ -280,23 +280,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   </ul></li>
   <li><a href="#performance-metrics" id="toc-performance-metrics" class="nav-link" data-scroll-target="#performance-metrics"><span class="toc-section-number">19.3</span>  Performance Metrics</a>
   <ul>
-  <li><a href="#the-confusion-matrix" id="toc-the-confusion-matrix" class="nav-link" data-scroll-target="#the-confusion-matrix"><span class="toc-section-number">19.3.1</span>  The Confusion Matrix</a></li>
-  <li><a href="#accuracy-precision-and-recall" id="toc-accuracy-precision-and-recall" class="nav-link" data-scroll-target="#accuracy-precision-and-recall"><span class="toc-section-number">19.3.2</span>  Accuracy, Precision, and Recall</a>
-  <ul>
-  <li><a href="#example-calculation" id="toc-example-calculation" class="nav-link" data-scroll-target="#example-calculation"><span class="toc-section-number">19.3.2.1</span>  Example Calculation</a>
-  <ul class="collapse">
-  <li><a href="#model-1" id="toc-model-1" class="nav-link" data-scroll-target="#model-1"><span class="toc-section-number">19.3.2.1.1</span>  Model 1</a></li>
-  <li><a href="#model-2" id="toc-model-2" class="nav-link" data-scroll-target="#model-2"><span class="toc-section-number">19.3.2.1.2</span>  Model 2</a></li>
+  <li><a href="#accuracy" id="toc-accuracy" class="nav-link" data-scroll-target="#accuracy"><span class="toc-section-number">19.3.1</span>  Accuracy</a></li>
+  <li><a href="#classification-types" id="toc-classification-types" class="nav-link" data-scroll-target="#classification-types"><span class="toc-section-number">19.3.2</span>  Classification Types</a></li>
+  <li><a href="#precision-and-recall" id="toc-precision-and-recall" class="nav-link" data-scroll-target="#precision-and-recall"><span class="toc-section-number">19.3.3</span>  Precision and Recall</a></li>
+  <li><a href="#false-positive-rates-and-true-positive-rates" id="toc-false-positive-rates-and-true-positive-rates" class="nav-link" data-scroll-target="#false-positive-rates-and-true-positive-rates"><span class="toc-section-number">19.3.4</span>  False Positive Rates and True Positive Rates</a></li>
   </ul></li>
-  <li><a href="#precision-vs-recall" id="toc-precision-vs-recall" class="nav-link" data-scroll-target="#precision-vs-recall"><span class="toc-section-number">19.3.2.2</span>  Precision vs Recall</a></li>
-  </ul></li>
-  </ul></li>
-  <li><a href="#adjusting-the-classification-threshold" id="toc-adjusting-the-classification-threshold" class="nav-link" data-scroll-target="#adjusting-the-classification-threshold"><span class="toc-section-number">19.4</span>  Adjusting the Classification Threshold</a>
-  <ul>
-  <li><a href="#two-more-metrics" id="toc-two-more-metrics" class="nav-link" data-scroll-target="#two-more-metrics"><span class="toc-section-number">19.4.1</span>  Two More Metrics</a></li>
-  <li><a href="#the-roc-curve" id="toc-the-roc-curve" class="nav-link" data-scroll-target="#the-roc-curve"><span class="toc-section-number">19.4.2</span>  The ROC Curve</a></li>
-  <li><a href="#precision-recall-curves" id="toc-precision-recall-curves" class="nav-link" data-scroll-target="#precision-recall-curves"><span class="toc-section-number">19.4.3</span>  Precision-Recall Curves</a></li>
-  </ul></li>
+  <li><a href="#changing-the-classification-threshold" id="toc-changing-the-classification-threshold" class="nav-link" data-scroll-target="#changing-the-classification-threshold"><span class="toc-section-number">19.4</span>  Changing the Classification Threshold</a></li>
   </ul>
 </nav>
     </div>
@@ -341,7 +330,7 @@ Learning Outcomes
 </div>
 </div>
 <p>In the previous lecture, we made our way through the beginnings of the classification process. We reframed our understanding of the modeling process in terms of <em>predicted probabilities</em>. We then derived the logistic regression model to predict the probability of a datapoint belonging to Class 1, given inputted features.</p>
-<p>In today’s lecture, we’ll address the second phase of a classification task: applying a decision rule to interpret these predicted probabilities and classify a datapoint. We’ll also explore metrics to assess the performance of our classifiers on real-world data.</p>
+<p>In this lecture, we’ll address the second phase of a classification task: applying a decision rule to interpret these predicted probabilities and classify a datapoint. We’ll also explore metrics to assess the performance of our classifiers on real-world data.</p>
 <p><img src="images/workflow.png" alt="classification workflow" width="750"></p>
 <section id="decision-boundaries" class="level2" data-number="19.1">
 <h2 data-number="19.1" class="anchored" data-anchor-id="decision-boundaries"><span class="header-section-number">19.1</span> Decision Boundaries</h2>
@@ -360,8 +349,10 @@ Learning Outcomes
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
 <span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>games <span class="op">=</span> pd.read_csv(<span class="st">"data/games"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>games <span class="op">=</span> pd.read_csv(<span class="st">"data/games"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
 <div class="cell" data-execution_count="2">
@@ -431,7 +422,9 @@ Learning Outcomes
 <li>Determine the value of our input feature, <code>"GOAL_DIFF"</code>, that leads to a predicted probability of exactly 0.5</li>
 <li>Look at the value of the input feature for each individual datapoint. If the input feature is <em>greater</em> in value than the critical value where the predicted probability is <span class="math inline">\(0.5\)</span>, predict Class 1. Otherwise, predict Class 0</li>
 </ol>
-<p><img src="images/db.png" alt="decision boundary" width="400"></p>
+<center>
+<img src="images/db.png" alt="decision boundary" width="550">
+</center>
 <p>Because we are now looking at the <em>features</em> of a datapoint when deciding which class to predict, it makes more sense to display only this input data. We do so by using a rugplot, which visualizes scatter points when we only have one variable.</p>
 <div class="cell" data-execution_count="8">
 <details>
@@ -522,31 +515,34 @@ Learning Outcomes
 <p>When our data is linearly separable, we run into the problem of <strong>diverging</strong> model parameters: the “optimal” parameters for the model approach positive or negative infinity. This can be a problem for a few reasons (beyond the fact that we can’t practically “plug” <span class="math inline">\(\infty\)</span> into our model to make predictions).</p>
 <p>Consider an artificially-generated “toy” dataset of two datapoints.</p>
 <div class="cell" data-execution_count="11">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co">#\code-fold: true</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>toy_df <span class="op">=</span> pd.DataFrame({<span class="st">"x"</span>: [<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>], <span class="st">"y"</span>: [<span class="dv">0</span>, <span class="dv">1</span>]})</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>toy_df, x<span class="op">=</span><span class="st">'x'</span>, y<span class="op">=</span><span class="st">'y'</span>, hue<span class="op">=</span><span class="st">"y"</span>, s<span class="op">=</span><span class="dv">100</span>, legend<span class="op">=</span><span class="va">None</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>toy_df <span class="op">=</span> pd.DataFrame({<span class="st">"x"</span>: [<span class="op">-</span><span class="dv">1</span>, <span class="dv">1</span>], <span class="st">"y"</span>: [<span class="dv">0</span>, <span class="dv">1</span>]})</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data<span class="op">=</span>toy_df, x<span class="op">=</span><span class="st">'x'</span>, y<span class="op">=</span><span class="st">'y'</span>, hue<span class="op">=</span><span class="st">"y"</span>, s<span class="op">=</span><span class="dv">100</span>, legend<span class="op">=</span><span class="va">None</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img src="logistic_reg_2_files/figure-html/cell-12-output-1.png" width="589" height="429"></p>
 </div>
 </div>
 <p>If we fit a logistic regression model with one feature to this data, we find a strange-looking cross-entropy loss surface.</p>
 <div class="cell" data-execution_count="12">
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#\code-fold: true</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> toy_model(theta1, x):</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>theta1 <span class="op">*</span> x))</span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mean_cross_entropy_loss_toy(theta1):</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Here we use 1 - sigma(z) = sigma(-z) to improve numerical stability</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span> np.<span class="bu">sum</span>(toy_df[<span class="st">'y'</span>] <span class="op">*</span> np.log(toy_model(theta1, toy_df[<span class="st">'x'</span>])) <span class="op">+</span> <span class="op">\</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>                    (<span class="dv">1</span><span class="op">-</span>toy_df[<span class="st">'y'</span>]) <span class="op">*</span> np.log(toy_model(theta1, <span class="op">-</span>toy_df[<span class="st">'x'</span>])))</span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>thetas <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">30</span>, <span class="dv">30</span>, <span class="dv">100</span>)</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>losses <span class="op">=</span> [mean_cross_entropy_loss_toy(theta) <span class="cf">for</span> theta <span class="kw">in</span> thetas]</span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>plt.plot(thetas, losses, color <span class="op">=</span> <span class="st">'green'</span>)</span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="vs">r'Mean Cross Entropy Loss($\theta$)'</span>)</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="vs">r'$\theta$'</span>)<span class="op">;</span></span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Mean Cross Entropy Loss Surface"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> toy_model(theta1, x):</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="dv">1</span><span class="op">/</span>(<span class="dv">1</span> <span class="op">+</span> np.exp(<span class="op">-</span>theta1 <span class="op">*</span> x))</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> mean_cross_entropy_loss_toy(theta1):</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Here we use 1 - sigma(z) = sigma(-z) to improve numerical stability</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="op">-</span> np.<span class="bu">sum</span>(toy_df[<span class="st">'y'</span>] <span class="op">*</span> np.log(toy_model(theta1, toy_df[<span class="st">'x'</span>])) <span class="op">+</span> <span class="op">\</span></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>                    (<span class="dv">1</span><span class="op">-</span>toy_df[<span class="st">'y'</span>]) <span class="op">*</span> np.log(toy_model(theta1, <span class="op">-</span>toy_df[<span class="st">'x'</span>])))</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>thetas <span class="op">=</span> np.linspace(<span class="op">-</span><span class="dv">30</span>, <span class="dv">30</span>, <span class="dv">100</span>)</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>losses <span class="op">=</span> [mean_cross_entropy_loss_toy(theta) <span class="cf">for</span> theta <span class="kw">in</span> thetas]</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>plt.plot(thetas, losses, color <span class="op">=</span> <span class="st">'green'</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="vs">r'Mean Cross Entropy Loss($\theta$)'</span>)</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="vs">r'$\theta$'</span>)<span class="op">;</span></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Mean Cross Entropy Loss Surface"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
 <div class="cell-output cell-output-display">
 <p><img src="logistic_reg_2_files/figure-html/cell-13-output-1.png" width="587" height="449"></p>
 </div>
@@ -569,208 +565,242 @@ Learning Outcomes
 </section>
 <section id="performance-metrics" class="level2" data-number="19.3">
 <h2 data-number="19.3" class="anchored" data-anchor-id="performance-metrics"><span class="header-section-number">19.3</span> Performance Metrics</h2>
-<p>Now that we have our classifier, let’s quantify how well it performs. The most basic evaluation metric is <strong>accuracy</strong> – the proportion of correctly classified points.</p>
+<p>We’re in good shape: we’ve drived the logistic regression model to predict probabilities, and we’ve now introduced the idea of a decision rule to help us classify data into categories.</p>
+<p>To help quantify how “well” or “poorly” our model is doing, we’ll introduce a set of classification <strong>performance metrics</strong>. You may wonder: why do we need any new metrics of performance? Don’t we already have cross-entropy loss? Recall that cross-entropy loss deals with the predicted probabilities outputted by the sigmoid curve. In practice, we are usually more interested in whether or not our model <em>classifies</em> the data appropriately – determining if each point should belong to Class 0 or 1 – rather than the precide probabilities it predicts.</p>
+<section id="accuracy" class="level3" data-number="19.3.1">
+<h3 data-number="19.3.1" class="anchored" data-anchor-id="accuracy"><span class="header-section-number">19.3.1</span> Accuracy</h3>
+<p>The most basic evaluation metric is <strong>accuracy</strong>: the proportion of correctly classified points.</p>
 <p><span class="math display">\[\text{accuracy} = \frac{\# \text{ of points classified correctly}}{\# \text{ of total points}}\]</span></p>
+<p>Because we are working with binary labels of 0 or 1, computing the accuracy is equivalent to finding the average number of times our model makes a correct classification.</p>
 <div class="cell" data-execution_count="14">
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>model.score(X, Y) <span class="co"># built-in accuracy function</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>Y_hat <span class="op">=</span> model.predict(X)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>accuracy <span class="op">=</span> np.mean(Y<span class="op">==</span>Y_hat)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>accuracy</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="14">
 <pre><code>0.7943089430894309</code></pre>
 </div>
 </div>
-<p>However, accuracy is not always a great metric for classification, particularily when the data has class imbalance.</p>
-<p>To understand why, let’s consider a classification problem with 100 emails, 5 of which are spam. We’ll investigate two models where accuracy is a poor metric.</p>
+<p>Alternatively, we can use the built-in <code>.score()</code> method from <code>sklearn</code> to compute the accuracy.</p>
+<div class="cell" data-execution_count="15">
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>model.score(X, Y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display" data-execution_count="15">
+<pre><code>0.7943089430894309</code></pre>
+</div>
+</div>
+<p>Although accuracy is a very intuitive way of quantifying performance, it does come with drawbacks. Accuracy often misrepresents how well our model performs when there is <strong>class imbalance</strong> – that is, when there are signficantly more datapoints belonging to Class 1 than to Class 0, or vice-versa.</p>
+<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="true" aria-label="Toggle callout">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-caption-container flex-fill">
+Pitfalls of Accuracy: A Case Study
+</div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
+</div>
+<div id="callout-2" class="callout-2-contents callout-collapse collapse show">
+<div class="callout-body-container callout-body">
+<p>Suppose you are trying to classify emails as spam (1) or ham (0). Your friend (feeling a little lazy) decides to create a classifier that <em>always</em> predicts <span class="math inline">\(\hat{Y}=0\)</span>. Regardless of the inputted datapoint, your friend will always predict Class 0 (ham).</p>
+<p>You obtain a dataset of 100 emails, of which 95 are ham and 5 are spam.</p>
+<p>By predicting that all 100 emails are truly ham, your friend’s classifier makes 95 correct predictions and 5 incorrect predictions. That means that the accuracy of their classifier is 0.95!</p>
+<p>On the surface, this seems like great performance. However, because there was imbalance in the two classes, the accuracy of the classifier is not a great indicator of how well it performs. In reality, your friend’s classifier failed to identify <em>any</em> of the spam emails.</p>
+</div>
+</div>
+</div>
+</section>
+<section id="classification-types" class="level3" data-number="19.3.2">
+<h3 data-number="19.3.2" class="anchored" data-anchor-id="classification-types"><span class="header-section-number">19.3.2</span> Classification Types</h3>
+<p>To help us derive new performance metrics that perform better in the presence of class imbalance, let’s take a moment to reflect on what “types” of classifications a model might make. There are four outcomes of any binary classification:</p>
 <ul>
-<li><strong>Model 1</strong>: Our first model classifies every email as non-spam. The model’s accuracy is high (<span class="math inline">\(\frac{95}{100} = 0.95\)</span>), but it doesn’t detect any spam emails. Despite the high accuracy, this is a bad model.</li>
-<li><strong>Model 2</strong>: The second model classifies every email as spam. The accuracy is low (<span class="math inline">\(\frac{5}{100} = 0.05\)</span>), but the model correctly labels every spam email. Unfortunately, it also misclassifies every non-spam email.</li>
+<li><strong>True positive:</strong> the classifier correctly classifies a Class 1 datapoint as being Class 1 (<span class="math inline">\(Y=1, \hat{Y}=1\)</span>)</li>
+<li><strong>True negative:</strong> the classifier correctly classifies a Class 0 datapoint as being Class 0 (<span class="math inline">\(Y=0, \hat{Y}=0\)</span>)</li>
+<li><strong>False positive:</strong> the classifier incorrectly classifies a Class 0 datapoint as being Class 1 (<span class="math inline">\(Y=0, \hat{Y}=1\)</span>)</li>
+<li><strong>False negative:</strong> the classifier incorrectly classifies a Class 1 datapoint as being Class 0 (<span class="math inline">\(Y=1, \hat{Y}=0\)</span>)</li>
 </ul>
-<section id="the-confusion-matrix" class="level3" data-number="19.3.1">
-<h3 data-number="19.3.1" class="anchored" data-anchor-id="the-confusion-matrix"><span class="header-section-number">19.3.1</span> The Confusion Matrix</h3>
-<p>Model 1 from above has 5 <strong>false negatives (FN)</strong> – data points which were predicted to belong to class <span class="math inline">\(0\)</span> (non-spam), but their true class was <span class="math inline">\(1\)</span> (spam). In a similar vein, Model 2 has 95 <strong>false positives (FP)</strong> – that is, “false alarms” where we predict class <span class="math inline">\(1\)</span>, but the true class was <span class="math inline">\(0\)</span>. <strong>True positives (TP)</strong> and <strong>true negatives (TN)</strong> are when we correctly classify observations as being positive or negative, respectively.</p>
-<p>These classifications can be concisely summarized in a <strong>confusion matrix</strong>.</p>
-<p><img src="images/confusion_matrix.png" alt="confusion_matrix" width="500"></p>
-<p>An easy way to remember this terminology is as follows:</p>
+<p>That was a lot of words. It is often easier to express the different types of classifications visually using a <strong>confusion matrix</strong>.</p>
+<center>
+<img src="images/confusion.png" alt="confusion matrix" width="500">
+</center>
+<p>One way to remember this terminology is as follows:</p>
 <ol type="1">
 <li>Look at the second word in the phrase. <em>Positive</em> means a prediction of 1. <em>Negative</em> means a prediction of 0.</li>
 <li>Look at the first word in the phrase. <em>True</em> means our prediction was correct. <em>False</em> means it was incorrect.</li>
 </ol>
-<p>A confusion matrix for a particular classifier may be found programatically. For our breast cancer data, it looks like this:</p>
-<div class="cell" data-execution_count="15">
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> model.predict(X)</span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>confusion_matrix(Y, y_pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="15">
-<pre><code>array([[511, 114],
-       [139, 466]])</code></pre>
+</section>
+<section id="precision-and-recall" class="level3" data-number="19.3.3">
+<h3 data-number="19.3.3" class="anchored" data-anchor-id="precision-and-recall"><span class="header-section-number">19.3.3</span> Precision and Recall</h3>
+<p>With our understanding of possible classifications in hand, let’s define two new performance metrics.</p>
+<p><strong>Precision</strong> asks: of all the positive (Class 1) predictions made by the classifier, how many were truly positive?</p>
+<p><span class="math display">\[\text{Precision} = \frac{TP}{TP+FP}\]</span></p>
+<p><strong>Recall</strong> asks: of all the observations that were truly positive (Class 1), how many did the classifier predict to be positive?</p>
+<p><span class="math display">\[\text{Recall} = \frac{TP}{TP+FN}\]</span></p>
+<p>Notice that precision and recall take slightly different approaches to quantifying how well the model performs. Precision examines all of the positive <em>predictions</em> made by the model; recall examines the <em>datapoints</em> that were truly positive.</p>
+<p>In practice, we would like our classifier to have both high precision and high recall. This can sometimes be a challenging goal. Precision penalizes false positives – as the number of false positives increases, the precision decreases. We might try to improve precision by reducing the number of positive predictions we make (and, at the same time, increasing the number of negative predictions).</p>
+<p>In contrast, recall penalizes false negatives – as the number of false negatives increases, the recall decreases. To avoid false negatives, we might increase the number of positive predictions we make while decreasing the number of negative predictions. This means that there is typically a <em>trade-off</em> when trying to maximize both precision and recall.</p>
+<p>So, should we prioritize precision or recall? It depends on the context. In many medical settings, there might be a much higher cost to “missing” positive cases by producing a false negative (for example, failing to detect a dangerous medical condition). In such situations, we may choose to focus on minimizing the number of false negatives by maximizing recall.</p>
+</section>
+<section id="false-positive-rates-and-true-positive-rates" class="level3" data-number="19.3.4">
+<h3 data-number="19.3.4" class="anchored" data-anchor-id="false-positive-rates-and-true-positive-rates"><span class="header-section-number">19.3.4</span> False Positive Rates and True Positive Rates</h3>
+<p>Let’s introduce two more metrics.</p>
+<p>The <strong>false positive rate (FPR)</strong> asks: out of all datapoints that were truly negative (Class 0), how many did the classifier <em>incorrectly</em> predict to be positive?</p>
+<p><span class="math display">\[\text{FPR} = \frac{FP}{FP+TN}\]</span></p>
+<p>A similar metric is the <strong>true positive rate (TPR)</strong>, which finds the proportion of datapoints that were truly positive that the classifier correctly identified as positive. It is the same as recall defined above.</p>
+<p><span class="math display">\[\text{FPR} = \frac{TP}{TP+FN}\]</span></p>
+</section>
+</section>
+<section id="changing-the-classification-threshold" class="level2" data-number="19.4">
+<h2 data-number="19.4" class="anchored" data-anchor-id="changing-the-classification-threshold"><span class="header-section-number">19.4</span> Changing the Classification Threshold</h2>
+<p>Up until now, we have always been applying decision rules with a threshold of <span class="math inline">\(T=0.5\)</span>. When a predicted probability <span class="math inline">\(p\)</span> was equal to or greater than <span class="math inline">\(0.5\)</span> we predicted Class 1; otherwise, we predicted Class 0.</p>
+<p>What happens when we change this threshold to some other value?</p>
+<p>Consider first the case where we lower the threshold to <span class="math inline">\(T=0.25\)</span>. Any time the predicted probability of a datapoint belonging to Class 1 is greater than or equal to 0.25, the classifier will predict <span class="math inline">\(\hat{Y}=1\)</span>. In other words, if the classifier predicts a 25% chance or higher of a datapoint being positive, it will classify the point as being Class 1.</p>
+<div class="cell" data-execution_count="16">
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>y_hat <span class="op">=</span> (p<span class="op">&gt;=</span><span class="fl">0.25</span>).astype(<span class="bu">int</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="17">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>theta0 <span class="op">=</span> model.intercept_</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>theta1 <span class="op">=</span> model.coef_[<span class="dv">0</span>]</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>decision_boundary_T25 <span class="op">=</span> (<span class="dv">1</span><span class="op">/</span>theta1)<span class="op">*</span>(<span class="op">-</span>np.log(<span class="dv">1</span><span class="op">/</span><span class="fl">0.25</span> <span class="op">-</span> <span class="dv">1</span>) <span class="op">-</span> theta0)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">0.3</span>, <span class="fl">0.3</span>)</span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>sns.stripplot(x<span class="op">=</span>games[<span class="st">"GOAL_DIFF"</span>], y<span class="op">=</span>games[<span class="st">"WON"</span>], hue<span class="op">=</span>y_hat, orient<span class="op">=</span><span class="st">"h"</span>)</span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>plt.plot(x, sigmoid(model.intercept_ <span class="op">+</span> model.coef_[<span class="dv">0</span>]<span class="op">*</span>x), <span class="st">"k"</span>, label<span class="op">=</span><span class="st">"P(Y=1|x)"</span>)</span>
+<span id="cb23-8"><a href="#cb23-8" aria-hidden="true" tabindex="-1"></a>plt.gca().invert_yaxis()</span>
+<span id="cb23-9"><a href="#cb23-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb23-10"><a href="#cb23-10" aria-hidden="true" tabindex="-1"></a>plt.annotate(<span class="ss">f"Decision Boundary:</span><span class="ch">\n</span><span class="ss">x = </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(decision_boundary_T25[<span class="dv">0</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>, (<span class="op">-</span><span class="fl">0.3</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="logistic_reg_2_files/figure-html/cell-18-output-1.png" width="576" height="429"></p>
 </div>
 </div>
-</section>
-<section id="accuracy-precision-and-recall" class="level3" data-number="19.3.2">
-<h3 data-number="19.3.2" class="anchored" data-anchor-id="accuracy-precision-and-recall"><span class="header-section-number">19.3.2</span> Accuracy, Precision, and Recall</h3>
-<p>The purpose of our discussion of the confusion matrix was to motivate better performance metrics for classification problems with class imbalance - namely, precision and recall.</p>
-<p><strong>Precision</strong> is defined as</p>
-<p><span class="math display">\[\frac{\text{TP}}{\text{TP + FP}}\]</span></p>
-<p>Precision answers the question: “of all observations that were predicted to be <span class="math inline">\(1\)</span>, what proportion were actually <span class="math inline">\(1\)</span>?” It measures how accurate the classifier is when its predictions are positive.</p>
-<p><strong>Recall</strong> (or <strong>sensitivity</strong>) is defined as</p>
-<p><span class="math display">\[\frac{\text{TP}}{\text{TP + FN}}\]</span></p>
-<p>Recall aims to answer: “of all observations that were actually <span class="math inline">\(1\)</span>, what proportion were predicted to be <span class="math inline">\(1\)</span>?” It measures how many positive predictions were missed.</p>
-<p>Here’s a helpful graphic that summarizes our discussion above.</p>
-<p><img src="images/precision_recall_graphic.png" alt="confusion_matrix" width="700"></p>
-<section id="example-calculation" class="level4" data-number="19.3.2.1">
-<h4 data-number="19.3.2.1" class="anchored" data-anchor-id="example-calculation"><span class="header-section-number">19.3.2.1</span> Example Calculation</h4>
-<p>In this section, we will calculate the accuracy, precision, and recall performance metrics for our earlier spam classification example. As a reminder, we had a 100 emails, 5 of which were spam. We designed two models:</p>
-<ul>
-<li>Model 1: Predict that every email is <em>non-spam</em></li>
-<li>Model 2: Predict that every email is <em>spam</em></li>
-</ul>
-<section id="model-1" class="level5" data-number="19.3.2.1.1">
-<h5 data-number="19.3.2.1.1" class="anchored" data-anchor-id="model-1"><span class="header-section-number">19.3.2.1.1</span> Model 1</h5>
-<p>First, let’s begin by creating the confusion matrix.</p>
-<table class="table">
-<colgroup>
-<col style="width: 27%">
-<col style="width: 27%">
-<col style="width: 38%">
-</colgroup>
-<thead>
-<tr class="header">
-<th></th>
-<th>0</th>
-<th>1</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0</td>
-<td>True Negative: 95</td>
-<td>False Positive: 0</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>False Negative: 5</td>
-<td>True Positive: 0</td>
-</tr>
-</tbody>
-</table>
-<p>Convince yourself of why our confusion matrix looks like so.</p>
-<p><span class="math display">\[\text{accuracy} = \frac{95}{100} = 0.95\]</span> <span class="math display">\[\text{precision} = \frac{0}{0 + 0} = \text{undefined}\]</span> <span class="math display">\[\text{recall} = \frac{0}{0 + 5} = 0\]</span></p>
-<ul>
-<li>Notice how our precision is undefined because we never predicted class <span class="math inline">\(1\)</span></li>
-<li>Our recall is 0 for the same reason – the numerator is 0 (we had no positive predictions)</li>
-</ul>
-</section>
-<section id="model-2" class="level5" data-number="19.3.2.1.2">
-<h5 data-number="19.3.2.1.2" class="anchored" data-anchor-id="model-2"><span class="header-section-number">19.3.2.1.2</span> Model 2</h5>
-<p>Our confusion matrix for Model 2 looks like so.</p>
-<table class="table">
-<colgroup>
-<col style="width: 27%">
-<col style="width: 27%">
-<col style="width: 38%">
-</colgroup>
-<thead>
-<tr class="header">
-<th></th>
-<th>0</th>
-<th>1</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>0</td>
-<td>True Negative: 0</td>
-<td>False Positive: 95</td>
-</tr>
-<tr class="even">
-<td>1</td>
-<td>False Negative: 0</td>
-<td>True Positive: 5</td>
-</tr>
-</tbody>
-</table>
-<p><span class="math display">\[\text{accuracy} = \frac{5}{100} = 0.05\]</span> <span class="math display">\[\text{precision} = \frac{5}{5 + 95} = 0.05\]</span> <span class="math display">\[\text{recall} = \frac{5}{5 + 0} = 1\]</span></p>
-<ul>
-<li>Our precision is low because we have many false positives</li>
-<li>Our recall is perfect - we correctly classified all spam emails (we never predicted class <span class="math inline">\(0\)</span>)</li>
-</ul>
-</section>
-</section>
-<section id="precision-vs-recall" class="level4" data-number="19.3.2.2">
-<h4 data-number="19.3.2.2" class="anchored" data-anchor-id="precision-vs-recall"><span class="header-section-number">19.3.2.2</span> Precision vs Recall</h4>
-<p>Precision (<span class="math inline">\(\frac{\text{TP}}{\text{TP} + \textbf{ FP}}\)</span>) penalizes false positives, while recall (<span class="math inline">\(\frac{\text{TP}}{\text{TP} + \textbf{ FN}}\)</span>) penalizes false negatives.</p>
-<p>In fact, precision and recall are <em>inversely related</em>. This is evident in our second model – we observed a high recall and low precision. Usually, there is a tradeoff in these two (most models can either minimize the number of FP or FN; and in rare cases, both).</p>
-<p>The specific performance metric(s) to prioritize depends on the context. In many medical settings, there might be a much higher cost to missing positive cases. For instance, in our breast cancer example, it is more costly to misclassify malignant tumors (false negatives) than it is to incorrectly classify a benign tumor as malignant (false positives). In the case of the latter, pathologists can conduct further study to verify malignant tumors. As such, we should minimize the number of false negatives. This is equivalent to maximizing recall.</p>
-</section>
-</section>
-</section>
-<section id="adjusting-the-classification-threshold" class="level2" data-number="19.4">
-<h2 data-number="19.4" class="anchored" data-anchor-id="adjusting-the-classification-threshold"><span class="header-section-number">19.4</span> Adjusting the Classification Threshold</h2>
-<p>One way to minimize the number of FP vs.&nbsp;FN (equivalently, maximizing precision vs.&nbsp;recall) is by adjusting the classification threshold <span class="math inline">\(T\)</span>.</p>
-<p><span class="math display">\[\hat y = \begin{cases}
-        1, &amp; P(Y=1|x) \ge T\\
-        0, &amp; \text{otherwise }
-    \end{cases}\]</span></p>
-<p>The default threshold in <code>sklearn</code> is <span class="math inline">\(T = 0.5\)</span>. As we increase the threshold <span class="math inline">\(T\)</span>, we “raise the standard” of how confident our classifier needs to be to predict 1 (i.e., “positive”).</p>
-<p><img src="images/varying_threshold.png" alt="varying_threshold" width="800"></p>
-<p>As you may notice, the choice of threshold <span class="math inline">\(T\)</span> impacts our classifier’s performance.</p>
-<ul>
-<li>High <span class="math inline">\(T\)</span>: Most predictions are <span class="math inline">\(0\)</span>.
-<ul>
-<li>Lots of false negatives</li>
-<li>Fewer false positives</li>
-</ul></li>
-<li>Low <span class="math inline">\(T\)</span>: Most predictions are <span class="math inline">\(1\)</span>.
-<ul>
-<li>Lots of false positives</li>
-<li>Fewer false negatives</li>
-</ul></li>
-</ul>
-<p>In fact, we can choose a threshold <span class="math inline">\(T\)</span> based on our desired number, or proportion, of false positives and false negatives. We can do so using a few different tools. We’ll touch on two of the most important ones in Data 100.</p>
-<ol type="1">
-<li>Precision-Recall Curve (PR Curve). [Covered in Extra Content]</li>
-<li>“Receiver Operating Characteristic” Curve (ROC Curve)</li>
-</ol>
-<p>To motivate the ROC Curve, let’s first consider two more metrics - true positive rate (TPR) and false positive rate (FPR).</p>
-<section id="two-more-metrics" class="level3" data-number="19.4.1">
-<h3 data-number="19.4.1" class="anchored" data-anchor-id="two-more-metrics"><span class="header-section-number">19.4.1</span> Two More Metrics</h3>
-<p>The <strong>True Positive Rate (TPR)</strong> is defined as</p>
-<p><span class="math display">\[\frac{\text{TP}}{\text{TP + FN}}\]</span></p>
-<p>You’ll notice this is equivalent to <em>recall</em>. In the context of our spam email classifier, it answers the question: “what proportion of spam did I mark correctly?”.</p>
-<ul>
-<li>We’d like this to be close to <span class="math inline">\(1\)</span></li>
-</ul>
-<p>The <strong>False Positive Rate (FPR)</strong> is defined as</p>
-<p><span class="math display">\[\frac{\text{FP}}{\text{FP + TN}}\]</span></p>
-<p>Another word for FPR is <em>specificity</em>. This answers the question: “what proportion of regular email did I mark as spam?”</p>
-<ul>
-<li>We’d like this to be close to <span class="math inline">\(0\)</span></li>
-</ul>
-<p>As we increase threshold <span class="math inline">\(T\)</span>, both TPR and FPR decrease. We’ve plotted this relationship below for some model on a toy dataset.</p>
-<p><img src="images/tpr_fpr.png" alt="tpr_fpr" width="800"></p>
-</section>
-<section id="the-roc-curve" class="level3" data-number="19.4.2">
-<h3 data-number="19.4.2" class="anchored" data-anchor-id="the-roc-curve"><span class="header-section-number">19.4.2</span> The ROC Curve</h3>
-<p>The “Receiver Operating Characteristic” Curve (<strong>ROC Curve</strong>) plots the tradeoff between FPR and TPR. Notice how the far-left of the curve corresponds to higher threshold <span class="math inline">\(T\)</span> values.</p>
-<p><img src="images/roc_curve.png" alt="roc_curve" width="700"></p>
-<p>The “perfect” classifier is the one that has a TPR of 1, and FPR of 0. This is achieved at the top-left of the plot below. More generally, it’s ROC curve resembles the curve in orange.</p>
-<p><img src="images/roc_curve_perfect.png" alt="roc_curve_perfect" width="700"></p>
-<p>We want our model to be as close to this orange curve as possible. How do we quantify “closeness”?</p>
-<p>We can compute the <strong>area under curve (AUC)</strong> of the ROC curve. Notice how the perfect classifier has an AUC = 1. The closer our model’s AUC is to 1, the better it is. On the other hand, a terrible model will have an AUC closer to 0.5. This indicates the classifier is not able to distinguish between positive and negative classes, and thus, randomly predicts one of the two.</p>
-<p><img src="images/roc_curve_worst_predictor.png" alt="roc_curve_worst_predictor" width="900"></p>
-</section>
-<section id="precision-recall-curves" class="level3" data-number="19.4.3">
-<h3 data-number="19.4.3" class="anchored" data-anchor-id="precision-recall-curves"><span class="header-section-number">19.4.3</span> Precision-Recall Curves</h3>
-<p>A <strong>Precision-Recall Curve (PR Curve)</strong> is an alternative to the ROC curve that displays the relationship between precision and recall for various threshold values. It is constructed in a similar way as with the ROC curve.</p>
-<p>Let’s first consider how precision and recall change as a function of the threshold <span class="math inline">\(T\)</span>. We know this quite well from earlier – precision will generally increase, and recall will decrease.</p>
-<p><img src="images/precision-recall-thresh.png" alt="precision-recall-thresh" width="750"></p>
-<p>Displayed below is the PR-Curve for the same toy dataset. Notice how threshold values increase as we move to the left.</p>
-<p><img src="images/pr_curve_thresholds.png" alt="pr_curve_thresholds" width="685"></p>
-<p>Once again, the perfect classifier will resemble the orange curve, this time, facing the opposite direction.</p>
-<p><img src="images/pr_curve_perfect.png" alt="pr_curve_perfect" width="675"></p>
-<p>We want our PR-Curve to be as close to the “top right” of this graph as possible. Again, we use the AUC to determine “closeness”, with the perfect classifier exhibiting an AUC = 1 (and the worst with an AUC = 0.5).</p>
+<p>Notice that <em>more</em> datapoints are predicted to be Class 1 than when we used the threshold <span class="math inline">\(T=0.5\)</span>. This is because the model needs to be less “confident” before making a positive prediction – the predicted probability of being Class 1 only needs to be 25% or higher for a positive prediction. Also observe that the decision boundary has shifted left of its original position when <span class="math inline">\(T=0.5\)</span>. Changing the threshold value if <em>equivalent to shifting the decision boundary</em>.</p>
+<p>When we raise the threshold to <span class="math inline">\(T=0.75\)</span>, we see the opposite behavior. The model will only predict Class 1 if there is a predicted 75% chance or higher of a datapoint belonging to Class 1, so we see fewer positive predictions. The decision boundary shifts right relative to the previous example.</p>
+<div class="cell" data-execution_count="18">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>y_hat <span class="op">=</span> (p<span class="op">&gt;=</span><span class="fl">0.75</span>).astype(<span class="bu">int</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell" data-execution_count="19">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>theta0 <span class="op">=</span> model.intercept_</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>theta1 <span class="op">=</span> model.coef_[<span class="dv">0</span>]</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>decision_boundary_T75 <span class="op">=</span> (<span class="dv">1</span><span class="op">/</span>theta1)<span class="op">*</span>(<span class="op">-</span>np.log(<span class="dv">1</span><span class="op">/</span><span class="fl">0.75</span> <span class="op">-</span> <span class="dv">1</span>) <span class="op">-</span> theta0)</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> np.linspace(<span class="op">-</span><span class="fl">0.3</span>, <span class="fl">0.3</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>sns.stripplot(x<span class="op">=</span>games[<span class="st">"GOAL_DIFF"</span>], y<span class="op">=</span>games[<span class="st">"WON"</span>], hue<span class="op">=</span>y_hat, orient<span class="op">=</span><span class="st">"h"</span>)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>plt.plot(x, sigmoid(model.intercept_ <span class="op">+</span> model.coef_[<span class="dv">0</span>]<span class="op">*</span>x), <span class="st">"k"</span>, label<span class="op">=</span><span class="st">"P(Y=1|x)"</span>)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>plt.gca().invert_yaxis()</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>plt.annotate(<span class="ss">f"Decision Boundary:</span><span class="ch">\n</span><span class="ss">x = </span><span class="sc">{</span>np<span class="sc">.</span><span class="bu">round</span>(decision_boundary_T75[<span class="dv">0</span>], <span class="dv">3</span>)<span class="sc">}</span><span class="ss">"</span>, (<span class="fl">0.1</span>, <span class="fl">0.5</span>))<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<p><img src="logistic_reg_2_files/figure-html/cell-20-output-1.png" width="576" height="429"></p>
+</div>
+</div>
+<p>Taken together, we see that the value of the threshold <span class="math inline">\(T\)</span> determines the relative number of positive and negative predictions.</p>
+<p>How does changing the threshold impact the model’s performance? It depends on our dataset, as well as which metric we are considering. Let’s consider the accuracy of our logistic regression model on the <code>games</code> data. In the cell below, we test out many different possible values for the threshold. For each threshold value <span class="math inline">\(T\)</span>, we compute what accuracy our model achieves if we use that value <span class="math inline">\(T\)</span> in our decision rule.</p>
+<div class="cell" data-execution_count="20">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define performance metrics dependent on the threshold value</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> predict_threshold(model, X, T): </span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>    prob_one <span class="op">=</span> model.predict_proba(X)[:, <span class="dv">1</span>]</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> (prob_one <span class="op">&gt;=</span> T).astype(<span class="bu">int</span>)</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> accuracy_threshold(X, Y, T):</span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.mean(predict_threshold(model, X, T) <span class="op">==</span> Y)</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> precision_threshold(X, Y, T):</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a>    Y_hat <span class="op">=</span> predict_threshold(model, X, T)</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>((Y_hat <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (Y <span class="op">==</span> <span class="dv">1</span>)) <span class="op">/</span> np.<span class="bu">sum</span>(Y_hat <span class="op">==</span> <span class="dv">1</span>)</span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> recall_threshold(X, Y, T):</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a>    Y_hat <span class="op">=</span> predict_threshold(model, X, T)</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>((Y_hat <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (Y <span class="op">==</span> <span class="dv">1</span>)) <span class="op">/</span> np.<span class="bu">sum</span>(Y <span class="op">==</span> <span class="dv">1</span>)</span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tpr_threshold(X, Y, T): <span class="co"># Same as recall</span></span>
+<span id="cb26-19"><a href="#cb26-19" aria-hidden="true" tabindex="-1"></a>    Y_hat <span class="op">=</span> predict_threshold(model, X, T)</span>
+<span id="cb26-20"><a href="#cb26-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>((Y_hat <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (Y <span class="op">==</span> <span class="dv">1</span>)) <span class="op">/</span> np.<span class="bu">sum</span>(Y <span class="op">==</span> <span class="dv">1</span>)</span>
+<span id="cb26-21"><a href="#cb26-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-22"><a href="#cb26-22" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> fpr_threshold(X, Y, T):</span>
+<span id="cb26-23"><a href="#cb26-23" aria-hidden="true" tabindex="-1"></a>    Y_hat <span class="op">=</span> predict_threshold(model, X, T)</span>
+<span id="cb26-24"><a href="#cb26-24" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.<span class="bu">sum</span>((Y_hat <span class="op">==</span> <span class="dv">1</span>) <span class="op">&amp;</span> (Y <span class="op">==</span> <span class="dv">0</span>)) <span class="op">/</span> np.<span class="bu">sum</span>(Y <span class="op">==</span> <span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell" data-execution_count="21">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute accuracies for different thresholds</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>thresholds <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">100</span>)</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>accs <span class="op">=</span> [accuracy_threshold(X, Y, t) <span class="cf">for</span> t <span class="kw">in</span> thresholds]</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot accuracy as a function of the threshold</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>plt.plot(thresholds, accs)</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Threshold"</span>)</span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Accuracy"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="logistic_reg_2_files/figure-html/cell-22-output-1.png" width="597" height="429"></p>
+</div>
+</div>
+<p>With higher threshold values, we make fewer positive predictions (reducing the risk of false positives) but more negative predictions (increasing the risk of false negatives). With lower threshold values, the converse is true – we make more positive predictions and fewer negative predictions. Because the relative numbers of false negatives and positives change with each threshold value, the accuracy of the classifier varies with the threshold. It turns out that for our specific model and dataset, the threshold value that maximizes accuracy is a bit under <span class="math inline">\(0.5\)</span>.</p>
+<div class="cell" data-execution_count="22">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Threshold that maximizes accuracy: T = </span><span class="sc">{</span>thresholds[np.argmax(accs)]<span class="sc">}</span><span class="ss">"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Threshold that maximizes accuracy: T = 0.48484848484848486</code></pre>
+</div>
+</div>
+<p>Changing the threshold value also allows us to more clearly see the trade-off between precision and recall described earlier. As the threshold increases, fewer positive predictions are made, decreasing the chances of a false positive while increasing the chances of a false negative. This means that precision increases while recall decreases.</p>
+<div class="cell" data-execution_count="23">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>precisions <span class="op">=</span> [precision_threshold(X, Y, t) <span class="cf">for</span> t <span class="kw">in</span> thresholds]</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>recalls <span class="op">=</span> [recall_threshold(X, Y, t) <span class="cf">for</span> t <span class="kw">in</span> thresholds]</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>plt.plot(thresholds, precisions, label<span class="op">=</span><span class="st">"Precision"</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>plt.plot(thresholds, recalls, label<span class="op">=</span><span class="st">"Recall"</span>)</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Threshold"</span>)</span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Precision/Recall"</span>)</span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>plt.legend()<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="logistic_reg_2_files/figure-html/cell-24-output-1.png" width="589" height="429"></p>
+</div>
+</div>
+<p>This means that we need to select our threshold value carefully as part of the model design process. If we are attempting to maximize the precision of our model, we may choose a large <span class="math inline">\(T\)</span>; if we are trying to maximize recall, we will likely choose a smaller <span class="math inline">\(T\)</span>.</p>
+<p>A <strong>precision-recall curve</strong> visualizes the trade-off using a single graph trace. Each position on the precision-recall curve represents a possible choice of threshold value <span class="math inline">\(T\)</span>. We then plot the precision and recall that our model obtains when using that value for the threshold.</p>
+<div class="cell" data-execution_count="24">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>plt.plot(recalls, precisions)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"Recall"</span>)</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Precision"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="logistic_reg_2_files/figure-html/cell-25-output-1.png" width="589" height="429"></p>
+</div>
+</div>
+<p>Often, we may attempt to maximize both precision and recall by selecting a threshold value that produces a point on the “bulge” of the curve in the upper righthand corner. This represents a point where both precision and recall are relatively high.</p>
+<p>Alternatively, we may wish to understand the false positive and true positive rates of our classifier. We do so by constructing a <strong>receiver operating characteristic (ROC) curve</strong>. The name “ROC” orignates from the original use of this technique to process radar signal in World War II.</p>
+<p>In an ROC curve, we similarly trial many possible values for the threshold <span class="math inline">\(T\)</span>. For each possible <span class="math inline">\(T\)</span>, we compute the TPR and FPR.</p>
+<div class="cell" data-execution_count="25">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>tprs <span class="op">=</span> [tpr_threshold(X, Y, t) <span class="cf">for</span> t <span class="kw">in</span> thresholds]</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>fprs <span class="op">=</span> [fpr_threshold(X, Y, t) <span class="cf">for</span> t <span class="kw">in</span> thresholds]</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>plt.plot(fprs, tprs)</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"FPR"</span>)</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"TPR"</span>)<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="logistic_reg_2_files/figure-html/cell-26-output-1.png" width="589" height="429"></p>
+</div>
+</div>
+<p>Our goal is to maximize TPR while keeping FPR low. To do so, we select a threshold value corresponding to the bulging region in the upper lefthand corner, where we see large TPR values and small FPR values.</p>
+<p>In an ideal world, we would be able to achieve a TPR of 1 (where we make no false negative predictions) and an FPR of 0 (where we make no false positive predictions). If we were to plot the ROC curve for such a classifier, it would look like a right angle. Notice that the optimal point in the lefthand corner corresponds to a TPR of 1 and FPR of 0.</p>
+<center>
+<img src="images/perfect.png" alt="perfect predictor" width="500">
+</center>
+<p>The area under the ROC curve of the perfect predictor is 1. One way of quantifying how close a real-world classifier is to being “perfect” is by computing the <strong>area under the curve (AUC)</strong>. The closer the AUC is to 1, the closer the classifier is performing to the ideal predictor.</p>
+<p>If the best-case predictor behaves in the way outlined above, how does the <em>worst-case</em> predictor behave? In the absolute worst case, a predictor will predict randomly: it will generate predicted probabilities uniformly at random between 0 and 1, without considering the actual data it has been given. It can be shown that the random predictor generates an ROC curve where the FPR and TPR are equal at each possible threshold.</p>
+<center>
+<img src="images/random.png" alt="random predictor" width="500">
+</center>
+<p>The AUC of this worst-case random predictor is equal to 0.5: the area of the triangle outlined by its ROC curve. This is the worst possible AUC that can be achieved by a classifier.</p>
+<p>This means that we have now set the bounds for the performance of a real-world classifier. When we create classifiers of our own, our AUCs will lie between 0.5 (the worst AUC) and 1 (the best AUC). Our goal is to design a model that can achieve an AUC close to 1.</p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->
