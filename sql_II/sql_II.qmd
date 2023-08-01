@@ -18,11 +18,67 @@ jupyter: python3
 
 ::: {.callout-note collapse="true"}
 ## Learning Outcomes
+* Filter groups based on a logical condition
 * Perform data cleaning and text manipulation in SQL
 * Join data across tables
 :::
 
 In this lecture, we'll continue our work from last time to introduce some advanced SQL syntax. 
+
+### Filtering with `HAVING`
+Let's return to our `Dish` table from the previous lecture.
+
+```{python}
+# Load the SQL Alchemy Python library
+import sqlalchemy
+import pandas as pd
+import numpy as np
+
+# Create a SQL Alchemy connection to the database
+engine = sqlalchemy.create_engine("sqlite:///data/basic_examples.db")
+connection = engine.connect()
+
+# Query information from the database
+query = """
+SELECT * 
+FROM Dish;
+"""
+
+pd.read_sql(query, engine)
+```
+
+Often, we will only be interested in groups that share a certain characteristic. For example, we might only want to work with `type`s where all dishes of that `type` cost less than $8.
+
+When working with `pandas`, we used the `.filter()` method of `GroupBy` objects to filter out entire groups of data based on a given condition. In SQL, we can achieve something similar by using the `HAVING` clause. `HAVING` checks to see if *all data across a group* satisfies a certain condition. If this condition is met, the group is kept in the outputted data. If not, the group is excluded from the output.
+
+```{python}
+#| code-fold: false
+query = """
+SELECT type, COUNT(*)
+FROM Dish
+GROUP BY type
+HAVING MAX(cost) < 8;
+"""
+
+pd.read_sql(query, engine)
+```
+
+Notice that all `entree`s have been excluded from the output table.
+
+It can be helpful to read `HAVING` clauses this way: "give me all `type` groups *having* a maximum `cost` less than 8."
+
+You may ask: why couldn't we have just used a `WHERE` clause here? It is important to remember that `WHERE` applies a condition to *individual* rows. We could, for example, use `WHERE` to filter rows that have particular values of `cost`. `WHERE` cannot, however, apply a condition *across* a group of many rows. Because `WHERE` only considers one row at a time, we would not be able to use it to filter on, say, the maximum `cost` across *all* rows in a group, or the sum of all `cost`s across an *entire* group of records. `HAVING` allows us to apply a condition based on some aggregate value of a collection of grouped rows. 
+
+Let's update our SQL order of operations.
+
+    SELECT <column list>
+    FROM <table>
+    [WHERE <predicate>]
+    [GROUP BY <column list>]
+    [HAVING <predicate>]
+    [ORDER BY <column list>]
+    [LIMIT <number of rows>]
+    [OFFSET <number of rows>]
 
 ## EDA in SQL
 In the last lecture, we mostly worked under the assumption that our data had already been cleaned. However, as we saw in our first pass through the data science lifecycle, we're very unlikely to be given data that is free of formatting issues. With this in mind, we'll want to learn how to clean and transform data in SQL.
@@ -95,10 +151,10 @@ Let's see this in action. In the example below, we give the new column created b
 
 ```{python}
 #| code-fold: false
-
-#If a movie was filmed before 1950, it is "old"
-#Otherwise, if a movie was filmed before 2000, it is "mid-aged"
-#Else, a movie is "new"
+np.random.seed(75)
+# If a movie was filmed before 1950, it is "old"
+# Otherwise, if a movie was filmed before 2000, it is "mid-aged"
+# Else, a movie is "new"
 
 query = """
 SELECT titleType, startYear,
@@ -109,7 +165,8 @@ CASE WHEN startYear < 1950 THEN "old"
 FROM Title;
 """
 
-pd.read_sql(query, engine)
+# Here, we randomly sample a few rows to see the updated values
+pd.read_sql(query, engine).sample(5)
 ```
 
 ### Matching Strings with `LIKE`
@@ -130,7 +187,7 @@ WHERE primaryTitle LIKE "Star Wars: Episode I - The Phantom Menace"
 pd.read_sql(query, engine)
 ```
 
-What if we wanted to find *all* Star Wars movies? `%` is the wildcard operator. It serves a similar function to `.` in regex – it means "match any character." This makes it helpful for identifying strings that are similar to our desired pattern, even when we don't know the full text of what we aim to extract. 
+What if we wanted to find *all* Star Wars movies? `%` is the wildcard operator. It serves a similar function to `.*` in regex – it means "match any character, any number of times." This makes it helpful for identifying strings that are similar to our desired pattern, even when we don't know the full text of what we aim to extract. 
 
 ```{python}
 #| code-fold: false
@@ -139,6 +196,20 @@ query = """
 SELECT titleType, primaryTitle
 FROM Title
 WHERE primaryTitle LIKE "%Star Wars%"
+"""
+
+pd.read_sql(query, engine).head()
+```
+
+The `_` operator will match any character, exactly once. You can think of it as equivalent to `.{1}` in regex.
+
+```{python}
+#| code-fold: false
+
+query = """
+SELECT titleType, primaryTitle
+FROM Title
+WHERE primaryTitle LIKE "Harry Potter and the Deathly Hallows: Part _"
 """
 
 pd.read_sql(query, engine)
