@@ -459,12 +459,12 @@ We can then fit models of increasing polynomial degree and compute their validat
 <img src="images/complexity_degree.png" alt="validation-error" width="600">
 </center>
 <p>From these results, we would choose a polynomial model of degree 8.</p>
-<p>Notice that the validation error behaves quite differently to the training error explored previously. Recall that the training error decreased monotonically with increasing model degree – as the model became more complex, it made better and better predictions on the training data. The validation error, in contrast, decreases <em>then increases</em> as we increase model complexity. This reflects the transition from under- to overfitting. At low model complexity, the model underfits because it is not complex enough to capture the main trends in the data. At high model complexity, the model overfits because it “memorizes” the training data to closely.</p>
+<p>Notice that the validation error behaves quite differently to the training error explored previously. Recall that the training error decreased monotonically with increasing model degree – as the model became more complex, it made better and better predictions on the training data. The validation error, in contrast, decreases <em>then increases</em> as we increase model complexity. This reflects the transition from under- to overfitting. At low model complexity, the model underfits because it is not complex enough to capture the main trends in the data. At high model complexity, the model overfits because it “memorizes” the training data too closely.</p>
 <p>We can update our understanding of the relationships between error, complexity, and model variance:</p>
 <center>
-<img src="images/training_validation_curve.png" alt="training_validation_curve" width="500">
+<img src="images/val_error.png" alt="training_validation_curve" width="500">
 </center>
-<p>Our goal is to train a model with complexity near the red line. Note that this relationship is a simplification of the real-world. But for purposes of Data 100, this is good enough.</p>
+<p>Our goal is to train a model with complexity near the black dotted line – this is where our model achieves minimum error on the validation set. Note that this relationship is a simplification of the real-world. But for purposes of Data 100, this is good enough.</p>
 </section>
 </section>
 <section id="cross-validation" class="level2" data-number="15.2">
@@ -550,10 +550,14 @@ The <strong>cross-validation error</strong> is then the <em>average</em> error a
 <li>When <span class="math inline">\(Q\)</span> is small, we severely restrict the size of our parameters. The allowed region of model parameters contracts, and the model becomes much simpler</li>
 <li>When <span class="math inline">\(Q\)</span> is large, we do not restrict our parameter sizes by much. The allowed region of model parameters expands, and the model becomes more complex</li>
 </ul>
-<p><img src="images/q_size.png" alt="changing_q" width="700"></p>
+<center>
+<img src="images/large_small_Q.png" alt="changing_q" width="700">
+</center>
 <p>Consider the extreme case where <span class="math inline">\(Q\)</span> is infinitely small. The solution to every constrained modeling problem would lie on the origin, at <span class="math inline">\((\theta_1, \theta_2) = (0, 0)\)</span>. This is equivalent to the constant model we studied – the least complex of all models. In the case where the radius is infinitely large, the optimal constrained solution exists at <span class="math inline">\(\hat\theta_{\text{No Reg}}\)</span> itself! This is the solution obtained from OLS with no limitations on complexity.</p>
 <p>Let’s summarize what we have seen.</p>
-<p><img src="images/tradeoff.png" alt="constraints_and_complexity" width="700"></p>
+<center>
+<img src="images/q_size.png" alt="constraints_and_complexity" width="700">
+</center>
 </section>
 </section>
 <section id="l1-lasso-regularization" class="level2" data-number="15.4">
@@ -563,18 +567,18 @@ The <strong>cross-validation error</strong> is then the <em>average</em> error a
 <p><span class="math display">\[\frac{1}{n} \sum_{i=1}^n (y_i - \hat{y}_i)^2 = \frac{1}{n} \sum_{i=1}^n (y_i - (\theta_0 + \theta_1 x_{i, 1} + \theta_2 x_{i, 2} + \ldots + \theta_p x_{i, p}))^2\]</span></p>
 <p>To apply our constraint, we need to rephrase our minimization goal.</p>
 <p><span class="math display">\[\frac{1}{n} \sum_{i=1}^n (y_i - (\theta_0 + \theta_1 x_{i, 1} + \theta_2 x_{i, 2} + \ldots + \theta_p x_{i, p}))^2\:\text{such that} \sum_{i=1}^p |\theta_i| \leq Q\]</span></p>
-<p>Unfortunately, we can’t directly use this formulation as our objective function – it’s not easy to mathematically optimize over a constraint. Instead, we will apply the magic of the Lagrangian Duality. The details of this are out of scope (take EECS 127 if you’re interested in learning more), but the end result is very useful. It turns out that minimizing the following <em>augmented</em> objective function is equivalent to our minimization goal above.</p>
-<p><span class="math display">\[\frac{1}{n} \sum_{i=1}^n (y_i - (\theta_0 + \theta_1 x_{i, 1} + \theta_2 x_{i, 2} + \ldots + \theta_p x_{i, p}))^2 + \lambda \sum_{i=1}^p |\theta_i| = ||\mathbb{Y} - \mathbb{X}\theta||_2^2 + \lambda \sum_{i=1}^p |\theta_i|\]</span></p>
+<p>Unfortunately, we can’t directly use this formulation as our objective function – it’s not easy to mathematically optimize over a constraint. Instead, we will apply the magic of the <a href="https://en.wikipedia.org/wiki/Duality_(optimization)">Lagrangian Duality</a>. The details of this are out of scope (take EECS 127 if you’re interested in learning more), but the end result is very useful. It turns out that minimizing the following <em>augmented</em> objective function is equivalent to our minimization goal above.</p>
+<p><span class="math display">\[\frac{1}{n} \sum_{i=1}^n (y_i - (\theta_0 + \theta_1 x_{i, 1} + \theta_2 x_{i, 2} + \ldots + \theta_p x_{i, p}))^2 + \lambda \sum_{i=1}^p \vert \theta_i \vert = ||\mathbb{Y} - \mathbb{X}\theta||_2^2 + \lambda \sum_{i=1}^p |\theta_i|\]</span></p>
 <p>The second of these two expressions includes the MSE expressed using vector notation.</p>
 <p>Notice that we’ve replaced the constraint with a second term in our objective function. We’re now minimizing a function with an additional regularization term that <em>penalizes large coefficients</em>. In order to minimize this new objective function, we’ll end up balancing two components:</p>
 <ul>
 <li>Keep the model’s error on the training data low, represented by the term <span class="math inline">\(\frac{1}{n} \sum_{i=1}^n (y_i - (\theta_0 + \theta_1 x_{i, 1} + \theta_2 x_{i, 2} + \ldots + \theta_p x_{i, p}))^2\)</span></li>
 <li>At the same time, keep the magnitudes of model parameters low, represented by the term <span class="math inline">\(\lambda \sum_{i=1}^p |\theta_i|\)</span></li>
 </ul>
-<p>The <span class="math inline">\(\lambda\)</span> factor controls the degree of regularization. Roughly speaking <span class="math inline">\(\lambda\)</span> is related to our <span class="math inline">\(Q\)</span> constraint before by <span class="math inline">\(\lambda \approx \frac{1}{Q}\)</span>. <br> To understand why, let’s consider these 2 extreme examples:</p>
+<p>The <span class="math inline">\(\lambda\)</span> factor controls the degree of regularization. Roughly speaking, <span class="math inline">\(\lambda\)</span> is related to our <span class="math inline">\(Q\)</span> constraint from before by the rule <span class="math inline">\(\lambda \approx \frac{1}{Q}\)</span>. <br> To understand why, let’s consider two extreme examples:</p>
 <ul>
-<li><p>Assume <span class="math inline">\(\lambda \rightarrow \infty\)</span>. Then, <span class="math inline">\(\lambda \sum_{j=1}^{d} \theta_j^{2}\)</span> dominates the cost function. To minimize this term, we set <span class="math inline">\(\theta_j = 0\)</span> for all <span class="math inline">\(j \ge 1\)</span>. This is a very constrained model that is mathematically equivalent to the constant model. Earlier, we explained the constant model also arises when the L2 norm ball radius <span class="math inline">\(Q \rightarrow 0\)</span>.</p></li>
-<li><p>Assume <span class="math inline">\(\lambda \rightarrow 0\)</span>. Then, <span class="math inline">\(\lambda \sum_{j=1}^{d} \theta_j^{2}\)</span> is infinitely small. Minimizing the cost function is equivalent to <span class="math inline">\(\min_{\theta} \frac{1}{n} || Y - X\theta ||_2^2\)</span>. This is just OLS, and the optimal solution is the global minimum <span class="math inline">\(\hat{\theta} = \hat\theta_{No Reg.}\)</span>. We showed that the global optimum is achieved when the L2 norm ball radius <span class="math inline">\(Q \rightarrow \infty\)</span>.</p></li>
+<li><p>Assume <span class="math inline">\(\lambda \rightarrow \infty\)</span>. Then, <span class="math inline">\(\lambda \sum_{j=1}^{d} \vert \theta_j \vert\)</span> dominates the cost function. To minimize this term, we set <span class="math inline">\(\theta_j = 0\)</span> for all <span class="math inline">\(j \ge 1\)</span>. This is a very constrained model that is mathematically equivalent to the constant model. Earlier, we explained the constant model also arises when the L2 norm ball radius <span class="math inline">\(Q \rightarrow 0\)</span>.</p></li>
+<li><p>Assume <span class="math inline">\(\lambda \rightarrow 0\)</span>. Then, <span class="math inline">\(\lambda \sum_{j=1}^{d} \vert \theta_j \vert\)</span> is 0. Minimizing the cost function is equivalent to <span class="math inline">\(\min_{\theta} \frac{1}{n} || Y - X\theta ||_2^2\)</span>, our usual MSE loss function. The act of minimizing MSE loss is just our familiar OLS, and the optimal solution is the global minimum <span class="math inline">\(\hat{\theta} = \hat\theta_{No Reg.}\)</span>. We showed that the global optimum is achieved when the L2 norm ball radius <span class="math inline">\(Q \rightarrow \infty\)</span>.</p></li>
 </ul>
 <p>We call <span class="math inline">\(\lambda\)</span> the <strong>regularization penalty hyperparameter</strong>. We select its value via cross-validation.</p>
 <p>The process of finding the optimal <span class="math inline">\(\hat{\theta}\)</span> to minimize our new objective function is called <strong>L1 regularization</strong>. It is also sometimes known by the acronym “LASSO”, which stands for “least absolute shrinkage and selection operator.”</p>
@@ -715,7 +719,7 @@ The <strong>cross-validation error</strong> is then the <em>average</em> error a
 <p>Using the Lagrangian Duality, we can re-express our objective function as: <span class="math display">\[\frac{1}{n} \sum_{i=1}^n (y_i - (\theta_0 + \theta_1 x_{i, 1} + \theta_2 x_{i, 2} + \ldots + \theta_p x_{i, p}))^2 + \lambda \sum_{i=1}^p \theta_i^2 = ||\mathbb{Y} - \mathbb{X}\theta||_2^2 + \lambda \sum_{i=1}^p \theta_i^2\]</span></p>
 <p>When applying L2 regularization, our goal is to minimize this updated objective function.</p>
 <p>Unlike L1 regularization, L2 regularization <em>does</em> have a closed-form solution for the best parameter vector when regularization is applied:</p>
-<p><span class="math display">\[\hat\theta_{\text{ridge}} = (X^TX + n\lambda I)^{-1}X^TY\]</span></p>
+<p><span class="math display">\[\hat\theta_{\text{ridge}} = (\mathbb{X}^{\top}\mathbb{X} + n\lambda I)^{-1}\mathbb{X}^{\top}\mathbb{Y}\]</span></p>
 <p>This solution exists <em>even if there is linear dependence</em> in the columns of the design matrix. This is a major reason why L2 regularization is often used – it can produce a solution even when there is colinearity in the features. We will discuss the concept of colinearity in a future lecture. We will not derive this result in Data 100, as it involves a fair bit of matrix calculus.</p>
 <p>In <code>sklearn</code>, we perform L2 regularization using the <code>Ridge</code> class. Notice that we scale the data before regularizing.</p>
 <div class="cell" data-execution_count="8">
@@ -757,7 +761,7 @@ The <strong>cross-validation error</strong> is then the <em>average</em> error a
 <td><span class="math inline">\(\hat{\mathbb{Y}} = \mathbb{X}\theta\)</span></td>
 <td>MSE</td>
 <td>None</td>
-<td><span class="math inline">\(\frac{1}{n} \|\|\mathbb{Y}-\mathbb{X} \theta\|\|^2_2\)</span></td>
+<td><span class="math inline">\(\frac{1}{n} \|\mathbb{Y}-\mathbb{X} \theta\|^2_2\)</span></td>
 <td><span class="math inline">\(\hat{\theta}_{OLS} = (\mathbb{X}^{\top}\mathbb{X})^{-1}\mathbb{X}^{\top}\mathbb{Y}\)</span></td>
 </tr>
 <tr class="even">
@@ -765,7 +769,7 @@ The <strong>cross-validation error</strong> is then the <em>average</em> error a
 <td><span class="math inline">\(\hat{\mathbb{Y}} = \mathbb{X} \theta\)</span></td>
 <td>MSE</td>
 <td>L2</td>
-<td><span class="math inline">\(\frac{1}{n} \|\|\mathbb{Y}-\mathbb{X}\theta\|\|^2_2 + \lambda \sum_{i=1}^p \theta_i^2\)</span></td>
+<td><span class="math inline">\(\frac{1}{n} \|\mathbb{Y}-\mathbb{X}\theta\|^2_2 + \lambda \sum_{i=1}^p \theta_i^2\)</span></td>
 <td><span class="math inline">\(\hat{\theta}_{Ridge} = (\mathbb{X}^{\top}\mathbb{X} + n \lambda I)^{-1}\mathbb{X}^{\top}\mathbb{Y}\)</span></td>
 </tr>
 <tr class="odd">
@@ -773,7 +777,7 @@ The <strong>cross-validation error</strong> is then the <em>average</em> error a
 <td><span class="math inline">\(\hat{\mathbb{Y}} = \mathbb{X} \theta\)</span></td>
 <td>MSE</td>
 <td>L1</td>
-<td><span class="math inline">\(\frac{1}{n} \|\|\mathbb{Y}-\mathbb{X}\theta\|\|^2_2 + \lambda \sum_{i=1}^p \|\theta_i\|\)</span></td>
+<td><span class="math inline">\(\frac{1}{n} \|\mathbb{Y}-\mathbb{X}\theta\|^2_2 + \lambda \sum_{i=1}^p \vert \theta_i \vert\)</span></td>
 <td>No closed form</td>
 </tr>
 </tbody>

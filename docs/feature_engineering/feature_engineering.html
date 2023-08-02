@@ -662,7 +662,9 @@ my_model.intercept_</code></pre></li>
 <h2 data-number="13.4" class="anchored" data-anchor-id="feature-functions"><span class="header-section-number">13.4</span> Feature Functions</h2>
 <p>A <strong>feature function</strong> describes the transformations we apply to raw features in a dataset to create a design matrix of transformed features. We typically denote the feature function as <span class="math inline">\(\Phi\)</span> (think to yourself: “phi”-ture function). When we apply the feature function to our original dataset <span class="math inline">\(\mathbb{X}\)</span>, the result, <span class="math inline">\(\Phi(\mathbb{X})\)</span>, is a transformed design matrix ready to be used in modeling.</p>
 <p>For example, we might design a feature function that computes the square of an existing feature and adds it to the design matrix. In this case, our existing matrix <span class="math inline">\([x]\)</span> is transformed to <span class="math inline">\([x, x^2]\)</span>. Its <em>dimension</em> increases from 1 to 2.</p>
-<p><img src="images/phi.png" alt="phi" width="500"></p>
+<center>
+<img src="images/phi.png" alt="phi" width="500">
+</center>
 <p>The new features introduced by the feature function can then be used in modeling. Often, we use the symbol <span class="math inline">\(\phi_i\)</span> to represent transformed features after feature engineering.</p>
 <p><span class="math display">\[\hat{y} = \theta_1 x + \theta_2 x^2\]</span> <span class="math display">\[\hat{y}= \theta_1 \phi_1 + \theta_2 \phi_2\]</span></p>
 <p>In matrix notation, the symbol <span class="math inline">\(\Phi\)</span> is sometimes used to denote the design matrix after feature engineering has been performed. Note that in the usage below, <span class="math inline">\(\Phi\)</span> is now a feature-engineered matrix, rather than a function.</p>
@@ -758,7 +760,9 @@ my_model.intercept_</code></pre></li>
 </div>
 <p>At first glance, it doesn’t seem possible to fit a regression model to this data – we can’t directly perform any mathematical operations on the entry “Sun”.</p>
 <p>To resolve this, we instead create a new table with a feature for each unique value in the original <code>"day"</code> column. We then iterate through the <code>"day"</code> column. For each entry in <code>"day"</code> we fill the corresponding feature in the new table with 1. All other features are set to 0.</p>
-<p><img src="images/ohe.png" alt="ohe" width="600"></p>
+<center>
+<img src="images/ohe.png" alt="ohe" width="600">
+</center>
 <p>The <code>OneHotEncoder</code> class of <code>sklearn</code> (<a href="https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder.get_feature_names_out">documentation</a>) offers a quick way to perform one-hot encoding. You will explore its use in detail in lab. For now, recognize that we follow a very similar workflow to when we were working with the <code>LinearRegression</code> class: we initialize a <code>OneHotEncoder</code> object, fit it to our data, then use <code>.transform</code> to apply the fitted encoder.</p>
 <div class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> OneHotEncoder</span>
@@ -898,14 +902,22 @@ my_model.intercept_</code></pre></li>
 <li>Model with order 4: <span class="math inline">\(\hat{\text{mpg}} = \theta_0 + \theta_1 (\text{hp}) + \theta_2 (\text{hp})^2 + \theta_3 (\text{hp})^3 + \theta_4 (\text{hp})^4\)</span></li>
 </ul>
 <p><br></p>
-<p><img src="images/degree_comparison.png" alt="degree_comparison" width="800"></p>
+<center>
+<img src="images/degree_comparison.png" alt="degree_comparison" width="800">
+</center>
 <p>When we use our model to make predictions on the same data that was used to fit the model, we find that the MSE decreases with increasingly complex models. The <strong>training error</strong> is the model’s error when generating predictions from the same data that was used for training purposes. We can conclude that the training error goes down as the complexity of the model increases.</p>
-<p><img src="images/train_error.png" alt="train_error" width="500"></p>
+<center>
+<img src="images/training_error.png" alt="training_error" width="400">
+</center>
 <p>This seems like good news – when working on the <strong>training data</strong>, we can improve model performance by designing increasingly complex models.</p>
 <p>However, high model complexity comes with its own set of issues. When a model has many complicated features, it becomes increasingly sensitive to the data used to fit it. Even a small variation in the data points used to train the model may result in wildly different results for the fitted model. The plots below illustrate this idea. In each case, we’ve fit a model to two very similar sets of data (in fact, they only differ by two data points!). Notice that the model with order 2 appears roughly the same across the two sets of data; in contrast, the model with order 4 changes erratically across the two datasets.</p>
-<p><img src="images/model_variance.png" alt="model_variance" width="600"></p>
+<center>
+<img src="images/model_variance.png" alt="model_variance" width="600">
+</center>
 <p>The sensitivity of the model to the data used to train it is called the <strong>model variance</strong>. A model with high variance tends to <em>vary</em> more dramatically when trained on different datasets. As we saw above, model variance tends to increase with model complexity.</p>
-<p><img src="images/bvt.png" alt="bvt" width="500"></p>
+<center>
+<img src="images/variance.png" alt="training_error_and_variance" width="400">
+</center>
 <p>We can see that there is a clear “trade-off” that comes from the complexity of our model. As model complexity increases, the model’s error on the training data decreases. At the same time, the model’s variance tends to increase.</p>
 <p>Why does this matter? To answer this question, let’s take a moment to review our modeling workflow when making predictions on new data.</p>
 <ol type="1">
@@ -915,7 +927,9 @@ my_model.intercept_</code></pre></li>
 </ol>
 <p>This first step – sampling training data – is important to remember in our analysis. As we saw above, a highly complex model may produce results that vary wildly across different samples of training data. If we happen to sample a set of training data that is a poor representation of the population we are trying to model, our model may perform poorly on any new set of data it has not “seen” before during training.</p>
 <p>To see why, consider a model fit using the training data shown on the left. Because the model is so complex, it achieves zero error on the training set – it perfectly predicts each value in the training data! When we go to use this model to make predictions on a new sample of data, however, things aren’t so good. The model now has enormous error on the unseen data.</p>
-<p><img src="images/overfit.png" alt="overfit" width="600"></p>
+<center>
+<img src="images/overfit.png" alt="overfit" width="600">
+</center>
 <p>The phenomenon above is called <strong>overfitting</strong>. The model effectively just memorized the training data it encountered when it was fitted, leaving it unable to handle new situations.</p>
 <p>The takeaway here: we need to strike a balance in the complexity of our models. A model that is too simple won’t be able to capture the key relationships between our variables of interest; a model that is too complex runs the risk of overfitting.</p>
 <p>This begs the question: how do we control the complexity of a model? Stay tuned for our lecture on Regularization.</p>
@@ -1383,7 +1397,7 @@ A **feature function** describes the transformations we apply to raw features in
 
 For example, we might design a feature function that computes the square of an existing feature and adds it to the design matrix. In this case, our existing matrix $[x]$ is transformed to $[x, x^2]$. Its *dimension* increases from 1 to 2. 
 
-&lt;img src="images/phi.png" alt='phi' width='500'&gt;
+&lt;center&gt;&lt;img src="images/phi.png" alt='phi' width='500'&gt;&lt;/center&gt;
 
 The new features introduced by the feature function can then be used in modeling. Often, we use the symbol $\phi_i$ to represent transformed features after feature engineering. 
 
@@ -1419,7 +1433,7 @@ tips.head(5)
   
 To resolve this, we instead create a new table with a feature for each unique value in the original `"day"` column. We then iterate through the `"day"` column. For each entry in `"day"` we fill the corresponding feature in the new table with 1. All other features are set to 0.
 
-&lt;img src="images/ohe.png" alt='ohe' width='600'&gt;
+&lt;center&gt;&lt;img src="images/ohe.png" alt='ohe' width='600'&gt;&lt;/center&gt;
 
 The `OneHotEncoder` class of `sklearn` ([documentation](https://scikit-learn.org/stable/modules/generated/sklearn.preprocessing.OneHotEncoder.html#sklearn.preprocessing.OneHotEncoder.get_feature_names_out)) offers a quick way to perform one-hot encoding. You will explore its use in detail in lab. For now, recognize that we follow a very similar workflow to when we were working with the `LinearRegression` class: we initialize a `OneHotEncoder` object, fit it to our data, then use `.transform` to apply the fitted encoder.
 
@@ -1511,21 +1525,21 @@ We've seen now that feature engineering allows us to build all sorts of features
 
 &lt;br/&gt;
 
-&lt;img src="images/degree_comparison.png" alt='degree_comparison' width='800'&gt;
+&lt;center&gt;&lt;img src="images/degree_comparison.png" alt='degree_comparison' width='800'&gt;&lt;/center&gt;
 
 When we use our model to make predictions on the same data that was used to fit the model, we find that the MSE decreases with increasingly complex models. The **training error** is the model's error when generating predictions from the same data that was used for training purposes. We can conclude that the training error goes down as the complexity of the model increases. 
 
-&lt;img src="images/train_error.png" alt='train_error' width='500'&gt;
+&lt;center&gt;&lt;img src="images/training_error.png" alt='training_error' width='400'&gt;&lt;/center&gt;
 
 This seems like good news – when working on the **training data**, we can improve model performance by designing increasingly complex models. 
 
 However, high model complexity comes with its own set of issues. When a model has many complicated features, it becomes increasingly sensitive to the data used to fit it. Even a small variation in the data points used to train the model may result in wildly different results for the fitted model. The plots below illustrate this idea. In each case, we've fit a model to two very similar sets of data (in fact, they only differ by two data points!). Notice that the model with order 2 appears roughly the same across the two sets of data; in contrast, the model with order 4 changes erratically across the two datasets.
 
-&lt;img src="images/model_variance.png" alt='model_variance' width='600'&gt;
+&lt;center&gt;&lt;img src="images/model_variance.png" alt='model_variance' width='600'&gt;&lt;/center&gt;
 
 The sensitivity of the model to the data used to train it is called the **model variance**. A model with high variance tends to *vary* more dramatically when trained on different datasets. As we saw above, model variance tends to increase with model complexity. 
 
-&lt;img src="images/bvt.png" alt='bvt' width='500'&gt;
+&lt;center&gt;&lt;img src="images/variance.png" alt='training_error_and_variance' width='400'&gt;&lt;/center&gt;
 
 We can see that there is a clear "trade-off" that comes from the complexity of our model. As model complexity increases, the model's error on the training data decreases. At the same time, the model's variance tends to increase.
 
@@ -1539,7 +1553,7 @@ This first step – sampling training data – is important to remember in our a
 
 To see why, consider a model fit using the training data shown on the left. Because the model is so complex, it achieves zero error on the training set – it perfectly predicts each value in the training data! When we go to use this model to make predictions on a new sample of data, however, things aren't so good. The model now has enormous error on the unseen data. 
 
-&lt;img src="images/overfit.png" alt='overfit' width='600'&gt;
+&lt;center&gt;&lt;img src="images/overfit.png" alt='overfit' width='600'&gt;&lt;/center&gt;
 
 The phenomenon above is called **overfitting**. The model effectively just memorized the training data it encountered when it was fitted, leaving it unable to handle new situations. 
 

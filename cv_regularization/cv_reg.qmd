@@ -131,13 +131,13 @@ We can then fit models of increasing polynomial degree and compute their validat
 
 From these results, we would choose a polynomial model of degree 8.
 
-Notice that the validation error behaves quite differently to the training error explored previously. Recall that the training error decreased monotonically with increasing model degree – as the model became more complex, it made better and better predictions on the training data. The validation error, in contrast, decreases *then increases* as we increase model complexity. This reflects the transition from under- to overfitting. At low model complexity, the model underfits because it is not complex enough to capture the main trends in the data. At high model complexity, the model overfits because it "memorizes" the training data to closely.
+Notice that the validation error behaves quite differently to the training error explored previously. Recall that the training error decreased monotonically with increasing model degree – as the model became more complex, it made better and better predictions on the training data. The validation error, in contrast, decreases *then increases* as we increase model complexity. This reflects the transition from under- to overfitting. At low model complexity, the model underfits because it is not complex enough to capture the main trends in the data. At high model complexity, the model overfits because it "memorizes" the training data too closely.
 
 We can update our understanding of the relationships between error, complexity, and model variance:
 
-<center><img src="images/training_validation_curve.png" alt='training_validation_curve' width='500'></center>
+<center><img src="images/val_error.png" alt='training_validation_curve' width='500'></center>
 
-Our goal is to train a model with complexity near the red line. Note that this relationship is a simplification of the real-world. But for purposes of Data 100, this is good enough.
+Our goal is to train a model with complexity near the black dotted line – this is where our model achieves minimum error on the validation set. Note that this relationship is a simplification of the real-world. But for purposes of Data 100, this is good enough.
 
 ## Cross-Validation
 
@@ -235,13 +235,13 @@ If we change the value of $Q$, we change the region of allowed parameter combina
 * When $Q$ is small, we severely restrict the size of our parameters. The allowed region of model parameters contracts, and the model becomes much simpler
 * When $Q$ is large, we do not restrict our parameter sizes by much. The allowed region of model parameters expands, and the model becomes more complex
 
-<img src="images/q_size.png" alt='changing_q' width='700'>
+<center><img src="images/large_small_Q.png" alt='changing_q' width='700'></center>
 
 Consider the extreme case where $Q$ is infinitely small. The solution to every constrained modeling problem would lie on the origin, at $(\theta_1, \theta_2) = (0, 0)$. This is equivalent to the constant model we studied -- the least complex of all models. In the case where the radius is infinitely large, the optimal constrained solution exists at  $\hat\theta_{\text{No Reg}}$ itself! This is the solution obtained from OLS with no limitations on complexity.
 
 Let's summarize what we have seen. 
 
-<img src="images/tradeoff.png" alt='constraints_and_complexity' width='700'>
+<center><img src="images/q_size.png" alt='constraints_and_complexity' width='700'></center>
 
 ## L1 (LASSO) Regularization
 
@@ -255,9 +255,9 @@ To apply our constraint, we need to rephrase our minimization goal.
 
 $$\frac{1}{n} \sum_{i=1}^n (y_i - (\theta_0 + \theta_1 x_{i, 1} + \theta_2 x_{i, 2} + \ldots + \theta_p x_{i, p}))^2\:\text{such that} \sum_{i=1}^p |\theta_i| \leq Q$$
 
-Unfortunately, we can't directly use this formulation as our objective function – it's not easy to mathematically optimize over a constraint. Instead, we will apply the magic of the Lagrangian Duality. The details of this are out of scope (take EECS 127 if you're interested in learning more), but the end result is very useful. It turns out that minimizing the following *augmented* objective function is equivalent to our minimization goal above.
+Unfortunately, we can't directly use this formulation as our objective function – it's not easy to mathematically optimize over a constraint. Instead, we will apply the magic of the [Lagrangian Duality](https://en.wikipedia.org/wiki/Duality_(optimization)). The details of this are out of scope (take EECS 127 if you're interested in learning more), but the end result is very useful. It turns out that minimizing the following *augmented* objective function is equivalent to our minimization goal above.
 
-$$\frac{1}{n} \sum_{i=1}^n (y_i - (\theta_0 + \theta_1 x_{i, 1} + \theta_2 x_{i, 2} + \ldots + \theta_p x_{i, p}))^2 + \lambda \sum_{i=1}^p |\theta_i| = ||\mathbb{Y} - \mathbb{X}\theta||_2^2 + \lambda \sum_{i=1}^p |\theta_i|$$
+$$\frac{1}{n} \sum_{i=1}^n (y_i - (\theta_0 + \theta_1 x_{i, 1} + \theta_2 x_{i, 2} + \ldots + \theta_p x_{i, p}))^2 + \lambda \sum_{i=1}^p \vert \theta_i \vert = ||\mathbb{Y} - \mathbb{X}\theta||_2^2 + \lambda \sum_{i=1}^p |\theta_i|$$
 
 The second of these two expressions includes the MSE expressed using vector notation.
 
@@ -266,11 +266,11 @@ Notice that we've replaced the constraint with a second term in our objective fu
 * Keep the model's error on the training data low, represented by the term $\frac{1}{n} \sum_{i=1}^n (y_i - (\theta_0 + \theta_1 x_{i, 1} + \theta_2 x_{i, 2} + \ldots + \theta_p x_{i, p}))^2$
 * At the same time, keep the magnitudes of model parameters low, represented by the term $\lambda \sum_{i=1}^p |\theta_i|$
 
-The $\lambda$ factor controls the degree of regularization. Roughly speaking $\lambda$ is related to our $Q$ constraint before by $\lambda \approx \frac{1}{Q}$. <br /> To understand why, let's consider these 2 extreme examples:
+The $\lambda$ factor controls the degree of regularization. Roughly speaking, $\lambda$ is related to our $Q$ constraint from before by the rule $\lambda \approx \frac{1}{Q}$. <br /> To understand why, let's consider two extreme examples:
 
-- Assume $\lambda \rightarrow \infty$. Then, $\lambda \sum_{j=1}^{d} \theta_j^{2}$ dominates the cost function. To minimize this term, we set $\theta_j = 0$ for all $j \ge 1$. This is a very constrained model that is mathematically equivalent to the constant model. Earlier, we explained the constant model also arises when the L2 norm ball radius $Q \rightarrow 0$.
+- Assume $\lambda \rightarrow \infty$. Then, $\lambda \sum_{j=1}^{d} \vert \theta_j \vert$ dominates the cost function. To minimize this term, we set $\theta_j = 0$ for all $j \ge 1$. This is a very constrained model that is mathematically equivalent to the constant model. Earlier, we explained the constant model also arises when the L2 norm ball radius $Q \rightarrow 0$.
 
-- Assume $\lambda \rightarrow 0$. Then, $\lambda \sum_{j=1}^{d} \theta_j^{2}$ is infinitely small. Minimizing the cost function is equivalent to $\min_{\theta} \frac{1}{n} || Y - X\theta ||_2^2$. This is just OLS, and the optimal solution is the global minimum $\hat{\theta} = \hat\theta_{No Reg.}$. We showed that the global optimum is achieved when the L2 norm ball radius $Q \rightarrow \infty$.
+- Assume $\lambda \rightarrow 0$. Then, $\lambda \sum_{j=1}^{d} \vert \theta_j \vert$ is 0. Minimizing the cost function is equivalent to $\min_{\theta} \frac{1}{n} || Y - X\theta ||_2^2$, our usual MSE loss function. The act of minimizing MSE loss is just our familiar OLS, and the optimal solution is the global minimum $\hat{\theta} = \hat\theta_{No Reg.}$. We showed that the global optimum is achieved when the L2 norm ball radius $Q \rightarrow \infty$.
 
 We call $\lambda$ the **regularization penalty hyperparameter**. We select its value via cross-validation.
 
@@ -341,7 +341,7 @@ When applying L2 regularization, our goal is to minimize this updated objective 
 
 Unlike L1 regularization, L2 regularization *does* have a closed-form solution for the best parameter vector when regularization is applied:
 
-$$\hat\theta_{\text{ridge}} = (X^TX + n\lambda I)^{-1}X^TY$$
+$$\hat\theta_{\text{ridge}} = (\mathbb{X}^{\top}\mathbb{X} + n\lambda I)^{-1}\mathbb{X}^{\top}\mathbb{Y}$$
 
 This solution exists *even if there is linear dependence* in the columns of the design matrix. This is a major reason why L2 regularization is often used – it can produce a solution even when there is colinearity in the features. We will discuss the concept of colinearity in a future lecture. We will not derive this result in Data 100, as it involves a fair bit of matrix calculus.
 
@@ -361,7 +361,7 @@ ridge_model.coef_
 
 | Type | Model                                  | Loss | Regularization | Objective Function                                                                        | Solution                                                                                             |
 |-----------------|----------------------------------------|---------------|----------------|-------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|
-| OLS             | $\hat{\mathbb{Y}} = \mathbb{X}\theta$  | MSE           | None           | $\frac{1}{n} \|\|\mathbb{Y}-\mathbb{X} \theta\|\|^2_2$                                     | $\hat{\theta}_{OLS} = (\mathbb{X}^{\top}\mathbb{X})^{-1}\mathbb{X}^{\top}\mathbb{Y}$                 |
-| Ridge           | $\hat{\mathbb{Y}} = \mathbb{X} \theta$ | MSE           | L2             | $\frac{1}{n} \|\|\mathbb{Y}-\mathbb{X}\theta\|\|^2_2 + \lambda \sum_{i=1}^p \theta_i^2$   | $\hat{\theta}_{Ridge} = (\mathbb{X}^{\top}\mathbb{X} + n \lambda I)^{-1}\mathbb{X}^{\top}\mathbb{Y}$ |
-| LASSO           | $\hat{\mathbb{Y}} = \mathbb{X} \theta$ | MSE           | L1             | $\frac{1}{n} \|\|\mathbb{Y}-\mathbb{X}\theta\|\|^2_2 + \lambda \sum_{i=1}^p \|\theta_i\|$ | No closed form                                                                                       |                                                                                   |
+| OLS             | $\hat{\mathbb{Y}} = \mathbb{X}\theta$  | MSE           | None           | $\frac{1}{n} \|\mathbb{Y}-\mathbb{X} \theta\|^2_2$                                     | $\hat{\theta}_{OLS} = (\mathbb{X}^{\top}\mathbb{X})^{-1}\mathbb{X}^{\top}\mathbb{Y}$                 |
+| Ridge           | $\hat{\mathbb{Y}} = \mathbb{X} \theta$ | MSE           | L2             | $\frac{1}{n} \|\mathbb{Y}-\mathbb{X}\theta\|^2_2 + \lambda \sum_{i=1}^p \theta_i^2$   | $\hat{\theta}_{Ridge} = (\mathbb{X}^{\top}\mathbb{X} + n \lambda I)^{-1}\mathbb{X}^{\top}\mathbb{Y}$ |
+| LASSO           | $\hat{\mathbb{Y}} = \mathbb{X} \theta$ | MSE           | L1             | $\frac{1}{n} \|\mathbb{Y}-\mathbb{X}\theta\|^2_2 + \lambda \sum_{i=1}^p \vert \theta_i \vert$ | No closed form                                                                                       |                                                                                   |
 

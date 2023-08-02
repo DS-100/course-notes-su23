@@ -13,16 +13,16 @@ format:
 jupyter: python3
 ---
 
-::: {.callout-note}
+::: {.callout-note collapse="true"}
 ## Learning Outcomes
 
 - Understand how to appropriately collect data to help answer a question. 
 
 :::
 
-In Data Science, understanding characteristics of a population starts with having quality data to investigate. While it is often impossible to collect all the data describing a population, we can overcome this by properly sampling from the population. In this note, we will discuss appropriate techniques for sampling from populations. 
+In data science, understanding characteristics of a population starts with having quality data to investigate. While it is often impossible to collect all the data describing a population, we can overcome this by properly sampling from the population. In this note, we will discuss appropriate techniques for sampling from populations. 
 
-![The Data Science Lifecycle](images/data_life_cycle_sampling.png)
+<center><img src="images/lifecycle.png" alt='data science lifecycle' width='400'></center>
 
 ## Censuses and Surveys
 
@@ -46,7 +46,7 @@ Because of how surveys and samples are drawn, it turns out that samples are usua
 
 While ideally these three sets would be exactly the same, in practice they usually aren't. For example, there may be individuals in your sampling frame (and hence, your sample) that are not in your population. And generally, sample sizes are much smaller than population sizes.
 
-![Population, sampling frame, and sample](images/samplingframe.png)
+<center><img src="images/population.png" alt='population, sampling frame, sample' width='500'></center>
 
 ## Bias: A Case Study
 
@@ -78,7 +78,7 @@ Before looking at some examples of probability (or random) sampling schemes, let
 
 Scientists in New South Wales, Australia, collect specimens from eucalyptus trees to keep in museums, recording their locations in latitude/longitude. Since many scientists participated in this and their moving patterns vary, one might hope to use these locations to map the geographical distribution of eucalyptus trees. However, the result was not expected.
 
-![Geographical distributions of eucalyptus trees](images/tree.png)
+<center><img src="images/tree.png" alt='eucalyptus distribuion' width='500'></center>
 
 The plot on the left shows the spatial distribution of eucalyptus trees from the samples scientists collected: we can see many eucalyptus trees clustered around Sydney and the coast line. The plot on the right shows the actual spatial distribution (recovered by correcting bias). What went wrong?
 

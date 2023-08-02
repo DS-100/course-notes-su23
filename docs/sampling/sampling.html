@@ -319,27 +319,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </header>
 
 <div class="callout-note callout callout-style-default no-icon callout-captioned">
-<div class="callout-header d-flex align-content-center">
+<div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
 <div class="callout-caption-container flex-fill">
 Learning Outcomes
 </div>
+<div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
 </div>
+<div id="callout-1" class="callout-1-contents callout-collapse collapse">
 <div class="callout-body-container callout-body">
 <ul>
 <li>Understand how to appropriately collect data to help answer a question.</li>
 </ul>
 </div>
 </div>
-<p>In Data Science, understanding characteristics of a population starts with having quality data to investigate. While it is often impossible to collect all the data describing a population, we can overcome this by properly sampling from the population. In this note, we will discuss appropriate techniques for sampling from populations.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/data_life_cycle_sampling.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">The Data Science Lifecycle</figcaption><p></p>
-</figure>
 </div>
+<p>In data science, understanding characteristics of a population starts with having quality data to investigate. While it is often impossible to collect all the data describing a population, we can overcome this by properly sampling from the population. In this note, we will discuss appropriate techniques for sampling from populations.</p>
+<center>
+<img src="images/lifecycle.png" alt="data science lifecycle" width="400">
+</center>
 <section id="censuses-and-surveys" class="level2" data-number="8.1">
 <h2 data-number="8.1" class="anchored" data-anchor-id="censuses-and-surveys"><span class="header-section-number">8.1</span> Censuses and Surveys</h2>
 <p>In general: a <strong>census</strong> is “an official count or survey of a population, typically recording various details of individuals.”</p>
@@ -355,12 +355,9 @@ Learning Outcomes
 <li><strong>Sample</strong>: Who you actually end up sampling. The sample is therefore a subset of your <em>sampling frame</em>.</li>
 </ul>
 <p>While ideally these three sets would be exactly the same, in practice they usually aren’t. For example, there may be individuals in your sampling frame (and hence, your sample) that are not in your population. And generally, sample sizes are much smaller than population sizes.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/samplingframe.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Population, sampling frame, and sample</figcaption><p></p>
-</figure>
-</div>
+<center>
+<img src="images/population.png" alt="population, sampling frame, sample" width="500">
+</center>
 </section>
 <section id="bias-a-case-study" class="level2" data-number="8.2">
 <h2 data-number="8.2" class="anchored" data-anchor-id="bias-a-case-study"><span class="header-section-number">8.2</span> Bias: A Case Study</h2>
@@ -384,12 +381,9 @@ Learning Outcomes
 <h3 data-number="8.3.1" class="anchored" data-anchor-id="non-random-samples"><span class="header-section-number">8.3.1</span> Non-random Samples</h3>
 <p>Before looking at some examples of probability (or random) sampling schemes, let’s look at an example that seems random, but is actually not.</p>
 <p>Scientists in New South Wales, Australia, collect specimens from eucalyptus trees to keep in museums, recording their locations in latitude/longitude. Since many scientists participated in this and their moving patterns vary, one might hope to use these locations to map the geographical distribution of eucalyptus trees. However, the result was not expected.</p>
-<div class="quarto-figure quarto-figure-center">
-<figure class="figure">
-<p><img src="images/tree.png" class="img-fluid figure-img"></p>
-<p></p><figcaption class="figure-caption">Geographical distributions of eucalyptus trees</figcaption><p></p>
-</figure>
-</div>
+<center>
+<img src="images/tree.png" alt="eucalyptus distribuion" width="500">
+</center>
 <p>The plot on the left shows the spatial distribution of eucalyptus trees from the samples scientists collected: we can see many eucalyptus trees clustered around Sydney and the coast line. The plot on the right shows the actual spatial distribution (recovered by correcting bias). What went wrong?</p>
 <p>It turns out that since most scientists live in Sydney (a city in New South Wales), the places they go to collect samples are clustered around Sydney and the coast line. This haphazard sampling scheme gives us a biased sample.</p>
 <p>This kind of sample is called a <strong>convenience sample</strong>. It generally refers to whatever you can get ahold of. Haphazard sampling is not necessarily random sampling; there are many potential sources of bias.</p>
@@ -462,23 +456,23 @@ Learning Outcomes
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>np.random.multinomial(<span class="dv">100</span>, [<span class="fl">0.60</span>, <span class="fl">0.30</span>, <span class="fl">0.10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>array([55, 37,  8])</code></pre>
+<pre><code>array([53, 34, 13])</code></pre>
 </div>
 </div>
 <p>This method allows us to generate, say, 10 samples of size 100 using the <code>size</code> parameter:</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>np.random.multinomial(<span class="dv">100</span>, [<span class="fl">0.60</span>, <span class="fl">0.30</span>, <span class="fl">0.10</span>], size<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>array([[60, 32,  8],
-       [62, 26, 12],
-       [57, 33, 10],
-       [57, 36,  7],
-       [72, 21,  7],
-       [63, 28,  9],
-       [66, 24, 10],
-       [54, 33, 13],
-       [52, 36, 12],
-       [58, 29, 13]])</code></pre>
+<pre><code>array([[54, 30, 16],
+       [57, 35,  8],
+       [60, 33,  7],
+       [51, 40,  9],
+       [51, 39, 10],
+       [64, 31,  5],
+       [58, 31, 11],
+       [54, 36, 10],
+       [62, 30,  8],
+       [58, 31, 11]])</code></pre>
 </div>
 </div>
 </section>
