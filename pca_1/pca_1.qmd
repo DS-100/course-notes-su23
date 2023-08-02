@@ -13,214 +13,480 @@ format:
 jupyter: python3
 ---
 
-::: {.callout-note collapse="true"}
+::: {.callout-note}
 ## Learning Outcomes
 - Introduce principles of unsupervised learning
 - Define and carry out procedure of PCA
 - Understand connection between PCA and SVD
 :::
 
-## Unsupervised Learning
+We are now in our second pass of the data science lifecycle: we introduced a new tool to carry out exploratory data analysis (EDA)—SQL—in the last two lectures. Now we will continue and look at a tool useful for both EDA and modeling.
 
-In “Supervised Learning”, our goal is to create a model that maps *inputs* to *outputs*.
+## Dimensionality Reduction
 
-Model is **learned** from example input/output pairs. Each pair consists of:
+### Visualizing High Dimensional Data
 
-- Input vector.
-- Output value (label).
+One of the first things we do in EDA is visualization. Visualization can give us a rough idea how similar/dissimilar some the data points are. For example, let's consider the following dataset about genes. Each row represents an individual, and each column represents a gene expression. We can visualize the first feature using a rug plot.
 
-We learned two supervised learning methods so far.
+::: {.columns}
+::: {.column width="40%"}
+|Gene 1| Gene 2| Gene 3 | Gene 4|
+|-----|-----|-----|-----|
+| 10 | 6 | 12 | 5 |
+| 11 | 4 | 9 | 7 |
+| 8 | 5 | 10 | 6|
+| 3 | 3 | 2.5 | 2|
+| 2 | 2.8 | 1.3 | 4|
+| 1 | 1 | 2 | 7 |
+:::
+::: {.column width="5%"}
+:::
+::: {.column width="55%"}
+<img src="images/1d.png" alt='1D Visualization of Gene data' width='400'>
+:::
+:::
 
-1. Regression: Output value is quantitative.
+We can see clearly that there are two "clusters" of points: one with lower `Gene 1` values; one with higher `Gene 1` values. Furthermore, we can visualize two or more features and the clusters are still present.
 
-2. Classification: Output value is categorical.
+::: {.columns}
+::: {.column width="50%"}
+<img src="images/2d.png" alt='2D Visualization of Gene data' width='400'>
+:::
+::: {.column width="5%"}
+:::
+::: {.column width="45%"}
+<img src="images/3d.png" alt='3D Visualization of Gene data' width='350'>
+:::
+:::
 
-Now, we will move into “Unsupervised Learning”, where our goal is to identify patterns in **unlabeled** data. We *do not* have input/output pairs. Note: Sometimes we may have labels, but we choose to ignore them.
+Since we are all 3-dimensional beings, we can’t visualize beyond three dimensions! However, many datasets come with more than three features. What can we do?
 
+A lot of the times in EDA, we perform **dimensionality reduction** to reduce our dataset to lower dimensions, so we can easily visualize it.
 
-### Dimensionality Reductions
+### Dimensionality
 
-Suppose we wanted to study how students worked through an introductory CS assignment, where they have to draw a pyramid using graphics and blocks.
+What do we mean by dimensionality reduction? In particular, what is dimensionality?
 
-
-<img src = "images/dim_reduc.png">
-
-A researcher has already labeled all “assignment snapshots” as one of 16 different “milestones” of the program. How can we visualize how similar/close the snapshots are on a 2-D plane?
-
-- Problem: Each image is 800 x 600 = 480k pixels. This is a lot of features, but visualizations are usually 2-D. Past 3 dimensions is hard to perceive meaningfully.
-
-- Solution: Dimensionality reduction to 2-D space.
-
-Principal Component Analysis (PCA) is a linear technique for dimensionality reduction.
-
-PCA relies on a linear algebra algorithm called *Singular Value Decomposition*.
-
-
-
-### Dimensionality of Data (Linear Algebra)
-
-Previously, we have been working with data tables with rows and columns. These rows and columns corresponded to observations and attributes about said observations. Now, we have to be a bit more clear with our wording to follow the language of linear algebra. 
+Previously, we have been working with data tables with rows and columns. Now, we have to be a bit more clear with our wording to follow the language of linear algebra. 
 
 Suppose we have a dataset of:
-- N observations (data points/rows)
-- d attributes (features/columns).
 
-In Linear Algebra, we think of data being a collection of vectors. Vectors have a *dimension*, meaning they have some number of unique elements. Row and column now denotes the direction a vector is written (horizontally, like a row, or vertically, like a column):
+- $N$ observations (data points/rows)
+- $d$ attributes (features/columns).
 
 Linear Algebra views our data as a matrix:
-- N row vectors in a d-Dimensions, OR
-- d column vectors in an N-Dimensions.
 
-**Dimensionality** of data is a complex topic. Sometimes, it is clear from looking at the number of rows/columns, but other times it is not. 
+- $N$ row vectors in a $d$-dimensional space; or
+- $d$ column vectors in an $N$-dimensional space.
 
-<img src = "images/dataset_dims.png">
+In Linear Algebra, the dimension of a matrix is usually its column **rank**. In Data Science, we will mostly follow this definition, but we have slightly more things to consider. 
 
-For example, the dataset below we can see that while there is 4 columns, the `Weight (lbs)` actually just a transformation of the `Weight (kg)` column. Thus, no new information is captured
+If we have a dataset about weights, with two columns measuring the same weights in different units (lbs and kg). We will say the dimension of this data matrix is $1$, because the column rank of this matrix is $1$. We can visualize this data matrix and see that the data points are indeed 1-dimensional—they lie on a single line.
 
-<img src = "images/dataset4.png">
+::: {.columns}
+::: {.column width="40%"}
+| Weight (lbs) | Weight (kg) |
+|--- | ---|
+|113.0 | 51.3 |
+|136.5 | 61.9 |
+|153.0 | 69.4 |
+:::
+::: {.column width="5%"}
+:::
+::: {.column width="55%"}
+<img src="images/weights_1d.png" alt='Visualization of Weights Data' width='400'>
+:::
+:::
 
-Plotting the weight columns together reveals the key visual intuition. While the two columns visually span a 2-d space as a line, the data does not deviate at all from that singular line. This means that one of the weight columns are redundant! Even given the option to cover the whole 2d space, the data below does not. It might as well not have this dimension, which is why we still do not consider the data below to span more than 1 dimension.
+If we add an outlier to this dataset (might be due to a measurement error), however, the rank of the matrix would be $2$, but because of the nature of the dataset, we would still consider the dimension of this dataset $1$.
 
-<img src = "images/dataset3.png">
-
-
-
-### Matrix Decomposition
-
-How can we get rid of the non-essential parts of our matrix? One overarching idea is to break the matrix into a smaller matrix through clever matrix multiplication. This is called matrix decomposition.
-
-#### Matrix Multiplication
-
-<img src = "images/matmul.png" width="700">
-
-The first view of matrix multiplication we saw when working with linear models is the data and operations view. 
-
-<img src = "images/matmul2.png" width="700">
-
-However, another more linear algebra centric perspective is the columns and transformations view. The columns of the left matrix are being transformed according to the rules specified by the right matrix. We highly recommend watching this video for some [neat animations](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab).
-
-<img src = "images/matmul3.png" width="700">
-
-So now that we have a broader idea of what matrix multiplication does, we can formulate a plan with which to reduce our matrix down to its essential dimensions.
-
-<img src = "images/matmul_dim.png" width="700">
-
-Matrix decomposition (a.k.a. Matrix Factorization) is the opposite of matrix multiplication, i.e. taking a matrix and decomposing it into two separate matrices.
-
-Just like with real numbers, there are infinitely many such decompositions. 
-
-Example: $9.9 = 1.1 * 9 = 3.3 * 3.3 = 1 * 9.9 = ...$
-
-Matrix sizes introduce even more room for differences in decomposition.
-
-<img src = "images/factor.png" width="700">
-
-### Limited by Rank
-
-One key fact to remember is that the decomposition are not arbitrary. The *rank* of a matrix limits how small our inner dimensions can be if we want to perfectly recreate our matrix. The proof for this is out of scope.
-
-### Automatic Factorization
-
-Even if we know we have to factorize our matrix using an inner dimension of R, that still leaves a large space of solutions to traverse. What if we have a procedure to automatically factorize a rank R matrix into an R dimensional representation with some transformation matrix?
-
-- Lower dimensional representation avoids redundant features.
-
-- Imagine a 1000 dimensional dataset: If the rank is only 5, it’s much easier to do EDA after this mystery procedure.
-
-What if we wanted a 2-D representation? Its valuable to compress all of the data that is relevant onto as few dimensions as possible in order to plot it efficiently. Some 2D matrices yield better approximations than others. How well can we do?
+<img src="images/weights_outlier.png" alt='Visualization of Weights Data with an outlier' width='400'>
 
 
+### Reducing dimensionality
 
-## Principle Component Analysis
+How do we reduce the dimension of a data matrix? We usually do this by projecting the dataset onto a lower dimensional space. There are many different ways we can project. Using the Gene data we've seen earlier, we can project all the data points on to the feature `Gene 1`, or the feature `Gene 2`.
 
-Goal: Transform observations from high-dimensional data down to low dimensions (often 2) through linear transformations.
+::: {.columns}
+::: {.column width="47%"}
+<img src="images/projection1.png" alt='Projecting Gene data onto Gene 1' width='400'>
+:::
+::: {.column width="6%"}
+:::
+::: {.column width="47%"}
+<img src="images/projection2.png" alt='Projecting Gene data onto Gene 1' width='400'>
+:::
+:::
 
-Related Goal: Low-dimension representation should capture the *variability* of the original data.
+We don't have to project onto a feature though. For example, we can project the points onto an arbitrary line:
 
-<img src = "images/PCA_1.png" width="700">
+<img src="images/projection3.png" alt='Projecting Gene data onto an arbitrary line' width='400'>
 
-Dimensionality reductions can also aid in Exploratory Data Analysis:
+There are so many possible projections—how do we know which one to choose?
 
-1. Visually identify clusters of similar observations in high dimensions.
-2. You are still exploring the data (if you already know what to model, you probably don’t need PCA).
-3. You have reason to believe the data are inherently low rank, e.g., There are many attributes but only a few mostly determine
-the rest through linear associations.
+In general, we want the projection that is the *best approximation* for the original data. In other words, we want the projection that capture the *most variance* of the original data. The method we use to get such a projection is Principal Component Analysis (PCA).
 
-Why two dimensions? Most visualizations are 2-D, so it makes it easy to choose the two axes on which to plot datapoints. Furthermore, there is a [hypothesis](https://en.wikipedia.org/wiki/Manifold_hypothesis) that most high dimensional data lives in low-dimensional manifolds.
+## PCA: Goal and Motivation
+
+Let's first see what our goals are when we are performing PCA and why we want to do it in practice.
 
 ### Capturing Total Variance
 
-Variability of the data is the most important aspect that we want to maintain. It is the bulk of what we care about when we conduct EDA and modeling. Thus, oversimplifying the data may lead to incorrect analyses. 
+We mentioned in the last section that we want to find the projection that capture the *most variance* of the original data. What do we mean by "variance"? 
 
-Variance for a matrix is defined as the sum of the variances of the columns of a matrix. 
+Similar to what we've seen before, variability of the data is the most important aspect that we want to maintain. It is the bulk of what we care about when we conduct EDA and modeling.
 
-<img src = "images/variance.png" width="700">
+The **total variance** for a data matrix is defined as the sum of variances of its columns. To get the total variance of a data matrix, we get the variance of each column individually, and then sum them up.
 
-One approach is to simply keep the columns with the most variability. However, this leads to capturing of a small amount of variability present in our original dataset. Can we do better than just taking two columns from the original matrix?
+To capture the "most variance," one approach is to simply keep the columns with the highest variance—this is similar to what we did above with the Gene dataset where we project the data onto the feature `Gene 1`. This will sometimes work fine, but we want to do better.
 
-<img src="images/approach_1.png" width="700">
+It turns out that PCA does a better job at preserving variances. In fact, PCA will give us the projection that captures the most variances, out of all possible dimensionality reductions of the data matrix.
 
-It turns out that PCA does a better job at preserving our variances. This is one of the best techniques for dimensionality reductions when it comes to preserving variances. Let's dig into how it works!
+### Goal and Motivation
 
-<img src="images/approach_2.png" width="700">
+The goal of PCA is to transform observations from high-dimensional data down to low dimensions (often 2) through linear transformations of the columns. In particular, we want to find a linear transformation that creates a low-dimension representation which captures as much of the original data’s total variance as possible.
 
+Why do we want to do this? We've mentioned several reasons before, but here are some more. We often perform PCA during the Exploratory Data Analysis (EDA) stage of our data science lifecycle (if we already know what to model, we probably don't need PCA); it helps us with 
 
-### PCA vs. SVD
+- Visually identifying clusters of similar observations in high dimensions.
+- Removing irrelevant dimensions if we suspect that the dataset is inherently low rank. For example, if the columns are collinear: there are many attributes but only a few mostly determine the rest through linear associations.
+- Finding a small basis for representing variations in complex things, e.g., images, genes.
+- Reducing the number of dimensions to make some computation cheaper.
 
-Principle Component Analysis PCA and Singular Value Decomposition can be easily mixed up, especially when you have to keep track of so many acronyms. Here is a quick summary:
+Why do we prefer a 2-dimensional reduction? As we've seen, most visualizations are 2D, so it makes the most sense visually.
 
-PCA: a data science procedure used for dimensionality reduction that uses SVD as one of the steps.
+### Procedural Overview
 
-SVD: a linear algebra algorithm that splits a matrix into 3 component parts.
+How do we carry out PCA? Below is an overview, but you are not required to understand or perform PCA this way. We will introduce an easier and more efficient way in a later section.
 
-### PCA Procedure
+To do PCA, we 
 
 1. Center the data matrix by subtracting the mean of each attribute column.
 
-2. Use SVD to find all $v_i \in \{1...k\}$, the principal components, which fulfills the following criteria:
+2. Find the principal components $v_i$ for $i \in \{1...k\}$, which fulfills the following criteria:
     
-    - $v_i$ is a unit vector that linearly combines the attributes.
-    - $v_i$ gives a one-dimensional projection of the data.
-    - $v_i$ is chosen to minimize the sum of squared distances between each point and its projection onto v.
+    - $v_i$ is a unit vector that linearly combines the attributes/columns of the data matrix
+    - $v_i$ gives a one-dimensional projection of the data
+    - $v_i$ is chosen to minimize the sum of squared distances between each point and its projection onto $v_i$.
     - $v_i$ is orthogonal to all previous principal components.
 
-references for SVD: [EECS 16B Note 14](https://eecs16b.org/notes/sp23/note14.pdf), [EECS 16B Note 15](https://eecs16b.org/notes/sp23/note15.pdf)
+In practice, we don’t carry out this procedure. Instead, we use singular value decomposition (SVD) to find all principal components efficiently.
+
+
+## Singular Value Decomposition
+
+Before getting into Singular Value Decomposition, we need a refresher on linear algebra. In particular, how we can think of matrices as linear transformations.
+
+### Matrix as Transformation
+
+Usually when we think about matrix multiplication, we think of it as taking dot product between the rows of the left matrix and the columns of the right matrix.
+
+However, another more linear algebra centric perspective is the columns and transformations view. We've briefly used this perspective in the Ordinary Least Squares lecture, but it's worth mentioning again here. Below is a simple matrix multiplication:
+
+$$
+\begin{bmatrix}
+{2}&{2}&{2}\\
+{5}&{8}&{0}\\
+\end{bmatrix}\begin{bmatrix}
+{2}&{1}\\
+{1}&{1}\\
+{4}&{1}\\
+\end{bmatrix}=\begin{bmatrix}
+{14}&{6}\\
+{18}&{13}\\
+\end{bmatrix}
+$$
+
+We can view the operation as taking each column of the left matrix, weight by the corresponding entry in the right matrix:
+
+$$
+\begin{bmatrix}
+{2}&{2}&{2}\\
+{5}&{8}&{0}\\
+\end{bmatrix}\begin{bmatrix}
+{2}\\
+{1}\\
+{4}\\
+\end{bmatrix}=2\begin{bmatrix}
+{2}\\
+{5}\\
+\end{bmatrix}+1\begin{bmatrix}
+{2}\\
+{8}\\
+\end{bmatrix}+4\begin{bmatrix}
+{2}\\
+{0}\\
+\end{bmatrix}=\begin{bmatrix}
+{14}\\
+{18}\\
+\end{bmatrix}
+$$
+
+We can think of the left matrix as the original data matrix, and the left matrix as representing a linear transformation. The columns of the left matrix are being transformed according to the rules specified by the right matrix. In this particular example, the right matrix transforms the original data matrix from 3-dimension to 2-dimension.
+
+Understanding this perspective of matrix multiplication is crucial, because PCA does a similar thing: we transform the data matrix by right-multiplying it with a matrix to get the principal components.
+
+<img src="images/pca_trans.png" alt='Higher level view of PCA' width='600'>
+
+Singular Value Decomposition will help us find this particular transformation matrix.
+
+### Orthonormality and Diagonal Matrices
+
+To understand SVD, we need two more concepts from linear algebra: orthonormality and diagonal matrices.
+
+Orthonormal is a portmanteau of two words: orthogonal and normal. The columns of a matrix is said to be **orthonormal** if 
+
+- All the columns are orthogonal to each other. In other words, the dot product between any two columns is 0.
+- All the columns are unit vectors. In other words, the length each column is 1.
+
+Orthonormal matrices have what's called *orthonormal inverses*. If an $m \times n$ matrix $Q$ has orthonormal columns, then $QQ^{\top} = I_m$ and $Q^{\top}Q = I_n$.
+
+Usually, the linear transformation represented by an orthonormal matrix is a *rotation* (and sometimes a reflection) of the coordinate system.
+
+<img src="images/orthonormal.png" alt='Orthonormal matrices as a rotation' width='400'>
+
+**Diagonal matrices** are square matrices with non-zero values on the diagonal axis and zero everywhere else. Right-multiplied diagonal matrices scale each column up or down by a constant factor.
+
+$$
+\begin{bmatrix}
+{\mid}&{\mid}&{\mid}\\
+{\vec{c}_{1}}&{\vec{c}_{2}}&{\vec{c}_{3}}\\
+{\mid}&{\mid}&{\mid}\\
+\end{bmatrix}\begin{bmatrix}
+{a_{1}}&{0}&{0}\\
+{0}&{a_{2}}&{0}\\
+{0}&{0}&{a_{3}}\\
+\end{bmatrix}=\begin{bmatrix}
+{\mid}&{\mid}&{\mid}\\
+{a_{1}\vec{c}_{1}}&{a_{2}\vec{c}_{2}}&{a_{3}\vec{c}_{3}}\\
+{\mid}&{\mid}&{\mid}\\
+\end{bmatrix}
+$$
+
+Geometrically, the linear transformation represented by a diagonal matrix can be viewed as a *scaling* of the coordinate system.
+
+<img src="images/diagonal.png" alt='Diagonal matrices as a scale' width='500'>
+
 
 ### SVD
 
-Singular value decomposition (SVD) is an important concept in linear algebra.
+**Singular value decomposition** (SVD) is an important concept in linear algebra. We will not go much into the theory and details of SVD. Instead, we will only cover what is needed for a data science interpretation.
 
-- We assume you have taken (or are taking) a linear algebra course.
-- We will not explain SVD in its entirety—in particular, we will not prove:
-    - Why SVD is a valid decomposition of rectangular matrices
-    - Why PCA is an application of SVD.
-- We know SVD is not covered in EECS 16A, nor Math 54 this semester.
+Singular value decomposition (SVD) describes a matrix decomposition into three matrices. For an $n \times d$ data matrix $X$ with rank $r$, the SVD says:
 
-We will not go much into the theory and details of SVD. Instead, we will only cover what is needed for a data science interpretation.
+$$
+\Large
+X = U\Sigma V^{\top}
+$$
 
-<img src="images/svd.png" width="700">
+The first matrix $U$ has the same shape as $X$: $n \times d$ and has **orthonormal** columns. Columns of $U$ are called the **left singular vectors**.
 
-In NumPy, this algorithm is already written and can be called with `np.linalg.svd`.
+$$
+\begin{bmatrix}
+{\mid}&{\mid}&{}&{\mid}&{\mid}&{}&{\mid}\\
+{\vec{u}_{1}}&{\vec{u}_{2}}&{\dots}&{\vec{u}_{r}}&{\vec{u}_{r+1}}&{\dots}&{\vec{u}_{d}}\\
+{\mid}&{\mid}&{}&{\mid}&{\mid}&{}&{\mid}\\
+\end{bmatrix}
+$$
+
+Since $U$ is orthonormal, it has an orthonormal inverse: $UU^{\top} = I_{n}$ and $U^{\top}U = I_d$. We can also view it as a rotation.
+
+The second matrix $\Sigma$ is a $d \times d$ diagonal matrix. Its diagonal contains **singular values**, ordered from greatest to least. If the rank of the matrix $X$ is $r$, there will be $r$ non-zero singular values.
+
+$$
+\begin{bmatrix}
+{\sigma_{1}}&{0}&{\dots}&{0}&{0}&{\dots}&{0}\\
+{0}&{\sigma_{2}}&{\dots}&{0}&{0}&{\dots}&{0}\\
+{\vdots}&{\vdots}&{\ddots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}\\
+{0}&{0}&{\dots}&{\sigma_{r}}&{0}&{\dots}&{0}\\
+{0}&{0}&{\dots}&{0}&{0}&{\dots}&{0}\\
+{\vdots}&{\vdots}&{\ddots}&{\vdots}&{\vdots}&{\ddots}&{\vdots}\\
+{0}&{0}&{\dots}&{0}&{0}&{\dots}&{0}\\
+\end{bmatrix}
+$$
+
+The third matrix $V^{\top}$ is a $d \times d$ matrix with orthonormal rows. We call it "transpose" because we are interested in its rows rather than columns. In other words, the rows of $V^{\top}$, or the columns of $V$, are orthonormal. The columns of $V$ are called the right singular vectors.
+
+$$
+\begin{bmatrix}
+{-}&{\vec{v}_{1}^{\top}}&{-}\\
+{-}&{\vec{v}_{2}^{\top}}&{-}\\
+{}&{\dots}&{}\\
+{-}&{\vec{v}_{d}^{\top}}&{-}\\
+\end{bmatrix}
+$$
+
+Similar to $U$, $V$ is orthonormal, so it has an orthonormal inverse: $VV^{\top} = V^{\top}V = I_{d}$. We can also view it as a rotation.
+
+### SVD in `NumPy`
+
+In NumPy, this decomposition algorithm is already written and can be called with [`np.linalg.svd`](https://numpy.org/doc/stable/reference/generated/numpy.linalg.svd.html). There are many versions of SVD out in the wild, and we will need to set the parameter `full_matrices` to `False` to get our version.
+
+## PCA with SVD
+
+Now that we have everything we need to carry out our PCA using the tool SVD.
+
+In a previous section, we mentioned PCA gives us the principal components by linearly transforming the original data matrix. Where does that linear transformation come from? SVD!
+
+Recall that SVD says $X = U\Sigma V^{\top}$. If we right-multiply both sides by $V$, we will get
+
+$$
+\Large
+XV = U\Sigma V^{\top}V = U\Sigma,
+$$
+
+since $V^{\top}V = I_d$. Therefore, this $V$ matrix is the transformation we are looking for, and $U\Sigma$ will get us the principal components!
+
+To get the first $k$ principal components, we can simply take the the first $k$ columns of the matrix $U\Sigma$, or equivalently the matrix $XV$. 
+
+Alternatively, to get the first principal component (often called PC1), we can also take the first left singular vector (i.e. the first column of $U$) and scale it by the first singular value (i.e. the first diagonal entry in $\Sigma$).
+
+We can also take the data matrix $X$ and right-multiply it by the first right singular vector (i.e. the first column of $V$) to get PC1.
+
+### Summary 
+
+We finally know how to perform PCA with Singular Value Decomposition. Let's summarize the procedure. Given an $n \times d$ data matrix $X$, we get the first $k$ principal components using the following procedure:
+
+1. **Center** $X$ by subtracting the mean of each column
+2. Get the **Singular Value Decomposition** of the centered $X$: $U$, $\Sigma$, and $V^{\top}$
+3. **Multiply** either $U\Sigma$ or $XV$
+4. Take the **first $k$ columns** of $U\Sigma$ or $XV$. These are the first $k$ principal components of $X$.
 
 
+### PCA in `NumPy`
+
+Let's see how we can carry out this process using Python! We will load in a dataset containing measurements of rectangles: width, height, area, and perimeter.
+
+```{python}
+#| code-fold: true
+
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+np.random.seed(23) #kallisti
+```
+
+```{python}
+rectangle = pd.read_csv("data/rectangle_data.csv")
+rectangle.head(5)
+```
+
+We can see this data matrix has rank $3$, because `perimeter` is a linear combination of `width` and `height`. While we can also get `area` using `width` and `height`, the operation is not linear.
+
+Now let's carry out PCA.
+
+#### Step 1: Center the data matrix $X$
+
+```{python}
+centered_df = rectangle - np.mean(rectangle, axis = 0)
+centered_df.head(5)
+```
+
+#### Step 2: Get the SVD of the centered $X$
+
+Note, we will need to set the `full_matrices` argument to `False`.
+
+```{python}
+U, S, Vt = np.linalg.svd(centered_df, full_matrices = False)
+```
+
+Let's inspect these three matrices first.
+
+The first 5 rows of $U$:
+
+```{python}
+#| code-fold: true
+
+pd.DataFrame(U).head(5)
+```
+
+$\Sigma$ is returned as an array, because most of the values in the diagonal matrices are zero. `NumPy` only returns the singular values to save memory.
+
+We can see there are only three non-zero singular values, confirming our previous judgment that the rank of $X$ is 3.
+
+```{python}
+#| code-fold: true
+
+np.round(S)
+```
+
+To get $\Sigma$ into its matrix form, we can use `np.diag`:
+
+```{python}
+#| code-fold: true
+pd.DataFrame(np.diag(np.round(S, 1)))
+```
+
+Finally, $V^{\top}$:
+
+```{python}
+#| code-fold: true
+pd.DataFrame(Vt)
+```
+
+#### Step 3: Multiply either $U\Sigma$ or $XV$
+
+To carry out matrix multiplication in `NumPy`, we use the `@` symbol.
+
+Let's try $U\Sigma$ first
+
+```{python}
+pd.DataFrame(U @ np.diag(S)).head(5)
+```
+
+Then $XV$:
+
+```{python}
+pd.DataFrame(centered_df @ Vt.T).head(5)
+```
+
+We can see these are exactly the same.
 
 
+#### Step 4: Get the first $k$ columns
 
+Let's get the first two principal components of $X$.
 
+```{python}
+two_PCs = (U @ np.diag(S))[:, :2]
+```
 
+```{python}
+#| code-fold: true
+pd.DataFrame(two_PCs).head(5)
+```
 
+We can get the same thing using $XV$:
+
+```{python}
+(centered_df @ Vt.T).iloc[:, :2].head(5)
+```
 
 ## Data Variance and Centering
 
-Formally, the i-th singular value tells us the **component score**, i.e., how much of the data variance is captured by the ith principal component. Supposing the number of data points is $n$:
+### Variance with Singular Values
 
-$$\text{i-th component score} = \frac{(\text{i-th singular value}^2)}{n}$$
+We said earlier that PCA gives us a projection that captures the most variance. How do we know how much variance is captured? 
 
-Summing up the component scores is equivalent to computing total variance.
+It turns out the **singular values** tell us this!
 
-**Data Centering**: PCA has a data centering step that precedes any singular value decomposition, where if implemented defines the component score as above.
+Formally, the $i$-th singular value tells us the **component score**—how much of the data variance is captured by the $i$th principal component. Suppose the number of data points is $n$:
 
-## Proof of component score (out of scope)
+$$i\text{-th component score} = \frac{(i\text{-th singular value})^2}{n}$$
+
+Summing up the component scores is equivalent to computing the total variance.
+
+### Centering 
+
+You might have noticed that we always center our data matrix $X$ before performing PCA. We do this because only when we center the matrix will we have this nice interpretation of the singular values. In other words, if we don't center the data matrix, singular values will not convert nicely to the component scores/variances captured by each principal component.
+
+The formal proof of this is out of scope, but if you are interested, take a look at the next section.
+
+### (Bonus) Proof of component score
+
+:::{.callout collapse="true"}
+## Click to show
 
 The proof defining component score out of scope for this class, but it is included below for your convenience.
 
@@ -245,4 +511,5 @@ V^T \frac{1}{n} \tilde{X}^T \tilde{X} V &= V^T V \left( \frac{1}{n} \Sigma \righ
 \end{aligned}$$
 
 The last line defines the $j$-th component score.
+:::
 

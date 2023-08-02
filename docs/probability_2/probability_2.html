@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.2.280">
+<meta name="generator" content="quarto-1.3.361">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -17,9 +17,10 @@ div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
   width: 0.8em;
-  margin: 0 0.8em 0.2em -1.6em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
@@ -46,43 +47,13 @@ pre.numberSource code > span > a:first-child::before
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
     padding: 0 4px; width: 4em;
-    color: #aaaaaa;
   }
-pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
 div.sourceCode
   {   }
 @media screen {
 pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-code span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code span.at { color: #7d9029; } /* Attribute */
-code span.bn { color: #40a070; } /* BaseN */
-code span.bu { color: #008000; } /* BuiltIn */
-code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code span.ch { color: #4070a0; } /* Char */
-code span.cn { color: #880000; } /* Constant */
-code span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code span.dt { color: #902000; } /* DataType */
-code span.dv { color: #40a070; } /* DecVal */
-code span.er { color: #ff0000; font-weight: bold; } /* Error */
-code span.ex { } /* Extension */
-code span.fl { color: #40a070; } /* Float */
-code span.fu { color: #06287e; } /* Function */
-code span.im { color: #008000; font-weight: bold; } /* Import */
-code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
-code span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code span.op { color: #666666; } /* Operator */
-code span.ot { color: #007020; } /* Other */
-code span.pp { color: #bc7a00; } /* Preprocessor */
-code span.sc { color: #4070a0; } /* SpecialChar */
-code span.ss { color: #bb6688; } /* SpecialString */
-code span.st { color: #4070a0; } /* String */
-code span.va { color: #19177c; } /* Variable */
-code span.vs { color: #4070a0; } /* VerbatimString */
-code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 
@@ -121,13 +92,15 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit"
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
   }
 }</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js" integrity="sha512-c3Nl8+7g4LMSTdrm621y7kf9v3SDPnhxLNhcjFJbKECVnmZHTdo+IRO05sNLTH/D3vA6u1X32ehoLC7WFVdheg==" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==" crossorigin="anonymous"></script>
 <script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
@@ -136,11 +109,16 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
-  <nav class="quarto-secondary-nav" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
-    <div class="container-fluid d-flex justify-content-between">
-      <h1 class="quarto-secondary-nav-title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Model Bias, Variance, and Inference</span></h1>
-      <button type="button" class="quarto-btn-toggle btn" aria-label="Show secondary navigation">
-        <i class="bi bi-chevron-right"></i>
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+      <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../probability_2/probability_2.html"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Model Bias, Variance, and Inference</span></a></li></ol></nav>
+      <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+      </a>
+      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
       </button>
     </div>
   </nav>
@@ -148,7 +126,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <!-- content -->
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full">
 <!-- sidebar -->
-  <nav id="quarto-sidebar" class="sidebar collapse sidebar-navigation floating overflow-auto">
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal sidebar-navigation floating overflow-auto">
     <div class="pt-lg-2 mt-2 text-left sidebar-header sidebar-header-stacked">
       <a href="../index.html" class="sidebar-logo-link">
       <img src="../data100_logo.png" alt="" class="sidebar-logo py-0 d-lg-inline d-none">
@@ -156,163 +134,192 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
     <div class="sidebar-title mb-0 py-0">
       <a href="../">Principles and Techniques of Data Science</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/DS-100/course-notes-su23" title="Source Code" class="sidebar-tool px-1"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/DS-100/course-notes-su23" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
-      <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="mt-2 flex-shrink-0 align-items-center">
         <div class="sidebar-search">
         <div id="quarto-search" class="" title="Search"></div>
         </div>
-      </div>
+        </div>
     <div class="sidebar-menu-container"> 
     <ul class="list-unstyled mt-1">
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../index.html" class="sidebar-item-text sidebar-link">Welcome</a>
+  <a href="../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Welcome</span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../intro_lec/introduction.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></a>
+  <a href="../intro_lec/introduction.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">1</span>&nbsp; <span class="chapter-title">Introduction</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pandas_1/pandas_1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Pandas I</span></a>
+  <a href="../pandas_1/pandas_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Pandas I</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pandas_2/pandas_2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pandas II</span></a>
+  <a href="../pandas_2/pandas_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">3</span>&nbsp; <span class="chapter-title">Pandas II</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../pandas_3/pandas_3.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Pandas III</span></a>
+  <a href="../pandas_3/pandas_3.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">4</span>&nbsp; <span class="chapter-title">Pandas III</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../eda/eda.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Cleaning and EDA</span></a>
+  <a href="../eda/eda.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Data Cleaning and EDA</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../regex/regex.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text Wrangling and Regular Expressions</span></a>
+  <a href="../regex/regex.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Text Wrangling and Regular Expressions</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../visualization_1/visualization_1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Visualization</span></a>
+  <a href="../visualization_1/visualization_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">7</span>&nbsp; <span class="chapter-title">Visualization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sampling/sampling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Sampling</span></a>
+  <a href="../sampling/sampling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">8</span>&nbsp; <span class="chapter-title">Sampling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../intro_to_modeling/intro_to_modeling.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduction to Modeling</span></a>
+  <a href="../intro_to_modeling/intro_to_modeling.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">9</span>&nbsp; <span class="chapter-title">Introduction to Modeling</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../constant_model_loss_transformations/loss_transformations.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Constant Model, Loss, and Transformations</span></a>
+  <a href="../constant_model_loss_transformations/loss_transformations.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">10</span>&nbsp; <span class="chapter-title">Constant Model, Loss, and Transformations</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../ols/ols.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ordinary Least Squares</span></a>
+  <a href="../ols/ols.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">11</span>&nbsp; <span class="chapter-title">Ordinary Least Squares</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../gradient_descent/gradient_descent.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Gradient Descent</span></a>
+  <a href="../gradient_descent/gradient_descent.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">12</span>&nbsp; <span class="chapter-title">Gradient Descent</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../feature_engineering/feature_engineering.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Sklearn and Feature Engineering</span></a>
+  <a href="../feature_engineering/feature_engineering.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">13</span>&nbsp; <span class="chapter-title">Sklearn and Feature Engineering</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../case_study_HCE/case_study_HCE.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Case Study in Human Contexts and Ethics</span></a>
+  <a href="../case_study_HCE/case_study_HCE.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">14</span>&nbsp; <span class="chapter-title">Case Study in Human Contexts and Ethics</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../cv_regularization/cv_reg.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Cross Validation and Regularization</span></a>
+  <a href="../cv_regularization/cv_reg.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">15</span>&nbsp; <span class="chapter-title">Cross Validation and Regularization</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../probability_1/probability_1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Random Variables</span></a>
+  <a href="../probability_1/probability_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">16</span>&nbsp; <span class="chapter-title">Random Variables</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../probability_2/probability_2.html" class="sidebar-item-text sidebar-link active"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Model Bias, Variance, and Inference</span></a>
+  <a href="../probability_2/probability_2.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Model Bias, Variance, and Inference</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../logistic_regression_1/logistic_reg_1.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Logistic Regression I</span></a>
+  <a href="../logistic_regression_1/logistic_reg_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">18</span>&nbsp; <span class="chapter-title">Logistic Regression I</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../logistic_regression_2/logistic_reg_2.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Logistic Regression II</span></a>
+  <a href="../logistic_regression_2/logistic_reg_2.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">19</span>&nbsp; <span class="chapter-title">Logistic Regression II</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sql_I/sql_I.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">SQL I</span></a>
+  <a href="../sql_I/sql_I.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">20</span>&nbsp; <span class="chapter-title">SQL I</span></span></a>
   </div>
 </li>
         <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../sql_II/sql_II.html" class="sidebar-item-text sidebar-link"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">SQL II</span></a>
+  <a href="../sql_II/sql_II.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">21</span>&nbsp; <span class="chapter-title">SQL II</span></span></a>
+  </div>
+</li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../pca_1/pca_1.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">22</span>&nbsp; <span class="chapter-title">PCA I</span></span></a>
   </div>
 </li>
     </ul>
     </div>
 </nav>
+<div id="quarto-sidebar-glass" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass"></div>
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
         <nav id="TOC" role="doc-toc" class="toc-active">
     <h2 id="toc-title">Model Bias, Variance, and Inference</h2>
    
   <ul>
-  <li><a href="#parameters-statistics-and-estimators" id="toc-parameters-statistics-and-estimators" class="nav-link active" data-scroll-target="#parameters-statistics-and-estimators"><span class="toc-section-number">17.1</span>  Parameters, Statistics, and Estimators</a>
+  <li><a href="#parameters-statistics-and-estimators" id="toc-parameters-statistics-and-estimators" class="nav-link active" data-scroll-target="#parameters-statistics-and-estimators"><span class="header-section-number">17.1</span> Parameters, Statistics, and Estimators</a>
   <ul>
-  <li><a href="#bias-variance-and-mse-of-an-estimator" id="toc-bias-variance-and-mse-of-an-estimator" class="nav-link" data-scroll-target="#bias-variance-and-mse-of-an-estimator"><span class="toc-section-number">17.1.1</span>  Bias, Variance, and MSE of an Estimator</a></li>
+  <li><a href="#bias-variance-and-mse-of-an-estimator" id="toc-bias-variance-and-mse-of-an-estimator" class="nav-link" data-scroll-target="#bias-variance-and-mse-of-an-estimator"><span class="header-section-number">17.1.1</span> Bias, Variance, and MSE of an Estimator</a></li>
   </ul></li>
-  <li><a href="#modeling-as-estimation" id="toc-modeling-as-estimation" class="nav-link" data-scroll-target="#modeling-as-estimation"><span class="toc-section-number">17.2</span>  Modeling as Estimation</a>
+  <li><a href="#modeling-as-estimation" id="toc-modeling-as-estimation" class="nav-link" data-scroll-target="#modeling-as-estimation"><span class="header-section-number">17.2</span> Modeling as Estimation</a>
   <ul>
-  <li><a href="#review-of-modeling-process" id="toc-review-of-modeling-process" class="nav-link" data-scroll-target="#review-of-modeling-process"><span class="toc-section-number">17.2.1</span>  Review of Modeling Process</a></li>
-  <li><a href="#assumptions-of-modeling" id="toc-assumptions-of-modeling" class="nav-link" data-scroll-target="#assumptions-of-modeling"><span class="toc-section-number">17.2.2</span>  Assumptions of Modeling</a></li>
-  <li><a href="#model-parameter-estimation" id="toc-model-parameter-estimation" class="nav-link" data-scroll-target="#model-parameter-estimation"><span class="toc-section-number">17.2.3</span>  Model Parameter Estimation</a></li>
+  <li><a href="#review-of-modeling-process" id="toc-review-of-modeling-process" class="nav-link" data-scroll-target="#review-of-modeling-process"><span class="header-section-number">17.2.1</span> Review of Modeling Process</a></li>
+  <li><a href="#assumptions-of-modeling" id="toc-assumptions-of-modeling" class="nav-link" data-scroll-target="#assumptions-of-modeling"><span class="header-section-number">17.2.2</span> Assumptions of Modeling</a></li>
+  <li><a href="#model-parameter-estimation" id="toc-model-parameter-estimation" class="nav-link" data-scroll-target="#model-parameter-estimation"><span class="header-section-number">17.2.3</span> Model Parameter Estimation</a></li>
   </ul></li>
-  <li><a href="#bias-variance-tradeoff" id="toc-bias-variance-tradeoff" class="nav-link" data-scroll-target="#bias-variance-tradeoff"><span class="toc-section-number">17.3</span>  Bias-Variance Tradeoff</a>
+  <li><a href="#bias-variance-tradeoff" id="toc-bias-variance-tradeoff" class="nav-link" data-scroll-target="#bias-variance-tradeoff"><span class="header-section-number">17.3</span> Bias-Variance Tradeoff</a>
   <ul>
-  <li><a href="#model-risk" id="toc-model-risk" class="nav-link" data-scroll-target="#model-risk"><span class="toc-section-number">17.3.1</span>  Model Risk</a></li>
-  <li><a href="#observation-variance" id="toc-observation-variance" class="nav-link" data-scroll-target="#observation-variance"><span class="toc-section-number">17.3.2</span>  Observation Variance</a></li>
-  <li><a href="#model-variance" id="toc-model-variance" class="nav-link" data-scroll-target="#model-variance"><span class="toc-section-number">17.3.3</span>  Model Variance</a></li>
-  <li><a href="#model-bias" id="toc-model-bias" class="nav-link" data-scroll-target="#model-bias"><span class="toc-section-number">17.3.4</span>  Model Bias</a></li>
-  <li><a href="#the-decomposition" id="toc-the-decomposition" class="nav-link" data-scroll-target="#the-decomposition"><span class="toc-section-number">17.3.5</span>  The Decomposition</a></li>
+  <li><a href="#model-risk" id="toc-model-risk" class="nav-link" data-scroll-target="#model-risk"><span class="header-section-number">17.3.1</span> Model Risk</a></li>
+  <li><a href="#observation-variance" id="toc-observation-variance" class="nav-link" data-scroll-target="#observation-variance"><span class="header-section-number">17.3.2</span> Observation Variance</a></li>
+  <li><a href="#model-variance" id="toc-model-variance" class="nav-link" data-scroll-target="#model-variance"><span class="header-section-number">17.3.3</span> Model Variance</a></li>
+  <li><a href="#model-bias" id="toc-model-bias" class="nav-link" data-scroll-target="#model-bias"><span class="header-section-number">17.3.4</span> Model Bias</a></li>
+  <li><a href="#the-decomposition" id="toc-the-decomposition" class="nav-link" data-scroll-target="#the-decomposition"><span class="header-section-number">17.3.5</span> The Decomposition</a></li>
   </ul></li>
-  <li><a href="#prediction-and-inference" id="toc-prediction-and-inference" class="nav-link" data-scroll-target="#prediction-and-inference"><span class="toc-section-number">17.4</span>  Prediction and Inference</a>
+  <li><a href="#prediction-and-inference" id="toc-prediction-and-inference" class="nav-link" data-scroll-target="#prediction-and-inference"><span class="header-section-number">17.4</span> Prediction and Inference</a>
   <ul>
-  <li><a href="#interpreting-theta" id="toc-interpreting-theta" class="nav-link" data-scroll-target="#interpreting-theta"><span class="toc-section-number">17.4.1</span>  Interpreting <span class="math inline">\(\theta\)</span></a></li>
-  <li><a href="#hypothesis-testing-through-bootstrap" id="toc-hypothesis-testing-through-bootstrap" class="nav-link" data-scroll-target="#hypothesis-testing-through-bootstrap"><span class="toc-section-number">17.4.2</span>  Hypothesis Testing through Bootstrap</a></li>
-  <li><a href="#colinearity" id="toc-colinearity" class="nav-link" data-scroll-target="#colinearity"><span class="toc-section-number">17.4.3</span>  Colinearity</a></li>
-  <li><a href="#a-simpler-model" id="toc-a-simpler-model" class="nav-link" data-scroll-target="#a-simpler-model"><span class="toc-section-number">17.4.4</span>  A Simpler Model</a></li>
-  <li><a href="#reminder-assumptions-matter" id="toc-reminder-assumptions-matter" class="nav-link" data-scroll-target="#reminder-assumptions-matter"><span class="toc-section-number">17.4.5</span>  Reminder: Assumptions Matter</a></li>
+  <li><a href="#interpreting-theta" id="toc-interpreting-theta" class="nav-link" data-scroll-target="#interpreting-theta"><span class="header-section-number">17.4.1</span> Interpreting <span class="math inline">\(\theta\)</span></a></li>
+  <li><a href="#hypothesis-testing-through-bootstrap" id="toc-hypothesis-testing-through-bootstrap" class="nav-link" data-scroll-target="#hypothesis-testing-through-bootstrap"><span class="header-section-number">17.4.2</span> Hypothesis Testing through Bootstrap</a></li>
+  <li><a href="#colinearity" id="toc-colinearity" class="nav-link" data-scroll-target="#colinearity"><span class="header-section-number">17.4.3</span> Colinearity</a></li>
+  <li><a href="#a-simpler-model" id="toc-a-simpler-model" class="nav-link" data-scroll-target="#a-simpler-model"><span class="header-section-number">17.4.4</span> A Simpler Model</a></li>
+  <li><a href="#reminder-assumptions-matter" id="toc-reminder-assumptions-matter" class="nav-link" data-scroll-target="#reminder-assumptions-matter"><span class="header-section-number">17.4.5</span> Reminder: Assumptions Matter</a></li>
   </ul></li>
-  <li><a href="#bonus-proof-of-bias-variance-decomposition" id="toc-bonus-proof-of-bias-variance-decomposition" class="nav-link" data-scroll-target="#bonus-proof-of-bias-variance-decomposition"><span class="toc-section-number">17.5</span>  (Bonus) Proof of Bias-Variance Decomposition</a></li>
+  <li><a href="#bonus-proof-of-bias-variance-decomposition" id="toc-bonus-proof-of-bias-variance-decomposition" class="nav-link" data-scroll-target="#bonus-proof-of-bias-variance-decomposition"><span class="header-section-number">17.5</span> (Bonus) Proof of Bias-Variance Decomposition</a></li>
   </ul>
 </nav>
     </div>
@@ -321,7 +328,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<div class="quarto-title-block"><div><h1 class="title d-none d-lg-block"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Model Bias, Variance, and Inference</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
+<div class="quarto-title-block"><div><h1 class="title"><span class="chapter-number">17</span>&nbsp; <span class="chapter-title">Model Bias, Variance, and Inference</span></h1><button type="button" class="btn code-tools-button dropdown-toggle" id="quarto-code-tools-menu" data-bs-toggle="dropdown" aria-expanded="false"><i class="bi"></i> Code</button><ul class="dropdown-menu dropdown-menu-end" aria-labelelledby="quarto-code-tools-menu"><li><a id="quarto-show-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Show All Code</a></li><li><a id="quarto-hide-all-code" class="dropdown-item" href="javascript:void(0)" role="button">Hide All Code</a></li><li><hr class="dropdown-divider"></li><li><a id="quarto-view-source" class="dropdown-item" href="javascript:void(0)" role="button">View Source</a></li></ul></div></div>
 </div>
 
 
@@ -336,12 +343,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 </header>
 
-<div class="callout-note callout callout-style-default no-icon callout-captioned">
+<div class="callout callout-style-default callout-note no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-1-contents" aria-controls="callout-1" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Learning Outcomes
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -530,57 +537,58 @@ Learning Outcomes
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>eggs <span class="op">=</span> pd.read_csv(<span class="st">"data/snowy_plover.csv"</span>)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>eggs.head(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>egg_weight</th>
-      <th>egg_length</th>
-      <th>egg_breadth</th>
-      <th>bird_weight</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>7.4</td>
-      <td>28.80</td>
-      <td>21.84</td>
-      <td>5.2</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>7.7</td>
-      <td>29.04</td>
-      <td>22.45</td>
-      <td>5.4</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>7.9</td>
-      <td>29.36</td>
-      <td>22.48</td>
-      <td>5.6</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>7.5</td>
-      <td>30.10</td>
-      <td>21.71</td>
-      <td>5.3</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>8.3</td>
-      <td>30.17</td>
-      <td>22.75</td>
-      <td>5.9</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">egg_weight</th>
+<th data-quarto-table-cell-role="th">egg_length</th>
+<th data-quarto-table-cell-role="th">egg_breadth</th>
+<th data-quarto-table-cell-role="th">bird_weight</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">0</td>
+<td>7.4</td>
+<td>28.80</td>
+<td>21.84</td>
+<td>5.2</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">1</td>
+<td>7.7</td>
+<td>29.04</td>
+<td>22.45</td>
+<td>5.4</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">2</td>
+<td>7.9</td>
+<td>29.36</td>
+<td>22.48</td>
+<td>5.6</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">3</td>
+<td>7.5</td>
+<td>30.10</td>
+<td>21.71</td>
+<td>5.3</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">4</td>
+<td>8.3</td>
+<td>30.17</td>
+<td>22.75</td>
+<td>5.9</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -609,35 +617,36 @@ Learning Outcomes
 <span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Put the parameter estimates in a nice table for viewing</span></span>
 <span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"theta_hat"</span>:[model.intercept_, thetas[<span class="dv">0</span>], thetas[<span class="dv">1</span>], thetas[<span class="dv">2</span>]]}, index<span class="op">=</span>[<span class="st">"theta_0"</span>, <span class="st">"theta_1"</span>, <span class="st">"theta_2"</span>, <span class="st">"theta_3"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>theta_hat</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>theta_0</th>
-      <td>-4.605670</td>
-    </tr>
-    <tr>
-      <th>theta_1</th>
-      <td>0.431229</td>
-    </tr>
-    <tr>
-      <th>theta_2</th>
-      <td>0.066570</td>
-    </tr>
-    <tr>
-      <th>theta_3</th>
-      <td>0.215914</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">theta_hat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">theta_0</td>
+<td>-4.605670</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">theta_1</td>
+<td>0.431229</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">theta_2</td>
+<td>0.066570</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">theta_3</td>
+<td>0.215914</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -742,40 +751,41 @@ Learning Outcomes
 <span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>                theta_1_upper, theta_2_upper, theta_3_upper]}, index<span class="op">=</span>[<span class="st">"theta_0"</span>, <span class="st">"theta_1"</span>, <span class="st">"theta_2"</span>, <span class="st">"theta_3"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="6">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>lower</th>
-      <th>upper</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>theta_0</th>
-      <td>-15.278542</td>
-      <td>5.161473</td>
-    </tr>
-    <tr>
-      <th>theta_1</th>
-      <td>-0.258648</td>
-      <td>1.103424</td>
-    </tr>
-    <tr>
-      <th>theta_2</th>
-      <td>-0.099138</td>
-      <td>0.208557</td>
-    </tr>
-    <tr>
-      <th>theta_3</th>
-      <td>-0.257141</td>
-      <td>0.758155</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">lower</th>
+<th data-quarto-table-cell-role="th">upper</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">theta_0</td>
+<td>-15.278542</td>
+<td>5.161473</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">theta_1</td>
+<td>-0.258648</td>
+<td>1.103424</td>
+</tr>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">theta_2</td>
+<td>-0.099138</td>
+<td>0.208557</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">theta_3</td>
+<td>-0.257141</td>
+<td>0.758155</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -788,7 +798,7 @@ Learning Outcomes
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sns.pairplot(eggs[[<span class="st">"egg_length"</span>, <span class="st">"egg_breadth"</span>, <span class="st">"egg_weight"</span>]])<span class="op">;</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
-<p><img src="probability_2_files/figure-html/cell-8-output-1.png" width="710" height="709"></p>
+<p><img src="probability_2_files/figure-html/cell-8-output-1.png" width="711" height="711"></p>
 </div>
 </div>
 <p>This issue is known as <strong>colinearity</strong>, sometimes also called <strong>multicolinearity</strong>. Colinearity occurs when one feature can be predicted fairly accurately by a linear combination of the other features, which happens when one feature is highly correlated with the others.</p>
@@ -821,27 +831,28 @@ Learning Outcomes
 <span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>pd.DataFrame({<span class="st">"theta_hat"</span>:[model_int.intercept_, thetas_int[<span class="dv">0</span>]]}, index<span class="op">=</span>[<span class="st">"theta_0"</span>, <span class="st">"theta_1"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display" data-execution_count="8">
-
 <div>
 
-<table class="dataframe table table-sm table-striped">
-  <thead>
-    <tr>
-      <th></th>
-      <th>theta_hat</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>theta_0</th>
-      <td>-0.058272</td>
-    </tr>
-    <tr>
-      <th>theta_1</th>
-      <td>0.718515</td>
-    </tr>
-  </tbody>
+
+<table class="dataframe table table-sm table-striped small" data-quarto-postprocess="true" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">theta_hat</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td data-quarto-table-cell-role="th">theta_0</td>
+<td>-0.058272</td>
+</tr>
+<tr class="even">
+<td data-quarto-table-cell-role="th">theta_1</td>
+<td>0.718515</td>
+</tr>
+</tbody>
 </table>
+
 </div>
 </div>
 </div>
@@ -922,12 +933,12 @@ RMSE of Interpretable Model: 0.046493941375556846</code></pre>
 <section id="bonus-proof-of-bias-variance-decomposition" class="level2" data-number="17.5">
 <h2 data-number="17.5" class="anchored" data-anchor-id="bonus-proof-of-bias-variance-decomposition"><span class="header-section-number">17.5</span> (Bonus) Proof of Bias-Variance Decomposition</h2>
 <p>This section walks through the detailed derivation of the Bias-Variance Decomposition in the Bias-Variance Tradeoff section earlier in this note.</p>
-<div class="callout callout callout-style-simple no-icon callout-captioned">
+<div class="callout callout-style-simple callout-none no-icon callout-titled">
 <div class="callout-header d-flex align-content-center" data-bs-toggle="collapse" data-bs-target=".callout-2-contents" aria-controls="callout-2" aria-expanded="false" aria-label="Toggle callout">
 <div class="callout-icon-container">
 <i class="callout-icon no-icon"></i>
 </div>
-<div class="callout-caption-container flex-fill">
+<div class="callout-title-container flex-fill">
 Click to show
 </div>
 <div class="callout-btn-toggle d-inline-block border-0 py-1 ps-1 pe-0 float-end"><i class="callout-toggle"></i></div>
@@ -1061,9 +1072,23 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     icon: icon
   };
   anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
   const clipboard = new window.ClipboardJS('.code-copy-button', {
-    target: function(trigger) {
-      return trigger.previousElementSibling;
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
     }
   });
   clipboard.on('success', function(e) {
@@ -1179,6 +1204,92 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
       return note.innerHTML;
     });
   }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
   const findCites = (el) => {
     const parentEl = el.parentElement;
     if (parentEl) {
