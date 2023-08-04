@@ -35,6 +35,7 @@ book:
         - sql_I/sql_I.qmd
         - sql_II/sql_II.qmd
         - pca_1/pca_1.qmd
+        - pca_2/pca_2.qmd
 #         - case_study_HCE/case_study_HCE.qmd
 #         - case_study_climate/case_study_climate.qmd
 #         - inference_causality/inference_causality.qmd
@@ -42,7 +43,6 @@ book:
 #         - sql_II/sql_II.qmd
 #         - logistic_regression_1/logistic_reg_1.qmd
 #         - logistic_regression_2/logistic_reg_2.qmd
-#         - pca_2/pca_2.qmd
 #         - clustering/clustering.qmd
     
     sidebar:
