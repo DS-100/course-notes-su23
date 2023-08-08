@@ -289,6 +289,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="menu-text"><span class="chapter-number">23</span>&nbsp; <span class="chapter-title">PCA II</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../decision_tree/decision_tree.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">24</span>&nbsp; <span class="chapter-title">Decision Trees</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -736,27 +742,27 @@ Example 3: Two dice
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
 <td>4</td>
-<td>5</td>
+<td>6</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
+<td>6</td>
 <td>4</td>
-<td>3</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>2</td>
+<td>1</td>
 <td>1</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>3</td>
-<td>3</td>
+<td>5</td>
+<td>6</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
 <td>2</td>
-<td>5</td>
+<td>6</td>
 </tr>
 </tbody>
 </table>
@@ -790,37 +796,37 @@ Example 3: Two dice
 <tr class="odd">
 <td data-quarto-table-cell-role="th">0</td>
 <td>4</td>
-<td>5</td>
+<td>6</td>
 <td>8</td>
-<td>9</td>
+<td>10</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">1</td>
+<td>6</td>
 <td>4</td>
-<td>3</td>
-<td>8</td>
-<td>7</td>
+<td>12</td>
+<td>10</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">2</td>
-<td>2</td>
 <td>1</td>
-<td>4</td>
-<td>3</td>
+<td>1</td>
+<td>2</td>
+<td>2</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">3</td>
-<td>3</td>
-<td>3</td>
+<td>5</td>
 <td>6</td>
-<td>6</td>
+<td>10</td>
+<td>11</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">4</td>
 <td>2</td>
-<td>5</td>
+<td>6</td>
 <td>4</td>
-<td>7</td>
+<td>8</td>
 </tr>
 </tbody>
 </table>
@@ -838,7 +844,7 @@ Example 3: Two dice
 <div class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>plot_simulated_dist(sim_rolls_df, <span class="st">"Z"</span>, show_stats <span class="op">=</span> <span class="va">False</span>, color<span class="op">=</span><span class="st">"gold"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display">
-<p><img src="probability_1_files/figure-html/cell-7-output-1.png" width="698" height="474"></p>
+<p><img src="probability_1_files/figure-html/cell-7-output-1.png" width="713" height="474"></p>
 </div>
 </div>
 <p>Clearly, <span class="math inline">\(Y\)</span> and <span class="math inline">\(Z\)</span> do not follow the same distribution. They even have different sets of possible values: while <span class="math inline">\(Z\)</span> can take on odd numbers, <span class="math inline">\(Y\)</span> cannot! We can also print out the (approximated) expectation, variance, and standard deviation of <span class="math inline">\(Y\)</span> and <span class="math inline">\(Z\)</span> from our simulated result—even though the estimated expectations are similar, <span class="math inline">\(Y\)</span> has a larger variance/standard deviation than <span class="math inline">\(Z\)</span>.</p>
@@ -859,18 +865,18 @@ Example 3: Two dice
 <tbody>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">E[•]</td>
-<td>6.972550</td>
-<td>6.973338</td>
+<td>7.010725</td>
+<td>7.008750</td>
 </tr>
 <tr class="even">
 <td data-quarto-table-cell-role="th">Var(•)</td>
-<td>11.644592</td>
-<td>5.840225</td>
+<td>11.719431</td>
+<td>5.833746</td>
 </tr>
 <tr class="odd">
 <td data-quarto-table-cell-role="th">SD(•)</td>
-<td>3.412417</td>
-<td>2.416656</td>
+<td>3.423366</td>
+<td>2.415315</td>
 </tr>
 </tbody>
 </table>

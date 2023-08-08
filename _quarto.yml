@@ -36,6 +36,7 @@ book:
         - sql_II/sql_II.qmd
         - pca_1/pca_1.qmd
         - pca_2/pca_2.qmd
+        - decision_tree/decision_tree.qmd
 #         - case_study_HCE/case_study_HCE.qmd
 #         - case_study_climate/case_study_climate.qmd
 #         - inference_causality/inference_causality.qmd
