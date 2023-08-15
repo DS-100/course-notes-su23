@@ -47,9 +47,9 @@ In our second pass of the data science lifecycle, we've introduced new tools for
 
 ## Multi-class Classification
 
-In our discussion about logistics regression, we mainly focused on the task of "binary classification" where we are trying to distinguish between two classes of labels (e.g., "spam" or "ham"). In real life though, we often have multi-class labels. For example, the Fashion-MNIST dataset we worked with last week have multiple classes of clothing items. How would we classify this kind of data?
+In our discussion about logistics regression, we mainly focused on the task of "binary classification" where we try to distinguish between two classes of labels (e.g., "spam" or "ham"). In real life though, we often have multi-class labels. For example, the Fashion-MNIST dataset we worked with last week have multiple classes of clothing items. How would we classify this kind of data?
 
-As an example, let's consider a dataset about the iris flowers. This dataset consists of 150 flower measurements from 3 different species: setosa, versicolor, and virginica. For each, we have measurements of the flower's `“petal length”`, `“petal width”`, `“sepal length”`, and `“sepal width”`.
+As an example, let's consider a dataset about the iris flowers. The dataset consists of 150 flower measurements from 3 different species: setosa, versicolor, and virginica. For each, we have measurements of the flower's `“petal length”`, `“petal width”`, `“sepal length”`, and `“sepal width”`.
 
 ```{python}
 iris_data = pd.read_csv("data/iris.csv")
@@ -67,7 +67,9 @@ logistic_regression_model = logistic_regression_model.fit(iris_data[["petal_leng
                                                           iris_data["species"])
 ```
 
-Notice when constructing the classifier, we specified `multi_class = 'ovr'`. `ovr` means "one-vs.-rest", which means `sklearn` trains three logistic regression binary classifiers:
+Notice when constructing the classifier, we specified `multi_class = 'ovr'`. 
+
+`ovr` means "one-vs.-rest", which means `sklearn` trains three logistic regression binary classifiers:
 
 - Classifier 1: Setosa or not.
 - Classifier 2: Versicolor or not.
@@ -79,7 +81,7 @@ Then the `model.predict()` function will output the classifier that returns the 
 logistic_regression_model.predict([[1.4, 0.2]])
 ```
 
-We can also visualize the decision boundary of this classifier. As we can see, the decision boundaries are still linear, but there are now three lines instead of 1.
+We can also visualize the decision boundary of this classifier. As we can see, each of three classifiers still has linear decision boundaries, but there are now three lines instead of 1.
 
 ```{python}
 #| code-fold: true
@@ -100,25 +102,23 @@ plt.xlim(0, 7);
 plt.ylim(0, 2.8);
 ```
 
-It turns out there are other (arguably) better models to use when it comes to multi-class classification. Decision trees are one of them.
+It turns out there are other (arguably) better models to use when it comes to multi-class classification.
 
 In Data 100 so far, we've been talking about linear models. In Linear regression, the output is the weighted sum of the features. In logistic regression, the output is $\sigma$(the weighted sum of the features). 
 
-Today, we are going into the territory of non-linear models. There are many non-linear models, decision tree is one of them. You can take more classes about modeling and machine learning to learn about the others.
+Today, we are going into the territory of non-linear models. There are many non-linear models, decision tree is one of them.
 
 ## Decision Trees, conceptually
 
-What is a decision tree?
-
-A decision tree is simply a tree of questions that must be answered in a sequence to yield a predicted classification. For example, below is a classifier for animals. It starts by asking how many legs the animal has. If the answer is no we immediately say snake. If the answer is four the model is not quite sure, so we must ask an additional question: does it purr?  If the answer is yes, the animal is a cat; and if the answer is no, the animal is a dog. The other possibility is that the number of legs was two, in that case we actually have up to two additional questions we may need to ask before eventually deciding if it is a kangaroo, human, or parrot. Obviously this decision tree does not cover all animals. In principle, with the right sequence of questions, we could build a giant decision tree that could differentiate a vast number of animals.
+A decision tree is simply a tree of questions that must be answered in a sequence to yield a predicted classification. For example, below is a classifier for animals. It starts by asking how many legs the animal has. If the answer is no, we immediately say snake. If the answer is four, the model is not quite sure, so we must ask an additional question: does it purr?  If the answer is yes, the animal is a cat; and if the answer is no, the animal is a dog. The other possibility is that the number of legs was two, in that case we have up to two additional questions we may need to ask before eventually deciding if it is a kangaroo, human, or parrot. Obviously this decision tree does not cover all animals. In principle, with the right sequence of questions, we could build a giant decision tree that could differentiate a vast number of animals.
 
 <img src="images/animal_tree.png" alt='Example of a decision tree' width='600'>
 
-For our iris dataset, we can also come up with a decision tree just by looking at the points. It's important to note in the following decision tree we use multiple features in a single node to make the tree simpler, but in reality decision tree will only make a split based on one feature at a time. We will see an example of an actual tree in the next section.
+For our iris dataset, we can come up with a decision tree just by looking at the points. It's important to note in the following decision tree we use multiple features in a single node to make the tree simpler, but in reality decision tree will only make a split based on one feature at a time. We will see an example of an actual decision tree in the next section.
 
 <img src="images/manual_tree.png" alt='Example of a decision tree on the iris data' width='600'>
 
-Just by looking at the tree, it seems we reached 100% accuracy at least on this dataset. However, this should call for some concerns about potential overfitting.
+Just by looking at the tree, it seems we reached 100% accuracy on this dataset. However, this should call for some concerns about potential overfitting.
 
 ### Decision Trees in `sklearn`
 
@@ -132,7 +132,7 @@ decision_tree_model = decision_tree_model.fit(iris_data[["petal_length", "petal_
 
 You might noticed that we specified `criterion = 'entropy'` when instantiating the model. We will talk more about "entropy" in a later section.
 
-We can use the fitted Decision Tree to predict on four random points in our original data:
+We can use the fitted decision tree model to predict four random points in our original data:
 
 ```{python}
 four_random_rows = iris_data.sample(4)
@@ -202,7 +202,7 @@ Hmm, it looks like we didn't get a perfect accuracy on the dataset. What happene
 ::: {.column width="55%"}
 To understand why, let's look back at the decision tree from earlier. In particular, let's look at one particular node, zoomed in on the right.
 
-It looks like this node has three samples yet to be classified, with 1 versicolor, and 2 virginicas, but decision tree stopped here without splitting any further. This results in us classifying the one versicolor wrong.
+It looks like this node has three samples yet to be classified, with 1 versicolor and 2 virginicas, but the decision tree stopped here without splitting any further. This results in us classifying the one versicolor wrong.
 
 Why did the decision tree stop? Let's check these three points by following the decision tree.
 :::
@@ -217,9 +217,9 @@ Why did the decision tree stop? Let's check these three points by following the 
 iris_data[(iris_data["petal_length"]> 2.45)&(iris_data["petal_width"]> 1.75)&(iris_data["petal_length"]<=4.85)]
 ```
 
-It turns out, because we only used `petal_length` and `petal_width` to fit the decision tree, and these three points have the exact same measurements for `petal_length` and `petal_width`, decision tree was not able to come up with a decision rule to distinguish among these three data points!
+It turns out, because we only used `petal_length` and `petal_width` to fit the decision tree, and these three points have the exact same measurements for `petal_length` and `petal_width`, decision tree was not able to come up with a decision rule to distinguish these three data points!
 
-In general, decision trees (when unrestricted) will always have a perfect accuracy on the training data, **except** when there are samples from different categories with the exact same features. For example, if the versicolor above had a `petal_length`` of 4.8001, we’d have 100% training accuracy.
+In general, decision trees (when unrestricted) will always have a perfect accuracy on the training data, **except** when there are samples from different categories with the exact same features. For example, if the versicolor above has a `petal_length` of 4.8001, we’d have 100% training accuracy.
 
 Again, this tendency for perfect accuracy should give us concern about overfitting. As a result of trying to perfectly fit the training data, decision tree models are extremely sensitive to new data points and therefore have high variance.
 
@@ -233,7 +233,7 @@ Instead of the `petal` measurements, let's use the `sepal` measurements to train
 sns.scatterplot(data = iris_data, x = "sepal_length", y="sepal_width", hue="species", legend=True);
 ```
 
-The decision tree fitted with these two features is very complex, as visualized below. We can see that the tree makes some extremely specific decision rules trying to perfectly capture the dataset.
+The decision tree fitted with these two features is very complex, as visualized below. We can see that the tree makes some extremely specific decision rules trying to perfectly capture the details in the dataset.
 
 ```{python}
 #| code-fold: true
@@ -266,7 +266,7 @@ graph2
 
 If we set aside a validation set and check the accuracy of this decision tree on the validation set, we will get around 0.65. This is an indication that we are overfitting.
 
-How does this happened? Is there any way we can reduce overfitting? To understand this, we first need to understand how a decision tree is generated.
+How does this happened? Is there any way we can reduce overfitting? To understand this, we first need to understand how a decision tree is generated algorithmically.
 
 ## Decision Tree Generation Algorithm
 
@@ -284,7 +284,7 @@ $$
 \end{align*}
 $$
 
-Therefore, the **entropy** $S$ of a node is defined as
+With this, the **entropy** $S$ of a node is defined as
 
 $$
 \Large
@@ -315,12 +315,12 @@ Suppose a given split results in two nodes $X$ and $Y$ with $N_1$ and $N_2$ numb
 
 $$
 \Large
-L = \frac{N_{1} S(X) + N_{2} S(Y)}{N_{1} + N_{2}},
+L = \frac{N_{1} S(X) + N_{2} S(Y)}{N_{1} + N_{2}}
 $$
 
 where $S(X)$ and $S(Y)$ are the entropies of nodes $X$ and $Y$.
 
-Intuitively, weighted entropy measures how unpredictable the result of a split is. We want to make the the nodes as predictable as possible, therefore we need to minimize the weighted entropy. In decision trees, the way we minimize the weighted entropy of a split is by trying out different combinations of features and splitting values.
+Intuitively, the weighted entropy of a split measures how unpredictable the result of the split is. We want to make the resulting nodes as predictable as possible, therefore we need to minimize the weighted entropy. In decision trees, the way we minimize the weighted entropy of a split is to try out different combinations of features and splitting values.
 
 Now we have everything we need to state the decision tree generation algorithm.
 
@@ -340,7 +340,7 @@ What do we mean by "pure" or "unsplittable"?
 
 ## Avoiding Overfitting
 
-Now that we have an idea how decision tree works, let's turn out attention to the issue of overfitting and discuss ways we can avoid or reduce overfitting with decision trees.
+Now that we have an idea how decision tree works, let's turn our attention to the issue of overfitting and discuss ways we can avoid or reduce overfitting with decision trees.
 
 ### Restricting Tree Complexity
 
@@ -371,7 +371,7 @@ Recall that when a node has multiple samples in it from different classes, the `
 
 ::: {.columns}
 ::: {.column width="50%"}
-As we've seen earlier, a fully-grown decision tree will almost always overfit data. It has low model bias, but high model variance. In other words, small changes in the dataset will result in very a different decision tree. As an example, the two models below are trained on different subsets of the same data. We can see they come out very differently.
+As we've seen earlier, a fully-grown decision tree will almost always overfit the data. It has low model bias, but high model variance. In other words, small changes in the dataset will result in very a different decision tree. As an example, the two models below are trained on different subsets of the same data. We can see they come out very differently.
 :::
 ::: {.column width="5%"}
 :::
@@ -380,7 +380,7 @@ As we've seen earlier, a fully-grown decision tree will almost always overfit da
 :::
 :::
 
-The idea of random forest is to harness this variance: build many decision trees and and take the majority vote.
+The idea of random forest is to harness this variance: build many decision trees and take the majority vote.
 
 To build multiple decision trees using our training data, we use our old friend bootstrap. In particular, this method is called "**bagging**", which stands for Bootstrap Aggregating. In bagging, we
 
@@ -415,7 +415,7 @@ In this section, we talked about three approaches to address the overfitting iss
 
 ## Summary and Context
 
-To summarize what we talked about in this lecture, decision Trees present an alternative philosophy to logistic regression. Instead of a weighted sum of features, we use a series of yes/no questions.
+To summarize what we talked about in this lecture, decision trees present an alternative philosophy to logistic regression: instead of a weighted sum of features, we use a series of yes/no questions.
 
 Some advantages of a decision tree include:
 - It is able to capture nonlinear relationships (at risk of overfitting).
@@ -423,9 +423,9 @@ Some advantages of a decision tree include:
 
 Some disadvantages of a decision tree include:
 - Care needs to be taken to avoid overfitting.
-- It is not as mathematically nice as some linear models (e.g. OLS and Ridge Regression has a simple closed-form solution).
+- It is not as mathematically nice as some linear models (e.g. OLS and Ridge Regression have simple closed-form solutions).
 
-In practice, people use random forest more often than decision trees because it preforms much better on unseen data in general. It also has the following advantages:
+In practice, people use random forests more often than decision trees because they preform much better on unseen data in general. A random forest also has the following advantages:
 
 - Versatile: does both regression and classification.
 - Invariant to feature scaling and translation.

@@ -475,23 +475,23 @@ Learning Outcomes
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>np.random.multinomial(<span class="dv">100</span>, [<span class="fl">0.60</span>, <span class="fl">0.30</span>, <span class="fl">0.10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="1">
-<pre><code>array([60, 25, 15])</code></pre>
+<pre><code>array([60, 29, 11])</code></pre>
 </div>
 </div>
 <p>This method allows us to generate, say, 10 samples of size 100 using the <code>size</code> parameter:</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>np.random.multinomial(<span class="dv">100</span>, [<span class="fl">0.60</span>, <span class="fl">0.30</span>, <span class="fl">0.10</span>], size<span class="op">=</span><span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="2">
-<pre><code>array([[62, 24, 14],
-       [57, 30, 13],
-       [55, 36,  9],
-       [65, 27,  8],
-       [51, 38, 11],
-       [61, 32,  7],
-       [59, 30, 11],
+<pre><code>array([[57, 30, 13],
+       [63, 33,  4],
+       [60, 28, 12],
+       [60, 30, 10],
+       [67, 26,  7],
        [56, 35,  9],
-       [51, 34, 15],
-       [71, 24,  5]])</code></pre>
+       [57, 31, 12],
+       [52, 37, 11],
+       [60, 27, 13],
+       [61, 30,  9]])</code></pre>
 </div>
 </div>
 </section>

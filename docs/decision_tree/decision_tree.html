@@ -390,8 +390,8 @@ Learning Outcomes
 <p>In our second pass of the data science lifecycle, we’ve introduced new tools for data processing and exploratory data analysis. Now let’s turn our attention to modeling. Today, we will introduce a new model called decision trees.</p>
 <section id="multi-class-classification" class="level2" data-number="24.1">
 <h2 data-number="24.1" class="anchored" data-anchor-id="multi-class-classification"><span class="header-section-number">24.1</span> Multi-class Classification</h2>
-<p>In our discussion about logistics regression, we mainly focused on the task of “binary classification” where we are trying to distinguish between two classes of labels (e.g., “spam” or “ham”). In real life though, we often have multi-class labels. For example, the Fashion-MNIST dataset we worked with last week have multiple classes of clothing items. How would we classify this kind of data?</p>
-<p>As an example, let’s consider a dataset about the iris flowers. This dataset consists of 150 flower measurements from 3 different species: setosa, versicolor, and virginica. For each, we have measurements of the flower’s <code>“petal length”</code>, <code>“petal width”</code>, <code>“sepal length”</code>, and <code>“sepal width”</code>.</p>
+<p>In our discussion about logistics regression, we mainly focused on the task of “binary classification” where we try to distinguish between two classes of labels (e.g., “spam” or “ham”). In real life though, we often have multi-class labels. For example, the Fashion-MNIST dataset we worked with last week have multiple classes of clothing items. How would we classify this kind of data?</p>
+<p>As an example, let’s consider a dataset about the iris flowers. The dataset consists of 150 flower measurements from 3 different species: setosa, versicolor, and virginica. For each, we have measurements of the flower’s <code>“petal length”</code>, <code>“petal width”</code>, <code>“sepal length”</code>, and <code>“sepal width”</code>.</p>
 <div class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>iris_data <span class="op">=</span> pd.read_csv(<span class="st">"data/iris.csv"</span>)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>iris_data.sample(<span class="dv">5</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -412,44 +412,44 @@ Learning Outcomes
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">14</td>
-<td>5.8</td>
-<td>4.0</td>
-<td>1.2</td>
-<td>0.2</td>
+<td data-quarto-table-cell-role="th">15</td>
+<td>5.7</td>
+<td>4.4</td>
+<td>1.5</td>
+<td>0.4</td>
 <td>setosa</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">25</td>
-<td>5.0</td>
+<td data-quarto-table-cell-role="th">112</td>
+<td>6.8</td>
 <td>3.0</td>
-<td>1.6</td>
-<td>0.2</td>
-<td>setosa</td>
+<td>5.5</td>
+<td>2.1</td>
+<td>virginica</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">100</td>
-<td>6.3</td>
-<td>3.3</td>
-<td>6.0</td>
-<td>2.5</td>
+<td data-quarto-table-cell-role="th">128</td>
+<td>6.4</td>
+<td>2.8</td>
+<td>5.6</td>
+<td>2.1</td>
 <td>virginica</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">97</td>
-<td>6.2</td>
-<td>2.9</td>
-<td>4.3</td>
-<td>1.3</td>
-<td>versicolor</td>
+<td data-quarto-table-cell-role="th">135</td>
+<td>7.7</td>
+<td>3.0</td>
+<td>6.1</td>
+<td>2.3</td>
+<td>virginica</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">26</td>
-<td>5.0</td>
-<td>3.4</td>
-<td>1.6</td>
-<td>0.4</td>
-<td>setosa</td>
+<td data-quarto-table-cell-role="th">52</td>
+<td>6.9</td>
+<td>3.1</td>
+<td>4.9</td>
+<td>1.5</td>
+<td>versicolor</td>
 </tr>
 </tbody>
 </table>
@@ -465,7 +465,8 @@ Learning Outcomes
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>logistic_regression_model <span class="op">=</span> logistic_regression_model.fit(iris_data[[<span class="st">"petal_length"</span>, <span class="st">"petal_width"</span>]], </span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>                                                          iris_data[<span class="st">"species"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Notice when constructing the classifier, we specified <code>multi_class = 'ovr'</code>. <code>ovr</code> means “one-vs.-rest”, which means <code>sklearn</code> trains three logistic regression binary classifiers:</p>
+<p>Notice when constructing the classifier, we specified <code>multi_class = 'ovr'</code>.</p>
+<p><code>ovr</code> means “one-vs.-rest”, which means <code>sklearn</code> trains three logistic regression binary classifiers:</p>
 <ul>
 <li>Classifier 1: Setosa or not.</li>
 <li>Classifier 2: Versicolor or not.</li>
@@ -478,7 +479,7 @@ Learning Outcomes
 <pre><code>array(['setosa'], dtype=object)</code></pre>
 </div>
 </div>
-<p>We can also visualize the decision boundary of this classifier. As we can see, the decision boundaries are still linear, but there are now three lines instead of 1.</p>
+<p>We can also visualize the decision boundary of this classifier. As we can see, each of three classifiers still has linear decision boundaries, but there are now three lines instead of 1.</p>
 <div class="cell" data-execution_count="5">
 <details>
 <summary>Code</summary>
@@ -501,18 +502,17 @@ Learning Outcomes
 <p><img src="decision_tree_files/figure-html/cell-6-output-1.png" width="617" height="450"></p>
 </div>
 </div>
-<p>It turns out there are other (arguably) better models to use when it comes to multi-class classification. Decision trees are one of them.</p>
+<p>It turns out there are other (arguably) better models to use when it comes to multi-class classification.</p>
 <p>In Data 100 so far, we’ve been talking about linear models. In Linear regression, the output is the weighted sum of the features. In logistic regression, the output is <span class="math inline">\(\sigma\)</span>(the weighted sum of the features).</p>
-<p>Today, we are going into the territory of non-linear models. There are many non-linear models, decision tree is one of them. You can take more classes about modeling and machine learning to learn about the others.</p>
+<p>Today, we are going into the territory of non-linear models. There are many non-linear models, decision tree is one of them.</p>
 </section>
 <section id="decision-trees-conceptually" class="level2" data-number="24.2">
 <h2 data-number="24.2" class="anchored" data-anchor-id="decision-trees-conceptually"><span class="header-section-number">24.2</span> Decision Trees, conceptually</h2>
-<p>What is a decision tree?</p>
-<p>A decision tree is simply a tree of questions that must be answered in a sequence to yield a predicted classification. For example, below is a classifier for animals. It starts by asking how many legs the animal has. If the answer is no we immediately say snake. If the answer is four the model is not quite sure, so we must ask an additional question: does it purr? If the answer is yes, the animal is a cat; and if the answer is no, the animal is a dog. The other possibility is that the number of legs was two, in that case we actually have up to two additional questions we may need to ask before eventually deciding if it is a kangaroo, human, or parrot. Obviously this decision tree does not cover all animals. In principle, with the right sequence of questions, we could build a giant decision tree that could differentiate a vast number of animals.</p>
+<p>A decision tree is simply a tree of questions that must be answered in a sequence to yield a predicted classification. For example, below is a classifier for animals. It starts by asking how many legs the animal has. If the answer is no, we immediately say snake. If the answer is four, the model is not quite sure, so we must ask an additional question: does it purr? If the answer is yes, the animal is a cat; and if the answer is no, the animal is a dog. The other possibility is that the number of legs was two, in that case we have up to two additional questions we may need to ask before eventually deciding if it is a kangaroo, human, or parrot. Obviously this decision tree does not cover all animals. In principle, with the right sequence of questions, we could build a giant decision tree that could differentiate a vast number of animals.</p>
 <p><img src="images/animal_tree.png" alt="Example of a decision tree" width="600"></p>
-<p>For our iris dataset, we can also come up with a decision tree just by looking at the points. It’s important to note in the following decision tree we use multiple features in a single node to make the tree simpler, but in reality decision tree will only make a split based on one feature at a time. We will see an example of an actual tree in the next section.</p>
+<p>For our iris dataset, we can come up with a decision tree just by looking at the points. It’s important to note in the following decision tree we use multiple features in a single node to make the tree simpler, but in reality decision tree will only make a split based on one feature at a time. We will see an example of an actual decision tree in the next section.</p>
 <p><img src="images/manual_tree.png" alt="Example of a decision tree on the iris data" width="600"></p>
-<p>Just by looking at the tree, it seems we reached 100% accuracy at least on this dataset. However, this should call for some concerns about potential overfitting.</p>
+<p>Just by looking at the tree, it seems we reached 100% accuracy on this dataset. However, this should call for some concerns about potential overfitting.</p>
 <section id="decision-trees-in-sklearn" class="level3" data-number="24.2.1">
 <h3 data-number="24.2.1" class="anchored" data-anchor-id="decision-trees-in-sklearn"><span class="header-section-number">24.2.1</span> Decision Trees in <code>sklearn</code></h3>
 <p>We can implement a decision tree easily using <code>sklearn</code>. Like other models we’ve been working with in this class so far, we would create an instance of the model, fit it on our training data, and use it to make predictions.</p>
@@ -522,7 +522,7 @@ Learning Outcomes
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>decision_tree_model <span class="op">=</span> decision_tree_model.fit(iris_data[[<span class="st">"petal_length"</span>, <span class="st">"petal_width"</span>]], iris_data[<span class="st">"species"</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>You might noticed that we specified <code>criterion = 'entropy'</code> when instantiating the model. We will talk more about “entropy” in a later section.</p>
-<p>We can use the fitted Decision Tree to predict on four random points in our original data:</p>
+<p>We can use the fitted decision tree model to predict four random points in our original data:</p>
 <div class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>four_random_rows <span class="op">=</span> iris_data.sample(<span class="dv">4</span>)</span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>four_random_rows</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -543,35 +543,35 @@ Learning Outcomes
 </thead>
 <tbody>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">138</td>
-<td>6.0</td>
-<td>3.0</td>
-<td>4.8</td>
-<td>1.8</td>
+<td data-quarto-table-cell-role="th">117</td>
+<td>7.7</td>
+<td>3.8</td>
+<td>6.7</td>
+<td>2.2</td>
 <td>virginica</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">115</td>
-<td>6.4</td>
-<td>3.2</td>
-<td>5.3</td>
-<td>2.3</td>
-<td>virginica</td>
+<td data-quarto-table-cell-role="th">91</td>
+<td>6.1</td>
+<td>3.0</td>
+<td>4.6</td>
+<td>1.4</td>
+<td>versicolor</td>
 </tr>
 <tr class="odd">
-<td data-quarto-table-cell-role="th">148</td>
-<td>6.2</td>
-<td>3.4</td>
-<td>5.4</td>
-<td>2.3</td>
-<td>virginica</td>
+<td data-quarto-table-cell-role="th">78</td>
+<td>6.0</td>
+<td>2.9</td>
+<td>4.5</td>
+<td>1.5</td>
+<td>versicolor</td>
 </tr>
 <tr class="even">
-<td data-quarto-table-cell-role="th">88</td>
-<td>5.6</td>
-<td>3.0</td>
-<td>4.1</td>
-<td>1.3</td>
+<td data-quarto-table-cell-role="th">80</td>
+<td>5.5</td>
+<td>2.4</td>
+<td>3.8</td>
+<td>1.1</td>
 <td>versicolor</td>
 </tr>
 </tbody>
@@ -583,7 +583,8 @@ Learning Outcomes
 <div class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>decision_tree_model.predict(four_random_rows[[<span class="st">"petal_length"</span>, <span class="st">"petal_width"</span>]])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-display" data-execution_count="8">
-<pre><code>array(['virginica', 'virginica', 'virginica', 'versicolor'], dtype=object)</code></pre>
+<pre><code>array(['virginica', 'versicolor', 'versicolor', 'versicolor'],
+      dtype=object)</code></pre>
 </div>
 </div>
 <p>We can also visualize how the decision tree is constructed using a package called <code>GraphViz</code>.</p>
@@ -646,7 +647,7 @@ Learning Outcomes
 <div class="columns">
 <div class="column" style="width:55%;">
 <p>To understand why, let’s look back at the decision tree from earlier. In particular, let’s look at one particular node, zoomed in on the right.</p>
-<p>It looks like this node has three samples yet to be classified, with 1 versicolor, and 2 virginicas, but decision tree stopped here without splitting any further. This results in us classifying the one versicolor wrong.</p>
+<p>It looks like this node has three samples yet to be classified, with 1 versicolor and 2 virginicas, but the decision tree stopped here without splitting any further. This results in us classifying the one versicolor wrong.</p>
 <p>Why did the decision tree stop? Let’s check these three points by following the decision tree.</p>
 </div><div class="column" style="width:5%;">
 
@@ -702,8 +703,8 @@ Learning Outcomes
 </div>
 </div>
 </div>
-<p>It turns out, because we only used <code>petal_length</code> and <code>petal_width</code> to fit the decision tree, and these three points have the exact same measurements for <code>petal_length</code> and <code>petal_width</code>, decision tree was not able to come up with a decision rule to distinguish among these three data points!</p>
-<p>In general, decision trees (when unrestricted) will always have a perfect accuracy on the training data, <strong>except</strong> when there are samples from different categories with the exact same features. For example, if the versicolor above had a `petal_length`` of 4.8001, we’d have 100% training accuracy.</p>
+<p>It turns out, because we only used <code>petal_length</code> and <code>petal_width</code> to fit the decision tree, and these three points have the exact same measurements for <code>petal_length</code> and <code>petal_width</code>, decision tree was not able to come up with a decision rule to distinguish these three data points!</p>
+<p>In general, decision trees (when unrestricted) will always have a perfect accuracy on the training data, <strong>except</strong> when there are samples from different categories with the exact same features. For example, if the versicolor above has a <code>petal_length</code> of 4.8001, we’d have 100% training accuracy.</p>
 <p>Again, this tendency for perfect accuracy should give us concern about overfitting. As a result of trying to perfectly fit the training data, decision tree models are extremely sensitive to new data points and therefore have high variance.</p>
 </section>
 <section id="overfitting-tree-example" class="level3" data-number="24.2.3">
@@ -716,7 +717,7 @@ Learning Outcomes
 <p><img src="decision_tree_files/figure-html/cell-14-output-1.png" width="611" height="454"></p>
 </div>
 </div>
-<p>The decision tree fitted with these two features is very complex, as visualized below. We can see that the tree makes some extremely specific decision rules trying to perfectly capture the dataset.</p>
+<p>The decision tree fitted with these two features is very complex, as visualized below. We can see that the tree makes some extremely specific decision rules trying to perfectly capture the details in the dataset.</p>
 <div class="cell" data-execution_count="14">
 <details>
 <summary>Code</summary>
@@ -754,7 +755,7 @@ Learning Outcomes
 </div>
 </div>
 <p>If we set aside a validation set and check the accuracy of this decision tree on the validation set, we will get around 0.65. This is an indication that we are overfitting.</p>
-<p>How does this happened? Is there any way we can reduce overfitting? To understand this, we first need to understand how a decision tree is generated.</p>
+<p>How does this happened? Is there any way we can reduce overfitting? To understand this, we first need to understand how a decision tree is generated algorithmically.</p>
 </section>
 </section>
 <section id="decision-tree-generation-algorithm" class="level2" data-number="24.3">
@@ -770,7 +771,7 @@ Learning Outcomes
 &amp;p_2 = 35/110 \approx 0.32.
 \end{align*}
 \]</span></p>
-<p>Therefore, the <strong>entropy</strong> <span class="math inline">\(S\)</span> of a node is defined as</p>
+<p>With this, the <strong>entropy</strong> <span class="math inline">\(S\)</span> of a node is defined as</p>
 <p><span class="math display">\[
 \Large
 S = -\sum_{C}p_C \log_{2}(p_C).
@@ -803,10 +804,10 @@ S = -\sum_{C}p_C \log_{2}(p_C).
 <p>Suppose a given split results in two nodes <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> with <span class="math inline">\(N_1\)</span> and <span class="math inline">\(N_2\)</span> number of samples each. The loss (or <strong>weighted entropy</strong>) of that split is given by:</p>
 <p><span class="math display">\[
 \Large
-L = \frac{N_{1} S(X) + N_{2} S(Y)}{N_{1} + N_{2}},
+L = \frac{N_{1} S(X) + N_{2} S(Y)}{N_{1} + N_{2}}
 \]</span></p>
 <p>where <span class="math inline">\(S(X)\)</span> and <span class="math inline">\(S(Y)\)</span> are the entropies of nodes <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>.</p>
-<p>Intuitively, weighted entropy measures how unpredictable the result of a split is. We want to make the the nodes as predictable as possible, therefore we need to minimize the weighted entropy. In decision trees, the way we minimize the weighted entropy of a split is by trying out different combinations of features and splitting values.</p>
+<p>Intuitively, the weighted entropy of a split measures how unpredictable the result of the split is. We want to make the resulting nodes as predictable as possible, therefore we need to minimize the weighted entropy. In decision trees, the way we minimize the weighted entropy of a split is to try out different combinations of features and splitting values.</p>
 <p>Now we have everything we need to state the decision tree generation algorithm.</p>
 <div class="callout callout-style-default callout-warning no-icon callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -837,7 +838,7 @@ Decision Tree Generation Algorithm
 </section>
 <section id="avoiding-overfitting" class="level2" data-number="24.4">
 <h2 data-number="24.4" class="anchored" data-anchor-id="avoiding-overfitting"><span class="header-section-number">24.4</span> Avoiding Overfitting</h2>
-<p>Now that we have an idea how decision tree works, let’s turn out attention to the issue of overfitting and discuss ways we can avoid or reduce overfitting with decision trees.</p>
+<p>Now that we have an idea how decision tree works, let’s turn our attention to the issue of overfitting and discuss ways we can avoid or reduce overfitting with decision trees.</p>
 <section id="restricting-tree-complexity" class="level3" data-number="24.4.1">
 <h3 data-number="24.4.1" class="anchored" data-anchor-id="restricting-tree-complexity"><span class="header-section-number">24.4.1</span> Restricting Tree Complexity</h3>
 <p>A “fully grown” decision tree built with our algorithm runs the risk of overfitting. In linear models, we introduced the notion of “regularization”. However, regularization doesn’t make sense in the decision tree context as decision trees don’t have parameters that act as weights, so we can’t use L1 or L2 regularization. We have to come up with new ideas.</p>
@@ -868,14 +869,14 @@ Decision Tree Generation Algorithm
 <h3 data-number="24.4.2" class="anchored" data-anchor-id="random-forest"><span class="header-section-number">24.4.2</span> Random Forest</h3>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>As we’ve seen earlier, a fully-grown decision tree will almost always overfit data. It has low model bias, but high model variance. In other words, small changes in the dataset will result in very a different decision tree. As an example, the two models below are trained on different subsets of the same data. We can see they come out very differently.</p>
+<p>As we’ve seen earlier, a fully-grown decision tree will almost always overfit the data. It has low model bias, but high model variance. In other words, small changes in the dataset will result in very a different decision tree. As an example, the two models below are trained on different subsets of the same data. We can see they come out very differently.</p>
 </div><div class="column" style="width:5%;">
 
 </div><div class="column" style="width:45%;">
 <p><img src="images/two_trees.png" alt="Two trees fitted on different subset of the same dataset" width="400"></p>
 </div>
 </div>
-<p>The idea of random forest is to harness this variance: build many decision trees and and take the majority vote.</p>
+<p>The idea of random forest is to harness this variance: build many decision trees and take the majority vote.</p>
 <p>To build multiple decision trees using our training data, we use our old friend bootstrap. In particular, this method is called “<strong>bagging</strong>”, which stands for Bootstrap Aggregating. In bagging, we</p>
 <ul>
 <li>Generate bootstrap resamples of training data.</li>
@@ -916,10 +917,10 @@ Random Forest Algorithm
 </section>
 <section id="summary-and-context" class="level2" data-number="24.5">
 <h2 data-number="24.5" class="anchored" data-anchor-id="summary-and-context"><span class="header-section-number">24.5</span> Summary and Context</h2>
-<p>To summarize what we talked about in this lecture, decision Trees present an alternative philosophy to logistic regression. Instead of a weighted sum of features, we use a series of yes/no questions.</p>
+<p>To summarize what we talked about in this lecture, decision trees present an alternative philosophy to logistic regression: instead of a weighted sum of features, we use a series of yes/no questions.</p>
 <p>Some advantages of a decision tree include: - It is able to capture nonlinear relationships (at risk of overfitting). - Its output is more interpretable: we know exactly how the tree made a decision. However, this is not true of random forests.</p>
-<p>Some disadvantages of a decision tree include: - Care needs to be taken to avoid overfitting. - It is not as mathematically nice as some linear models (e.g.&nbsp;OLS and Ridge Regression has a simple closed-form solution).</p>
-<p>In practice, people use random forest more often than decision trees because it preforms much better on unseen data in general. It also has the following advantages:</p>
+<p>Some disadvantages of a decision tree include: - Care needs to be taken to avoid overfitting. - It is not as mathematically nice as some linear models (e.g.&nbsp;OLS and Ridge Regression have simple closed-form solutions).</p>
+<p>In practice, people use random forests more often than decision trees because they preform much better on unseen data in general. A random forest also has the following advantages:</p>
 <ul>
 <li>Versatile: does both regression and classification.</li>
 <li>Invariant to feature scaling and translation.</li>
@@ -1277,9 +1278,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-49"><a href="#cb19-49" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-50"><a href="#cb19-50" aria-hidden="true" tabindex="-1"></a><span class="fu">## Multi-class Classification</span></span>
 <span id="cb19-51"><a href="#cb19-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>In our discussion about logistics regression, we mainly focused on the task of "binary classification" where we are trying to distinguish between two classes of labels (e.g., "spam" or "ham"). In real life though, we often have multi-class labels. For example, the Fashion-MNIST dataset we worked with last week have multiple classes of clothing items. How would we classify this kind of data?</span>
+<span id="cb19-52"><a href="#cb19-52" aria-hidden="true" tabindex="-1"></a>In our discussion about logistics regression, we mainly focused on the task of "binary classification" where we try to distinguish between two classes of labels (e.g., "spam" or "ham"). In real life though, we often have multi-class labels. For example, the Fashion-MNIST dataset we worked with last week have multiple classes of clothing items. How would we classify this kind of data?</span>
 <span id="cb19-53"><a href="#cb19-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>As an example, let's consider a dataset about the iris flowers. This dataset consists of 150 flower measurements from 3 different species: setosa, versicolor, and virginica. For each, we have measurements of the flower's <span class="in">`“petal length”`</span>, <span class="in">`“petal width”`</span>, <span class="in">`“sepal length”`</span>, and <span class="in">`“sepal width”`</span>.</span>
+<span id="cb19-54"><a href="#cb19-54" aria-hidden="true" tabindex="-1"></a>As an example, let's consider a dataset about the iris flowers. The dataset consists of 150 flower measurements from 3 different species: setosa, versicolor, and virginica. For each, we have measurements of the flower's <span class="in">`“petal length”`</span>, <span class="in">`“petal width”`</span>, <span class="in">`“sepal length”`</span>, and <span class="in">`“sepal width”`</span>.</span>
 <span id="cb19-55"><a href="#cb19-55" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-58"><a href="#cb19-58" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
 <span id="cb19-59"><a href="#cb19-59" aria-hidden="true" tabindex="-1"></a>iris_data <span class="op">=</span> pd.read_csv(<span class="st">"data/iris.csv"</span>)</span>
@@ -1297,58 +1298,58 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-73"><a href="#cb19-73" aria-hidden="true" tabindex="-1"></a>                                                          iris_data[<span class="st">"species"</span>])</span>
 <span id="cb19-74"><a href="#cb19-74" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb19-75"><a href="#cb19-75" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-76"><a href="#cb19-76" aria-hidden="true" tabindex="-1"></a>Notice when constructing the classifier, we specified <span class="in">`multi_class = 'ovr'`</span>. <span class="in">`ovr`</span> means "one-vs.-rest", which means <span class="in">`sklearn`</span> trains three logistic regression binary classifiers:</span>
+<span id="cb19-76"><a href="#cb19-76" aria-hidden="true" tabindex="-1"></a>Notice when constructing the classifier, we specified <span class="in">`multi_class = 'ovr'`</span>. </span>
 <span id="cb19-77"><a href="#cb19-77" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-78"><a href="#cb19-78" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Classifier 1: Setosa or not.</span>
-<span id="cb19-79"><a href="#cb19-79" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Classifier 2: Versicolor or not.</span>
-<span id="cb19-80"><a href="#cb19-80" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Classifier 3: Virginica or not.</span>
-<span id="cb19-81"><a href="#cb19-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-82"><a href="#cb19-82" aria-hidden="true" tabindex="-1"></a>Then the <span class="in">`model.predict()`</span> function will output the classifier that returns the highest probability:</span>
+<span id="cb19-78"><a href="#cb19-78" aria-hidden="true" tabindex="-1"></a><span class="in">`ovr`</span> means "one-vs.-rest", which means <span class="in">`sklearn`</span> trains three logistic regression binary classifiers:</span>
+<span id="cb19-79"><a href="#cb19-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-80"><a href="#cb19-80" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Classifier 1: Setosa or not.</span>
+<span id="cb19-81"><a href="#cb19-81" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Classifier 2: Versicolor or not.</span>
+<span id="cb19-82"><a href="#cb19-82" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Classifier 3: Virginica or not.</span>
 <span id="cb19-83"><a href="#cb19-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-86"><a href="#cb19-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb19-87"><a href="#cb19-87" aria-hidden="true" tabindex="-1"></a>logistic_regression_model.predict([[<span class="fl">1.4</span>, <span class="fl">0.2</span>]])</span>
-<span id="cb19-88"><a href="#cb19-88" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-89"><a href="#cb19-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-90"><a href="#cb19-90" aria-hidden="true" tabindex="-1"></a>We can also visualize the decision boundary of this classifier. As we can see, the decision boundaries are still linear, but there are now three lines instead of 1.</span>
+<span id="cb19-84"><a href="#cb19-84" aria-hidden="true" tabindex="-1"></a>Then the <span class="in">`model.predict()`</span> function will output the classifier that returns the highest probability:</span>
+<span id="cb19-85"><a href="#cb19-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-88"><a href="#cb19-88" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb19-89"><a href="#cb19-89" aria-hidden="true" tabindex="-1"></a>logistic_regression_model.predict([[<span class="fl">1.4</span>, <span class="fl">0.2</span>]])</span>
+<span id="cb19-90"><a href="#cb19-90" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb19-91"><a href="#cb19-91" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-94"><a href="#cb19-94" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
-<span id="cb19-95"><a href="#cb19-95" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
-<span id="cb19-96"><a href="#cb19-96" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-97"><a href="#cb19-97" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap</span>
-<span id="cb19-98"><a href="#cb19-98" aria-hidden="true" tabindex="-1"></a>sns_cmap <span class="op">=</span> ListedColormap(np.array(sns.color_palette())[<span class="dv">0</span>:<span class="dv">3</span>, :])</span>
-<span id="cb19-99"><a href="#cb19-99" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-100"><a href="#cb19-100" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.arange(<span class="dv">0</span>, <span class="dv">7</span>, <span class="fl">0.02</span>),</span>
-<span id="cb19-101"><a href="#cb19-101" aria-hidden="true" tabindex="-1"></a>                     np.arange(<span class="dv">0</span>, <span class="fl">2.8</span>, <span class="fl">0.02</span>))</span>
-<span id="cb19-102"><a href="#cb19-102" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-103"><a href="#cb19-103" aria-hidden="true" tabindex="-1"></a>Z_string <span class="op">=</span> logistic_regression_model.predict(np.c_[xx.ravel(), yy.ravel()])</span>
-<span id="cb19-104"><a href="#cb19-104" aria-hidden="true" tabindex="-1"></a>categories, Z_int <span class="op">=</span> np.unique(Z_string, return_inverse<span class="op">=</span><span class="va">True</span>)</span>
-<span id="cb19-105"><a href="#cb19-105" aria-hidden="true" tabindex="-1"></a>Z_int <span class="op">=</span> Z_int </span>
-<span id="cb19-106"><a href="#cb19-106" aria-hidden="true" tabindex="-1"></a>Z_int <span class="op">=</span> Z_int.reshape(xx.shape)</span>
-<span id="cb19-107"><a href="#cb19-107" aria-hidden="true" tabindex="-1"></a>cs <span class="op">=</span> plt.contourf(xx, yy, Z_int, cmap<span class="op">=</span>sns_cmap)</span>
-<span id="cb19-108"><a href="#cb19-108" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data <span class="op">=</span> iris_data, x <span class="op">=</span> <span class="st">"petal_length"</span>, y<span class="op">=</span><span class="st">"petal_width"</span>, hue<span class="op">=</span><span class="st">"species"</span>)</span>
-<span id="cb19-109"><a href="#cb19-109" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="dv">7</span>)<span class="op">;</span></span>
-<span id="cb19-110"><a href="#cb19-110" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="fl">2.8</span>)<span class="op">;</span></span>
-<span id="cb19-111"><a href="#cb19-111" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb19-112"><a href="#cb19-112" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-113"><a href="#cb19-113" aria-hidden="true" tabindex="-1"></a>It turns out there are other (arguably) better models to use when it comes to multi-class classification. Decision trees are one of them.</span>
+<span id="cb19-92"><a href="#cb19-92" aria-hidden="true" tabindex="-1"></a>We can also visualize the decision boundary of this classifier. As we can see, each of three classifiers still has linear decision boundaries, but there are now three lines instead of 1.</span>
+<span id="cb19-93"><a href="#cb19-93" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-96"><a href="#cb19-96" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
+<span id="cb19-97"><a href="#cb19-97" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
+<span id="cb19-98"><a href="#cb19-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-99"><a href="#cb19-99" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> matplotlib.colors <span class="im">import</span> ListedColormap</span>
+<span id="cb19-100"><a href="#cb19-100" aria-hidden="true" tabindex="-1"></a>sns_cmap <span class="op">=</span> ListedColormap(np.array(sns.color_palette())[<span class="dv">0</span>:<span class="dv">3</span>, :])</span>
+<span id="cb19-101"><a href="#cb19-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-102"><a href="#cb19-102" aria-hidden="true" tabindex="-1"></a>xx, yy <span class="op">=</span> np.meshgrid(np.arange(<span class="dv">0</span>, <span class="dv">7</span>, <span class="fl">0.02</span>),</span>
+<span id="cb19-103"><a href="#cb19-103" aria-hidden="true" tabindex="-1"></a>                     np.arange(<span class="dv">0</span>, <span class="fl">2.8</span>, <span class="fl">0.02</span>))</span>
+<span id="cb19-104"><a href="#cb19-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-105"><a href="#cb19-105" aria-hidden="true" tabindex="-1"></a>Z_string <span class="op">=</span> logistic_regression_model.predict(np.c_[xx.ravel(), yy.ravel()])</span>
+<span id="cb19-106"><a href="#cb19-106" aria-hidden="true" tabindex="-1"></a>categories, Z_int <span class="op">=</span> np.unique(Z_string, return_inverse<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-107"><a href="#cb19-107" aria-hidden="true" tabindex="-1"></a>Z_int <span class="op">=</span> Z_int </span>
+<span id="cb19-108"><a href="#cb19-108" aria-hidden="true" tabindex="-1"></a>Z_int <span class="op">=</span> Z_int.reshape(xx.shape)</span>
+<span id="cb19-109"><a href="#cb19-109" aria-hidden="true" tabindex="-1"></a>cs <span class="op">=</span> plt.contourf(xx, yy, Z_int, cmap<span class="op">=</span>sns_cmap)</span>
+<span id="cb19-110"><a href="#cb19-110" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data <span class="op">=</span> iris_data, x <span class="op">=</span> <span class="st">"petal_length"</span>, y<span class="op">=</span><span class="st">"petal_width"</span>, hue<span class="op">=</span><span class="st">"species"</span>)</span>
+<span id="cb19-111"><a href="#cb19-111" aria-hidden="true" tabindex="-1"></a>plt.xlim(<span class="dv">0</span>, <span class="dv">7</span>)<span class="op">;</span></span>
+<span id="cb19-112"><a href="#cb19-112" aria-hidden="true" tabindex="-1"></a>plt.ylim(<span class="dv">0</span>, <span class="fl">2.8</span>)<span class="op">;</span></span>
+<span id="cb19-113"><a href="#cb19-113" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb19-114"><a href="#cb19-114" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-115"><a href="#cb19-115" aria-hidden="true" tabindex="-1"></a>In Data 100 so far, we've been talking about linear models. In Linear regression, the output is the weighted sum of the features. In logistic regression, the output is $\sigma$(the weighted sum of the features). </span>
+<span id="cb19-115"><a href="#cb19-115" aria-hidden="true" tabindex="-1"></a>It turns out there are other (arguably) better models to use when it comes to multi-class classification.</span>
 <span id="cb19-116"><a href="#cb19-116" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-117"><a href="#cb19-117" aria-hidden="true" tabindex="-1"></a>Today, we are going into the territory of non-linear models. There are many non-linear models, decision tree is one of them. You can take more classes about modeling and machine learning to learn about the others.</span>
+<span id="cb19-117"><a href="#cb19-117" aria-hidden="true" tabindex="-1"></a>In Data 100 so far, we've been talking about linear models. In Linear regression, the output is the weighted sum of the features. In logistic regression, the output is $\sigma$(the weighted sum of the features). </span>
 <span id="cb19-118"><a href="#cb19-118" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-119"><a href="#cb19-119" aria-hidden="true" tabindex="-1"></a><span class="fu">## Decision Trees, conceptually</span></span>
+<span id="cb19-119"><a href="#cb19-119" aria-hidden="true" tabindex="-1"></a>Today, we are going into the territory of non-linear models. There are many non-linear models, decision tree is one of them.</span>
 <span id="cb19-120"><a href="#cb19-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-121"><a href="#cb19-121" aria-hidden="true" tabindex="-1"></a>What is a decision tree?</span>
+<span id="cb19-121"><a href="#cb19-121" aria-hidden="true" tabindex="-1"></a><span class="fu">## Decision Trees, conceptually</span></span>
 <span id="cb19-122"><a href="#cb19-122" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-123"><a href="#cb19-123" aria-hidden="true" tabindex="-1"></a>A decision tree is simply a tree of questions that must be answered in a sequence to yield a predicted classification. For example, below is a classifier for animals. It starts by asking how many legs the animal has. If the answer is no we immediately say snake. If the answer is four the model is not quite sure, so we must ask an additional question: does it purr?  If the answer is yes, the animal is a cat; and if the answer is no, the animal is a dog. The other possibility is that the number of legs was two, in that case we actually have up to two additional questions we may need to ask before eventually deciding if it is a kangaroo, human, or parrot. Obviously this decision tree does not cover all animals. In principle, with the right sequence of questions, we could build a giant decision tree that could differentiate a vast number of animals.</span>
+<span id="cb19-123"><a href="#cb19-123" aria-hidden="true" tabindex="-1"></a>A decision tree is simply a tree of questions that must be answered in a sequence to yield a predicted classification. For example, below is a classifier for animals. It starts by asking how many legs the animal has. If the answer is no, we immediately say snake. If the answer is four, the model is not quite sure, so we must ask an additional question: does it purr?  If the answer is yes, the animal is a cat; and if the answer is no, the animal is a dog. The other possibility is that the number of legs was two, in that case we have up to two additional questions we may need to ask before eventually deciding if it is a kangaroo, human, or parrot. Obviously this decision tree does not cover all animals. In principle, with the right sequence of questions, we could build a giant decision tree that could differentiate a vast number of animals.</span>
 <span id="cb19-124"><a href="#cb19-124" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-125"><a href="#cb19-125" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"images/animal_tree.png"</span> <span class="er">alt</span><span class="ot">=</span><span class="st">'Example of a decision tree'</span> <span class="er">width</span><span class="ot">=</span><span class="st">'600'</span><span class="kw">&gt;</span></span>
 <span id="cb19-126"><a href="#cb19-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-127"><a href="#cb19-127" aria-hidden="true" tabindex="-1"></a>For our iris dataset, we can also come up with a decision tree just by looking at the points. It's important to note in the following decision tree we use multiple features in a single node to make the tree simpler, but in reality decision tree will only make a split based on one feature at a time. We will see an example of an actual tree in the next section.</span>
+<span id="cb19-127"><a href="#cb19-127" aria-hidden="true" tabindex="-1"></a>For our iris dataset, we can come up with a decision tree just by looking at the points. It's important to note in the following decision tree we use multiple features in a single node to make the tree simpler, but in reality decision tree will only make a split based on one feature at a time. We will see an example of an actual decision tree in the next section.</span>
 <span id="cb19-128"><a href="#cb19-128" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-129"><a href="#cb19-129" aria-hidden="true" tabindex="-1"></a><span class="kw">&lt;img</span> <span class="er">src</span><span class="ot">=</span><span class="st">"images/manual_tree.png"</span> <span class="er">alt</span><span class="ot">=</span><span class="st">'Example of a decision tree on the iris data'</span> <span class="er">width</span><span class="ot">=</span><span class="st">'600'</span><span class="kw">&gt;</span></span>
 <span id="cb19-130"><a href="#cb19-130" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-131"><a href="#cb19-131" aria-hidden="true" tabindex="-1"></a>Just by looking at the tree, it seems we reached 100% accuracy at least on this dataset. However, this should call for some concerns about potential overfitting.</span>
+<span id="cb19-131"><a href="#cb19-131" aria-hidden="true" tabindex="-1"></a>Just by looking at the tree, it seems we reached 100% accuracy on this dataset. However, this should call for some concerns about potential overfitting.</span>
 <span id="cb19-132"><a href="#cb19-132" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-133"><a href="#cb19-133" aria-hidden="true" tabindex="-1"></a><span class="fu">### Decision Trees in `sklearn`</span></span>
 <span id="cb19-134"><a href="#cb19-134" aria-hidden="true" tabindex="-1"></a></span>
@@ -1362,7 +1363,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-144"><a href="#cb19-144" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-145"><a href="#cb19-145" aria-hidden="true" tabindex="-1"></a>You might noticed that we specified <span class="in">`criterion = 'entropy'`</span> when instantiating the model. We will talk more about "entropy" in a later section.</span>
 <span id="cb19-146"><a href="#cb19-146" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-147"><a href="#cb19-147" aria-hidden="true" tabindex="-1"></a>We can use the fitted Decision Tree to predict on four random points in our original data:</span>
+<span id="cb19-147"><a href="#cb19-147" aria-hidden="true" tabindex="-1"></a>We can use the fitted decision tree model to predict four random points in our original data:</span>
 <span id="cb19-148"><a href="#cb19-148" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-151"><a href="#cb19-151" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
 <span id="cb19-152"><a href="#cb19-152" aria-hidden="true" tabindex="-1"></a>four_random_rows <span class="op">=</span> iris_data.sample(<span class="dv">4</span>)</span>
@@ -1432,7 +1433,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-224"><a href="#cb19-224" aria-hidden="true" tabindex="-1"></a>::: {.column width="55%"}</span>
 <span id="cb19-225"><a href="#cb19-225" aria-hidden="true" tabindex="-1"></a>To understand why, let's look back at the decision tree from earlier. In particular, let's look at one particular node, zoomed in on the right.</span>
 <span id="cb19-226"><a href="#cb19-226" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-227"><a href="#cb19-227" aria-hidden="true" tabindex="-1"></a>It looks like this node has three samples yet to be classified, with 1 versicolor, and 2 virginicas, but decision tree stopped here without splitting any further. This results in us classifying the one versicolor wrong.</span>
+<span id="cb19-227"><a href="#cb19-227" aria-hidden="true" tabindex="-1"></a>It looks like this node has three samples yet to be classified, with 1 versicolor and 2 virginicas, but the decision tree stopped here without splitting any further. This results in us classifying the one versicolor wrong.</span>
 <span id="cb19-228"><a href="#cb19-228" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-229"><a href="#cb19-229" aria-hidden="true" tabindex="-1"></a>Why did the decision tree stop? Let's check these three points by following the decision tree.</span>
 <span id="cb19-230"><a href="#cb19-230" aria-hidden="true" tabindex="-1"></a>:::</span>
@@ -1447,9 +1448,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-241"><a href="#cb19-241" aria-hidden="true" tabindex="-1"></a>iris_data[(iris_data[<span class="st">"petal_length"</span>]<span class="op">&gt;</span> <span class="fl">2.45</span>)<span class="op">&amp;</span>(iris_data[<span class="st">"petal_width"</span>]<span class="op">&gt;</span> <span class="fl">1.75</span>)<span class="op">&amp;</span>(iris_data[<span class="st">"petal_length"</span>]<span class="op">&lt;=</span><span class="fl">4.85</span>)]</span>
 <span id="cb19-242"><a href="#cb19-242" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb19-243"><a href="#cb19-243" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-244"><a href="#cb19-244" aria-hidden="true" tabindex="-1"></a>It turns out, because we only used <span class="in">`petal_length`</span> and <span class="in">`petal_width`</span> to fit the decision tree, and these three points have the exact same measurements for <span class="in">`petal_length`</span> and <span class="in">`petal_width`</span>, decision tree was not able to come up with a decision rule to distinguish among these three data points!</span>
+<span id="cb19-244"><a href="#cb19-244" aria-hidden="true" tabindex="-1"></a>It turns out, because we only used <span class="in">`petal_length`</span> and <span class="in">`petal_width`</span> to fit the decision tree, and these three points have the exact same measurements for <span class="in">`petal_length`</span> and <span class="in">`petal_width`</span>, decision tree was not able to come up with a decision rule to distinguish these three data points!</span>
 <span id="cb19-245"><a href="#cb19-245" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-246"><a href="#cb19-246" aria-hidden="true" tabindex="-1"></a>In general, decision trees (when unrestricted) will always have a perfect accuracy on the training data, **except** when there are samples from different categories with the exact same features. For example, if the versicolor above had a `petal_length`` of 4.8001, we’d have 100% training accuracy.</span>
+<span id="cb19-246"><a href="#cb19-246" aria-hidden="true" tabindex="-1"></a>In general, decision trees (when unrestricted) will always have a perfect accuracy on the training data, **except** when there are samples from different categories with the exact same features. For example, if the versicolor above has a <span class="in">`petal_length`</span> of 4.8001, we’d have 100% training accuracy.</span>
 <span id="cb19-247"><a href="#cb19-247" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-248"><a href="#cb19-248" aria-hidden="true" tabindex="-1"></a>Again, this tendency for perfect accuracy should give us concern about overfitting. As a result of trying to perfectly fit the training data, decision tree models are extremely sensitive to new data points and therefore have high variance.</span>
 <span id="cb19-249"><a href="#cb19-249" aria-hidden="true" tabindex="-1"></a></span>
@@ -1463,7 +1464,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-259"><a href="#cb19-259" aria-hidden="true" tabindex="-1"></a>sns.scatterplot(data <span class="op">=</span> iris_data, x <span class="op">=</span> <span class="st">"sepal_length"</span>, y<span class="op">=</span><span class="st">"sepal_width"</span>, hue<span class="op">=</span><span class="st">"species"</span>, legend<span class="op">=</span><span class="va">True</span>)<span class="op">;</span></span>
 <span id="cb19-260"><a href="#cb19-260" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb19-261"><a href="#cb19-261" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-262"><a href="#cb19-262" aria-hidden="true" tabindex="-1"></a>The decision tree fitted with these two features is very complex, as visualized below. We can see that the tree makes some extremely specific decision rules trying to perfectly capture the dataset.</span>
+<span id="cb19-262"><a href="#cb19-262" aria-hidden="true" tabindex="-1"></a>The decision tree fitted with these two features is very complex, as visualized below. We can see that the tree makes some extremely specific decision rules trying to perfectly capture the details in the dataset.</span>
 <span id="cb19-263"><a href="#cb19-263" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-266"><a href="#cb19-266" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
 <span id="cb19-267"><a href="#cb19-267" aria-hidden="true" tabindex="-1"></a><span class="co">#| code-fold: true</span></span>
@@ -1496,7 +1497,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-296"><a href="#cb19-296" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-297"><a href="#cb19-297" aria-hidden="true" tabindex="-1"></a>If we set aside a validation set and check the accuracy of this decision tree on the validation set, we will get around 0.65. This is an indication that we are overfitting.</span>
 <span id="cb19-298"><a href="#cb19-298" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-299"><a href="#cb19-299" aria-hidden="true" tabindex="-1"></a>How does this happened? Is there any way we can reduce overfitting? To understand this, we first need to understand how a decision tree is generated.</span>
+<span id="cb19-299"><a href="#cb19-299" aria-hidden="true" tabindex="-1"></a>How does this happened? Is there any way we can reduce overfitting? To understand this, we first need to understand how a decision tree is generated algorithmically.</span>
 <span id="cb19-300"><a href="#cb19-300" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-301"><a href="#cb19-301" aria-hidden="true" tabindex="-1"></a><span class="fu">## Decision Tree Generation Algorithm</span></span>
 <span id="cb19-302"><a href="#cb19-302" aria-hidden="true" tabindex="-1"></a></span>
@@ -1514,7 +1515,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-314"><a href="#cb19-314" aria-hidden="true" tabindex="-1"></a>\end{align*}</span>
 <span id="cb19-315"><a href="#cb19-315" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb19-316"><a href="#cb19-316" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-317"><a href="#cb19-317" aria-hidden="true" tabindex="-1"></a>Therefore, the **entropy** $S$ of a node is defined as</span>
+<span id="cb19-317"><a href="#cb19-317" aria-hidden="true" tabindex="-1"></a>With this, the **entropy** $S$ of a node is defined as</span>
 <span id="cb19-318"><a href="#cb19-318" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-319"><a href="#cb19-319" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb19-320"><a href="#cb19-320" aria-hidden="true" tabindex="-1"></a>\Large</span>
@@ -1545,12 +1546,12 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-345"><a href="#cb19-345" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-346"><a href="#cb19-346" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb19-347"><a href="#cb19-347" aria-hidden="true" tabindex="-1"></a>\Large</span>
-<span id="cb19-348"><a href="#cb19-348" aria-hidden="true" tabindex="-1"></a>L = \frac{N_{1} S(X) + N_{2} S(Y)}{N_{1} + N_{2}},</span>
+<span id="cb19-348"><a href="#cb19-348" aria-hidden="true" tabindex="-1"></a>L = \frac{N_{1} S(X) + N_{2} S(Y)}{N_{1} + N_{2}}</span>
 <span id="cb19-349"><a href="#cb19-349" aria-hidden="true" tabindex="-1"></a>$$</span>
 <span id="cb19-350"><a href="#cb19-350" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-351"><a href="#cb19-351" aria-hidden="true" tabindex="-1"></a>where $S(X)$ and $S(Y)$ are the entropies of nodes $X$ and $Y$.</span>
 <span id="cb19-352"><a href="#cb19-352" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-353"><a href="#cb19-353" aria-hidden="true" tabindex="-1"></a>Intuitively, weighted entropy measures how unpredictable the result of a split is. We want to make the the nodes as predictable as possible, therefore we need to minimize the weighted entropy. In decision trees, the way we minimize the weighted entropy of a split is by trying out different combinations of features and splitting values.</span>
+<span id="cb19-353"><a href="#cb19-353" aria-hidden="true" tabindex="-1"></a>Intuitively, the weighted entropy of a split measures how unpredictable the result of the split is. We want to make the resulting nodes as predictable as possible, therefore we need to minimize the weighted entropy. In decision trees, the way we minimize the weighted entropy of a split is to try out different combinations of features and splitting values.</span>
 <span id="cb19-354"><a href="#cb19-354" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-355"><a href="#cb19-355" aria-hidden="true" tabindex="-1"></a>Now we have everything we need to state the decision tree generation algorithm.</span>
 <span id="cb19-356"><a href="#cb19-356" aria-hidden="true" tabindex="-1"></a></span>
@@ -1570,7 +1571,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-370"><a href="#cb19-370" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-371"><a href="#cb19-371" aria-hidden="true" tabindex="-1"></a><span class="fu">## Avoiding Overfitting</span></span>
 <span id="cb19-372"><a href="#cb19-372" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-373"><a href="#cb19-373" aria-hidden="true" tabindex="-1"></a>Now that we have an idea how decision tree works, let's turn out attention to the issue of overfitting and discuss ways we can avoid or reduce overfitting with decision trees.</span>
+<span id="cb19-373"><a href="#cb19-373" aria-hidden="true" tabindex="-1"></a>Now that we have an idea how decision tree works, let's turn our attention to the issue of overfitting and discuss ways we can avoid or reduce overfitting with decision trees.</span>
 <span id="cb19-374"><a href="#cb19-374" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-375"><a href="#cb19-375" aria-hidden="true" tabindex="-1"></a><span class="fu">### Restricting Tree Complexity</span></span>
 <span id="cb19-376"><a href="#cb19-376" aria-hidden="true" tabindex="-1"></a></span>
@@ -1601,7 +1602,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-401"><a href="#cb19-401" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-402"><a href="#cb19-402" aria-hidden="true" tabindex="-1"></a>::: {.columns}</span>
 <span id="cb19-403"><a href="#cb19-403" aria-hidden="true" tabindex="-1"></a>::: {.column width="50%"}</span>
-<span id="cb19-404"><a href="#cb19-404" aria-hidden="true" tabindex="-1"></a>As we've seen earlier, a fully-grown decision tree will almost always overfit data. It has low model bias, but high model variance. In other words, small changes in the dataset will result in very a different decision tree. As an example, the two models below are trained on different subsets of the same data. We can see they come out very differently.</span>
+<span id="cb19-404"><a href="#cb19-404" aria-hidden="true" tabindex="-1"></a>As we've seen earlier, a fully-grown decision tree will almost always overfit the data. It has low model bias, but high model variance. In other words, small changes in the dataset will result in very a different decision tree. As an example, the two models below are trained on different subsets of the same data. We can see they come out very differently.</span>
 <span id="cb19-405"><a href="#cb19-405" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb19-406"><a href="#cb19-406" aria-hidden="true" tabindex="-1"></a>::: {.column width="5%"}</span>
 <span id="cb19-407"><a href="#cb19-407" aria-hidden="true" tabindex="-1"></a>:::</span>
@@ -1610,7 +1611,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-410"><a href="#cb19-410" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb19-411"><a href="#cb19-411" aria-hidden="true" tabindex="-1"></a>:::</span>
 <span id="cb19-412"><a href="#cb19-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-413"><a href="#cb19-413" aria-hidden="true" tabindex="-1"></a>The idea of random forest is to harness this variance: build many decision trees and and take the majority vote.</span>
+<span id="cb19-413"><a href="#cb19-413" aria-hidden="true" tabindex="-1"></a>The idea of random forest is to harness this variance: build many decision trees and take the majority vote.</span>
 <span id="cb19-414"><a href="#cb19-414" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-415"><a href="#cb19-415" aria-hidden="true" tabindex="-1"></a>To build multiple decision trees using our training data, we use our old friend bootstrap. In particular, this method is called "**bagging**", which stands for Bootstrap Aggregating. In bagging, we</span>
 <span id="cb19-416"><a href="#cb19-416" aria-hidden="true" tabindex="-1"></a></span>
@@ -1645,7 +1646,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-445"><a href="#cb19-445" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-446"><a href="#cb19-446" aria-hidden="true" tabindex="-1"></a><span class="fu">## Summary and Context</span></span>
 <span id="cb19-447"><a href="#cb19-447" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-448"><a href="#cb19-448" aria-hidden="true" tabindex="-1"></a>To summarize what we talked about in this lecture, decision Trees present an alternative philosophy to logistic regression. Instead of a weighted sum of features, we use a series of yes/no questions.</span>
+<span id="cb19-448"><a href="#cb19-448" aria-hidden="true" tabindex="-1"></a>To summarize what we talked about in this lecture, decision trees present an alternative philosophy to logistic regression: instead of a weighted sum of features, we use a series of yes/no questions.</span>
 <span id="cb19-449"><a href="#cb19-449" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-450"><a href="#cb19-450" aria-hidden="true" tabindex="-1"></a>Some advantages of a decision tree include:</span>
 <span id="cb19-451"><a href="#cb19-451" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>It is able to capture nonlinear relationships (at risk of overfitting).</span>
@@ -1653,9 +1654,9 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb19-453"><a href="#cb19-453" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-454"><a href="#cb19-454" aria-hidden="true" tabindex="-1"></a>Some disadvantages of a decision tree include:</span>
 <span id="cb19-455"><a href="#cb19-455" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Care needs to be taken to avoid overfitting.</span>
-<span id="cb19-456"><a href="#cb19-456" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>It is not as mathematically nice as some linear models (e.g. OLS and Ridge Regression has a simple closed-form solution).</span>
+<span id="cb19-456"><a href="#cb19-456" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>It is not as mathematically nice as some linear models (e.g. OLS and Ridge Regression have simple closed-form solutions).</span>
 <span id="cb19-457"><a href="#cb19-457" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-458"><a href="#cb19-458" aria-hidden="true" tabindex="-1"></a>In practice, people use random forest more often than decision trees because it preforms much better on unseen data in general. It also has the following advantages:</span>
+<span id="cb19-458"><a href="#cb19-458" aria-hidden="true" tabindex="-1"></a>In practice, people use random forests more often than decision trees because they preform much better on unseen data in general. A random forest also has the following advantages:</span>
 <span id="cb19-459"><a href="#cb19-459" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb19-460"><a href="#cb19-460" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Versatile: does both regression and classification.</span>
 <span id="cb19-461"><a href="#cb19-461" aria-hidden="true" tabindex="-1"></a><span class="ss">- </span>Invariant to feature scaling and translation.</span>
